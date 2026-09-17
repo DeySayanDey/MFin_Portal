@@ -1,0 +1,109 @@
+Compulsory Bachat Gat member savings, monthly interest accrual, digital passbook, and JLG emergency
+buffer funds
+ 	 	
+
+ ₹  	% ₹ 
+Compulsory group savings, interest rates, total deposits, and instant ledger passbooks
+DEP�
+SB�2026�0001
+Sunita
+Ramesh
+Kamble
+Laxmi
+Mahila
+Bachat
+JLG
+6.5% p.a. 	₹ 	₹ 	 	 	
+DEP�
+RD�2026�0002
+Rani Vijay
+Gaikwad
+Laxmi
+Mahila
+Bachat
+JLG
+Recurring
+Deposit �RD� 7.5% p.a. 	₹ 	₹ 	 	 	
+Filter records...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	 	SuperAdmin 	 	বাংলা 	Core Banking API (5000)	
+
+SuperAdmin 	
+ ←
+
+
+ Bachat Gat Group Savings
+ Recurring Deposits �RD�
+ Fixed Deposits �FD�
+ Voluntary Savings
+
+Account No: DEP�SB�2026�0001 � Member: Sunita Ramesh Kamble
+
+Laxmi Mahila Bachat JLG � ID� CUST�2026�0001
+Current Deposit Balance
+₹
+Interest Rate: 6.5% p.a.
+Complete chronological credit, debit and interest postings
+12
+Sept
+2026
+INT�20260912�7610
+Monthly
+Savings
+Interest
+Credit @
+6.5% p.a.
+₹ 	₹
+12
+Sept
+2026
+INT�20260912�4898
+Monthly
+Savings
+Interest
+Credit @
+6.5% p.a.
+₹ 	₹
+12
+Mar
+2026
+TXN�DEP�001
+Kendra
+Meeting
+Monthly
+Compulsory
+Deposit
+Cash 	₹ 	₹
+12
+May
+2026
+TXN�DEP�002
+Kendra
+Meeting
+Monthly
+Compulsory
+Deposit
+Cash 	₹ 	₹
+12
+Jul
+2026
+TXN�WDL�001
+Emergency
+Medical
+Withdrawal
+�Group
+Approved)
+₹ 	₹
+12
+Aug
+2026
+TXN�DEP�003
+Kendra
+Meeting
+Monthly
+Compulsory
+Deposit
+Cash 	₹ 	₹
+
+-- 1 of 1 --
+

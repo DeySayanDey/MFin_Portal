@@ -1,0 +1,106 @@
+ Tier 3 � Standard EMP�FO�001
+ Karveer Rural Branch •  45 Active Borrowers •  112 Kendra Centres Base: ₹18,000 � Commission & Bonuses
+Today's Target Progress
+/
+₹33,376.00
+Monthly Efficiency
++ ₹500 On-Time Kendra Bonus
+₹1500 Sourcing Incentive
+दौरा वेळाप�क
+GPS geofenced Kendra meeting schedule with real-time field collection triggers.
+2 Meetings Scheduled Today
+CEN-GN-01
+ Near Gram Panchayat Office, Gandhinagar
+Meeting Time 	Geofence Radius 	Target Due
+ 16.7020° N, 74.2760° E 	 Collect Kendra Due
+CEN-UC-02
+ Opposite Primary Health Center, Uchgaon Village
+Upcoming
+Meeting Time 	Geofence Radius 	Target Due
+ 16.6850° N, 74.2510° E 	 Collect Kendra Due
+Meeting Live
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+
+
+-- 1 of 3 --
+
+CEN-WB105
+ Near Gram Panchayat Bhavan, Panchayat Ward 1
+Upcoming
+Meeting Time 	Geofence Radius 	Target Due
+ 23.0150° N, 89.1850° E 	 Collect Kendra Due
+CEN-WB106
+ Near Gram Panchayat Bhavan, Panchayat Ward 4
+Upcoming
+Meeting Time 	Geofence Radius 	Target Due
+ 23.0580° N, 89.2220° E 	 Collect Kendra Due
+CEN-WB107
+ Near Gram Panchayat Bhavan, Panchayat Ward 7
+Upcoming
+Meeting Time 	Geofence Radius 	Target Due
+ 23.1010° N, 89.2590° E 	 Collect Kendra Due
+CEN-WB108
+ Near Gram Panchayat Bhavan, Panchayat Ward 10
+Upcoming
+Meeting Time 	Geofence Radius 	Target Due
+ 23.1440° N, 89.2960° E 	 Collect Kendra Due
+CEN-WB109
+ Near Gram Panchayat Bhavan, Panchayat Ward 13
+Upcoming
+Meeting Time 	Geofence Radius 	Target Due
+ 23.1870° N, 89.3330° E 	 Collect Kendra Due
+CEN-WB110
+ Near Gram Panchayat Bhavan, Panchayat Ward 1
+Upcoming
+Meeting Time 	Geofence Radius 	Target Due
+ 23.2300° N, 89.3700° E 	 Collect Kendra Due
+Branch & Regional ranking based on collection efficiency and recovery rate. Monthly Cycle: August 2026
+Karveer Rural Branch 	₹200,000 	₹ 	₹ 	Top Performer
+
+SuperAdmin 	
+
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+
+-- 2 of 3 --
+
+Karveer Rural Branch 	₹200,000 	₹ 	₹ 	Gold Performer
+Shirol Rural Branch 	₹200,000 	₹ 	₹ 	Silver Performer
+
+SuperAdmin 	
+
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+
+-- 3 of 3 --
+

@@ -1,0 +1,134 @@
+িদেনর �সশন
+ব�
+Ready for Day Open Sync
+
+ওয়াই
+ফাই
+ Shyambazar Kendra Cluster
+
+অফলাইন
+িকউ
+Awaiting Day Close Sync
+
+Perform morning Day Open to download Kendra manifests, then return to
+branch and commit evening Day Close.
+ 	সকােলর �ড ওেপন 	 	স��ার �ড ��াজ
+
+ 	ওয়াই-ফাই �সটআপ, িনরাপ�া এবং �মাবাইল িডভাইস �িভশিনং
+ 	 	
+িস� �মাড
+
+Direct intranet sync at branch. Works without
+internet.
+
+Central cloud sync via mobile internet when
+field is available.
+
+Mobile-to-mobile hotspot bridge in remote
+rural pockets.
+ অফলাইন ওয়াই ফাই
+�ডটা িস� 	বাংলা 	SuperAdmin •
+BR�WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+
+
+
+-- 1 of 3 --
+
+�নটওয়াক� ��ান 	
+  WPA3 5GHz 96% quality
+ 	 WPA2 2.4GHz 78% quality
+ 	 WPA2 2.4GHz 55% quality
+ 	 WPA3 5GHz 88% quality
+ 	 WPA2 5GHz 70% quality
+
+ 	
+Transmitted securely — not stored in browser memory after session ends.
+Encrypt all sync data in transit
+
+
+Trigger Day Sync when device connects
+Run ping test to verify branch server connectivity before saving. 	 	
+ অফলাইন মাঠ িক�� সং�হ
+Conduct Kendra meeting & collect EMIs in zero-network areas using cached rosters  	�নটওয়াক�িবহীন
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+
+
+-- 2 of 3 --
+
+�াহক িনব �াচন
+Maa Sarada Swanirbhar Dal •
+LN�2026�00001
+Maa Sarada Swanirbhar Dal •
+LN�2026�00002
+Maa Sarada Swanirbhar Dal •
+LN�2026�00003
+Maa Sarada Swanirbhar Dal •
+িক�� জমা
+
+Please select a borrower from the roster
+list to record an offline payment.
+িডভাইস িকউ
+Pending Upload:	
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+
+
+-- 3 of 3 --
+

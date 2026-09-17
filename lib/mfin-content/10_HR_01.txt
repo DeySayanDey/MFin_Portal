@@ -1,0 +1,43 @@
+ 	 	 	
+All time transfer orders 	Successfully migrated 	Eligible for transfer
++
+Gandhinagar
+Kendra 01
+Uchgaon Kendra
+02
+Member Relocation to N… 28 Aug
+2026
+ Member & Employee Transfers · Salary Processing · Corporate Banking
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+ Staff Directory & HR
+
+ Employee Transfers
+ Monthly Staff Payroll
+ SMS & WhatsApp Broadcast
+
+
+-- 1 of 2 --
+
+
+SuperAdmin 	
+ ←
+
+ Staff Directory & HR
+
+ Employee Transfers
+ Monthly Staff Payroll
+ SMS & WhatsApp Broadcast
+
+-- 2 of 2 --
+

@@ -1,0 +1,104 @@
+₹
+
+Disbursed:
+₹40,000 •
+
+MTD�
+₹15,400 •
+
+PAR 90
+�NPA��
+0.00%
+•
+
+1 Kendras •
+
+Masked Aadhaar + RBI
+FOIR
+
+Automated Fee & GST Calc
+
+Field Collection & Receipt
+
+Offline SQLite &
+Idempotency
+ বাংলা 	SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+
+
+-- 1 of 3 --
+
+
+₹
+Cash In Hand �Branch
+Vaults): ₹
+Bank Balances
+�Commercial Banks): ₹
+Real-time CBS
+Cashbook 	→
+
+Real-time tracking of cash collected in the field before branch vault
+hand-in
+Sonarpur
+#01, #02 ₹28,000 	₹ 	₹
+Barasat
+#03, #04 ₹24,000 	₹ 	₹
+Halisahar
+#01, #02 ₹19,000 	₹ 	₹
+
+Consolidated branch loan volumes, daily collections, and vault balances
+�দয়পুর 	₹ 	₹ 	₹ 	28
+হািলশহর ₹ 	₹ 	₹ 	19
+�সানারপুর ₹ 	₹ 	₹ 	14
+Active accounts, outstanding balances, and installment progress
+Filter records...	
+
+SuperAdmin 	
+
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+
+-- 2 of 3 --
+
+
+No records found.
+
+SuperAdmin 	
+
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+
+-- 3 of 3 --
+

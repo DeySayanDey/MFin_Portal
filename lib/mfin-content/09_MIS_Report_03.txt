@@ -1,0 +1,111 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ All 40 Domains 	 Executive MIS 	 Demand Sheets 	 	 PAR Aging 	 NPA Quality 	 Customer KYC 	 Kendra Meetings 	 GL & P&L 	 Cash & Vault
+ ★
+�দিনক আদায় ও ক�াশ �র�জ�ার
+ ★
+আদায় দ�তা ও ঘাটিত িবে�ষণ
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+�দিনক আদায় ও ক�াশ �র�জ�ার — Every receipt generated in Kendra meetings or branch counter with GL Dr/Cr mapping.
+Generated At:
+Institution:
+GL Hierarchy:
+₹
+�মাট �ডিবট (ক�াশ/ব�াংক) · Vault Cash & UPI
+Bank Debited
+
+₹
+�মাট ��িডট (ঋণ/সুদ) · Principal ₹1,12,400 �
+Interest ₹29,200
+
+ 	
+100000 Assets > 110000 Cash > 111000 Branch Vault
+₹ 	₹
+100000 Assets > 110000 Bank > 112100 Current A/c
+₹ 	₹
+100000 Assets > 120000 Loans > 121100 Standard Ass…
+₹ 	₹
+400000 Revenue > 410000 Interest > 411000 Loan Inter…
+₹ 	₹
+Search report, GL code or head...	
+ 	বাংলা SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 
+ ←
+
+ 	MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ 	Kendra Demand Sheet
+
+ 	PAR Aging �1�90� DPD�
+ 	NPA & Provisioning Report
+ 	RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ 	Security Audit Trail
+
+
+-- 1 of 2 --
+
+�জএল �কাড 	রিসদ নং �াহক �জএল ডাবল এি� প�িত �ডিবট (Dr) ��িডট (Cr) 	আসল 	সুদ
+RCP�2026�0823�01 Ruma
+Banerjee
+Dr 111000 �Vault� � Cr
+121100 �Loan� + Cr 411000
+�Interest)
+নগদ ₹
+Dr
+₹
+Cr ₹ 	₹
+RCP�2026�0823�02 	Kakali Mondal
+Dr 111000 �Vault� � Cr
+121100 �Loan� + Cr 411000
+�Interest)
+নগদ ₹
+Dr
+₹
+Cr ₹ 	₹
+RCP�2026�0823�03 	Shampa Das
+Dr 112100 �Bank� � Cr
+121100 �Loan� + Cr 411000
+�Interest) ইউিপআই
+₹
+Dr
+₹
+Cr ₹ 	₹
+RCP�2026�0823�04 Priyanka
+Halder
+Dr 111000 �Vault� � Cr
+121100 �Loan� + Cr 411000
+�Interest)
+নগদ ₹
+Dr
+₹
+Cr ₹ 	₹
+₹ 	₹ ₹ 	₹
+Filter within this report...	
+
+SuperAdmin 
+ ←
+
+ 	MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ 	Kendra Demand Sheet
+
+ 	PAR Aging �1�90� DPD�
+ 	NPA & Provisioning Report
+ 	RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ 	Security Audit Trail
+
+-- 2 of 2 --
+

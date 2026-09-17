@@ -1,0 +1,51 @@
+ 	 	 	
+All registered branches with manager assignments, BSR codes, and operational status
++
+All operational branches with location, BSR code, and performance metrics
+Karveer
+Rural
+Branch
+Sachin
+Shinde
+Kolhapur,
+Maharashtra 	BSR�0091234 	3
+Centres 	48 	
+Sangli
+Urban
+Branch
+Anita Patil 	Sangli,
+Maharashtra 	BSR�0091235 	2
+Centres 	31 	
+Filter records...	
+বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+Configure branch location, manager, and BSR code for RBI reporting
+
+BR�003
+e.g. BSR�0091234
+Maharashtra
+
+
+-- 1 of 1 --
+

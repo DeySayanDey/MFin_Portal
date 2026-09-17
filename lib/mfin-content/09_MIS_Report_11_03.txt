@@ -1,0 +1,84 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ All 40 Domains 	 Executive MIS 	 Demand Sheets 	 Collections 	 PAR Aging 	 NPA Quality 	 Customer KYC 	 Kendra Meetings 	 	 Cash & Vault
+ ★
+�ায়াল ব�ােল� (�রওয়ািমল)
+ ★
+লাভ-�িতর িহসাব িববরণী (P&L)
+ ★
+ব�ােল� শীট (উদ্বৃ�প�)
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+ব�ােল� শীট (উদ্বৃ�প�) — Assets, Liabilities and Equity Balance Sheet statement.
+Generated At:
+Institution:
+GL Hierarchy:
+₹
+�মাট স�দ (Dr) · Loans + Cash + Bank
+Balances
+
+₹
+দায় ও মূলধন (Cr) · Deposits + Borrowings +
+Capital
+
+ 	
+Search report, GL code or head...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+
+-- 1 of 2 --
+
+100000 Assets
+₹ 	₹
+200000 Liabilities
+₹ 	₹
+300000 Equity
+₹ 	₹
+�জএল �কাড 	শাখা 	িহসােবর নাম 	�ডিবট (Dr) 	��িডট (Cr)
+111000 � Branch Vault Cash in Hand 	₹ 	Dr 	₹ 	Cr
+112100 � Balances with Commercial Banks 	₹ 	Dr 	₹ 	Cr
+121100 � JLG Microfinance Loan Portfolio �Net� 	₹ 	Dr 	₹ 	Cr
+211000 � Member Bachat Gat Compulsory Savings 	₹ 	Dr 	₹ 	Cr
+231000 � Institutional Borrowings �NABARD/SIDBI� 	₹ 	Dr 	₹ 	Cr
+311000 � Paid-up Equity Capital 	₹ 	Dr 	₹ 	Cr
+321000 � Retained Earnings & Current Surplus 	₹ 	Dr 	₹ 	Cr
+₹ 	₹
+Filter within this report...	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+-- 2 of 2 --
+

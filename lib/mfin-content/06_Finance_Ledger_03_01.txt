@@ -1,0 +1,61 @@
+Sep
+12,
+2026
+₹
+Dr
+₹
+Cr
+ 	 	
+Sep
+12,
+2026
+₹
+Dr
+₹
+Cr
+ 	 	
+Sep
+12,
+2026
+₹
+Dr
+₹
+Cr
+ 	 	
+Search voucher no, name...	
+ 	 	 	 	 	 		
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 	
+ ←
+
+ Voucher Entry St…
+ Cash/Bank Deposit Voucher
+ Savings Withdrawal Voucher
+ Office Expense Voucher
+ Contra Transfer Voucher
+ N�Level COA Tree
+ GL�Wise Statement Report
+ Hierarchical Trial Balance
+ Sub-Ledger Master
+ Day Book Ledger
+ Cash & Bank Book
+
+Official Transaction Record & Thermal Print
+
+Core Banking Hub | RBI / MFI Reg #WB-88219
+Voucher No:
+Date & Time: 	Sep 12, 2026, 12:36:57 PM
+Narration: 	Kendra Collection for LN-2…
+₹
+System Generated Digital Voucher
+Thank you for banking with us.
+ Print Now
+
+-- 1 of 1 --
+

@@ -1,0 +1,86 @@
+Configure Company Profile, Auto-Numbering Series, Operational Timings, Role Permissions, Gateways & RBI Policies
+ 	 	 	 	 	 	 	
+Grant or restrict operational capabilities �Loan Sanction, Disbursal, Collection, Reversals, Legal Notice)
+Accounts & Finance
+Onboard KYC 	Apply Loan
+Sanction Loan 	Disburse Loan
+Collect EMI 	Reverse Vouchers
+Legal Notices 	View Reports
+
+Branch Operations
+Onboard KYC 	Apply Loan
+Sanction Loan 	Disburse Loan
+Collect EMI 	Reverse Vouchers
+Legal Notices 	View Reports
+150000
+
+ 	বাংলা 	SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking
+API (5000)
+
+SuperAdmin 	
+ ←
+
+
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+
+-- 1 of 2 --
+
+Credit & Risk
+Onboard KYC 	Apply Loan
+Sanction Loan 	Disburse Loan
+Collect EMI 	Reverse Vouchers
+Legal Notices 	View Reports
+100000
+
+Field Operations
+Onboard KYC 	Apply Loan
+Sanction Loan 	Disburse Loan
+Collect EMI 	Reverse Vouchers
+Legal Notices 	View Reports
+
+Legal & Debt Recovery
+Onboard KYC 	Apply Loan
+Sanction Loan 	Disburse Loan
+Collect EMI 	Reverse Vouchers
+Legal Notices 	View Reports
+
+
+SuperAdmin 	
+ ←
+
+
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+-- 2 of 2 --
+

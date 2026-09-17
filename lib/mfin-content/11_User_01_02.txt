@@ -1,0 +1,35 @@
+ 	 	
+
+Ensure your password complies with RBI 2026 Core Banking Security Guidelines.
+Password Strength:
+
+Mandatory for high-value approvals
+
+IP� 192.168.1.100 � Kolkata Headquarters
+IP� 106.213.77.14 � Last active 40m ago
+ 	192.168.1.100 (HQ Secure Gateway)
+
+Chief Operations Officer �COO� • EMP-WB001
+ Kolkata Shyambazar Hub Branch �BR�WB01�
+ 	
+ 	বাংলা SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 
+ ←
+
+
+ 	Change Password & 2FA
+ 	My Activity & Audit Log
+ Employee User Directory
+ 	Security Role Master
+ 	Role-Menu Permission Matrix
+ Page Action Permissions
+
+
+-- 1 of 1 --
+

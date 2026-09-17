@@ -1,0 +1,77 @@
+KYC Verified CUST�2026�0001
+ Laxmi Mahila Bachat JLG • 	 Gandhinagar Kendra 01 �Gandhinagar, Kolhapur)
+ Kendra Meeting:
+ 	Pay EMI Online  	Statement PDF  	No Dues Certificate
+LN-2026-00001
+Current Outstanding
+of ₹40,000.00 Disbursed
+ Due on Oct 12, 2026 Pay Now
+Score: 745
+Pre-Approved Limit
+Eligible for instant disbursal with 0 documentation based
+on flawless repayment track record.
+ 	Apply Instant Top-Up Loan
+पासबुक
+Complete historical record of disbursals and Kendra meeting collections. 
+12-
+Jul-2026
+DISB-
+LN-2026-00001
+IMPS Direct Bank
+Transfer ₹40,000.00 	₹0.00 ₹ ₹
+12-
+Aug-2026 RCPT-202608-001 	Kendra Meeting Cash 	₹3,017.49 	₹716.67 	₹ 	₹
+12-
+Sep-2026 RCPT-202608-002 	Kendra Meeting Cash 	₹3,071.56 	₹662.60 	₹ 	₹
+ 	সম� খিতয়ান
+Unified financial ledger across Micro Loans, Bachat Gat Savings, Recurring Deposits �RD�, and Fixed Deposits �FD� 
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 
+ ←
+
+ 	Branch Vault & Day Open/Close
+ Inter-Branch Cash Transfers
+ Any-Branch Customer Service
+ 	Agent Route Portal
+
+ Wi-Fi Offline Sync Hub
+ Field Mobile Outbox
+ 	Mobile Collector App �Oper…
+ 	Mobile Admin Setup �OTP�
+
+
+-- 1 of 2 --
+
+₹ 	₹
+Compulsory Bachat Gat
+₹
+12 of 24 Paid
+₹
+9.0% p.a. Maturity
+ 	 Loans �1� 	 Bachat Gat Savings 	 Recurring Deposits �RD�
+15-Aug-2026 	Monthly Kendra Thrift Deposit 	- 	₹500.00 	₹
+10-Aug-2026 	Installment #2 Repayment �UPI� 	₹3,734.16 	- 	₹
+01-Aug-2026 	Monthly RD Auto-Debit 	- 	₹1,500.00 	₹
+15-Jul-2026 	Monthly Kendra Thrift Deposit 	- 	₹500.00 	₹
+10-Jul-2026 	Installment #1 Repayment �Cash� 	₹3,734.16 	- 	₹
+
+SuperAdmin 
+ ←
+
+ 	Branch Vault & Day Open/Close
+ Inter-Branch Cash Transfers
+ Any-Branch Customer Service
+ 	Agent Route Portal
+
+ Wi-Fi Offline Sync Hub
+ Field Mobile Outbox
+ 	Mobile Collector App �Oper…
+ 	Mobile Admin Setup �OTP�
+
+-- 2 of 2 --
+

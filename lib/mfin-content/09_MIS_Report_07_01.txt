@@ -1,0 +1,157 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ 	 Executive MIS 	 Demand Sheets 	 Collections 	 PAR Aging 	 NPA Quality 	 Customer KYC 	 Kendra Meetings 	 GL & P&L 	 Cash & Vault
+ ★
+�দিনক ব�বসািয়ক ও এমআইএস িরেপাট�
+
+মািসক এমআইএস পয �ােলাচনা
+
+শাখা পারফরম�া� র�া��ং
+
+�াহক মা�ার তািলকা
+ ★
+�াহক �কওয়াইিস ি�িত িরেপাট�
+
+�াহক িহসাব ও �লনেদন িববরণী
+ 	 ★
+
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+��িডট বু�েরা (CIC) আপেলাড ও িরেপাট� — CIBIL / Equifax / CRIF monthly upload file and rejection analysis.
+Generated At:
+Institution:
+GL Hierarchy:
+��িডট বু�েরা �রকড� সংখ�া · CIBIL / Equifax / CRIF
+Format
+
+��টমু� �রকড� · Zero rejection in pre-
+validation
+
+Search report, GL code or head...	
+ 	বাংলা SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 
+ ←
+
+ 	MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ 	Kendra Demand Sheet
+ 	Collection Register
+ 	PAR Aging �1�90� DPD�
+ 	NPA & Provisioning Report
+ 	RBI Regulatory Returns
+
+ 	Security Audit Trail
+
+RBI & Statutory Audit Compliant Print Layout with Debit & Credit
+
+Core Banking, Microfinance Lending & General Ledger Accounting
+RBI Regd. NBFC�MFI | N�Level Chart of Accounts �COA�
+Sep 12, 2026
+��িডট বু�েরা (CIC) আপেলাড ও িরেপাট�
+Period: 2026-09-12 to 2026-09-12 | Scope: ALL | GL Head: ALL
+121100 LN-
+WB-2026-0001
+Ruma
+Banerjee
+121100 - JLG Standard
+Microloan Portfolio
+₹45,000.00
+Dr ₹30,000.00 Cr 	0 00
+(Standard)
+121100 LN-
+WB-2026-0002
+Kakali
+Mondal
+121100 - JLG Standard
+Microloan Portfolio
+₹30,000.00
+Dr ₹20,000.00 Cr 	0 00
+(Standard)
+121230 LN-
+WB-2026-0112 Purnima Roy 121230 - Sub-Standard
+NPA Portfolio
+₹25,000.00
+Dr ₹5,100.00 Cr 	98 01 (Sub-
+Standard)
+₹ ₹
+MIS & Accounts Officer 	GL Double-Entry Verified
+
+
+-- 1 of 2 --
+
+ 	
+100000 Assets > 120000 Loans > 121100 Standard Ass…
+₹ 	₹
+100000 Assets > 120000 Loans > 121200 Delinquent As…
+₹ 	₹
+�জএল �কাড ঋণ িহসাব 	নাম �জএল �লজার �হড মঞ্জুরকৃত (Dr) 	বত�মান ি�িত িডিপিড বু�েরা ��ণী
+LN�
+WB�2026�0001 Ruma Banerjee 121100 � JLG Standard
+Microloan Portfolio ₹ 	Dr 	₹ 	Cr
+LN�
+WB�2026�0002 Kakali Mondal 121100 � JLG Standard
+Microloan Portfolio ₹ 	Dr 	₹ 	Cr
+LN�WB�2026�0112 	Purnima Roy 121230 � Sub-Standard NPA
+Portfolio ₹ 	Dr 	₹ 	Cr
+₹ 	₹
+Filter within this report...	
+
+SuperAdmin 
+ ←
+
+ 	MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ 	Kendra Demand Sheet
+ 	Collection Register
+ 	PAR Aging �1�90� DPD�
+ 	NPA & Provisioning Report
+ 	RBI Regulatory Returns
+
+ 	Security Audit Trail
+RBI & Statutory Audit Compliant Print Layout with Debit & Credit
+
+Core Banking, Microfinance Lending & General Ledger Accounting
+RBI Regd. NBFC�MFI | N�Level Chart of Accounts �COA�
+Sep 12, 2026
+��িডট বু�েরা (CIC) আপেলাড ও িরেপাট�
+Period: 2026-09-12 to 2026-09-12 | Scope: ALL | GL Head: ALL
+121100 LN-
+WB-2026-0001
+Ruma
+Banerjee
+121100 - JLG Standard
+Microloan Portfolio
+₹45,000.00
+Dr ₹30,000.00 Cr 	0 00
+(Standard)
+121100 LN-
+WB-2026-0002
+Kakali
+Mondal
+121100 - JLG Standard
+Microloan Portfolio
+₹30,000.00
+Dr ₹20,000.00 Cr 	0 00
+(Standard)
+121230 LN-
+WB-2026-0112 Purnima Roy 121230 - Sub-Standard
+NPA Portfolio
+₹25,000.00
+Dr ₹5,100.00 Cr 	98 01 (Sub-
+Standard)
+₹ ₹
+MIS & Accounts Officer 	GL Double-Entry Verified
+
+
+-- 2 of 2 --
+

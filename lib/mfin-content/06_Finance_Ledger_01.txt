@@ -1,0 +1,44 @@
+ 	Ruma Banerjee 	Kakali Mondal 	Shampa Das
+e.g. Ruma Banerjee �Sonarpur #01� 	e.g. UTR-928174812 / CHQ-001248 / Direct Cash
+Official ledger narration description...
+ 	₹ 	₹ 	 	
+
+₹ 	₹
+₹ 	₹
+₹ 	₹
+₹ 	₹
+₹ 	₹
+₹ 	₹
+₹ 	₹
+₹
+Voucher Target: 	₹ 0.00
+ ✓
+(CUST-WB-00101)	(CUST-WB-00102)	(CUST-WB-00103)
+ 	 COA 	 Change 	 	 COA 	 Change
+বাঁচাত গট
+ 	 	 	 	 	 		
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 	
+ ←
+
+
+ Cash/Bank Deposit Voucher
+ Savings Withdrawal Voucher
+ Office Expense Voucher
+ Contra Transfer Voucher
+ N�Level COA Tree
+ GL�Wise Statement Report
+ Hierarchical Trial Balance
+ Sub-Ledger Master
+ Day Book Ledger
+ Cash & Bank Book
+
+
+-- 1 of 1 --
+

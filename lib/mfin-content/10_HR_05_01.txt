@@ -1,0 +1,110 @@
+Automated disbursal alerts, Kendra meeting reminders, EMI thermal receipts, and legal default warning messages
+
+ 	বাংলা SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 
+ ←
+
+ 	Staff Directory & HR
+ Member Transfers
+ 	Employee Transfers
+ 	Monthly Staff Payroll
+
+
+Send real-time transaction receipts, reminder alerts, or custom
+notices
+
+Sunita Ramesh Kamble
+Fast2SMS Gateway 	�91 98234 56789
+EMI Collection Receipt
+Dear Sunita Kamble, EMI of ₹3,788 for Loan LN�2026�00001 is
+due on 15�Sep-2026 at Gandhinagar Kendra. - eZiMicro
+
+
+-- 1 of 2 --
+
+Channel, delivery status, template category, and recipient phone
+numbers
+Meena
+More
+�91
+98900
+11223
+Overdue
+EMI
+Reminder
+URGENT� Dear Meena
+More, your EMI of ₹4,676
+for Loan LN�2026�00003
+is overdue by 45 days.
+Please pay immediately
+at Uchgaon Kendra or via
+UPI to avoid credit score
+impact. - eZiMicro
+Sunita
+Kamble
+�91
+98234
+56789
+EMI
+Collection
+Receipt
+Receipt
+#RCPT�20260714�00001�
+Received ₹3,733.00
+�Principal ₹3,016, Interest
+₹717) via Cash at
+Gandhinagar Kendra.
+Outstanding GLP�
+₹33,968.00. Thank you! -
+eZiMicro
+Sunita
+Kamble
+�91
+98234
+56789
+Loan
+Disbursed
+Dear Sunita Kamble,
+₹38,892 has been
+disbursed to your SBI
+account for Loan
+LN�2026�00001. Monthly
+EMI is ₹3,733 due on
+15th of each month. -
+eZiMicro
+Click "Smartphone Preview" on any log row to simulate
+Filter records...	
+ Official Verified Business
+Receipt #RCPT�20260714�00001�
+Received ₹3,733.00 via Cash at
+Gandhinagar Kendra. Outstanding
+GLP� ₹33,814.66. Thank you! -
+eZiMicro
+To: �91 98234 56789 	
+
+SuperAdmin 
+ ←
+
+ 	Staff Directory & HR
+ Member Transfers
+ 	Employee Transfers
+ 	Monthly Staff Payroll
+
+Send real-time transaction receipts, reminder alerts, or custom
+notices
+
+Sunita Ramesh Kamble
+Fast2SMS Gateway 	�91 98234 56789
+EMI Collection Receipt
+Dear Sunita Kamble, EMI of ₹3,788 for Loan LN�2026�00001 is
+due on 15�Sep-2026 at Gandhinagar Kendra. - eZiMicro
+
+
+-- 2 of 2 --
+

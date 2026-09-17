@@ -1,0 +1,91 @@
+ 	Real-time branch vault ledger, dual-custody cash reconciliation, inter-
+branch transfers & cross-branch customer transactions
+ 	মু�া ও �নাট গণনা
+ 	িদন সমাি�
+ 	নগদ �ানা�র
+ 	আ�ঃশাখা �লনেদন
+স��য়
+ Vault & Day Balancing (ভ� ও
+িদন খিতয়ান)  Inter-Branch Cash Transfers
+(আ�ঃশাখা নগদ �ানা�র)  আ�ঃশাখা �াহক �সবা
+আ�ঃশাখা �াহক �সবা �র�জ�ার
+Cross-branch walk-in loan installments, Bachat Gat deposits, and automated inter-branch clearing settlements +
+CUST-WB-0006
+CUST-WB-0001
+
+ বাংলা 	SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+
+ Wi-Fi Sync Master
+
+আ�ঃশাখা �াহক �সবা 	
+ Next Field | 	Process &
+Post
+ Serving Branch:
+ঋণ িক��
+₹650 	₹1,250 	₹2,500 	₹3,750 	₹5,000 	₹12,000
+�লনেদেনর মাধ�ম 	Hotkeys: �1� Cash | �2� Cheque | �3� Bank | �4� A/c | �5� UPI
+
+নগদ
+
+�2� Cheque /
+DD
+
+�3� NEFT /
+IMPS
+
+�4� A/c
+Transfer
+
+�5� UPI
+Dynamic
+
+�নাট
+গণনা
+Enter note count to verify physical cash against
+transaction amount
+
+₹3,500 	₹200 	₹0 	₹50 	₹20 	₹10
+কেয়ন
+₹8
+
+ ��ত িহসাব খিতয়ান
+সংেযাগ
+ 	
+
+ 	
+
+
+�াহক সাচ� ক�ন
+ 	
+
+
+
+
+-- 1 of 1 --
+

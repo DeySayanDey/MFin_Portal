@@ -1,0 +1,112 @@
+Configure Reducing Balance, Flat Rate, Daily Merchant, and JLG agricultural microcredit plans
++
+
+Full installment-by-installment amortization table with Flat Rate vs Reducing Balance
+40000 	21.5 	12 	Monthly
+₹ per month 	Monthly payments
+₹ Reducing
+₹
+Principal + Interest
+ 	Amortization breakdown
+₹40,000 	₹ 	₹717 	₹ 	₹36,983
+₹36,983 	₹ 	₹663 	₹ 	₹33,912
+₹33,912 	₹ 	₹608 	₹ 	₹30,786
+₹30,786 	₹ 	₹552 	₹ 	₹27,604
+₹27,604 	₹ 	₹495 	₹ 	₹24,365
+All 5 calculation engines: Normal, Normal Reduced, Special, Custom, and Manual plans
+
+Filter records...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	 	SuperAdmin 	 	বাংলা 	Core Banking API (5000)	
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+
+-- 1 of 2 --
+
+
+Daily
+Micro-
+Merchant
+Working
+Capital
+24% p.a. Normal Plan
+�Flat� Daily 	₹5,000 	₹20,000
+2%
+�
+18%
+GST
+ 	 	
+Clean
+Energy &
+Solar
+Home
+Loan
+18.5%
+p.a.
+Reduced Plan
+�EMI� Monthly 	₹20,000 	₹50,000
+1% �
+18%
+GST
+ 	 	
+Mahila
+Krishi &
+Dairy Loan
+21.5%
+p.a.
+Reduced Plan
+�EMI� Monthly 	₹15,000 	₹60,000
+1.5%
+�
+18%
+GST
+ 	 	
+Gramin
+Micro
+Enterprise
+Loan
+22% p.a. Reduced Plan
+�EMI� Monthly 	₹25,000 	₹80,000
+1.5%
+�
+18%
+GST
+ 	 	
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+-- 2 of 2 --
+

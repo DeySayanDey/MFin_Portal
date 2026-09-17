@@ -1,0 +1,67 @@
+ওয়াই ফাই �গটওেয়
+
+িডভাইস ক�াশ
+25 Kendra Rosters Cached
+ →
+
+Simulates mobile phone collecting repayments offline in rural Bengal zones and batch syncing via Branch Wi-Fi with
+UUID Idempotency protection.
++ 	
+f47ac10b-58cc-4372-
+a567�0e02b2c3d479 LN�2026�00001
+Sunita
+Ramesh
+Kamble
+₹
+16.7020°
+N,
+74.2760° E
+�Fixed�
+
+Monthly Kendra recovery efficiency, zero-delinquency bonus, and commission incentive calculator
+FCO-01 | 	₹280,000 	₹ 	₹
+Filter records...	
+ 	মাঠ কম� অফলাইন
+িস� 	বাংলা 	SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 	
+ ←
+
+ Branch Vault & Day Open/Close
+ Inter-Branch Cash Transfers
+ Any-Branch Customer Service
+ Agent Route Portal
+ Borrower Self-Pay Portal
+ Wi-Fi Offline Sync Hub
+
+ 	Mobile Collector App �Oper…
+ 	Mobile Admin Setup �OTP�
+
+
+-- 1 of 2 --
+
+FCO-02 | 	₹240,000 	₹ 	₹
+FCO-03 | 	₹190,000 	₹ 	₹
+
+SuperAdmin 	
+ ←
+
+ Branch Vault & Day Open/Close
+ Inter-Branch Cash Transfers
+ Any-Branch Customer Service
+ Agent Route Portal
+ Borrower Self-Pay Portal
+ Wi-Fi Offline Sync Hub
+
+ 	Mobile Collector App �Oper…
+ 	Mobile Admin Setup �OTP�
+
+-- 2 of 2 --
+

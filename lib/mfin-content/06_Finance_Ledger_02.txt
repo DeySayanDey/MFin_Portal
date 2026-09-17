@@ -1,0 +1,34 @@
+N�Line General Ledger Adjustment and Non-Cash Inter-Account Entries +
+ 	Cash received
+সুদ আয় 	 	Interest revenue
+₹ 	₹ 	✓
+Surplus branch vault cash remitted and deposited into Bank Account 	
+
+
+ 	 	 	 	 	 		
+খিতয়ান
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 	
+ ←
+
+ Voucher Entry St…
+ Cash/Bank Deposit Voucher
+ Savings Withdrawal Voucher
+ Office Expense Voucher
+ Contra Transfer Voucher
+ N�Level COA Tree
+ GL�Wise Statement Report
+ Hierarchical Trial Balance
+ Sub-Ledger Master
+ Day Book Ledger
+ Cash & Bank Book
+
+
+-- 1 of 1 --
+

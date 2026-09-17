@@ -1,0 +1,83 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ All 40 Domains 	 Executive MIS 	 Demand Sheets 	 Collections 	 PAR Aging 	 NPA Quality 	 Customer KYC 	 	 GL & P&L 	 Cash & Vault
+
+�ক� মা�ার তািলকা
+ ★
+�ক� িম�টং উপি�িত ও িনয়িমততা
+
+দলীয় স�য় ও জমার সারসংে�প
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+�ক� মা�ার তািলকা — Master list of Kendra centres with meeting schedules and location coordinates.
+Generated At:
+Institution:
+GL Hierarchy:
+স��য় �ক� সংখ�া · GL� 121100 JLG Loan
+Operations
+
+গড় িম�টং উপি�িত · Biometric & GPS
+timestamped
+
+Search report, GL code or head...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+
+-- 1 of 2 --
+
+ 	
+100000 Assets > 120000 Loans > 121100 Standard Ass…
+₹ 	₹
+200000 Liabilities > 210000 Deposits > 211000 Bachat …
+₹ 	₹
+�জএল �কাড 	�ক� �কাড 	�কে�র নাম 	�জএল �লজার �হড 	ঋণ ি�িত (Dr) 	স�য় জমা (Cr) 	উপি�িত % 	আদায় %
+KND�001 	Sonarpur Kendra
+#01
+121100 �Loan Dr) / 211000 �Savings
+Cr) 	₹ 	Dr 	₹
+Cr
+KND�002 	Baruipur Kendra
+#02
+121100 �Loan Dr) / 211000 �Savings
+Cr) 	₹ 	Dr 	₹
+Cr
+₹ 	₹
+Filter within this report...	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+-- 2 of 2 --
+

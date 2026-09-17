@@ -1,0 +1,46 @@
+ Village Center Daily EMI Collection • Offline-First Local Cache
+ 	 	
+Field Officer • BR�WB01
+
+ Mantra MFS100 RD
+
+�সানারপুর �গািব�পুর �ক� ০১
+₹
+/ ₹28,600
+�মা ব�ানাজ�
+CUST-WB-00101 • Maa Tara JLG (মা
+তারা দল)
+Inst: /52
+ 	
+কাকিল ম�ল
+CUST-WB-00102 • Maa Tara JLG (মা
+তারা দল)
+Inst: /52
+ 	
+অপণ �া সরদার
+CUST-WB-00103 • Maa Tara JLG (মা
+তারা দল)
+Inst: /52
+ 	
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+
+SuperAdmin 	
+ ←
+
+ Branch Vault & Day Open/Close
+ Inter-Branch Cash Transfers
+ Any-Branch Customer Service
+ Agent Route Portal
+ Borrower Self-Pay Portal
+ Wi-Fi Offline Sync Hub
+ Field Mobile Outbox
+
+ 	Mobile Admin Setup �OTP�
+  
+ 	 	 	 	
+
+
+-- 1 of 1 --
+

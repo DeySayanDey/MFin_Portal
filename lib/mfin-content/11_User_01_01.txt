@@ -1,0 +1,33 @@
+ 	 	
+
+বাংলা নাম
+রােজশ পা�টল
+All updates are timestamped in audit logs. 	
+
+ Mantra MFS100 Enrolled
+ Kolkata HQ �22.5726° N�
+ 	192.168.1.100 (HQ Secure Gateway)
+Chief Operations Officer �COO� • EMP-WB001
+ Kolkata Shyambazar Hub Branch �BR�WB01�
+ 	
+ 	বাংলা SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 
+ ←
+
+
+ 	Change Password & 2FA
+ 	My Activity & Audit Log
+ Employee User Directory
+ 	Security Role Master
+ 	Role-Menu Permission Matrix
+ Page Action Permissions
+
+
+-- 1 of 1 --
+

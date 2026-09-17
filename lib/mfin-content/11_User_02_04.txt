@@ -1,0 +1,46 @@
+Full RBAC Role & Page Action Isolation
+User Master, Security Roles, Role-to-Menu access matrices, and granular page-level action rights
+ User Directory (কম� তািলকা) 	 Role Master (পদবী মা�ার) 	 Role-Menu Permissions (�মনু অনুমিত) 	 	কায �কলাপ অিধকার
+ িনরাপ�া
+ব�ব�াপনা 	বাংলা SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 
+ ←
+
+ 	User Profile & Security
+ 	Change Password & 2FA
+ 	My Activity & Audit Log
+
+ 	Security Role Master
+ 	Role-Menu Permission Matrix
+ Page Action Permissions
+
+
+-- 1 of 2 --
+
+ কায �কলাপ অিধকার ম�া���
+Fine-grained operational rights: Create, Read, Edit, Delete, Approve, Export, and Voucher
+Reversals
+শাখা ব�ব�াপক 	
+� 	� 	✓ 	↺
+
+SuperAdmin 
+ ←
+
+ 	User Profile & Security
+ 	Change Password & 2FA
+ 	My Activity & Audit Log
+
+ 	Security Role Master
+ 	Role-Menu Permission Matrix
+ Page Action Permissions
+
+-- 2 of 2 --
+

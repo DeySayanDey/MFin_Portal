@@ -1,0 +1,1127 @@
+[
+  {
+    "slug": "01_Dashboard_Admin",
+    "pdf": "01_Dashboard_Admin.pdf",
+    "route": "/",
+    "module": "dashboard",
+    "title": "Dashboard Admin",
+    "pages": 3,
+    "preview": "₹  Disbursed: ₹40,000 •  MTD� ₹15,400 •  PAR 90 �NPA�� 0.00% •  1 Kendras •  Masked Aadhaar + RBI FOIR  Automated Fee & GST Calc  Field Collection & Receipt  Offline SQLite & Idempotency  বাংলা SuperAdmin • BR� WB01       SuperAdmin  বাংলা Core Banking API (5000)   SuperAdmin                    -- 1 of 3 --  ₹ Cash In Hand �Branch Vaults): ₹ Bank Balances �Commercial Banks): ₹ Real-time CBS Cashbook →  Real-time tracking of cash collected in the field befor"
+  },
+  {
+    "slug": "02_Dashboard_BM",
+    "pdf": "02_Dashboard_BM.pdf",
+    "route": "/branch-vault",
+    "module": "dashboard",
+    "title": "Dashboard BM",
+    "pages": 2,
+    "preview": " Real-time branch vault ledger, dual-custody cash reconciliation, inter-branch transfers & cross-branch customer transactions  মু�া ও �নাট গণনা  নগদ �ানা�র  আ�ঃশাখা �লনেদন  ব�  ভ� ও িদন খিতয়ান  Inter-Branch Cash Transfers (আ�ঃশাখা নগদ �ানা�র)  Any-Branch Customer Transactions (আ�ঃশাখা �াহক �সবা)  বাংলা SuperAdmin • BR� WB01       SuperAdmin  বাংলা Core Banking API (5000)   SuperAdmin                    -- 1 of 2 --  �দিনক নগদ �লনেদন িববরণী  Kendra Field Col"
+  },
+  {
+    "slug": "03_Dashboard_Agent",
+    "pdf": "03_Dashboard_Agent.pdf",
+    "route": "/field-force",
+    "module": "dashboard",
+    "title": "Dashboard Agent",
+    "pages": 3,
+    "preview": " Tier 3 � Standard EMP�FO�001  Karveer Rural Branch •  45 Active Borrowers •  112 Kendra Centres Base: ₹18,000 � Commission & Bonuses Today's Target Progress / ₹33,376.00 Monthly Efficiency + ₹500 On-Time Kendra Bonus ₹1500 Sourcing Incentive दौरा वेळाप�क GPS geofenced Kendra meeting schedule with real-time field collection triggers. 2 Meetings Scheduled Today CEN-GN-01  Near Gram Panchayat Office, Gandhinagar Meeting Time Geofence Radius Target Due  16.7020° N, 74.2760° E  Collect Kendra"
+  },
+  {
+    "slug": "04_Dashboard_Customer",
+    "pdf": "04_Dashboard_Customer.pdf",
+    "route": "/customer-portal",
+    "module": "dashboard",
+    "title": "Dashboard Customer",
+    "pages": 2,
+    "preview": "KYC Verified CUST�2026�0001  Laxmi Mahila Bachat JLG •  Gandhinagar Kendra 01 �Gandhinagar, Kolhapur)  Kendra Meeting:  Pay EMI Online  Statement PDF  No Dues Certificate LN-2026-00001 Current Outstanding of ₹40,000.00 Disbursed  Due on Oct 12, 2026 Pay Now Score: 745 Pre-Approved Limit Eligible for instant disbursal with 0 documentation based on flawless repayment track record.  Apply Instant Top-Up Loan पासबुक Complete historical record of disbursals and Kendra meeting collections.  "
+  },
+  {
+    "slug": "05_MasterMenu_01",
+    "pdf": "05_MasterMenu_01.pdf",
+    "route": "/master",
+    "module": "master",
+    "title": "MasterMenu 01",
+    "pages": 2,
+    "preview": "Configure Company Profile, Auto-Numbering Series, Operational Timings, Role Permissions, Gateways & RBI Policies         Official legal entity name, corporate identification number �CIN�, and RBI registration eZiMicro Financial Services Ltd eZiMicro Microfinance Foundation �Section 8 / NBFC�MFI� U65999MH2026PTC109876 B-13.02045 27AAACE1234F1Z5 AAACE1234F PNEA12345B 2026�2027 Plot 42, Market Yard Road, Karveer, Kolhapur - 416005, Maharashtra Unit 502, FinTech Tower, BKC, Bandra East, Mumb"
+  },
+  {
+    "slug": "05_MasterMenu_02",
+    "pdf": "05_MasterMenu_02.pdf",
+    "route": "/master/series",
+    "module": "master",
+    "title": "MasterMenu 02",
+    "pages": 2,
+    "preview": "Configure Company Profile, Auto-Numbering Series, Operational Timings, Role Permissions, Gateways & RBI Policies         Configure distinct numbering formats, prefixes, counters, and padding lengths for all system entities Kendra Centre Code Series 3 2 CEN�03  Borrower / Member ID Series 4 4 CUST�2026�0004  Staff / Employee ID Series 5 3 EMP�005  Filter records...   বাংলা SuperAdmin • BR� WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←    Company P"
+  },
+  {
+    "slug": "05_MasterMenu_03",
+    "pdf": "05_MasterMenu_03.pdf",
+    "route": "/master/timings",
+    "module": "master",
+    "title": "MasterMenu 03",
+    "pages": 2,
+    "preview": "Configure Company Profile, Auto-Numbering Series, Operational Timings, Role Permissions, Gateways & RBI Policies         Prevent unauthorized staff logins outside prescribed institutional operating windows 08:00 AM 07:30 PM 30 Monday to Saturday �08�00 AM � 07�30 PM�   বাংলা SuperAdmin • BR� WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←    Company Profile  Series & Auto-Number  Software Timings  Roles & Permissions  SMS & WhatsApp Gateway  RBI "
+  },
+  {
+    "slug": "05_MasterMenu_04",
+    "pdf": "05_MasterMenu_04.pdf",
+    "route": "/master/roles",
+    "module": "master",
+    "title": "MasterMenu 04",
+    "pages": 2,
+    "preview": "Configure Company Profile, Auto-Numbering Series, Operational Timings, Role Permissions, Gateways & RBI Policies         Grant or restrict operational capabilities �Loan Sanction, Disbursal, Collection, Reversals, Legal Notice) Accounts & Finance Onboard KYC Apply Loan Sanction Loan Disburse Loan Collect EMI Reverse Vouchers Legal Notices View Reports  Branch Operations Onboard KYC Apply Loan Sanction Loan Disburse Loan Collect EMI Reverse Vouchers Legal Notices View Reports 150000   "
+  },
+  {
+    "slug": "05_MasterMenu_05",
+    "pdf": "05_MasterMenu_05.pdf",
+    "route": "/master/gateway",
+    "module": "master",
+    "title": "MasterMenu 05",
+    "pages": 2,
+    "preview": "Configure Company Profile, Auto-Numbering Series, Operational Timings, Role Permissions, Gateways & RBI Policies          বাংলা SuperAdmin • BR� WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←    Company Profile  Series & Auto-Number  Software Timings  Roles & Permissions  SMS & WhatsApp Gateway  RBI Lending Policies  Database & Seed �25��  Loan Schemes Master  Kendra & JLG Master  N�Level COA Tree Master  Staff Master  Branch Vault Master "
+  },
+  {
+    "slug": "05_MasterMenu_06",
+    "pdf": "05_MasterMenu_06.pdf",
+    "route": "/master/rbi-policies",
+    "module": "master",
+    "title": "MasterMenu 06",
+    "pages": 2,
+    "preview": "Configure Company Profile, Auto-Numbering Series, Operational Timings, Role Permissions, Gateways & RBI Policies         Statutory limits mandated under RBI/2021�22/112 Master Direction on Microfinance Loans 300000 RBI Microfinance threshold: ₹3,00,000 p.a. 50 Max 50% of monthly household surplus 4 10 50000 80000 Mandatory Automated NPCI Penny-Drop Bank Account Verification Mandatory Live CIBIL / CRIF High Mark Score Check before Sanction Allow Prepayment / Foreclosure Penalties �Must re"
+  },
+  {
+    "slug": "05_MasterMenu_07",
+    "pdf": "05_MasterMenu_07.pdf",
+    "route": "/master/database-seed",
+    "module": "master",
+    "title": "MasterMenu 07",
+    "pages": 2,
+    "preview": "Configure Company Profile, Auto-Numbering Series, Operational Timings, Role Permissions, Gateways & RBI Policies          Database Provider: Microsoft.EntityFrameworkCore.InMemory    1476 Schedules 117 JLG Groups 114 Officers 3 Journal Vouchers  বাংলা SuperAdmin • BR� WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←    Company Profile  Series & Auto-Number  Software Timings  Roles & Permissions  SMS & WhatsApp Gateway  RBI Lending Policies  Da"
+  },
+  {
+    "slug": "05_MasterMenu_08",
+    "pdf": "05_MasterMenu_08.pdf",
+    "route": "/master/maker-checker",
+    "module": "master",
+    "title": "MasterMenu 08",
+    "pages": 2,
+    "preview": "Configure Company Profile, Auto-Numbering Series, Operational Timings, Role Permissions, Gateways & RBI Policies          ম�াকার �চকার িনয়মাবলী Configure financial threshold limits, segregation of duties, and checker approval designations by voucher type + ₹ Cashier BranchManager,VaultCustodian  ₹ Cashier,JuniorAccountant BranchManager,SuperAdmin  ₹ JuniorAccountant,Cashier SeniorAccountant,BranchManager  ₹ Cashier,JuniorAccountant BranchManager,AuditHead,SuperAdmin  ₹ Cashier,Field"
+  },
+  {
+    "slug": "05_MasterMenu_09",
+    "pdf": "05_MasterMenu_09.pdf",
+    "route": "/master/loan-schemes",
+    "module": "master",
+    "title": "MasterMenu 09",
+    "pages": 2,
+    "preview": "Configure Reducing Balance, Flat Rate, Daily Merchant, and JLG agricultural microcredit plans +  Full installment-by-installment amortization table with Flat Rate vs Reducing Balance 40000 21.5 12 Monthly ₹ per month Monthly payments ₹ Reducing ₹ Principal + Interest  Amortization breakdown ₹40,000 ₹ ₹717 ₹ ₹36,983 ₹36,983 ₹ ₹663 ₹ ₹33,912 ₹33,912 ₹ ₹608 ₹ ₹30,786 ₹30,786 ₹ ₹552 ₹ ₹27,604 ₹27,604 ₹ ₹495 ₹ ₹24,365 All 5 calculation engines: Normal, Normal Reduced, Special, Custom, and Manual pl"
+  },
+  {
+    "slug": "05_MasterMenu_09_01",
+    "pdf": "05_MasterMenu_09_01.pdf",
+    "route": "/master/loan-schemes/amortization",
+    "module": "master",
+    "title": "MasterMenu 09 01",
+    "pages": 1,
+    "preview": "Configure Reducing Balance, Flat Rate, Daily Merchant, and JLG agricultural microcredit plans +  Full installment-by-installment amortization table with Flat Rate vs Reducing Balance 40000 21.5 12 Monthly ₹per month Monthly payments ₹ Reducing ₹ Principal + Interest  Amortization breakdown ₹40,000 ₹ ₹717 ₹ ₹36,983 ₹36,983 ₹ ₹663 ₹ ₹33,912 ₹33,912 ₹ ₹608 ₹ ₹30,786 ₹30,786 ₹ ₹552 ₹ ₹27,604 ₹27,604 ₹ ₹495 ₹ ₹24,365 ₹24,365 ₹ ₹437 ₹ ₹21,068 All 5 calculation engines: Normal, Normal Reduced, Specia"
+  },
+  {
+    "slug": "05_MasterMenu_10",
+    "pdf": "05_MasterMenu_10.pdf",
+    "route": "/master/kendra-jlg",
+    "module": "master",
+    "title": "MasterMenu 10",
+    "pages": 1,
+    "preview": "    All registered branches with manager assignments, BSR codes, and operational status + All operational branches with location, BSR code, and performance metrics Karveer Rural Branch Sachin Shinde Kolhapur, Maharashtra BSR�0091234 3 Centres 48  Sangli Urban Branch Anita Patil Sangli, Maharashtra BSR�0091235 2 Centres 31  Filter records...   বাংলা SuperAdmin • BR� WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←   System Master Hub  Company Profile  Se"
+  },
+  {
+    "slug": "05_MasterMenu_10_01",
+    "pdf": "05_MasterMenu_10_01.pdf",
+    "route": "/master/kendra-jlg/branches",
+    "module": "master",
+    "title": "MasterMenu 10 01",
+    "pages": 1,
+    "preview": "    All registered branches with manager assignments, BSR codes, and operational status + All operational branches with location, BSR code, and performance metrics Karveer Rural Branch Sachin Shinde Kolhapur, Maharashtra BSR�0091234 3 Centres 48  Sangli Urban Branch Anita Patil Sangli, Maharashtra BSR�0091235 2 Centres 31  Filter records...  বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা  SuperAdmin   ←   System Master Hub  Company Profile  Series & Auto-Number  Softwar"
+  },
+  {
+    "slug": "05_MasterMenu_11_01",
+    "pdf": "05_MasterMenu_11_01.pdf",
+    "route": "/master/coa-tree",
+    "module": "master",
+    "title": "MasterMenu 11 01",
+    "pages": 2,
+    "preview": "Double-Entry Invariant Guarded N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL- wise statements     খিতয়ান বৃ�  GL�Wise Statement Report (খিতয়ান িববরণী)  Hierarchical Trial Balance (�রওয়ািমল)  Sub-Ledger Master (উপ- খিতয়ান)  Posted Vouchers (ভাউচার তািলকা)  Day Book (�দিনক জােবদা)  Cash Book (নগদান বই)  N��েরর খিতয়ান বৃ� • Group �L1� → Control �L2� → General Ledger �L3� → Sub-Ledger �L4� → Child Accounts �L5��   +  Search GL Code, Title or Bangla... L"
+  },
+  {
+    "slug": "05_MasterMenu_11_02",
+    "pdf": "05_MasterMenu_11_02.pdf",
+    "route": "/master/coa-tree/trial-balance",
+    "module": "master",
+    "title": "MasterMenu 11 02",
+    "pages": 2,
+    "preview": "Double-Entry Invariant Guarded N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL-wise statements     N�Level COA Tree (খিতয়ান বৃ�)  খিতয়ান িববরণী  Hierarchical Trial Balance (�রওয়ািমল)  Sub-Ledger Master (উপ- খিতয়ান)  Posted Vouchers (ভাউচার তািলকা)  Day Book (�দিনক জােবদা)  Cash Book (নগদান বই)  খিতয়ান িববরণী Detailed transaction scroll with audit trail, debit/credit entries, and real-time running balance to  ₹ ₹ ₹ ₹ Filter records...   িহসাব ও খিতয়ান "
+  },
+  {
+    "slug": "05_MasterMenu_11_03",
+    "pdf": "05_MasterMenu_11_03.pdf",
+    "route": "/master/coa-tree/sub-ledger",
+    "module": "master",
+    "title": "MasterMenu 11 03",
+    "pages": 2,
+    "preview": "Double-Entry Invariant Guarded N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL- wise statements     N�Level COA Tree (খিতয়ান বৃ�)  GL�Wise Statement Report (খিতয়ান িববরণী)  �রওয়ািমল  Sub-Ledger Master (উপ- খিতয়ান)  Posted Vouchers (ভাউচার তািলকা)  Day Book (�দিনক জােবদা)  Cash Book (নগদান বই)  �রওয়ািমল Rolls up child sub-ledgers and branch accounts into control heads with opening, period, and net balances   �মাট স�দ �মাট স�দ ₹ ₹ ₹ ₹ ₹ Cr  নগদ ও ব�াংক "
+  },
+  {
+    "slug": "05_MasterMenu_11_04",
+    "pdf": "05_MasterMenu_11_04.pdf",
+    "route": "/master/coa-tree/vouchers",
+    "module": "master",
+    "title": "MasterMenu 11 04",
+    "pages": 2,
+    "preview": "Double-Entry Invariant Guarded N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL- wise statements     N�Level COA Tree (খিতয়ান বৃ�)  GL�Wise Statement Report (খিতয়ান িববরণী)  Hierarchical Trial Balance (�রওয়ািমল)  উপ খিতয়ান  Posted Vouchers (ভাউচার তািলকা)  Day Book (�দিনক জােবদা)  Cash Book (নগদান বই)  িহসাব ও খিতয়ান ব�ব�াপনা বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)   SuperAdmin   ←   System Master Hub  Comp"
+  },
+  {
+    "slug": "05_MasterMenu_11_05",
+    "pdf": "05_MasterMenu_11_05.pdf",
+    "route": "/master/coa-tree/day-book",
+    "module": "master",
+    "title": "MasterMenu 11 05",
+    "pages": 2,
+    "preview": "Double-Entry Invariant Guarded N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL- wise statements     N�Level COA Tree (খিতয়ান বৃ�)  GL�Wise Statement Report (খিতয়ান িববরণী)  Hierarchical Trial Balance (�রওয়ািমল)  Sub-Ledger Master (উপ- খিতয়ান)  ভাউচার তািলকা  Day Book (�দিনক জােবদা)  Cash Book (নগদান বই) REP�20260912�910A4D9A 12 Sept 2026, 12�36 pm Kendra Collection for LN�2026�00001 ₹ ₹ Filter records...   িহসাব ও খিতয়ান ব�ব�াপনা বাংলা SuperAdmin • BR�W"
+  },
+  {
+    "slug": "05_MasterMenu_11_06",
+    "pdf": "05_MasterMenu_11_06.pdf",
+    "route": "/master/coa-tree/cash-book",
+    "module": "master",
+    "title": "MasterMenu 11 06",
+    "pages": 3,
+    "preview": "Double-Entry Invariant Guarded N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL- wise statements     N�Level COA Tree (খিতয়ান বৃ�)  GL�Wise Statement Report (খিতয়ান িববরণী)  Hierarchical Trial Balance (�রওয়ািমল)  Sub-Ledger Master (উপ- খিতয়ান)  Posted Vouchers (ভাউচার তািলকা)  �দিনক জােবদা  Cash Book (নগদান বই) �দিনক খিতয়ান বই All debit and credit financial postings for today ₹ DISB�20260912�08DFF5A8 Microfinance Loans Outstanding Asset Disbursement for lo"
+  },
+  {
+    "slug": "05_MasterMenu_11_07",
+    "pdf": "05_MasterMenu_11_07.pdf",
+    "route": "/master/coa-tree/gl-statement",
+    "module": "master",
+    "title": "MasterMenu 11 07",
+    "pages": 2,
+    "preview": "Double-Entry Invariant Guarded N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL-wise statements     N�Level COA Tree (খিতয়ান বৃ�)  GL�Wise Statement Report (খিতয়ান িববরণী)  Hierarchical Trial Balance (�রওয়ািমল)  Sub-Ledger Master (উপ- খিতয়ান)  Posted Vouchers (ভাউচার তািলকা)  Day Book (�দিনক জােবদা)  নগদান বই নগদান ও ব�াংক বই Cash-in-hand and bank disbursement / collection register ₹ 12 Sept 2026 DISB�20260912�08DFF5A8 Net NEFT/IMPS payout to borrower for "
+  },
+  {
+    "slug": "05_MasterMenu_11_08",
+    "pdf": "05_MasterMenu_11_08.pdf",
+    "route": "/master/coa-tree/group-ledger",
+    "module": "master",
+    "title": "MasterMenu 11 08",
+    "pages": 2,
+    "preview": "Double-Entry Invariant Guarded N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL-wise statements     N�Level COA Tree (খিতয়ান বৃ�)  GL�Wise Statement Report (খিতয়ান িববরণী)  Hierarchical Trial Balance (�রওয়ািমল)  Sub-Ledger Master (উপ- খিতয়ান)  Posted Vouchers (ভাউচার তািলকা)  Day Book (�দিনক জােবদা)  নগদান বই নগদান ও ব�াংক বই Cash-in-hand and bank disbursement / collection register ₹ 12 Sept 2026 DISB�20260912�08DFF5A8 Net NEFT/IMPS payout to borrower for "
+  },
+  {
+    "slug": "05_MasterMenu_11_09",
+    "pdf": "05_MasterMenu_11_09.pdf",
+    "route": "/master/coa-tree/control-ledger",
+    "module": "master",
+    "title": "MasterMenu 11 09",
+    "pages": 1,
+    "preview": " Ruma Banerjee Kakali Mondal Shampa Das e.g. Ruma Banerjee �Sonarpur #01� e.g. UTR-928174812 / CHQ-001248 / Direct Cash Official ledger narration description...  ₹ ₹    ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ Voucher Target: ₹ 0.00  ✓ (CUST-WB-00101) (CUST-WB-00102) (CUST-WB-00103)   COA  Change   COA  Change বাঁচাত গট          বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←    Cash/Bank Deposit Voucher  Savings Withdrawal Vouc"
+  },
+  {
+    "slug": "05_MasterMenu_11_10",
+    "pdf": "05_MasterMenu_11_10.pdf",
+    "route": "/master/coa-tree/general-ledger",
+    "module": "master",
+    "title": "MasterMenu 11 10",
+    "pages": 2,
+    "preview": "Double-Entry Invariant Guarded N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL- wise statements     খিতয়ান বৃ�  GL�Wise Statement Report (খিতয়ান িববরণী)  Hierarchical Trial Balance (�রওয়ািমল)  Sub-Ledger Master (উপ- খিতয়ান)  Posted Vouchers (ভাউচার তািলকা)  Day Book (�দিনক জােবদা)  Cash Book (নগদান বই)  N��েরর খিতয়ান বৃ� • Group �L1� → Control �L2� → General Ledger �L3� → Sub-Ledger �L4� → Child Accounts �L5��   +  Search GL Code, Title or Bangla... L"
+  },
+  {
+    "slug": "05_MasterMenu_12_01",
+    "pdf": "05_MasterMenu_12_01.pdf",
+    "route": "/master/staff",
+    "module": "master",
+    "title": "MasterMenu 12 01",
+    "pages": 2,
+    "preview": "Field officers, underwriters, branch accountants, collection performance targets, and shift tracking     ₹  Click Attendance or Performance to view detailed records for each staff member Rajesh Patil Branch Manager �91 98220 11223 All Branch Centres ₹ ₹     Sachin Shinde Field Officer �91 98221 44556 Gandhinagar Kendra 01, Uchgaon Kendra 02 ₹ ₹     Pooja Deshmukh Credit Underwriter �91 98222 33445 Underwriting Committee Desk ₹ ₹     Amol Kulkarni Branch Accountant �91 98223 5566"
+  },
+  {
+    "slug": "05_MasterMenu_12_02",
+    "pdf": "05_MasterMenu_12_02.pdf",
+    "route": "/master/staff/directory",
+    "module": "master",
+    "title": "MasterMenu 12 02",
+    "pages": 1,
+    "preview": "Field officers, underwriters, branch accountants, collection performance targets, and shift tracking     ₹  Click Attendance or Performance to view detailed records for each staff member Rajesh Patil Branch Manager �91 98220 11223 All Branch Centres ₹ ₹     Sachin Shinde Field Officer �91 98221 44556 Gandhinagar Kendra 01, Uchgaon Kendra 02 ₹ ₹     Pooja Deshmukh Credit Underwriter �91 98222 33445 Underwriting Committee Desk ₹ ₹     Amol Kulkarni Branch Accountant �91 98223 5566"
+  },
+  {
+    "slug": "05_MasterMenu_12_02_01",
+    "pdf": "05_MasterMenu_12_02_01.pdf",
+    "route": "/master/staff/employee-form",
+    "module": "master",
+    "title": "MasterMenu 12 02 01",
+    "pages": 1,
+    "preview": "Field officers, underwriters, branch accountants, collection performance targets, and shift tracking     ₹  Click Attendance or Performance to view detailed records for each staff member Rajesh Patil Branch Manager �91 98220 11223 All Branch Centres ₹ ₹     Sachin Shinde Field Officer �91 98221 44556 Gandhinagar Kendra 01, Uchgaon Kendra 02 ₹ ₹     Pooja Deshmukh Credit Underwriter �91 98222 33445 Underwriting Committee Desk ₹ ₹     Amol Kulkarni Branch Accountant �91 98223 5566"
+  },
+  {
+    "slug": "05_MasterMenu_12_03",
+    "pdf": "05_MasterMenu_12_03.pdf",
+    "route": "/master/staff/designations",
+    "module": "master",
+    "title": "MasterMenu 12 03",
+    "pages": 1,
+    "preview": "Field officers, underwriters, branch accountants, collection performance targets, and shift tracking     ₹  Click Attendance or Performance to view detailed records for each staff member Rajesh Patil Branch Manager �91 98220 11223 All Branch Centres ₹ ₹     Sachin Shinde Field Officer �91 98221 44556 Gandhinagar Kendra 01, Uchgaon Kendra 02 ₹ ₹     Pooja Deshmukh Credit Underwriter �91 98222 33445 Underwriting Committee Desk ₹ ₹     Amol Kulkarni Branch Accountant �91 98223 5566"
+  },
+  {
+    "slug": "05_MasterMenu_12_04",
+    "pdf": "05_MasterMenu_12_04.pdf",
+    "route": "/master/staff/payroll-config",
+    "module": "master",
+    "title": "MasterMenu 12 04",
+    "pages": 1,
+    "preview": "Field officers, underwriters, branch accountants, collection performance targets, and shift tracking     ₹  Click Attendance or Performance to view detailed records for each staff member Rajesh Patil Branch Manager �91 98220 11223 All Branch Centres ₹ ₹     Sachin Shinde Field Officer �91 98221 44556 Gandhinagar Kendra 01, Uchgaon Kendra 02 ₹ ₹     Pooja Deshmukh Credit Underwriter �91 98222 33445 Underwriting Committee Desk ₹ ₹     Amol Kulkarni Branch Accountant �91 98223 5566"
+  },
+  {
+    "slug": "05_MasterMenu_13_01",
+    "pdf": "05_MasterMenu_13_01.pdf",
+    "route": "/master/branch-vault",
+    "module": "master",
+    "title": "MasterMenu 13 01",
+    "pages": 2,
+    "preview": " Real-time branch vault ledger, dual-custody cash reconciliation, inter- branch transfers & cross-branch customer transactions  মু�া ও �নাট গণনা  িদন সমাি�  নগদ �ানা�র  আ�ঃশাখা �লনেদন স��য়  ভ� ও িদন খিতয়ান  Inter-Branch Cash Transfers (আ�ঃশাখা নগদ �ানা�র)  Any-Branch Customer Transactions (আ�ঃশাখা �াহক �সবা)   বাংলা SuperAdmin • BR� WB01       SuperAdmin  বাংলা Core Banking API (5000)   SuperAdmin   ←   System Master Hub  Company Profile  Series & Auto-Number  Software "
+  },
+  {
+    "slug": "05_MasterMenu_13_02",
+    "pdf": "05_MasterMenu_13_02.pdf",
+    "route": "/master/branch-vault/denominations",
+    "module": "master",
+    "title": "MasterMenu 13 02",
+    "pages": 2,
+    "preview": " Real-time branch vault ledger, dual-custody cash reconciliation, inter- branch transfers & cross-branch customer transactions  মু�া ও �নাট গণনা  িদন সমাি�  নগদ �ানা�র  আ�ঃশাখা �লনেদন স��য়  Vault & Day Balancing (ভ� ও িদন খিতয়ান)  আ�ঃশাখা নগদ �ানা�র  Any-Branch Customer Transactions (আ�ঃশাখা �াহক �সবা) শাখা নগদ �ানা�র ��ািকং Track physical cash transits, currency chest allocations, and destination branch receipt acknowledgments +   বাংলা SuperAdmin • BR� WB01       SuperAdmin  ব"
+  },
+  {
+    "slug": "05_MasterMenu_13_02_01",
+    "pdf": "05_MasterMenu_13_02_01.pdf",
+    "route": "/master/branch-vault/tally",
+    "module": "master",
+    "title": "MasterMenu 13 02 01",
+    "pages": 1,
+    "preview": " Real-time branch vault ledger, dual-custody cash reconciliation, inter- branch transfers & cross-branch customer transactions  মু�া ও �নাট গণনা  িদন সমাি�  নগদ �ানা�র  আ�ঃশাখা �লনেদন স��য়  Vault & Day Balancing (ভ� ও িদন খিতয়ান)  আ�ঃশাখা নগদ �ানা�র  Any-Branch Customer Transactions (আ�ঃশাখা �াহক �সবা) শাখা নগদ �ানা�র ��ািকং Track physical cash transits, currency chest allocations, and destination branch receipt acknowledgments + Payel Chakraborty WB-52-T-4410  Subhashish Roy �Field Esc"
+  },
+  {
+    "slug": "05_MasterMenu_13_03",
+    "pdf": "05_MasterMenu_13_03.pdf",
+    "route": "/master/branch-vault/custodians",
+    "module": "master",
+    "title": "MasterMenu 13 03",
+    "pages": 2,
+    "preview": " Real-time branch vault ledger, dual-custody cash reconciliation, inter- branch transfers & cross-branch customer transactions  মু�া ও �নাট গণনা  িদন সমাি�  নগদ �ানা�র  আ�ঃশাখা �লনেদন স��য়  Vault & Day Balancing (ভ� ও িদন খিতয়ান)  Inter-Branch Cash Transfers (আ�ঃশাখা নগদ �ানা�র)  আ�ঃশাখা �াহক �সবা আ�ঃশাখা �াহক �সবা �র�জ�ার Cross-branch walk-in loan installments, Bachat Gat deposits, and automated inter-branch clearing settlements +   বাংলা SuperAdmin • BR� WB01       SuperAdmin "
+  },
+  {
+    "slug": "05_MasterMenu_13_03_01",
+    "pdf": "05_MasterMenu_13_03_01.pdf",
+    "route": "/master/branch-vault/dual-custody",
+    "module": "master",
+    "title": "MasterMenu 13 03 01",
+    "pages": 1,
+    "preview": " Real-time branch vault ledger, dual-custody cash reconciliation, inter- branch transfers & cross-branch customer transactions  মু�া ও �নাট গণনা  িদন সমাি�  নগদ �ানা�র  আ�ঃশাখা �লনেদন স��য়  Vault & Day Balancing (ভ� ও িদন খিতয়ান)  Inter-Branch Cash Transfers (আ�ঃশাখা নগদ �ানা�র)  আ�ঃশাখা �াহক �সবা আ�ঃশাখা �াহক �সবা �র�জ�ার Cross-branch walk-in loan installments, Bachat Gat deposits, and automated inter-branch clearing settlements + CUST-WB-0006 CUST-WB-0001   বাংলা SuperAdmin • BR� WB0"
+  },
+  {
+    "slug": "05_MasterMenu_13_04",
+    "pdf": "05_MasterMenu_13_04.pdf",
+    "route": "/master/branch-vault/limits",
+    "module": "master",
+    "title": "MasterMenu 13 04",
+    "pages": 1,
+    "preview": " Real-time branch vault ledger, dual-custody cash reconciliation, inter- branch transfers & cross-branch customer transactions  মু�া ও �নাট গণনা  িদন সমাি�  নগদ �ানা�র  আ�ঃশাখা �লনেদন স��য়  Vault & Day Balancing (ভ� ও িদন খিতয়ান)  Inter-Branch Cash Transfers (আ�ঃশাখা নগদ �ানা�র)  আ�ঃশাখা �াহক �সবা আ�ঃশাখা �াহক �সবা �র�জ�ার Cross-branch walk-in loan installments, Bachat Gat deposits, and automated inter-branch clearing settlements + CUST-WB-0006 CUST-WB-0001   বাংলা SuperAdmin • BR� WB0"
+  },
+  {
+    "slug": "05_MasterMenu_13_05",
+    "pdf": "05_MasterMenu_13_05.pdf",
+    "route": "/master/branch-vault/hand-in",
+    "module": "master",
+    "title": "MasterMenu 13 05",
+    "pages": 1,
+    "preview": " Real-time branch vault ledger, dual-custody cash reconciliation, inter- branch transfers & cross-branch customer transactions  মু�া ও �নাট গণনা  িদন সমাি�  নগদ �ানা�র  আ�ঃশাখা �লনেদন স��য়  Vault & Day Balancing (ভ� ও িদন খিতয়ান)  Inter-Branch Cash Transfers (আ�ঃশাখা নগদ �ানা�র)  আ�ঃশাখা �াহক �সবা আ�ঃশাখা �াহক �সবা �র�জ�ার Cross-branch walk-in loan installments, Bachat Gat deposits, and automated inter-branch clearing settlements + CUST-WB-0006 CUST-WB-0001   বাংলা SuperAdmin • BR� WB0"
+  },
+  {
+    "slug": "05_MasterMenu_14",
+    "pdf": "05_MasterMenu_14.pdf",
+    "route": "/master/wifi-sync",
+    "module": "master",
+    "title": "MasterMenu 14",
+    "pages": 3,
+    "preview": "িদেনর �সশন ব� Ready for Day Open Sync  ওয়াই ফাই  Shyambazar Kendra Cluster  অফলাইন িকউ Awaiting Day Close Sync  Perform morning Day Open to download Kendra manifests, then return to branch and commit evening Day Close.  সকােলর �ড ওেপন  স��ার �ড ��াজ   ওয়াই-ফাই �সটআপ, িনরাপ�া এবং �মাবাইল িডভাইস �িভশিনং    িস� �মাড  Direct intranet sync at branch. Works without internet.  Central cloud sync via mobile internet when field is available.  Mobile-to-mobile hotspot bridge in remote rural "
+  },
+  {
+    "slug": "06_Finance_Ledger_01",
+    "pdf": "06_Finance_Ledger_01.pdf",
+    "route": "/accounting/voucher-entry",
+    "module": "accounting",
+    "title": "Finance Ledger 01",
+    "pages": 1,
+    "preview": " Ruma Banerjee Kakali Mondal Shampa Das e.g. Ruma Banerjee �Sonarpur #01� e.g. UTR-928174812 / CHQ-001248 / Direct Cash Official ledger narration description...  ₹ ₹    ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ Voucher Target: ₹ 0.00  ✓ (CUST-WB-00101) (CUST-WB-00102) (CUST-WB-00103)   COA  Change   COA  Change বাঁচাত গট          বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←    Cash/Bank Deposit Voucher  Savings Withdrawal Vouc"
+  },
+  {
+    "slug": "06_Finance_Ledger_02",
+    "pdf": "06_Finance_Ledger_02.pdf",
+    "route": "/accounting/journal-adjustment",
+    "module": "accounting",
+    "title": "Finance Ledger 02",
+    "pages": 1,
+    "preview": "N�Line General Ledger Adjustment and Non-Cash Inter-Account Entries +  Cash received সুদ আয়  Interest revenue ₹ ₹ ✓ Surplus branch vault cash remitted and deposited into Bank Account            খিতয়ান  বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←   Voucher Entry St…  Cash/Bank Deposit Voucher  Savings Withdrawal Voucher  Office Expense Voucher  Contra Transfer Voucher  N�Level COA Tree  GL�Wise Statement Report  Hier"
+  },
+  {
+    "slug": "06_Finance_Ledger_03",
+    "pdf": "06_Finance_Ledger_03.pdf",
+    "route": "/accounting/cash-deposit",
+    "module": "accounting",
+    "title": "Finance Ledger 03",
+    "pages": 1,
+    "preview": "Sep 12, 2026 ₹ Dr ₹ Cr    Sep 12, 2026 ₹ Dr ₹ Cr    Sep 12, 2026 ₹ Dr ₹ Cr    Search voucher no, name...           বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←   Voucher Entry St…  Cash/Bank Deposit Voucher  Savings Withdrawal Voucher  Office Expense Voucher  Contra Transfer Voucher  N�Level COA Tree  GL�Wise Statement Report  Hierarchical Trial Balance  Sub-Ledger Master  Day Book Ledger  Cash & Bank Book  "
+  },
+  {
+    "slug": "06_Finance_Ledger_03_01",
+    "pdf": "06_Finance_Ledger_03_01.pdf",
+    "route": "/accounting/savings-withdrawal",
+    "module": "accounting",
+    "title": "Finance Ledger 03 01",
+    "pages": 1,
+    "preview": "Sep 12, 2026 ₹ Dr ₹ Cr    Sep 12, 2026 ₹ Dr ₹ Cr    Sep 12, 2026 ₹ Dr ₹ Cr    Search voucher no, name...           বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←   Voucher Entry St…  Cash/Bank Deposit Voucher  Savings Withdrawal Voucher  Office Expense Voucher  Contra Transfer Voucher  N�Level COA Tree  GL�Wise Statement Report  Hierarchical Trial Balance  Sub-Ledger Master  Day Book Ledger  Cash & Bank Book  "
+  },
+  {
+    "slug": "06_Finance_Ledger_04",
+    "pdf": "06_Finance_Ledger_04.pdf",
+    "route": "/accounting/contra-transfer",
+    "module": "accounting",
+    "title": "Finance Ledger 04",
+    "pages": 1,
+    "preview": "e.g. UTR-928174812 / CHQ-001248 / Direct Cash  ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ ₹ Voucher Target: ₹ 0.00  ✓  �চকার অনুেমাদন িকউ Review, verify line items, and authorize transactions requiring dual sign-off   There are no pending maker-checker authorization requests at this time.   COA  Change   COA  Change          বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←   Voucher Entry St…  Cash/Bank Deposit Voucher  Savings Withdrawal Voucher"
+  },
+  {
+    "slug": "07_Lending_01",
+    "pdf": "07_Lending_01.pdf",
+    "route": "/customer-kyc",
+    "module": "lending",
+    "title": "Lending 01",
+    "pages": 2,
+    "preview": "JLG member registration, Penny Drop bank verification, Guarantor/Nominee records, and RBI cashflow surplus       ≤ UIDAI tokenized KYC profiles, group roles, verified bank accounts, and bureau status Gita Saha Swanirbhar Mahila JLG #005 �Member� �91 98540 13720 XXXX� XXXX�9760 �PAN� BQFPK1120W�     Anjali Chakraborty Swanirbhar Mahila JLG #004 �Member� �91 98523 13689 XXXX� XXXX�9687 �PAN� BPFPK1119T�     Aparna Sen Swanirbhar Mahila JLG #003 �Member� �91 98506 13658 XXXX� XXXX�961"
+  },
+  {
+    "slug": "07_Lending_01_Cibil",
+    "pdf": "07_Lending_01_Cibil.pdf",
+    "route": "/customer-kyc/cibil",
+    "module": "lending",
+    "title": "Lending 01 Cibil",
+    "pages": 1,
+    "preview": "JLG member registration, Penny Drop bank verification, Guarantor/Nominee records, and RBI cashflow surplus       ≤ UIDAI tokenized KYC profiles, group roles, verified bank accounts, and bureau status Gita Saha Swanirbhar Mahila JLG #005 �Member� �91 98540 13720 XXXX� XXXX�9760 �PAN� BQFPK1120W�     Anjali Chakraborty Swanirbhar Mahila JLG #004 �Member� �91 98523 13689 XXXX� XXXX�9687 �PAN� BPFPK1119T�     Aparna Sen Swanirbhar Mahila JLG #003 �Member� �91 98506 13658 XXXX� XXXX�961"
+  },
+  {
+    "slug": "07_Lending_01_Doc",
+    "pdf": "07_Lending_01_Doc.pdf",
+    "route": "/customer-kyc/documents",
+    "module": "lending",
+    "title": "Lending 01 Doc",
+    "pages": 1,
+    "preview": "JLG member registration, Penny Drop bank verification, Guarantor/Nominee records, and RBI cashflow surplus       ≤ UIDAI tokenized KYC profiles, group roles, verified bank accounts, and bureau status Gita Saha Swanirbhar Mahila JLG #005 �Member� �91 98540 13720 XXXX� XXXX�9760 �PAN� BQFPK1120W�     Anjali Chakraborty Swanirbhar Mahila JLG #004 �Member� �91 98523 13689 XXXX� XXXX�9687 �PAN� BPFPK1119T�     Aparna Sen Swanirbhar Mahila JLG #003 �Member� �91 98506 13658 XXXX� XXXX�961"
+  },
+  {
+    "slug": "07_Lending_01_Profile",
+    "pdf": "07_Lending_01_Profile.pdf",
+    "route": "/customer-kyc/profile",
+    "module": "lending",
+    "title": "Lending 01 Profile",
+    "pages": 1,
+    "preview": "JLG member registration, Penny Drop bank verification, Guarantor/Nominee records, and RBI cashflow surplus       ≤ UIDAI tokenized KYC profiles, group roles, verified bank accounts, and bureau status Gita Saha Swanirbhar Mahila JLG #005 �Member� �91 98540 13720 XXXX� XXXX�9760 �PAN� BQFPK1120W�     Anjali Chakraborty Swanirbhar Mahila JLG #004 �Member� �91 98523 13689 XXXX� XXXX�9687 �PAN� BPFPK1119T�     Aparna Sen Swanirbhar Mahila JLG #003 �Member� �91 98506 13658 XXXX� XXXX�961"
+  },
+  {
+    "slug": "07_Lending_02_01",
+    "pdf": "07_Lending_02_01.pdf",
+    "route": "/los/applications",
+    "module": "lending",
+    "title": "Lending 02 01",
+    "pages": 1,
+    "preview": "JLG member registration, Penny Drop bank verification, Guarantor/Nominee records, and RBI cashflow surplus       ≤ UIDAI tokenized KYC profiles, group roles, verified bank accounts, and bureau status Gita Saha Swanirbhar Mahila JLG #005 �Member� �91 98540 13720 XXXX� XXXX�9760 �PAN� BQFPK1120W�     Anjali Chakraborty Swanirbhar Mahila JLG #004 �Member� �91 98523 13689 XXXX� XXXX�9687 �PAN� BPFPK1119T�     Aparna Sen Swanirbhar Mahila JLG #003 �Member� �91 98506 13658 XXXX� XXXX�961"
+  },
+  {
+    "slug": "07_Lending_02_02",
+    "pdf": "07_Lending_02_02.pdf",
+    "route": "/los/appraisal",
+    "module": "lending",
+    "title": "Lending 02 02",
+    "pages": 1,
+    "preview": "JLG member registration, Penny Drop bank verification, Guarantor/Nominee records, and RBI cashflow surplus       ≤ UIDAI tokenized KYC profiles, group roles, verified bank accounts, and bureau status Gita Saha Swanirbhar Mahila JLG #005 �Member� �91 98540 13720 XXXX� XXXX�9760 �PAN� BQFPK1120W�     Anjali Chakraborty Swanirbhar Mahila JLG #004 �Member� �91 98523 13689 XXXX� XXXX�9687 �PAN� BPFPK1119T�     Aparna Sen Swanirbhar Mahila JLG #003 �Member� �91 98506 13658 XXXX� XXXX�961"
+  },
+  {
+    "slug": "07_Lending_02_03",
+    "pdf": "07_Lending_02_03.pdf",
+    "route": "/los/foir-check",
+    "module": "lending",
+    "title": "Lending 02 03",
+    "pages": 1,
+    "preview": "JLG member registration, Penny Drop bank verification, Guarantor/Nominee records, and RBI cashflow surplus       ≤ UIDAI tokenized KYC profiles, group roles, verified bank accounts, and bureau status Gita Saha Swanirbhar Mahila JLG #005 �Member� �91 98540 13720 XXXX� XXXX�9760 �PAN� BQFPK1120W�     Anjali Chakraborty Swanirbhar Mahila JLG #004 �Member� �91 98523 13689 XXXX� XXXX�9687 �PAN� BPFPK1119T�     Aparna Sen Swanirbhar Mahila JLG #003 �Member� �91 98506 13658 XXXX� XXXX�961"
+  },
+  {
+    "slug": "07_Lending_02_04",
+    "pdf": "07_Lending_02_04.pdf",
+    "route": "/los/sanction",
+    "module": "lending",
+    "title": "Lending 02 04",
+    "pages": 1,
+    "preview": "JLG member registration, Penny Drop bank verification, Guarantor/Nominee records, and RBI cashflow surplus       ≤ UIDAI tokenized KYC profiles, group roles, verified bank accounts, and bureau status Gita Saha Swanirbhar Mahila JLG #005 �Member� �91 98540 13720 XXXX� XXXX�9760 �PAN� BQFPK1120W�     Anjali Chakraborty Swanirbhar Mahila JLG #004 �Member� �91 98523 13689 XXXX� XXXX�9687 �PAN� BPFPK1119T�     Aparna Sen Swanirbhar Mahila JLG #003 �Member� �91 98506 13658 XXXX� XXXX�961"
+  },
+  {
+    "slug": "07_Lending_02_05",
+    "pdf": "07_Lending_02_05.pdf",
+    "route": "/los/disbursement",
+    "module": "lending",
+    "title": "Lending 02 05",
+    "pages": 1,
+    "preview": "JLG member registration, Penny Drop bank verification, Guarantor/Nominee records, and RBI cashflow surplus       ≤ UIDAI tokenized KYC profiles, group roles, verified bank accounts, and bureau status Gita Saha Swanirbhar Mahila JLG #005 �Member� �91 98540 13720 XXXX� XXXX�9760 �PAN� BQFPK1120W�     Anjali Chakraborty Swanirbhar Mahila JLG #004 �Member� �91 98523 13689 XXXX� XXXX�9687 �PAN� BPFPK1119T�     Aparna Sen Swanirbhar Mahila JLG #003 �Member� �91 98506 13658 XXXX� XXXX�961"
+  },
+  {
+    "slug": "07_Lending_02_06",
+    "pdf": "07_Lending_02_06.pdf",
+    "route": "/los/agreement",
+    "module": "lending",
+    "title": "Lending 02 06",
+    "pages": 1,
+    "preview": "JLG member registration, Penny Drop bank verification, Guarantor/Nominee records, and RBI cashflow surplus       ≤ UIDAI tokenized KYC profiles, group roles, verified bank accounts, and bureau status Gita Saha Swanirbhar Mahila JLG #005 �Member� �91 98540 13720 XXXX� XXXX�9760 �PAN� BQFPK1120W�     Anjali Chakraborty Swanirbhar Mahila JLG #004 �Member� �91 98523 13689 XXXX� XXXX�9687 �PAN� BPFPK1119T�     Aparna Sen Swanirbhar Mahila JLG #003 �Member� �91 98506 13658 XXXX� XXXX�961"
+  },
+  {
+    "slug": "07_Lending_02_07",
+    "pdf": "07_Lending_02_07.pdf",
+    "route": "/los/fee-gst",
+    "module": "lending",
+    "title": "Lending 02 07",
+    "pages": 1,
+    "preview": "JLG member registration, Penny Drop bank verification, Guarantor/Nominee records, and RBI cashflow surplus       ≤ UIDAI tokenized KYC profiles, group roles, verified bank accounts, and bureau status Gita Saha Swanirbhar Mahila JLG #005 �Member� �91 98540 13720 XXXX� XXXX�9760 �PAN� BQFPK1120W�     Anjali Chakraborty Swanirbhar Mahila JLG #004 �Member� �91 98523 13689 XXXX� XXXX�9687 �PAN� BPFPK1119T�     Aparna Sen Swanirbhar Mahila JLG #003 �Member� �91 98506 13658 XXXX� XXXX�961"
+  },
+  {
+    "slug": "07_Lending_03",
+    "pdf": "07_Lending_03.pdf",
+    "route": "/lms/collections",
+    "module": "lending",
+    "title": "Lending 03",
+    "pages": 2,
+    "preview": "Group & Individual loan pipeline, Credit Bureau validation, Sanctions, Key Fact Statements �KFS�, and Disbursal triggers     Underwriting status, upfront fee deductions, and one-click sanction committee actions APP�2026�00120 Gita Saha Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00119 Anjali Chakraborty Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00118 Aparna Sen Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00117 Mousumi Ghosh Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00116 Supr"
+  },
+  {
+    "slug": "07_Lending_03_01",
+    "pdf": "07_Lending_03_01.pdf",
+    "route": "/lms/repayment-schedule",
+    "module": "lending",
+    "title": "Lending 03 01",
+    "pages": 1,
+    "preview": "Group & Individual loan pipeline, Credit Bureau validation, Sanctions, Key Fact Statements �KFS�, and Disbursal triggers     Underwriting status, upfront fee deductions, and one-click sanction committee actions APP�2026�00120 Gita Saha Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00119 Anjali Chakraborty Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00118 Aparna Sen Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00117 Mousumi Ghosh Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00116 Supr"
+  },
+  {
+    "slug": "07_Lending_03_02",
+    "pdf": "07_Lending_03_02.pdf",
+    "route": "/lms/emi-receipt",
+    "module": "lending",
+    "title": "Lending 03 02",
+    "pages": 1,
+    "preview": "-- 1 of 1 --"
+  },
+  {
+    "slug": "07_Lending_03_03",
+    "pdf": "07_Lending_03_03.pdf",
+    "route": "/lms/prepayment",
+    "module": "lending",
+    "title": "Lending 03 03",
+    "pages": 1,
+    "preview": "Group & Individual loan pipeline, Credit Bureau validation, Sanctions, Key Fact Statements �KFS�, and Disbursal triggers     Underwriting status, upfront fee deductions, and one-click sanction committee actions APP�2026�00120 Gita Saha Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00119 Anjali Chakraborty Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00118 Aparna Sen Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00117 Mousumi Ghosh Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00116 Supr"
+  },
+  {
+    "slug": "07_Lending_03_04",
+    "pdf": "07_Lending_03_04.pdf",
+    "route": "/lms/restructuring",
+    "module": "lending",
+    "title": "Lending 03 04",
+    "pages": 1,
+    "preview": "Group & Individual loan pipeline, Credit Bureau validation, Sanctions, Key Fact Statements �KFS�, and Disbursal triggers     Underwriting status, upfront fee deductions, and one-click sanction committee actions APP�2026�00120 Gita Saha Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00119 Anjali Chakraborty Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00118 Aparna Sen Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00117 Mousumi Ghosh Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00116 Supr"
+  },
+  {
+    "slug": "07_Lending_03_05",
+    "pdf": "07_Lending_03_05.pdf",
+    "route": "/lms/loan-book",
+    "module": "lending",
+    "title": "Lending 03 05",
+    "pages": 1,
+    "preview": "Group & Individual loan pipeline, Credit Bureau validation, Sanctions, Key Fact Statements �KFS�, and Disbursal triggers     Underwriting status, upfront fee deductions, and one-click sanction committee actions APP�2026�00120 Gita Saha Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00119 Anjali Chakraborty Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00118 Aparna Sen Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00117 Mousumi Ghosh Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00116 Supr"
+  },
+  {
+    "slug": "07_Lending_03_06",
+    "pdf": "07_Lending_03_06.pdf",
+    "route": "/lms/passbook",
+    "module": "lending",
+    "title": "Lending 03 06",
+    "pages": 1,
+    "preview": "Group & Individual loan pipeline, Credit Bureau validation, Sanctions, Key Fact Statements �KFS�, and Disbursal triggers     Underwriting status, upfront fee deductions, and one-click sanction committee actions APP�2026�00120 Gita Saha Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00119 Anjali Chakraborty Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00118 Aparna Sen Mahila Krishi & Dairy Loan ₹ ₹ ₹   APP�2026�00117 Mousumi Ghosh Gramin Micro Enterprise Loan ₹ ₹ ₹   APP�2026�00116 Supr"
+  },
+  {
+    "slug": "07_Lending_04",
+    "pdf": "07_Lending_04.pdf",
+    "route": "/lms/par-npa",
+    "module": "lending",
+    "title": "Lending 04",
+    "pages": 2,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹    LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹    LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹    Portfolio balances, total collections, interest rates, days past due, and e"
+  },
+  {
+    "slug": "07_Lending_04_01",
+    "pdf": "07_Lending_04_01.pdf",
+    "route": "/lms/npa-classification",
+    "module": "lending",
+    "title": "Lending 04 01",
+    "pages": 1,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹    LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹    LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹    Portfolio balances, total collections, interest rates, days past due, and e"
+  },
+  {
+    "slug": "07_Lending_04_02",
+    "pdf": "07_Lending_04_02.pdf",
+    "route": "/lms/provisioning",
+    "module": "lending",
+    "title": "Lending 04 02",
+    "pages": 1,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹   LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹   LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹    Portfolio balances, total collections, interest rates, days past due, and early"
+  },
+  {
+    "slug": "07_Lending_04_03",
+    "pdf": "07_Lending_04_03.pdf",
+    "route": "/lms/legal-notice",
+    "module": "lending",
+    "title": "Lending 04 03",
+    "pages": 1,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹   LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹   LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹   Portfolio balances, total collections, interest rates, days past due, and early s"
+  },
+  {
+    "slug": "07_Lending_04_04",
+    "pdf": "07_Lending_04_04.pdf",
+    "route": "/lms/recovery",
+    "module": "lending",
+    "title": "Lending 04 04",
+    "pages": 1,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹   LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹   LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹   Portfolio balances, total collections, interest rates, days past due, and early s"
+  },
+  {
+    "slug": "07_Lending_04_05_01",
+    "pdf": "07_Lending_04_05_01.pdf",
+    "route": "/lms/write-off",
+    "module": "lending",
+    "title": "Lending 04 05 01",
+    "pages": 1,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹   LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹   LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹   Portfolio balances, total collections, interest rates, days past due, and early s"
+  },
+  {
+    "slug": "07_Lending_04_05_02",
+    "pdf": "07_Lending_04_05_02.pdf",
+    "route": "/lms/settlement",
+    "module": "lending",
+    "title": "Lending 04 05 02",
+    "pages": 1,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹   LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹   LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹   Portfolio balances, total collections, interest rates, days past due, and early s"
+  },
+  {
+    "slug": "07_Lending_04_05_03",
+    "pdf": "07_Lending_04_05_03.pdf",
+    "route": "/lms/auction",
+    "module": "lending",
+    "title": "Lending 04 05 03",
+    "pages": 1,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹   LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹   LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹   Portfolio balances, total collections, interest rates, days past due, and early s"
+  },
+  {
+    "slug": "07_Lending_04_05_04",
+    "pdf": "07_Lending_04_05_04.pdf",
+    "route": "/lms/arbitration",
+    "module": "lending",
+    "title": "Lending 04 05 04",
+    "pages": 1,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹   LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹   LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹   Portfolio balances, total collections, interest rates, days past due, and early s"
+  },
+  {
+    "slug": "07_Lending_04_05_05",
+    "pdf": "07_Lending_04_05_05.pdf",
+    "route": "/lms/court-case",
+    "module": "lending",
+    "title": "Lending 04 05 05",
+    "pages": 1,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹   LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹   LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹   Portfolio balances, total collections, interest rates, days past due, and early s"
+  },
+  {
+    "slug": "07_Lending_04_06",
+    "pdf": "07_Lending_04_06.pdf",
+    "route": "/lms/defaulters",
+    "module": "lending",
+    "title": "Lending 04 06",
+    "pages": 1,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹   LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹   LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹   Portfolio balances, total collections, interest rates, days past due, and early s"
+  },
+  {
+    "slug": "07_Lending_04_07",
+    "pdf": "07_Lending_04_07.pdf",
+    "route": "/lms/field-collection",
+    "module": "lending",
+    "title": "Lending 04 07",
+    "pages": 1,
+    "preview": " Kendra #002 �Howrah Uluberia) • Meeting: Tuesday 09�30�00 Kendra #002 �Howrah Uluberia) �CEN�WB002�   Weekly attendance, scheduled installment breakdown, dynamic UPI QR and cash receipts LN�2026�00002 Rani Patil Swanirbhar Mahila JLG #002 Member #4/12 ₹ ₹ ₹   LN�2026�00112 Aarti Saha Swanirbhar Mahila JLG #112 Member #6/12 ₹ ₹ ₹   LN�2026�00117 Mousumi Ghosh Swanirbhar Mahila JLG #002 Member #5/12 ₹ ₹ ₹   Portfolio balances, total collections, interest rates, days past due, and early s"
+  },
+  {
+    "slug": "07_Lending_05",
+    "pdf": "07_Lending_05.pdf",
+    "route": "/lms/reports",
+    "module": "lending",
+    "title": "Lending 05",
+    "pages": 1,
+    "preview": "Days Past Due �DPD) tracking, legal notice dispatches, and monthly CIBIL/CRIF/Equifax credit bureau exports      ₹  Structured overdue collection protocol compliant with RBI Fair Practices Code for Microfinance Automated SMS & WhatsApp reminder with 1-click UPI payment link Physical field verification, cause analysis & Promise-To-Pay �PTP) agreement Summons Group Leader & Co-Guarantors under mutual cross-guarantee pledge Advocate notice, CIC default reporting & Lok Adalat / Arbitration ref"
+  },
+  {
+    "slug": "07_Lending_05_01",
+    "pdf": "07_Lending_05_01.pdf",
+    "route": "/lms/disbursement-register",
+    "module": "lending",
+    "title": "Lending 05 01",
+    "pages": 1,
+    "preview": "Days Past Due �DPD) tracking, legal notice dispatches, and monthly CIBIL/CRIF/Equifax credit bureau exports      ₹  Structured overdue collection protocol compliant with RBI Fair Practices Code for Microfinance Automated SMS & WhatsApp reminder with 1-click UPI payment link Physical field verification, cause analysis & Promise-To-Pay �PTP) agreement Summons Group Leader & Co-Guarantors under mutual cross-guarantee pledge Advocate notice, CIC default reporting & Lok Adalat / Arbitration ref"
+  },
+  {
+    "slug": "07_Lending_05_02",
+    "pdf": "07_Lending_05_02.pdf",
+    "route": "/lms/collection-register",
+    "module": "lending",
+    "title": "Lending 05 02",
+    "pages": 1,
+    "preview": "Days Past Due �DPD) tracking, legal notice dispatches, and monthly CIBIL/CRIF/Equifax credit bureau exports      ₹  Structured overdue collection protocol compliant with RBI Fair Practices Code for Microfinance Automated SMS & WhatsApp reminder with 1-click UPI payment link Physical field verification, cause analysis & Promise-To-Pay �PTP) agreement Summons Group Leader & Co-Guarantors under mutual cross-guarantee pledge Advocate notice, CIC default reporting & Lok Adalat / Arbitration ref"
+  },
+  {
+    "slug": "07_Lending_05_03",
+    "pdf": "07_Lending_05_03.pdf",
+    "route": "/lms/portfolio-summary",
+    "module": "lending",
+    "title": "Lending 05 03",
+    "pages": 1,
+    "preview": "Days Past Due �DPD) tracking, legal notice dispatches, and monthly CIBIL/CRIF/Equifax credit bureau exports      ₹  Structured overdue collection protocol compliant with RBI Fair Practices Code for Microfinance Automated SMS & WhatsApp reminder with 1-click UPI payment link Physical field verification, cause analysis & Promise-To-Pay �PTP) agreement Summons Group Leader & Co-Guarantors under mutual cross-guarantee pledge Advocate notice, CIC default reporting & Lok Adalat / Arbitration ref"
+  },
+  {
+    "slug": "08_Deposit",
+    "pdf": "08_Deposit.pdf",
+    "route": "/deposits",
+    "module": "deposits",
+    "title": "Deposit",
+    "pages": 1,
+    "preview": "Compulsory Bachat Gat member savings, monthly interest accrual, digital passbook, and JLG emergency buffer funds      ₹  % ₹  Compulsory group savings, interest rates, total deposits, and instant ledger passbooks DEP� SB�2026�0001 Sunita Ramesh Kamble Laxmi Mahila Bachat JLG 6.5% p.a. ₹ ₹    DEP� RD�2026�0002 Rani Vijay Gaikwad Laxmi Mahila Bachat JLG Recurring Deposit �RD� 7.5% p.a. ₹ ₹    Filter records...   বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking "
+  },
+  {
+    "slug": "08_Deposit_01",
+    "pdf": "08_Deposit_01.pdf",
+    "route": "/deposits/savings",
+    "module": "deposits",
+    "title": "Deposit 01",
+    "pages": 1,
+    "preview": "Compulsory Bachat Gat member savings, monthly interest accrual, digital passbook, and JLG emergency buffer funds      ₹  % ₹  Compulsory group savings, interest rates, total deposits, and instant ledger passbooks DEP� SB�2026�0001 Sunita Ramesh Kamble Laxmi Mahila Bachat JLG 6.5% p.a. ₹ ₹    DEP� RD�2026�0002 Rani Vijay Gaikwad Laxmi Mahila Bachat JLG Recurring Deposit �RD� 7.5% p.a. ₹ ₹    Filter records...  বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা  SuperAdmin  "
+  },
+  {
+    "slug": "08_Deposit_02",
+    "pdf": "08_Deposit_02.pdf",
+    "route": "/deposits/rd",
+    "module": "deposits",
+    "title": "Deposit 02",
+    "pages": 1,
+    "preview": "Compulsory Bachat Gat member savings, monthly interest accrual, digital passbook, and JLG emergency buffer funds      ₹  % ₹  Compulsory group savings, interest rates, total deposits, and instant ledger passbooks DEP� SB�2026�0001 Sunita Ramesh Kamble Laxmi Mahila Bachat JLG 6.5% p.a. ₹ ₹    DEP� RD�2026�0002 Rani Vijay Gaikwad Laxmi Mahila Bachat JLG Recurring Deposit �RD� 7.5% p.a. ₹ ₹    Filter records...  বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা  SuperAdmin  "
+  },
+  {
+    "slug": "08_Deposit_03",
+    "pdf": "08_Deposit_03.pdf",
+    "route": "/deposits/fd",
+    "module": "deposits",
+    "title": "Deposit 03",
+    "pages": 1,
+    "preview": "Compulsory Bachat Gat member savings, monthly interest accrual, digital passbook, and JLG emergency buffer funds      ₹  % ₹  Compulsory group savings, interest rates, total deposits, and instant ledger passbooks DEP� SB�2026�0001 Sunita Ramesh Kamble Laxmi Mahila Bachat JLG 6.5% p.a. ₹ ₹    DEP� RD�2026�0002 Rani Vijay Gaikwad Laxmi Mahila Bachat JLG Recurring Deposit �RD� 7.5% p.a. ₹ ₹    Filter records...  বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা  SuperAdmin  "
+  },
+  {
+    "slug": "08_Deposit_04",
+    "pdf": "08_Deposit_04.pdf",
+    "route": "/deposits/member-ledger",
+    "module": "deposits",
+    "title": "Deposit 04",
+    "pages": 1,
+    "preview": "Compulsory Bachat Gat member savings, monthly interest accrual, digital passbook, and JLG emergency buffer funds      ₹  % ₹  Compulsory group savings, interest rates, total deposits, and instant ledger passbooks DEP� SB�2026�0001 Sunita Ramesh Kamble Laxmi Mahila Bachat JLG 6.5% p.a. ₹ ₹    DEP� RD�2026�0002 Rani Vijay Gaikwad Laxmi Mahila Bachat JLG Recurring Deposit �RD� 7.5% p.a. ₹ ₹    Filter records...   বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking "
+  },
+  {
+    "slug": "08_Deposit_05",
+    "pdf": "08_Deposit_05.pdf",
+    "route": "/deposits/interest",
+    "module": "deposits",
+    "title": "Deposit 05",
+    "pages": 1,
+    "preview": "Compulsory Bachat Gat member savings, monthly interest accrual, digital passbook, and JLG emergency buffer funds      ₹  % ₹  Compulsory group savings, interest rates, total deposits, and instant ledger passbooks DEP� SB�2026�0001 Sunita Ramesh Kamble Laxmi Mahila Bachat JLG 6.5% p.a. ₹ ₹    DEP� RD�2026�0002 Rani Vijay Gaikwad Laxmi Mahila Bachat JLG Recurring Deposit �RD� 7.5% p.a. ₹ ₹    Filter records...   বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking "
+  },
+  {
+    "slug": "08_Deposit_06",
+    "pdf": "08_Deposit_06.pdf",
+    "route": "/deposits/withdrawals",
+    "module": "deposits",
+    "title": "Deposit 06",
+    "pages": 1,
+    "preview": "Compulsory Bachat Gat member savings, monthly interest accrual, digital passbook, and JLG emergency buffer funds      ₹  % ₹  Compulsory group savings, interest rates, total deposits, and instant ledger passbooks DEP� SB�2026�0001 Sunita Ramesh Kamble Laxmi Mahila Bachat JLG 6.5% p.a. ₹ ₹    DEP� RD�2026�0002 Rani Vijay Gaikwad Laxmi Mahila Bachat JLG Recurring Deposit �RD� 7.5% p.a. ₹ ₹    Filter records...   বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking "
+  },
+  {
+    "slug": "09_MIS_Report",
+    "pdf": "09_MIS_Report.pdf",
+    "route": "/mis",
+    "module": "mis",
+    "title": "MIS Report",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation     Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ �দিনক ব�বসািয়ক ও এমআইএস িরেপাট�  মািসক এমআইএস পয �ােলাচনা  শাখা পারফরম�া� র�া��ং  �াহক মা�ার তািলকা  ★ �াহক �কওয়াইিস ি�িত িরেপাট�  �াহক িহসাব ও �লনেদন িববরণী   ★   �জএল �হড সকল �জএল �হড "
+  },
+  {
+    "slug": "09_MIS_Report_01",
+    "pdf": "09_MIS_Report_01.pdf",
+    "route": "/mis/daily-business",
+    "module": "mis",
+    "title": "MIS Report 01",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains   Demand Sheets  Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ �দিনক ব�বসািয়ক ও এমআইএস িরেপাট�  মািসক এমআইএস পয �ােলাচনা  শাখা পারফরম�া� র�া��ং  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     �দিনক ব�বসািয়ক ও এমআইএস িরেপ"
+  },
+  {
+    "slug": "09_MIS_Report_02",
+    "pdf": "09_MIS_Report_02.pdf",
+    "route": "/mis/portfolio-health",
+    "module": "mis",
+    "title": "MIS Report 02",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS   Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ �ক�িভি�ক �দিনক িডমা� শীট  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     �ক�িভি�ক �দিনক িডমা� শীট — Printable field collection sheet for Kendra meeting install"
+  },
+  {
+    "slug": "09_MIS_Report_02_01",
+    "pdf": "09_MIS_Report_02_01.pdf",
+    "route": "/mis/portfolio-gl",
+    "module": "mis",
+    "title": "MIS Report 02 01",
+    "pages": 1,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS   Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ �ক�িভি�ক �দিনক িডমা� শীট  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     �ক�িভি�ক �দিনক িডমা� শীট — Printable field collection sheet for Kendra meeting install"
+  },
+  {
+    "slug": "09_MIS_Report_03",
+    "pdf": "09_MIS_Report_03.pdf",
+    "route": "/mis/demand-sheet",
+    "module": "mis",
+    "title": "MIS Report 03",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets   PAR Aging  NPA Quality  Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ �দিনক আদায় ও ক�াশ �র�জ�ার  ★ আদায় দ�তা ও ঘাটিত িবে�ষণ  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     �দিনক আদায় ও ক�াশ �র�জ�ার — Every receipt generated in"
+  },
+  {
+    "slug": "09_MIS_Report_03_01",
+    "pdf": "09_MIS_Report_03_01.pdf",
+    "route": "/mis/kendra-demand",
+    "module": "mis",
+    "title": "MIS Report 03 01",
+    "pages": 1,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets   PAR Aging  NPA Quality  Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ �দিনক আদায় ও ক�াশ �র�জ�ার  ★ আদায় দ�তা ও ঘাটিত িবে�ষণ  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     �দিনক আদায় ও ক�াশ �র�জ�ার — Every receipt generated in"
+  },
+  {
+    "slug": "09_MIS_Report_04",
+    "pdf": "09_MIS_Report_04.pdf",
+    "route": "/mis/collection",
+    "module": "mis",
+    "title": "MIS Report 04",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections   NPA Quality  Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ �পাট�েফািলও অ�াট ির� (PAR) এ�জং  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     �পাট�েফািলও অ�াট ির� (PAR) এ�জং — Industry standard PAR aging breakdown by "
+  },
+  {
+    "slug": "09_MIS_Report_04_01",
+    "pdf": "09_MIS_Report_04_01.pdf",
+    "route": "/mis/collection-register",
+    "module": "mis",
+    "title": "MIS Report 04 01",
+    "pages": 1,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections   NPA Quality  Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ �পাট�েফািলও অ�াট ির� (PAR) এ�জং  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     �পাট�েফািলও অ�াট ির� (PAR) এ�জং — Industry standard PAR aging breakdown by "
+  },
+  {
+    "slug": "09_MIS_Report_05",
+    "pdf": "09_MIS_Report_05.pdf",
+    "route": "/mis/disbursement",
+    "module": "mis",
+    "title": "MIS Report 05",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging   Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ এনিপএ ��ণীিবভাগ ও �িভশিনং িরেপাট�  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     এনিপএ ��ণীিবভাগ ও �িভশিনং িরেপাট� — Sub-standard, doubtful and loss asset c"
+  },
+  {
+    "slug": "09_MIS_Report_05_01",
+    "pdf": "09_MIS_Report_05_01.pdf",
+    "route": "/mis/disbursement-register",
+    "module": "mis",
+    "title": "MIS Report 05 01",
+    "pages": 1,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging   Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ এনিপএ ��ণীিবভাগ ও �িভশিনং িরেপাট�  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     এনিপএ ��ণীিবভাগ ও �িভশিনং িরেপাট� — Sub-standard, doubtful and loss asset c"
+  },
+  {
+    "slug": "09_MIS_Report_06",
+    "pdf": "09_MIS_Report_06.pdf",
+    "route": "/mis/branch-scorecard",
+    "module": "mis",
+    "title": "MIS Report 06",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality   Kendra Meetings  GL & P&L  Cash & Vault  �াহক মা�ার তািলকা  ★ �াহক �কওয়াইিস ি�িত িরেপাট�  �াহক িহসাব ও �লনেদন িববরণী  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     আরিবআই �ু�ঋণ িবিধব� িরটান � — Qual"
+  },
+  {
+    "slug": "09_MIS_Report_06_01",
+    "pdf": "09_MIS_Report_06_01.pdf",
+    "route": "/mis/branch-performance",
+    "module": "mis",
+    "title": "MIS Report 06 01",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality   Kendra Meetings  GL & P&L  Cash & Vault  �াহক মা�ার তািলকা  ★ �াহক �কওয়াইিস ি�িত িরেপাট�  �াহক িহসাব ও �লনেদন িববরণী  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     আরিবআই �ু�ঋণ িবিধব� িরটান � — Qual"
+  },
+  {
+    "slug": "09_MIS_Report_07",
+    "pdf": "09_MIS_Report_07.pdf",
+    "route": "/mis/agent-productivity",
+    "module": "mis",
+    "title": "MIS Report 07",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation     Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ �দিনক ব�বসািয়ক ও এমআইএস িরেপাট�  মািসক এমআইএস পয �ােলাচনা  শাখা পারফরম�া� র�া��ং  �াহক মা�ার তািলকা  ★ �াহক �কওয়াইিস ি�িত িরেপাট�  �াহক িহসাব ও �লনেদন িববরণী   ★   �জএল �হড সকল �জএল �হড "
+  },
+  {
+    "slug": "09_MIS_Report_07_01",
+    "pdf": "09_MIS_Report_07_01.pdf",
+    "route": "/mis/agent-leaderboard",
+    "module": "mis",
+    "title": "MIS Report 07 01",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation     Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ �দিনক ব�বসািয়ক ও এমআইএস িরেপাট�  মািসক এমআইএস পয �ােলাচনা  শাখা পারফরম�া� র�া��ং  �াহক মা�ার তািলকা  ★ �াহক �কওয়াইিস ি�িত িরেপাট�  �াহক িহসাব ও �লনেদন িববরণী   ★   �জএল �হড সকল �জএল �হড "
+  },
+  {
+    "slug": "09_MIS_Report_08",
+    "pdf": "09_MIS_Report_08.pdf",
+    "route": "/mis/par-aging",
+    "module": "mis",
+    "title": "MIS Report 08",
+    "pages": 2,
+    "preview": "Chronological immutable transaction record, cashier handover logs, IP addresses, operator credentials, and entity change tracking      All Roles All Actions Operator credentials, network IP, entity modified, before/after parameters and severity classification 12 Sept 2026 Super Admin �HQ� 192.168.1.105 LoanDisbursal LoanAccount LN�2026�00001 Disbursed INR 40,000 via IMPS Bank Transfer to Sunita Ramesh Kamble. Journal Voucher JV�2026�08�001 posted. 12 Sept 2026 Vikram Deshmukh �Branch Manage"
+  },
+  {
+    "slug": "09_MIS_Report_09",
+    "pdf": "09_MIS_Report_09.pdf",
+    "route": "/mis/npa-provisioning",
+    "module": "mis",
+    "title": "MIS Report 09",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality   Kendra Meetings  GL & P&L  Cash & Vault  �াহক মা�ার তািলকা  ★ �াহক �কওয়াইিস ি�িত িরেপাট�  �াহক িহসাব ও �লনেদন িববরণী  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     �াহক মা�ার তািলকা — Complete maste"
+  },
+  {
+    "slug": "09_MIS_Report_10",
+    "pdf": "09_MIS_Report_10.pdf",
+    "route": "/mis/regulatory",
+    "module": "mis",
+    "title": "MIS Report 10",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality  Customer KYC   GL & P&L  Cash & Vault  �ক� মা�ার তািলকা  ★ �ক� িম�টং উপি�িত ও িনয়িমততা  দলীয় স�য় ও জমার সারসংে�প  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     �ক� মা�ার তািলকা — Master list of Kendr"
+  },
+  {
+    "slug": "09_MIS_Report_11",
+    "pdf": "09_MIS_Report_11.pdf",
+    "route": "/mis/cic-upload",
+    "module": "mis",
+    "title": "MIS Report 11",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings   Cash & Vault  ★ �ায়াল ব�ােল� (�রওয়ািমল)  ★ লাভ-�িতর িহসাব িববরণী (P&L)  ★ ব�ােল� শীট (উদ্বৃ�প�)  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     �দিনক ব�বসািয়ক ও এমআইএস "
+  },
+  {
+    "slug": "09_MIS_Report_11_01",
+    "pdf": "09_MIS_Report_11_01.pdf",
+    "route": "/mis/cibil-export",
+    "module": "mis",
+    "title": "MIS Report 11 01",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings   Cash & Vault  ★ �ায়াল ব�ােল� (�রওয়ািমল)  ★ লাভ-�িতর িহসাব িববরণী (P&L)  ★ ব�ােল� শীট (উদ্বৃ�প�)  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     �ায়াল ব�ােল� (�রওয়ািমল) "
+  },
+  {
+    "slug": "09_MIS_Report_11_02",
+    "pdf": "09_MIS_Report_11_02.pdf",
+    "route": "/mis/crif-export",
+    "module": "mis",
+    "title": "MIS Report 11 02",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings   Cash & Vault  ★ �ায়াল ব�ােল� (�রওয়ািমল)  ★ লাভ-�িতর িহসাব িববরণী (P&L)  ★ ব�ােল� শীট (উদ্বৃ�প�)  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     লাভ-�িতর িহসাব িববরণী (P"
+  },
+  {
+    "slug": "09_MIS_Report_11_03",
+    "pdf": "09_MIS_Report_11_03.pdf",
+    "route": "/mis/equifax-export",
+    "module": "mis",
+    "title": "MIS Report 11 03",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings   Cash & Vault  ★ �ায়াল ব�ােল� (�রওয়ািমল)  ★ লাভ-�িতর িহসাব িববরণী (P&L)  ★ ব�ােল� শীট (উদ্বৃ�প�)  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     ব�ােল� শীট (উদ্বৃ�প�) — "
+  },
+  {
+    "slug": "09_MIS_Report_12",
+    "pdf": "09_MIS_Report_12.pdf",
+    "route": "/mis/audit-trail",
+    "module": "mis",
+    "title": "MIS Report 12",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings  GL & P&L   ★ শাখা ভ� ক�াশ ও �নাট গণনা িরকনিসিলেয়শন  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     শাখা ভ� ক�াশ ও �নাট গণনা িরকনিসিলেয়শন — Day Open, Day Close, physical no"
+  },
+  {
+    "slug": "09_MIS_Report_13",
+    "pdf": "09_MIS_Report_13.pdf",
+    "route": "/mis/exports",
+    "module": "mis",
+    "title": "MIS Report 13",
+    "pages": 2,
+    "preview": " Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict Debit & Credit double-entry reconciliation    All 40 Domains  Executive MIS  Demand Sheets  Collections  PAR Aging  NPA Quality  Customer KYC  Kendra Meetings  GL & P&L  Cash & Vault  ★ আরিবআই �ু�ঋণ িবিধব� িরটান �  �জএল �হড সকল �জএল �হড This Week MTD YTD 12 / 09 / 2026 to 12 / 09 / 2026     আরিবআই �ু�ঋণ িবিধব� িরটান � — Qualifying Asset criteria, FOIR <= 50% "
+  },
+  {
+    "slug": "10_HR_01",
+    "pdf": "10_HR_01.pdf",
+    "route": "/hr/staff",
+    "module": "hr",
+    "title": "HR 01",
+    "pages": 2,
+    "preview": "    All time transfer orders Successfully migrated Eligible for transfer + Gandhinagar Kendra 01 Uchgaon Kendra 02 Member Relocation to N… 28 Aug 2026  Member & Employee Transfers · Salary Processing · Corporate Banking      SuperAdmin  বাংলা Core Banking API (5000)   SuperAdmin   ←   Staff Directory & HR   Employee Transfers  Monthly Staff Payroll  SMS & WhatsApp Broadcast  -- 1 of 2 --  SuperAdmin   ←   Staff Directory & HR   Employee Transfers  Monthly Staff Payr"
+  },
+  {
+    "slug": "10_HR_02",
+    "pdf": "10_HR_02.pdf",
+    "route": "/hr/transfers",
+    "module": "hr",
+    "title": "HR 02",
+    "pages": 2,
+    "preview": "    All time transfer orders Successfully migrated Eligible for transfer + Gandhinagar Kendra 01 Uchgaon Kendra 02 Member Relocation to N… 28 Aug 2026  Member & Employee Transfers · Salary Processing · Corporate Banking      SuperAdmin  বাংলা Core Banking API (5000)   SuperAdmin   ←   Staff Directory & HR   Employee Transfers  Monthly Staff Payroll  SMS & WhatsApp Broadcast    — Choose Member — — Select Branch — — Select Centre — — Select Reason — Optional notes...  -- 1"
+  },
+  {
+    "slug": "10_HR_03",
+    "pdf": "10_HR_03.pdf",
+    "route": "/hr/payroll",
+    "module": "hr",
+    "title": "HR 03",
+    "pages": 2,
+    "preview": "    + Karveer Rural Branch Sangli Urban Branch 13 Aug 2026 Branch Expansion  Member & Employee Transfers · Salary Processing · Corporate Banking      SuperAdmin  বাংলা Core Banking API (5000)   SuperAdmin   ←   Staff Directory & HR  Member Transfers   Monthly Staff Payroll  SMS & WhatsApp Broadcast  -- 1 of 2 --  SuperAdmin   ←   Staff Directory & HR  Member Transfers   Monthly Staff Payroll  SMS & WhatsApp Broadcast -- 2 of 2 --"
+  },
+  {
+    "slug": "10_HR_04",
+    "pdf": "10_HR_04.pdf",
+    "route": "/hr/messaging",
+    "module": "hr",
+    "title": "HR 04",
+    "pages": 2,
+    "preview": "       Staff Salary & Incentives Expense �5001� — ₹1,67,150 | Bank Disbursal Operating Account �1002� — ₹1,67,150 EMP�001 · Branch Manager ₹65,000 ₹15.0L ₹9.5L ₹3,250  EMP�002 · Field Officer ₹28,000 ₹6.0L ₹4.2L ₹1,400  EMP�003 · ₹42,000 — — N/A ₹2,100   Member & Employee Transfers · Salary Processing · Corporate Banking      SuperAdmin  বাংলা Core Banking API (5000)   SuperAdmin   ←   Staff Directory & HR  Member Transfers  Employee Transfers   SMS & WhatsApp Broadcas"
+  },
+  {
+    "slug": "10_HR_05",
+    "pdf": "10_HR_05.pdf",
+    "route": "/hr/attendance",
+    "module": "hr",
+    "title": "HR 05",
+    "pages": 2,
+    "preview": "Automated disbursal alerts, Kendra meeting reminders, EMI thermal receipts, and legal default warning messages   বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←   Staff Directory & HR  Member Transfers  Employee Transfers  Monthly Staff Payroll   -- 1 of 2 -- Channel, delivery status, template category, and recipient phone numbers Meena More �91 98900 11223 Overdue EMI Reminder URGENT� Dear Meena More, your EMI of ₹4,676 for Loan LN�"
+  },
+  {
+    "slug": "10_HR_05_01",
+    "pdf": "10_HR_05_01.pdf",
+    "route": "/hr/attendance/geofence",
+    "module": "hr",
+    "title": "HR 05 01",
+    "pages": 2,
+    "preview": "Automated disbursal alerts, Kendra meeting reminders, EMI thermal receipts, and legal default warning messages   বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←   Staff Directory & HR  Member Transfers  Employee Transfers  Monthly Staff Payroll   Send real-time transaction receipts, reminder alerts, or custom notices  Sunita Ramesh Kamble Fast2SMS Gateway �91 98234 56789 EMI Collection Receipt Dear Sunita Kamble, EMI of ₹3,788 for L"
+  },
+  {
+    "slug": "11_User_01_01",
+    "pdf": "11_User_01_01.pdf",
+    "route": "/profile",
+    "module": "security",
+    "title": "User 01 01",
+    "pages": 1,
+    "preview": "    বাংলা নাম রােজশ পা�টল All updates are timestamped in audit logs.    Mantra MFS100 Enrolled  Kolkata HQ �22.5726° N�  192.168.1.100 (HQ Secure Gateway) Chief Operations Officer �COO� • EMP-WB001  Kolkata Shyambazar Hub Branch �BR�WB01�    বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←    Change Password & 2FA  My Activity & Audit Log  Employee User Directory  Security Role Master  Role-Menu Permission Matrix  Page Act"
+  },
+  {
+    "slug": "11_User_01_02",
+    "pdf": "11_User_01_02.pdf",
+    "route": "/profile/password",
+    "module": "security",
+    "title": "User 01 02",
+    "pages": 1,
+    "preview": "    Ensure your password complies with RBI 2026 Core Banking Security Guidelines. Password Strength:  Mandatory for high-value approvals  IP� 192.168.1.100 � Kolkata Headquarters IP� 106.213.77.14 � Last active 40m ago  192.168.1.100 (HQ Secure Gateway)  Chief Operations Officer �COO� • EMP-WB001  Kolkata Shyambazar Hub Branch �BR�WB01�    বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←    Change Password & 2FA  My Activity & "
+  },
+  {
+    "slug": "11_User_01_03",
+    "pdf": "11_User_01_03.pdf",
+    "route": "/profile/activity",
+    "module": "security",
+    "title": "User 01 03",
+    "pages": 2,
+    "preview": "    Real-time audit trail of all actions initiated by your account.  2026-09-12 14:46:59 Logged into Core Banking Portal with 2FA TOTP verification. AUTH-20260824-001 192.168.1.100  2026-09-12 14:16:59 Approved & authorized bulk NEFT batch DSB-WB-88910 192.168.1.100   192.168.1.100 (HQ Secure Gatew…  Chief Operations Officer �COO� • EMP-WB001  Kolkata Shyambazar Hub Branch �BR�WB01�    বাংলা SuperAdmin • BR�WB01       SuperAdmin  বাংলা Core Banking API (5000)   SuperAdmin "
+  },
+  {
+    "slug": "11_User_02_01",
+    "pdf": "11_User_02_01.pdf",
+    "route": "/security/users",
+    "module": "security",
+    "title": "User 02 01",
+    "pages": 2,
+    "preview": "Full RBAC Role & Page Action Isolation User Master, Security Roles, Role-to-Menu access matrices, and granular page-level action rights  কম� তািলকা  Role Master (পদবী মা�ার)  Role-Menu Permissions (�মনু অনুমিত)  Page Action Permissions (কায �কলাপ অিধকার)  ব�বহারকারী তািলকা 25+ authorized MFI employees with branch mapping, role assignment, and access control status  নত�ন কম� যু� ক�ন  Search employee name, username, or email... সকল পদবী সকল শাখা Abhijit Bhattacharya bm.shyambazar@banglagram"
+  },
+  {
+    "slug": "11_User_02_02",
+    "pdf": "11_User_02_02.pdf",
+    "route": "/security/roles",
+    "module": "security",
+    "title": "User 02 02",
+    "pages": 2,
+    "preview": "Full RBAC Role & Page Action Isolation User Master, Security Roles, Role-to-Menu access matrices, and granular page-level action rights  User Directory (কম� তািলকা)  পদবী মা�ার  Role-Menu Permissions (�মনু অনুমিত)  Page Action Permissions (কায �কলাপ অিধকার)  ভূিমকা ও পদবী মা�ার Predefined system security roles with access scope and user counts + 1 Active Users সেব �া� িনয়�ক Full unrestricted system administration, database admin, and security override.  → 11 Active Users শাখা ব�ব�াপক Branc"
+  },
+  {
+    "slug": "11_User_02_03",
+    "pdf": "11_User_02_03.pdf",
+    "route": "/security/permissions",
+    "module": "security",
+    "title": "User 02 03",
+    "pages": 2,
+    "preview": "Full RBAC Role & Page Action Isolation User Master, Security Roles, Role-to-Menu access matrices, and granular page-level action rights  User Directory (কম� তািলকা)  Role Master (পদবী মা�ার)  �মনু অনুমিত  Page Action Permissions (কায �কলাপ অিধকার)  �মনু অনুমিত ম�া��� Configure which primary navigation menus and submenus each system role can view শাখা ব�ব�াপক  সংর�ণ ক�ন Active Role Configuration: সব অনুমিত বািতল  /settings  /settings  /accounting  /loan-plans  /hierarchy  /wifi-sync "
+  },
+  {
+    "slug": "11_User_02_04",
+    "pdf": "11_User_02_04.pdf",
+    "route": "/security/menu-matrix",
+    "module": "security",
+    "title": "User 02 04",
+    "pages": 2,
+    "preview": "Full RBAC Role & Page Action Isolation User Master, Security Roles, Role-to-Menu access matrices, and granular page-level action rights  User Directory (কম� তািলকা)  Role Master (পদবী মা�ার)  Role-Menu Permissions (�মনু অনুমিত)  কায �কলাপ অিধকার  িনরাপ�া ব�ব�াপনা বাংলা SuperAdmin • BR� WB01       SuperAdmin  বাংলা Core Banking API (5000)  SuperAdmin   ←   User Profile & Security  Change Password & 2FA  My Activity & Audit Log   Security Role Master  Role-Menu Permission Ma"
+  },
+  {
+    "slug": "12_Customer_360",
+    "pdf": "12_Customer_360.pdf",
+    "route": "/customer-portal/360",
+    "module": "other",
+    "title": "Customer 360",
+    "pages": 2,
+    "preview": "KYC Verified CUST�2026�0001  Laxmi Mahila Bachat JLG •  Gandhinagar Kendra 01 �Gandhinagar, Kolhapur)  Kendra Meeting:  Pay EMI Online  Statement PDF  No Dues Certificate LN-2026-00001 Current Outstanding of ₹40,000.00 Disbursed  Due on Oct 12, 2026 Pay Now Score: 745 Pre-Approved Limit Eligible for instant disbursal with 0 documentation based on flawless repayment track record.  Apply Instant Top-Up Loan पासबुक Complete historical record of disbursals and Kendra meeting collections.  1"
+  },
+  {
+    "slug": "13_Field",
+    "pdf": "13_Field.pdf",
+    "route": "/field-force/route",
+    "module": "other",
+    "title": "Field",
+    "pages": 2,
+    "preview": "ওয়াই ফাই �গটওেয়  িডভাইস ক�াশ 25 Kendra Rosters Cached  →  Simulates mobile phone collecting repayments offline in rural Bengal zones and batch syncing via Branch Wi-Fi with UUID Idempotency protection. +  f47ac10b-58cc-4372- a567�0e02b2c3d479 LN�2026�00001 Sunita Ramesh Kamble ₹ 16.7020° N, 74.2760° E �Fixed�  Monthly Kendra recovery efficiency, zero-delinquency bonus, and commission incentive calculator FCO-01 | ₹280,000 ₹ ₹ Filter records...   মাঠ কম� অফলাইন িস� বাংলা SuperAdmin • BR� W"
+  },
+  {
+    "slug": "14_Mobile",
+    "pdf": "14_Mobile.pdf",
+    "route": "/agent-portal",
+    "module": "other",
+    "title": "Mobile",
+    "pages": 1,
+    "preview": " Village Center Daily EMI Collection • Offline-First Local Cache    Field Officer • BR�WB01   Mantra MFS100 RD  �সানারপুর �গািব�পুর �ক� ০১ ₹ / ₹28,600 �মা ব�ানাজ� CUST-WB-00101 • Maa Tara JLG (মা তারা দল) Inst: /52   কাকিল ম�ল CUST-WB-00102 • Maa Tara JLG (মা তারা দল) Inst: /52   অপণ �া সরদার CUST-WB-00103 • Maa Tara JLG (মা তারা দল) Inst: /52        SuperAdmin  বাংলা  SuperAdmin   ←   Branch Vault & Day Open/Close  Inter-Branch Cash Transfers  Any-Branch Customer Servi"
+  },
+  {
+    "slug": "15_Language",
+    "pdf": "15_Language.pdf",
+    "route": "/settings/language",
+    "module": "other",
+    "title": "Language",
+    "pages": 3,
+    "preview": "₹  Disbursed: ₹40,000 •  MTD� ₹15,400 •  PAR 90 �NPA�� 0.00% •  1 Kendras •  Masked Aadhaar + RBI FOIR  Automated Fee & GST Calc  Field Collection & Receipt  Offline SQLite & Idempotency  বাংলা SuperAdmin • BR�WB01       SuperAdmin  English বাংলা Core Banking API (5000)   ই�জ মাইে�া SuperAdmin  শাখা  ড�াশেবাড� �ধান �মনু  মা�ার �মনু   িহসাব ও খিতয়ান   ঋণ পিরেষবা   স�য় ও আমানত   িরেপাট� ও এমআইএস   কম� ও �বতন   ব�বহারকারী ও িনরাপ�া   শাখা ভ� ও িস�   -- 1 of 3 --"
+  }
+]

@@ -1,0 +1,184 @@
+Double-Entry Invariant Guarded
+N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL-
+wise statements
+ 	
+
+
+N�Level
+COA Tree
+(খিতয়ান
+বৃ�)
+
+GL�Wise
+Statement
+Report (খিতয়ান
+িববরণী)
+
+Hierarchical
+Trial Balance
+(�রওয়ািমল)
+
+Sub-Ledger
+Master (উপ-
+খিতয়ান)
+
+Posted
+Vouchers
+(ভাউচার
+তািলকা)
+ 	�দিনক
+জােবদা
+
+Cash
+Book
+(নগদান
+বই)
+�দিনক খিতয়ান বই
+All debit and credit financial postings for today 	₹
+DISB�20260912�08DFF5A8
+Microfinance
+Loans Outstanding
+Asset
+Disbursement for loan
+account LN�2026�00001 �
+Sunita Kamble
+₹ 	₹
+DISB�20260912�08DFF5A8 	Bank Disbursal 	Disbursement for loan 	₹ 	₹
+Filter records...	
+ িহসাব
+ও খিতয়ান ব�ব�াপনা 	বাংলা 	SuperAdmin •
+BR�WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+
+-- 1 of 3 --
+
+Operating Account account LN�2026�00001 �
+Sunita Kamble
+DISB�20260912�08DFF5A8 Loan Processing
+Fee Income
+Disbursement for loan
+account LN�2026�00001 �
+Sunita Kamble
+₹ 	₹
+DISB�20260912�08DFF5A8
+Credit Life
+Insurance Premium
+Payable
+Disbursement for loan
+account LN�2026�00001 �
+Sunita Kamble
+₹ 	₹
+DISB�20260912�08DFF5A8
+Output GST
+Payable on Loan
+Fees
+Disbursement for loan
+account LN�2026�00001 �
+Sunita Kamble
+₹ 	₹
+DISB�20260912�60EED4D7
+Microfinance
+Loans Outstanding
+Asset
+Disbursement for loan
+account LN�2026�00002 �
+Rani Gaikwad
+₹ 	₹
+DISB�20260912�60EED4D7 Bank Disbursal
+Operating Account
+Disbursement for loan
+account LN�2026�00002 �
+Rani Gaikwad
+₹ 	₹
+DISB�20260912�60EED4D7 Loan Processing
+Fee Income
+Disbursement for loan
+account LN�2026�00002 �
+Rani Gaikwad
+₹ 	₹
+DISB�20260912�60EED4D7
+Credit Life
+Insurance Premium
+Payable
+Disbursement for loan
+account LN�2026�00002 �
+Rani Gaikwad
+₹ 	₹
+DISB�20260912�60EED4D7
+Output GST
+Payable on Loan
+Fees
+Disbursement for loan
+account LN�2026�00002 �
+Rani Gaikwad
+₹ 	₹
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+-- 2 of 3 --
+
+Showing page of 	�13 total) 		
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+-- 3 of 3 --
+

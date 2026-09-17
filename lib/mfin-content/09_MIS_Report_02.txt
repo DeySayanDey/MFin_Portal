@@ -1,0 +1,140 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ All 40 Domains 	 Executive MIS 	 	 Collections 	 PAR Aging 	 NPA Quality 	 Customer KYC 	 Kendra Meetings 	 GL & P&L 	 Cash & Vault
+ ★
+�ক�িভি�ক �দিনক িডমা� শীট
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+�ক�িভি�ক �দিনক িডমা� শীট — Printable field collection sheet for Kendra meeting installment collections.
+Generated At:
+Institution:
+GL Hierarchy:
+�মাট িক�� সংখ�া · Across 4 Kendra Centres
+
+₹
+আসল পাওনা · Scheduled Principal Cr
+
+₹
+সুদ পাওনা · Interest Revenue Cr
+%
+₹
+সব �েমাট দািব · Cash Collection Debit Target
+
+ 	
+100000 Assets > 120000 Loans > 121100 Standard Ass…
+₹ 	₹
+400000 Revenue > 410000 Interest > 411000 Loan Inter…
+₹ 	₹
+200000 Liabilities > 210000 Deposits > 211000 Bachat …
+₹ 	₹
+100000 Assets > 110000 Cash > 111000 Branch Vault
+₹ 	₹
+Search report, GL code or head...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+
+-- 1 of 2 --
+
+�জএল �কাড 	�কে�র নাম 	ঋণ িহসাব নং 	সদেস�র নাম 	�জএল �লজার �হড 	�ডিবট (Dr) 	��িডট (Cr) 	আসল 	সুদ 	�মাট পাওনা
+Sonarpur
+Kendra
+#01
+LN�
+WB�2026�0001
+Ruma
+Banerjee
+Cr 121100 �Loan� + Cr 411000
+�Interest)
+₹
+Dr
+₹
+Cr 	₹ 	₹ 	₹
+Sonarpur
+Kendra
+#01
+LN�
+WB�2026�0002
+Kakali
+Mondal
+Cr 121100 �Loan� + Cr 411000
+�Interest)
+₹
+Dr
+₹
+Cr 	₹ 	₹ 	₹
+Sonarpur
+Kendra
+#01
+LN�
+WB�2026�0003 	Shampa Das 	Cr 121100 �Loan� + Cr 411000
+�Interest)
+₹
+Dr
+₹
+Cr 	₹ 	₹ 	₹
+Baruipur
+Kendra
+#02
+LN�
+WB�2026�0014
+Priyanka
+Halder
+Cr 121100 �Loan� + Cr 411000
+�Interest)
+₹
+Dr
+₹
+Cr 	₹ 	₹ 	₹
+Baruipur
+Kendra
+#02
+LN�
+WB�2026�0015
+Mita
+Adhikari
+Cr 121100 �Loan� + Cr 411000
+�Interest)
+₹
+Dr
+₹
+Cr 	₹ 	₹ 	₹
+₹ 	₹ 	₹ 	₹ 	₹
+Filter within this report...		
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+-- 2 of 2 --
+

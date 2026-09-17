@@ -1,0 +1,167 @@
+Full RBAC Role & Page Action Isolation
+User Master, Security Roles, Role-to-Menu access matrices, and granular page-level action rights
+ 	কম� তািলকা 	 Role Master (পদবী মা�ার) 	 Role-Menu Permissions (�মনু অনুমিত) 	 Page Action Permissions (কায �কলাপ অিধকার)
+ ব�বহারকারী তািলকা
+25+ authorized MFI employees with branch mapping, role assignment, and access control status  	নত�ন কম� যু� ক�ন
+ Search employee name, username, or email... 	সকল পদবী 	সকল শাখা
+Abhijit
+Bhattacharya bm.shyambazar@banglagrameen.in
+Kolkata
+Shyambazar
+Branch
+�91
+98301
+22002
+12 Sept
+2026,
+08�46
+am
+
+Amitava Ghosh 	bm.ranaghat@banglagrameen.in
+Nadia
+Ranaghat
+Branch
+�91
+98301
+22012
+12 Sept
+2026,
+09�18
+am
+
+Anirban
+Ganguly bm.chinsurah@banglagrameen.in
+Hooghly
+Chinsurah
+Branch
+�91
+98301
+22009
+12 Sept
+2026,
+02�35
+pm
+
+Filter records...	
+ িনরাপ�া
+ব�ব�াপনা 	বাংলা SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 
+ ←
+
+ 	User Profile & Security
+ 	Change Password & 2FA
+ 	My Activity & Audit Log
+
+ 	Security Role Master
+ 	Role-Menu Permission Matrix
+ Page Action Permissions
+
+
+-- 1 of 2 --
+
+Arup Karmakar 	agent.arup@banglagrameen.in
+Howrah
+Uluberia
+Branch
+�91
+98301
+22008
+12 Sept
+2026,
+02�02
+pm
+
+Bhabesh Paul 	bm.phulia@banglagrameen.in Ranaghat
+Phulia Branch
+�91
+98301
+22016
+12 Sept
+2026,
+12�15
+pm
+
+Chiranjit Pal 	agent.chiranjit@banglagrameen.in
+Krishnanagar
+Clay Artisan
+Branch
+�91
+98301
+22019
+12 Sept
+2026,
+09�39
+am
+
+Debashis
+Mukherjee bm.uluberia@banglagrameen.in
+Howrah
+Uluberia
+Branch
+�91
+98301
+22006
+12 Sept
+2026,
+07�11
+am
+
+Debolina
+Banerjee credit.debolina@banglagrameen.in
+Kolkata
+Shyambazar
+Branch
+�91
+98301
+22004
+12 Sept
+2026,
+10�33
+am
+
+Indranil
+Roychowdhury bm.berhampore@banglagrameen.in Kolkata Head
+Office
+�91
+98301
+22020
+12 Sept
+2026,
+01�11
+pm
+
+Kaushik Dutta 	agent.kaushik@banglagrameen.in
+Hooghly
+Chinsurah
+Branch
+�91
+98301
+22011
+12 Sept
+2026,
+09�09
+am
+
+Showing page 	of 	�25 total) 		
+
+SuperAdmin 
+ ←
+
+ 	User Profile & Security
+ 	Change Password & 2FA
+ 	My Activity & Audit Log
+
+ 	Security Role Master
+ 	Role-Menu Permission Matrix
+ Page Action Permissions
+
+-- 2 of 2 --
+

@@ -1,0 +1,115 @@
+Field officers, underwriters, branch accountants, collection performance targets, and shift tracking	
+
+ 	 	 	₹ 	
+Click Attendance or Performance to view detailed records for each staff member
+Rajesh
+Patil
+Branch
+Manager
+�91
+98220
+11223
+All Branch
+Centres 	₹ 	₹ 	 	 	 	
+Sachin
+Shinde 	Field Officer
+�91
+98221
+44556
+Gandhinagar
+Kendra 01,
+Uchgaon
+Kendra 02
+₹ 	₹ 	 	 	 	
+Pooja
+Deshmukh
+Credit
+Underwriter
+�91
+98222
+33445
+Underwriting
+Committee
+Desk
+₹ 	₹ 	 	 	 	
+Amol
+Kulkarni
+Branch
+Accountant
+�91
+98223
+55667
+Accounts &
+Cash Counter 	₹ 	₹ 	 	 	 	
+Ramesh
+Patil 	Field Officer
+�91
+98227
+10029
+Kendra #001 	₹ 	₹ 	 	 	 	
+Vijay
+Banerjee 	Field Officer
+�91
+98225
+10058
+Kendra #002 	₹ 	₹ 	 	 	 	
+Suresh
+Ghosh
+Branch
+Accountant
+�91
+98223
+10087
+Kendra #003 	₹ 	₹ 	 	 	 	
+Deepak
+Dutta 	Field Officer
+�91
+98221
+10116
+Kendra #004 	₹ 	₹ 	 	 	 	
+Rahul
+Saha 	Field Officer
+�91
+98228
+10145
+Kendra #005 	₹ 	₹ 	 	 	 	
+Anand
+Jadhav
+Branch
+Manager
+�91
+98226
+10174
+Kendra #006 	₹ 	₹ 	 	 	 	
+Showing page of �114 total) 	
+Filter records...	
+
+বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	 	SuperAdmin 	 	বাংলা
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+Branch Manager • All Branch Centres	
+
+₹ 	₹ 	₹
+₹0 	Target: ₹600,000
+512,000 	490,000 	555,000 	524,000 	543,210
+
+-- 1 of 1 --
+

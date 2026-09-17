@@ -1,0 +1,52 @@
+ 	 	 	
+
+
+ 	Staff Salary & Incentives Expense �5001� — ₹1,67,150 | 	Bank Disbursal Operating Account �1002� — ₹1,67,150
+EMP�001 ·
+Branch
+Manager
+₹65,000 	₹15.0L 	₹9.5L 	₹3,250 
+EMP�002 ·
+Field Officer
+₹28,000 	₹6.0L 	₹4.2L 	₹1,400 
+EMP�003 ·
+₹42,000 	— 	— 	N/A 	₹2,100 	
+ Member & Employee Transfers · Salary Processing · Corporate Banking
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+ Staff Directory & HR
+ Member Transfers
+ Employee Transfers
+
+ SMS & WhatsApp Broadcast
+
+
+-- 1 of 2 --
+
+Credit
+Underwriter
+EMP�004 ·
+Branch
+Accountant
+₹38,000 	— 	— 	N/A 	₹1,900 
+
+SuperAdmin 	
+ ←
+
+ Staff Directory & HR
+ Member Transfers
+ Employee Transfers
+
+ SMS & WhatsApp Broadcast
+
+-- 2 of 2 --
+

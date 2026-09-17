@@ -1,0 +1,69 @@
+ 	Real-time branch vault ledger, dual-custody cash reconciliation, inter-
+branch transfers & cross-branch customer transactions
+ 	মু�া ও �নাট গণনা
+ 	িদন সমাি�
+ 	নগদ �ানা�র
+ 	আ�ঃশাখা �লনেদন
+স��য়
+ Vault & Day Balancing (ভ� ও
+িদন খিতয়ান)  Inter-Branch Cash Transfers
+(আ�ঃশাখা নগদ �ানা�র)  আ�ঃশাখা �াহক �সবা
+আ�ঃশাখা �াহক �সবা �র�জ�ার
+Cross-branch walk-in loan installments, Bachat Gat deposits, and automated inter-branch clearing settlements +
+
+ বাংলা 	SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+
+ Wi-Fi Sync Master
+
+
+-- 1 of 2 --
+
+CUST-WB-0006
+CUST-WB-0001
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+
+ Wi-Fi Sync Master
+
+-- 2 of 2 --
+

@@ -1,0 +1,89 @@
+ 	 	
+
+Real-time audit trail of all actions initiated by your account. 
+2026-09-12 14:46:59
+Logged into Core
+Banking Portal with
+2FA TOTP
+verification.
+AUTH-20260824-001 	192.168.1.100 	
+2026-09-12 14:16:59 	Approved &
+authorized bulk
+NEFT batch
+DSB-WB-88910 	192.168.1.100 	
+ 	192.168.1.100 (HQ Secure Gatew…
+
+Chief Operations Officer �COO� • EMP-WB001
+ Kolkata Shyambazar Hub Branch �BR�WB01�
+ 	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+
+ Change Password & 2FA
+ My Activity & Audit Log
+ Employee User Directory
+ Security Role Master
+ Role-Menu Permission Matrix
+ Page Action Permissions
+
+
+-- 1 of 2 --
+
+disbursal of INR
+2,40,000 for 6 JLG
+borrowers.
+2026-09-12 12:01:59
+Triggered Day-End
+Batch Closing and
+RBI IRAC
+provisioning run for
+BR�WB01.
+EOD-20260823-01 	192.168.1.100 	
+2026-09-12 09:01:59
+Reconciled
+physical note
+denomination
+count INR 1,84,500
+with CBS GL
+111000 balance.
+VAULT-AUD-041 	192.168.1.100 	
+2026-09-12 05:01:59
+Exported monthly
+TransUnion CIBIL
+and CRIF High
+Mark credit
+repayment file �120
+accounts).
+CIR-EXP-202608 	192.168.1.100 	
+2026-09-11 15:01:59
+Completed annual
+security
+questionnaire and
+updated session
+timeout threshold.
+SEC-POL-091 	192.168.1.100 	
+
+SuperAdmin 	
+ ←
+
+
+ Change Password & 2FA
+ My Activity & Audit Log
+ Employee User Directory
+ Security Role Master
+ Role-Menu Permission Matrix
+ Page Action Permissions
+
+-- 2 of 2 --
+

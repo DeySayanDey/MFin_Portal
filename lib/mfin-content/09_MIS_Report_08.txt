@@ -1,0 +1,106 @@
+Chronological immutable transaction record, cashier handover logs, IP addresses, operator credentials, and entity change tracking
+
+ 	 	 	
+All Roles 	All Actions
+Operator credentials, network IP, entity modified, before/after parameters and severity classification
+12 Sept
+2026
+Super Admin
+�HQ� 192.168.1.105 	LoanDisbursal 	LoanAccount 	LN�2026�00001
+Disbursed INR
+40,000 via IMPS
+Bank Transfer to
+Sunita Ramesh
+Kamble. Journal
+Voucher
+JV�2026�08�001
+posted.
+12 Sept
+2026
+Vikram
+Deshmukh
+�Branch
+Manager)
+BranchManager 	192.168.1.42 	CashierVaultHandover 	BranchVault VAULT�BR01�
+DAYEND
+Cashier Day-End
+vault handover
+dual-signed.
+Physical cash INR
+48,500 balanced
+with zero
+variance.
+12 Sept
+2026
+Sachin
+Shinde �Field
+Officer)
+FieldOfficer 	106.213.88.14 	RepaymentCollection 	CollectionRecord 	RCPT�849201 	Collected weekly
+EMI INR 3,788 at
+Gandhinagar
+Kendra 01
+Filter records...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	 	SuperAdmin 	 	বাংলা 	Core Banking API (5000)	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+
+
+
+-- 1 of 2 --
+
+meeting.
+Geofence verified
+�16.7020,
+74.2760�.
+12 Sept
+2026
+Pooja Patil
+�Credit
+Underwriter)
+Underwriter 	192.168.1.55 	CicBureauPull 	CustomerProfile 	CUST�2026�0002
+Pulled real-time
+CRIF High Mark
+credit bureau
+score �Score:
+720�. No adverse
+active defaults
+found.
+12 Sept
+2026
+Super Admin
+�HQ� 192.168.1.105 	DepositAccountOpening 	DepositAccount DEP�
+SB�2026�0001
+Opened
+Compulsory
+Group Deposit
+account for Sunita
+Ramesh Kamble
+�Laxmi Mahila
+Bachat JLG�.
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+
+
+-- 2 of 2 --
+
