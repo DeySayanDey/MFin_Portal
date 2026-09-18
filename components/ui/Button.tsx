@@ -3,8 +3,17 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 
-type ButtonVariant = "primary" | "secondary" | "ghost";
-type ButtonSize = "sm" | "md";
+export type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "ghost"
+  | "success"
+  | "warning"
+  | "amber"
+  | "violet"
+  | "soft";
+
+type ButtonSize = "sm" | "md" | "lg";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -17,11 +26,17 @@ const variantClass: Record<ButtonVariant, string> = {
   primary: "btn btn-primary",
   secondary: "btn btn-secondary",
   ghost: "btn btn-ghost",
+  success: "btn btn-success",
+  warning: "btn btn-warning",
+  amber: "btn btn-amber",
+  violet: "btn btn-violet",
+  soft: "btn btn-soft",
 };
 
 const sizeClass: Record<ButtonSize, string> = {
   sm: "btn-sm",
   md: "",
+  lg: "btn-lg",
 };
 
 export function Button({

@@ -132,17 +132,121 @@ const pageTitles: Record<string, { title: string; subtitle: string }> = {
     title: "Lending & Loan Operations (LMS)",
     subtitle: "Collections · Schedules · PAR/NPA · Portfolio reports",
   },
+  "/lms/collections": {
+    title: "LMS Repayment Collections",
+    subtitle: "Kendra meetings · EMI receipts · UPI QR · Field wallet",
+  },
+  "/lms/repayment-schedule": {
+    title: "Repayment Schedule",
+    subtitle: "EMI calendar · Principal / interest amortization",
+  },
+  "/lms/loan-book": {
+    title: "Active Loan Book",
+    subtitle: "Portfolio balances · Collections · DPD · Settlements",
+  },
+  "/lms/par-npa": {
+    title: "PAR / NPA Monitor",
+    subtitle: "Aging buckets · NPA classification · Provisioning",
+  },
+  "/lms/defaulters": {
+    title: "Defaulters & Legal Notice",
+    subtitle: "DPD tracking · Recovery protocol · Demand letters",
+  },
+  "/lms/reports": {
+    title: "Portfolio Reports Studio",
+    subtitle: "Demand · Collection MIS · PAR pack · Bureau export",
+  },
   "/deposits": {
     title: "Deposits & Member Savings",
     subtitle: "Bachat Gat · RD · FD · Member ledger passbooks",
+  },
+  "/deposits/savings": {
+    title: "Bachat Gat Group Savings",
+    subtitle: "Compulsory savings · Share certificates · Cash deposit/withdraw",
+  },
+  "/deposits/rd": {
+    title: "Recurring Deposits (RD)",
+    subtitle: "Monthly installments · Maturity tracking · Kendra collection",
+  },
+  "/deposits/fd": {
+    title: "Fixed Deposits (FD)",
+    subtitle: "Term deposits · Maturity payout · Lien marking",
+  },
+  "/deposits/member-ledger": {
+    title: "Member Deposit Ledger",
+    subtitle: "Digital passbook · Credits · Debits · Interest postings",
+  },
+  "/deposits/interest": {
+    title: "Interest Accrual & Posting",
+    subtitle: "Month-end interest batch · GL 421000 credit",
+  },
+  "/deposits/withdrawals": {
+    title: "Withdrawal Requests",
+    subtitle: "Emergency payouts · Maker-checker · Cash outward",
   },
   "/mis": {
     title: "MIS & Reports Studio",
     subtitle: "Daily business · Demand · Collection · PAR · Regulatory packs",
   },
+  "/mis/daily-business": {
+    title: "Daily Business MIS",
+    subtitle: "Demand · Collection · AUM · PAR · Vault cash · GL",
+  },
+  "/mis/portfolio-health": {
+    title: "Portfolio Health",
+    subtitle: "AUM quality · Efficiency · PAR concentration",
+  },
+  "/mis/demand-sheet": {
+    title: "Kendra Demand Sheet",
+    subtitle: "Meeting-wise principal + interest demand",
+  },
+  "/mis/collection": {
+    title: "Collection Register",
+    subtitle: "Receipts · Agent · Mode · Vault credit",
+  },
+  "/mis/disbursement": {
+    title: "Disbursement Report",
+    subtitle: "Gross vs net · NEFT/IMPS payout status",
+  },
+  "/mis/branch-scorecard": {
+    title: "Branch Scorecard",
+    subtitle: "Ranked AUM · Efficiency · PAR · NPA",
+  },
+  "/mis/par-aging": {
+    title: "PAR Aging",
+    subtitle: "SMA buckets · IRAC provisioning",
+  },
+  "/mis/npa-provisioning": {
+    title: "NPA Provisioning",
+    subtitle: "Sub-standard · Doubtful · Loss assets",
+  },
+  "/mis/exports": {
+    title: "Scheduled Exports",
+    subtitle: "MIS packs · CIC upload · RBI returns",
+  },
   "/hr": {
     title: "HR, Payroll & Messaging",
-    subtitle: "Staff directory · Transfers · Payroll · Attendance",
+    subtitle: "Staff · Transfers · Payroll · Broadcast messaging",
+  },
+  "/hr/staff": {
+    title: "Staff Directory & HR",
+    subtitle: "Employee master · Designations · Branch mapping",
+  },
+  "/hr/member-transfers": {
+    title: "Member Transfers",
+    subtitle: "Borrower Kendra / branch migration orders",
+  },
+  "/hr/transfers": {
+    title: "Employee Transfers",
+    subtitle: "Staff posting orders · Branch expansion",
+  },
+  "/hr/payroll": {
+    title: "Monthly Staff Payroll",
+    subtitle: "Salary · Incentives · GL disbursal",
+  },
+  "/hr/messaging": {
+    title: "SMS & WhatsApp Broadcast",
+    subtitle: "Receipts · Reminders · Legal notices",
   },
   "/security": {
     title: "User Management & Security",

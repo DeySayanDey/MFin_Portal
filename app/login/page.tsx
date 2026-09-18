@@ -8,7 +8,10 @@ export const metadata = {
 
 export default function LoginPage() {
   return (
-    <AuthShell>
+    <AuthShell
+      title="Sign in to Core Banking"
+      subtitle="Use your employee credentials and assigned branch to continue."
+    >
       <LoginForm />
     </AuthShell>
   );

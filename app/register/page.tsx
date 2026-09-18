@@ -8,7 +8,11 @@ export const metadata = {
 
 export default function RegisterPage() {
   return (
-    <AuthShell>
+    <AuthShell
+      wide
+      title="Create staff account"
+      subtitle="Register with your employee ID, branch mapping, and official email."
+    >
       <RegisterForm />
     </AuthShell>
   );

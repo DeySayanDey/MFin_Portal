@@ -4,7 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, UserPlus } from "lucide-react";
-import { authFieldClass } from "@/components/auth/AuthShell";
+import {
+  AuthLanguageSelect,
+  authFieldClass,
+  authSelectClass,
+} from "@/components/auth/AuthShell";
 
 const designations = [
   "Branch Manager",
@@ -41,6 +45,8 @@ export function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <AuthLanguageSelect />
+
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block text-sm sm:col-span-2">
           <span className="mb-1.5 block font-medium text-slate-700">
@@ -98,7 +104,11 @@ export function RegisterForm() {
           <span className="mb-1.5 block font-medium text-slate-700">
             Designation
           </span>
-          <select name="designation" className={authFieldClass} defaultValue={designations[0]}>
+          <select
+            name="designation"
+            className={authSelectClass}
+            defaultValue={designations[0]}
+          >
             {designations.map((item) => (
               <option key={item} value={item}>
                 {item}
@@ -111,7 +121,7 @@ export function RegisterForm() {
           <span className="mb-1.5 block font-medium text-slate-700">
             Home Branch
           </span>
-          <select name="branch" className={authFieldClass} defaultValue={branches[0]}>
+          <select name="branch" className={authSelectClass} defaultValue={branches[0]}>
             {branches.map((item) => (
               <option key={item} value={item}>
                 {item}
@@ -136,7 +146,7 @@ export function RegisterForm() {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute top-1/2 right-3 -translate-y-1/2 text-muted hover:text-slate-700"
+              className="absolute top-1/2 right-3 -translate-y-1/2 text-slate-400 hover:text-slate-700"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? (
@@ -164,7 +174,7 @@ export function RegisterForm() {
             <button
               type="button"
               onClick={() => setShowConfirm((prev) => !prev)}
-              className="absolute top-1/2 right-3 -translate-y-1/2 text-muted hover:text-slate-700"
+              className="absolute top-1/2 right-3 -translate-y-1/2 text-slate-400 hover:text-slate-700"
               aria-label={showConfirm ? "Hide password" : "Show password"}
             >
               {showConfirm ? (
@@ -177,7 +187,7 @@ export function RegisterForm() {
         </label>
       </div>
 
-      <div className="rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-3 text-xs leading-5 text-amber-900">
+      <div className="rounded-xl border border-amber-200/80 bg-amber-50 px-3.5 py-3 text-xs leading-5 text-amber-950">
         Password must comply with RBI 2026 Core Banking Security Guidelines —
         minimum 8 characters with upper, lower, digit, and special character.
         Maker-checker activation may require Super Admin approval.
@@ -188,7 +198,7 @@ export function RegisterForm() {
           type="checkbox"
           checked={accepted}
           onChange={(event) => setAccepted(event.target.checked)}
-          className="mt-0.5 h-4 w-4 rounded border-border text-brand focus:ring-brand/30"
+          className="mt-0.5 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500/30"
           required
         />
         I confirm this registration is for an authorized eZiMicro staff member
@@ -198,13 +208,13 @@ export function RegisterForm() {
       <button
         type="submit"
         disabled={submitting || !accepted}
-        className="btn btn-primary w-full justify-center py-3"
+        className="btn btn-primary w-full justify-center py-3 shadow-[0_8px_20px_-6px_rgba(37,99,235,0.55)]"
       >
         <UserPlus className="h-4 w-4" />
         {submitting ? "Submitting…" : "Create Staff Account"}
       </button>
 
-      <p className="text-center text-sm text-muted">
+      <p className="text-center text-sm text-slate-500">
         Already registered?{" "}
         <Link href="/login" className="font-semibold text-brand-ink hover:underline">
           Sign in

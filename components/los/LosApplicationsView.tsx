@@ -10,20 +10,19 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import {
+  BulkNeftModal,
+  CollateralPdcModal,
+  GuaranteeMatrixModal,
+  IndividualLoanModal,
+  JlgGroupLoanModal,
+  SanctionKfsModal,
+  type LosLoanApp,
+} from "@/components/los/LosModals";
 
-type LoanApp = {
-  appNumber: string;
-  borrower: string;
-  scheme: string;
-  applied: number;
-  score: number;
-  risk: "Low Risk" | "Fair" | "Moderate";
-  feeGst: number;
-  netDisbursal: number;
-  status: "Disbursed" | "Sanctioned" | "Under Appraisal";
-};
-
-const applications: LoanApp[] = [
+const applications: LosLoanApp[] = [
   {
     appNumber: "APP-2026-00120",
     borrower: "Gita Saha",
@@ -144,8 +143,19 @@ function formatInr(value: number) {
   }).format(value);
 }
 
+type ModalKind =
+  | "collateral"
+  | "sanction"
+  | "bulkNeft"
+  | "guarantee"
+  | "jlg"
+  | "individual"
+  | null;
+
 export function LosApplicationsView() {
   const [query, setQuery] = useState("");
+  const [activeModal, setActiveModal] = useState<ModalKind>(null);
+  const [selectedApp, setSelectedApp] = useState<LosLoanApp | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -158,6 +168,16 @@ export function LosApplicationsView() {
         row.status.toLowerCase().includes(q),
     );
   }, [query]);
+
+  function openAppModal(kind: "collateral" | "sanction", app: LosLoanApp) {
+    setSelectedApp(app);
+    setActiveModal(kind);
+  }
+
+  function closeModal() {
+    setActiveModal(null);
+    setSelectedApp(null);
+  }
 
   return (
     <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
@@ -172,31 +192,31 @@ export function LosApplicationsView() {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            className="btn inline-flex items-center gap-2 border border-transparent bg-emerald-600 px-3.5 py-2.5 text-white hover:bg-emerald-700"
+          <Button
+            variant="success"
+            icon={Wallet}
+            onClick={() => setActiveModal("bulkNeft")}
           >
-            <Wallet className="h-4 w-4" />
             Bulk NEFT Disbursal
-          </button>
-          <button
-            type="button"
-            className="btn inline-flex items-center gap-2 border border-transparent bg-violet-600 px-3.5 py-2.5 text-white hover:bg-violet-700"
+          </Button>
+          <Button
+            variant="violet"
+            icon={Grid2X2}
+            onClick={() => setActiveModal("guarantee")}
           >
-            <Grid2X2 className="h-4 w-4" />
             Guarantee Matrix
-          </button>
-          <button type="button" className="btn btn-primary">
-            <Users className="h-4 w-4" />
+          </Button>
+          <Button icon={Users} onClick={() => setActiveModal("jlg")}>
             Apply JLG Group Loan
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary border-blue-200 text-blue-700 hover:bg-blue-50"
+          </Button>
+          <Button
+            variant="secondary"
+            icon={UserPlus}
+            className="border-blue-200 text-blue-700 hover:bg-blue-50"
+            onClick={() => setActiveModal("individual")}
           >
-            <UserPlus className="h-4 w-4" />
             Individual App
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -267,34 +287,38 @@ export function LosApplicationsView() {
                     {formatInr(row.netDisbursal)}
                   </td>
                   <td className="py-3.5 pr-3">
-                    <span
-                      className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+                    <Badge
+                      tone={
                         row.status === "Disbursed"
-                          ? "bg-emerald-50 text-emerald-700"
+                          ? "success"
                           : row.status === "Sanctioned"
-                            ? "bg-blue-50 text-blue-700"
-                            : "bg-amber-50 text-amber-800"
-                      }`}
+                            ? "info"
+                            : "warning"
+                      }
+                      caps={false}
                     >
                       {row.status}
-                    </span>
+                    </Badge>
                   </td>
                   <td className="py-3.5">
                     <div className="flex flex-wrap items-center gap-1.5">
-                      <button
-                        type="button"
-                        className="inline-flex items-center gap-1 rounded-lg border border-amber-300 bg-amber-50 px-2 py-1.5 text-[11px] font-semibold text-amber-800 transition hover:bg-amber-100"
+                      <Button
+                        size="sm"
+                        variant="amber"
+                        icon={Diamond}
+                        onClick={() => openAppModal("collateral", row)}
                       >
-                        <Diamond className="h-3 w-3" />
                         Collateral & PDCs
-                      </button>
-                      <button
-                        type="button"
-                        className="inline-flex items-center gap-1 rounded-lg border border-blue-200 bg-blue-50 px-2 py-1.5 text-[11px] font-semibold text-blue-700 transition hover:bg-blue-100"
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        icon={FileText}
+                        className="border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100"
+                        onClick={() => openAppModal("sanction", row)}
                       >
-                        <FileText className="h-3 w-3" />
                         Sanction Letter & KFS
-                      </button>
+                      </Button>
                     </div>
                   </td>
                 </tr>
@@ -310,6 +334,31 @@ export function LosApplicationsView() {
           <p>Fee + GST auto-calc · Bureau score · Net disbursal</p>
         </div>
       </section>
+
+      <CollateralPdcModal
+        open={activeModal === "collateral"}
+        onClose={closeModal}
+        app={selectedApp}
+      />
+      <SanctionKfsModal
+        open={activeModal === "sanction"}
+        onClose={closeModal}
+        app={selectedApp}
+      />
+      <BulkNeftModal
+        open={activeModal === "bulkNeft"}
+        onClose={closeModal}
+        apps={applications}
+      />
+      <GuaranteeMatrixModal
+        open={activeModal === "guarantee"}
+        onClose={closeModal}
+      />
+      <JlgGroupLoanModal open={activeModal === "jlg"} onClose={closeModal} />
+      <IndividualLoanModal
+        open={activeModal === "individual"}
+        onClose={closeModal}
+      />
     </div>
   );
 }

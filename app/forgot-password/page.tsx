@@ -8,7 +8,10 @@ export const metadata = {
 
 export default function ForgotPasswordPage() {
   return (
-    <AuthShell>
+    <AuthShell
+      title="Reset portal password"
+      subtitle="Verify your employee identity with OTP before setting a new password."
+    >
       <ForgotPasswordForm />
     </AuthShell>
   );

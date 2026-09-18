@@ -68,10 +68,10 @@ export const misSidebar: MFinSidebarLink[] = [
 ];
 
 export const hrSidebar: MFinSidebarLink[] = [
-  { label: "Staff Directory", href: "/hr/staff" },
+  { label: "Staff Directory & HR", href: "/hr/staff" },
+  { label: "Member Transfers", href: "/hr/member-transfers" },
   { label: "Employee Transfers", href: "/hr/transfers" },
-  { label: "Monthly Payroll", href: "/hr/payroll" },
-  { label: "Attendance", href: "/hr/attendance" },
+  { label: "Monthly Staff Payroll", href: "/hr/payroll" },
   { label: "SMS & WhatsApp Broadcast", href: "/hr/messaging" },
 ];
 

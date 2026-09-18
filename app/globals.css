@@ -203,10 +203,119 @@ body {
   background: #ffffff;
 }
 
+.btn-success {
+  border: 1px solid transparent;
+  background: #059669;
+  color: #ffffff;
+}
+
+.btn-success:hover:not(:disabled) {
+  background: #047857;
+}
+
+.btn-warning {
+  border: 1px solid transparent;
+  background: #f59e0b;
+  color: #111827;
+}
+
+.btn-warning:hover:not(:disabled) {
+  background: #d97706;
+}
+
+.btn-amber {
+  border: 1px solid #fcd34d;
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.btn-amber:hover:not(:disabled) {
+  background: #fde68a;
+}
+
+.btn-violet {
+  border: 1px solid transparent;
+  background: #7c3aed;
+  color: #ffffff;
+}
+
+.btn-violet:hover:not(:disabled) {
+  background: #6d28d9;
+}
+
+.btn-soft {
+  border: 1px solid #e2e8f0;
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.btn-soft:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.btn-lg {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9375rem;
+  border-radius: 0.875rem;
+}
+
 .btn-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
   gap: 0.5rem;
+}
+
+/* Auth / finance portal */
+.auth-shell {
+  background: #eef2f6;
+}
+
+.auth-aside {
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 0%, rgba(22, 163, 74, 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 95% 85%, rgba(37, 99, 235, 0.2), transparent 50%),
+    linear-gradient(165deg, #07111f 0%, #0c1a2e 48%, #10233a 100%);
+}
+
+.auth-aside-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), transparent 88%);
+}
+
+.auth-aside-glow {
+  background:
+    radial-gradient(circle at 30% 35%, rgba(52, 211, 153, 0.12), transparent 42%),
+    radial-gradient(circle at 78% 20%, rgba(59, 130, 246, 0.1), transparent 40%);
+}
+
+.auth-main {
+  background:
+    linear-gradient(180deg, #f4f7fa 0%, #eef2f6 100%);
+}
+
+.auth-main-pattern {
+  background-image:
+    radial-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+  background-size: 18px 18px;
+  mask-image: radial-gradient(ellipse at center, black 35%, transparent 78%);
+}
+
+.auth-label {
+  letter-spacing: 0.01em;
+}
+
+.auth-field {
+  min-height: 2.875rem;
+}
+
+.auth-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.875rem center;
+  background-size: 1rem;
 }

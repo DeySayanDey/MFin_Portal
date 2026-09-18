@@ -4,7 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, LogIn } from "lucide-react";
-import { authFieldClass } from "@/components/auth/AuthShell";
+import {
+  AuthLanguageSelect,
+  authFieldClass,
+  authSelectClass,
+} from "@/components/auth/AuthShell";
 
 const branches = [
   "Kolkata Shyambazar Hub Branch (BR-WB01)",
@@ -29,9 +33,11 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <label className="block text-sm">
-        <span className="mb-1.5 block font-medium text-slate-700">
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <AuthLanguageSelect />
+
+      <label className="auth-field-group block text-sm">
+        <span className="auth-label mb-1.5 block font-medium text-slate-700">
           Employee ID / Email
         </span>
         <input
@@ -45,8 +51,10 @@ export function LoginForm() {
         />
       </label>
 
-      <label className="block text-sm">
-        <span className="mb-1.5 block font-medium text-slate-700">Password</span>
+      <label className="auth-field-group block text-sm">
+        <span className="auth-label mb-1.5 block font-medium text-slate-700">
+          Password
+        </span>
         <span className="relative block">
           <input
             type={showPassword ? "text" : "password"}
@@ -59,7 +67,7 @@ export function LoginForm() {
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute top-1/2 right-3 -translate-y-1/2 text-muted hover:text-slate-700"
+            className="absolute top-1/2 right-3 -translate-y-1/2 rounded-md p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? (
@@ -71,11 +79,15 @@ export function LoginForm() {
         </span>
       </label>
 
-      <label className="block text-sm">
-        <span className="mb-1.5 block font-medium text-slate-700">
+      <label className="auth-field-group block text-sm">
+        <span className="auth-label mb-1.5 block font-medium text-slate-700">
           Login Branch
         </span>
-        <select name="branch" className={authFieldClass} defaultValue={branches[0]}>
+        <select
+          name="branch"
+          className={authSelectClass}
+          defaultValue={branches[0]}
+        >
           {branches.map((branch) => (
             <option key={branch} value={branch}>
               {branch}
@@ -84,19 +96,19 @@ export function LoginForm() {
         </select>
       </label>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
-        <label className="inline-flex items-center gap-2 text-slate-700">
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-0.5 text-sm">
+        <label className="inline-flex items-center gap-2.5 text-slate-700">
           <input
             type="checkbox"
             checked={remember}
             onChange={(event) => setRemember(event.target.checked)}
-            className="h-4 w-4 rounded border-border text-brand focus:ring-brand/30"
+            className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500/30"
           />
           Remember this device
         </label>
         <Link
           href="/forgot-password"
-          className="font-semibold text-accent-blue hover:underline"
+          className="font-semibold text-blue-600 hover:text-blue-700 hover:underline"
         >
           Forgot password?
         </Link>
@@ -105,15 +117,18 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="btn btn-primary w-full justify-center py-3"
+        className="btn btn-primary mt-1 w-full justify-center gap-2 py-3.5 text-[0.9375rem] shadow-[0_8px_20px_-6px_rgba(37,99,235,0.55)]"
       >
         <LogIn className="h-4 w-4" />
-        {submitting ? "Signing in…" : "Sign In to Core Banking"}
+        {submitting ? "Signing in…" : "Sign In"}
       </button>
 
-      <p className="text-center text-sm text-muted">
+      <p className="text-center text-sm text-slate-500">
         New staff user?{" "}
-        <Link href="/register" className="font-semibold text-brand-ink hover:underline">
+        <Link
+          href="/register"
+          className="font-semibold text-brand-ink hover:underline"
+        >
           Register account
         </Link>
       </p>

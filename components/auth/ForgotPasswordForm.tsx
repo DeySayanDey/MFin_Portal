@@ -3,7 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, KeyRound, MailCheck } from "lucide-react";
-import { authFieldClass } from "@/components/auth/AuthShell";
+import {
+  AuthLanguageSelect,
+  authFieldClass,
+} from "@/components/auth/AuthShell";
 
 type Step = "request" | "otp" | "reset" | "done";
 
@@ -22,6 +25,8 @@ export function ForgotPasswordForm() {
 
   return (
     <div className="space-y-4">
+      <AuthLanguageSelect />
+
       {step === "request" ? (
         <form
           onSubmit={(event) => {
@@ -30,7 +35,7 @@ export function ForgotPasswordForm() {
           }}
           className="space-y-4"
         >
-          <p className="text-sm leading-6 text-muted">
+          <p className="text-sm leading-6 text-slate-500">
             Enter your registered employee email or Emp ID. We will send a
             one-time verification code to reset your portal password.
           </p>

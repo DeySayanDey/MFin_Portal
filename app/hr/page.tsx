@@ -1,5 +1,5 @@
-import { renderMFinRoute } from "@/lib/mfin/render";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return renderMFinRoute("/hr");
+  redirect("/hr/staff");
 }
