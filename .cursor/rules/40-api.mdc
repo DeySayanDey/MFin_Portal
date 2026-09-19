@@ -1,0 +1,28 @@
+---
+description: API client, service, validation, and error handling rules
+globs: ["src/lib/api/**/*", "src/features/**/services/**/*", "src/features/**/schemas/**/*"]
+alwaysApply: false
+---
+
+# API Rules
+
+Use:
+
+Component
+→ Hook/Server Action
+→ Service
+→ Central API Client
+→ Backend
+
+Rules:
+- Do not call raw fetch/API clients from arbitrary UI components.
+- Centralize base URL, auth, timeout, parsing, cancellation, retry, and error normalization.
+- Define endpoint constants in one place.
+- Separate API DTOs from domain models.
+- Map DTOs into domain models.
+- Validate external API responses at runtime where appropriate.
+- Do not expose internal backend errors directly to users.
+- Handle 401, 403, 404, validation, network, timeout, and unexpected failures consistently.
+- Do not retry non-idempotent mutations blindly.
+- Never put secrets in client-side code.
+- Backend authorization is mandatory.

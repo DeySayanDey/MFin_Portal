@@ -1,0 +1,39 @@
+---
+description: UI, accessibility, responsive design, and component reuse rules
+globs: ["src/components/**/*", "components/**/*", "src/features/**/components/**/*", "features/**/components/**/*"]
+alwaysApply: false
+---
+
+# UI Rules
+
+Before creating a component, search for an existing component that can be reused or extended.
+
+Use:
+- primitive UI components
+- composite/shared components
+- feature-specific components
+
+Keep business-specific components out of generic UI folders.
+
+Every interactive feature should consider:
+- loading
+- empty
+- error
+- success
+- disabled
+- keyboard navigation
+- visible focus
+- accessible labels
+- responsive behavior
+
+Use mobile-first layouts.
+
+Do not use fixed widths when translated text can grow.
+
+User-visible copy must come from **next-intl** message keys — never hardcode strings in UI components.
+
+Use semantic HTML and meaningful alt text.
+
+Use design tokens rather than arbitrary colors, spacing, typography, radius, and shadows.
+
+Prefer CSS logical properties for directional spacing.

@@ -1,0 +1,1285 @@
+https://docs.google.com/document/d/1vVpOi8fgbDG4vvef8CmSh-JjhwFrpzzhIKWKFuo4gfI/edit?tab=t.0
+
+
+# Login API
+
+```
+POST /api/auth/login
+```
+
+## Request body
+
+| JSON key | Type | Required | Description |
+|----------|------|----------|-------------|
+| `login` | string | Yes | `User_Name` **or** `User_Code` |
+| `password` | string | Yes | Plain password (checked against bcrypt `User_Pass`) |
+
+### Example — login with User_Name
+
+```json
+{
+  "login": "admin",
+  "password": "Admin@123"
+}
+```
+
+### Example — login with User_Code
+
+```json
+{
+  "login": "ADMIN001",
+  "password": "Admin@123"
+}
+```
+
+---
+
+## Success response `200`
+
+```json
+{
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "token": "base64-hmac-token",
+    "token_type": "Bearer",
+    "expires_in": 28800,
+    "org_schema": "priomicro_basundhara",
+    "user": {
+      "user_id": 1,
+      "org_id": 1,
+      "branch_id": 1,
+      "user_name": "admin",
+      "short_name": "Admin",
+      "user_code": "ADMIN001",
+      "user_mob": "9999999999",
+      "user_email": "admin@basundhara.local",
+      "is_active": true,
+      "login_status": "LogIn",
+      "org_disp_nm": "Basundhara Microfinance",
+      "legal_name": "Basundhara Microfinance Private Limited",
+      "org_schema": "priomicro_basundhara",
+      "branch_code": "HO0001",
+      "branch_name": "Head Office",
+      "is_head": true
+    }
+  }
+}
+```
+
+---
+
+## Error responses
+
+| HTTP | When |
+|------|------|
+| `401` | Invalid login / password, or inactive user / org / branch |
+| `422` | Validation failed (`login` or `password` missing) |
+
+```json
+{
+  "success": false,
+  "message": "Invalid credentials",
+  "errors": null,
+  "data": null
+}
+```
+
+---
+
+## Dummy users (dev)
+
+| login (name) | login (code) | password | branch |
+|--------------|--------------|----------|--------|
+| `admin` | `ADMIN001` | `Admin@123` | Head Office |
+| `demo.user` | `DEMO001` | `Demo@123` | Head Office |
+| `branch.user` | `BRN001` | `Branch@123` | Salt Lake Branch |
+
+---
+
+## cURL
+
+```bash
+curl -X POST "http://116.193.129.229:8080/api/auth/login" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"login":"admin","password":"Admin@123"}'
+```
+
+
+
+# Logout API
+
+```
+POST /api/auth/logout
+```
+
+### Headers
+
+| Header | Value |
+|--------|-------|
+| `Authorization` | `Bearer {token}` |
+| `Accept` | `application/json` |
+
+---
+
+## Success response `200`
+
+```json
+{
+  "success": true,
+  "message": "Logout successful",
+  "data": null
+}
+```
+
+---
+
+## Error responses
+
+| HTTP | When |
+|------|------|
+| `401` | Missing, invalid, or expired Bearer token / user not LogIn |
+| `400` | Status update failed / user not found |
+
+```json
+{
+  "success": false,
+  "message": "Unauthorized. Bearer token required.",
+  "errors": null,
+  "data": null
+}
+```
+
+---
+
+## cURL
+
+```bash
+curl -X POST "http://116.193.129.229:8080/api/auth/logout" \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -H "Accept: application/json"
+```
+
+
+
+# MenuTree API
+```
+GET /api/MenuTree
+```
+
+## Request
+
+```
+GET /api/MenuTree
+```
+
+| Query | Type | Required | Description |
+|-------|------|----------|-------------|
+| `status` | int | No | Default `1` (active) |
+| `role_id` | int | No | Restrict to one of the user's roles |
+
+```bash
+curl -X GET "http://116.193.129.229:8080/api/MenuTree" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Accept: application/json"
+```
+
+### Success `200`
+
+```json
+{
+  "success": true,
+  "message": "Menu tree retrieved successfully",
+  "data": [
+    {
+      "menu_sl": 1,
+      "menu_id": 1,
+      "menu_name": "Master Menu",
+      "icon": "Menu",
+      "route": null,
+      "status": 1,
+      "children": [
+        {
+          "menu_sl": 2,
+          "menu_id": 1,
+          "submenu_id": 1,
+          "submenu_name": "Company Profile",
+          "icon": "Building2",
+          "route": "/master/company-profile",
+          "status": 1
+        }
+      ]
+    }
+  ]
+}
+```
+
+Use this for sidebar navigation (matches frontend `mainModules` shape).
+
+---
+
+## Role access (seeded)
+
+| User | Role | Typical modules |
+|------|------|-----------------|
+| `admin` | Super Admin | All modules |
+| `demo.user` | Branch Manager | Lending / Deposits / MIS / Vault (+ some Master) |
+| `branch.user` | Field Officer | Lending ops + Vault + Profile |
+
+---
+
+## Errors
+
+| HTTP | When |
+|------|------|
+| `401` | Missing / invalid / expired token |
+| `403` | Requested `role_id` not assigned to user |
+| `422` | Org schema missing |
+
+
+# StateList API
+
+```
+GET /api/StateList
+```
+## Request
+
+| Query | Type | Required | Description |
+|-------|------|----------|-------------|
+| `page` | int | No | Default `1` |
+| `per_page` | int | No | Default `50`, max `200` |
+| `state_cd` | int | No | Filter by state code |
+| `keyword` | string | No | Search by state name (partial match) |
+
+```bash
+curl -X GET "http://116.193.129.229:8080/api/StateList?page=1&per_page=10" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Accept: application/json"
+```
+
+```bash
+curl -X GET "http://116.193.129.229:8080/api/StateList?keyword=West" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Accept: application/json"
+```
+
+---
+
+## Success `200`
+
+```json
+{
+  "success": true,
+  "message": "States retrieved successfully",
+  "data": [
+    {
+      "state_cd": 1,
+      "state_name": "Andhra Pradesh"
+    }
+  ],
+  "meta": {
+    "total": 28,
+    "page": 1,
+    "per_page": 10,
+    "last_page": 3,
+    "has_more": true
+  }
+}
+```
+
+---
+
+## Errors
+
+| HTTP | When |
+|------|------|
+| `401` | Missing / invalid / expired token |
+
+
+
+# Role API
+
+## 1. RoleList
+
+```
+GET /api/RoleList
+```
+
+### Query params
+
+| Query | Type | Required | Description |
+|-------|------|----------|-------------|
+| `page` | int | No | Default `1` |
+| `per_page` | int | No | Default `50`, max `200` |
+| `role_id` | int | No | Exact role id |
+| `role_name` / `keyword` | string | No | Partial name search |
+| `is_admin` | int | No | `1` or `0` |
+| `status` | int | No | `1` / `0` |
+
+```bash
+curl -X GET "http://116.193.129.229:8080/api/RoleList?page=1&per_page=10&status=1" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Accept: application/json"
+```
+
+### Success `200`
+
+```json
+{
+  "success": true,
+  "message": "Roles retrieved successfully",
+  "data": [
+    {
+      "id": 1,
+      "role_name": "Super Admin",
+      "is_admin": true,
+      "status": 1,
+      "created_by": 1,
+      "created_at": "2026-09-18 15:30:00"
+    }
+  ],
+  "meta": {
+    "total": 6,
+    "page": 1,
+    "per_page": 10,
+    "last_page": 1,
+    "has_more": false
+  }
+}
+```
+
+
+---
+
+## 2. RoleAdd
+
+```
+POST /api/RoleAdd
+```
+
+### Request body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `role_name` | string | Yes | Max 100 chars |
+| `is_admin` | bool | No | Default `false` |
+| `status` | int | No | `1` / `0`, default `1` |
+
+```json
+{
+  "role_name": "Collections Officer",
+  "is_admin": false,
+  "status": 1
+}
+```
+
+```bash
+curl -X POST "http://116.193.129.229:8080/api/RoleAdd" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"role_name":"Collections Officer","is_admin":false,"status":1}'
+```
+
+### Success `201`
+
+```json
+{
+  "success": true,
+  "message": "Role created successfully",
+  "data": { "id": 7 }
+}
+```
+
+### Errors
+
+| HTTP | When |
+|------|------|
+| `401` | Unauthorized |
+| `422` | Validation failed / duplicate role name |
+
+---
+
+## 3. RoleEdit
+
+```
+POST /api/RoleEdit
+```
+
+### Request body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `role_id` | int | Yes | Role primary key |
+| `role_name` | string | Yes | Max 100 chars |
+| `is_admin` | bool | No | Keep existing if omitted |
+| `status` | int | No | Keep existing if omitted |
+
+```json
+{
+  "role_id": 7,
+  "role_name": "Senior Collections Officer",
+  "is_admin": false,
+  "status": 1
+}
+```
+
+```bash
+curl -X POST "http://116.193.129.229:8080/api/RoleEdit" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"role_id":7,"role_name":"Senior Collections Officer","status":1}'
+```
+
+### Success `200`
+
+```json
+{
+  "success": true,
+  "message": "Role updated successfully",
+  "data": { "id": 7 }
+}
+```
+
+### Errors
+
+| HTTP | When |
+|------|------|
+| `401` | Unauthorized |
+| `404` | Role not found |
+| `422` | Validation failed / duplicate role name |
+
+
+# Organization API
+
+## 1. OrgGet
+
+```
+GET /api/OrgGet
+```
+
+```bash
+curl -X GET "http://116.193.129.229:8080/api/OrgGet" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Accept: application/json"
+```
+
+### Success `200`
+
+```json
+{
+  "success": true,
+  "message": "Organization retrieved successfully",
+  "data": {
+    "org_id": 1,
+    "org_disp_nm": "Basundhara Microfinance",
+    "legal_name": "Basundhara Microfinance Private Limited",
+    "regd_address": "123 Main Road, Kolkata, West Bengal 700001",
+    "ho_address": "123 Main Road, Kolkata, West Bengal 700001",
+    "state_cd": 28,
+    "state_name": "West Bengal",
+    "phone": "03312345678",
+    "email": "info@basundhara.local",
+    "website": "https://basundhara.local",
+    "cin_no": "U65999WB2020PTC123456",
+    "regd_no": "REG-BM-2020",
+    "gst_no": "19AAAAA0000A1Z5",
+    "pan_no": "AAAAA0000A",
+    "tan_no": "CALA12345B",
+    "org_logo": null,
+    "org_schema": "priomicro_basundhara",
+    "is_active": true
+  }
+}
+```
+
+`org_logo` is base64 when present.
+
+Use [StateList](StateList.md) for `state_cd` dropdown.
+
+---
+
+## 2. OrgUpdate
+
+```
+POST /api/OrgUpdate
+```
+
+### Request body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `org_disp_nm` | string | Yes | Display name (max 200) |
+| `legal_name` | string | No | Legal name |
+| `regd_address` | string | No | Registered address |
+| `ho_address` | string | No | Head office address |
+| `state_cd` | int | No | FK → `mst_states` |
+| `phone` | string | No | |
+| `email` | string | No | |
+| `website` | string | No | |
+| `cin_no` | string | No | |
+| `regd_no` | string | No | |
+| `gst_no` | string | No | |
+| `pan_no` | string | No | |
+| `tan_no` | string | No | |
+| `org_logo` | string | No | Omit = keep · `""` = clear · base64 = set |
+| `is_active` | bool | No | Omit = keep existing |
+
+```json
+{
+  "org_disp_nm": "Basundhara Microfinance",
+  "legal_name": "Basundhara Microfinance Private Limited",
+  "regd_address": "123 Main Road, Kolkata, West Bengal 700001",
+  "ho_address": "123 Main Road, Kolkata, West Bengal 700001",
+  "state_cd": 28,
+  "phone": "03312345678",
+  "email": "info@basundhara.local",
+  "website": "https://basundhara.local",
+  "cin_no": "U65999WB2020PTC123456",
+  "regd_no": "REG-BM-2020",
+  "gst_no": "19AAAAA0000A1Z5",
+  "pan_no": "AAAAA0000A",
+  "tan_no": "CALA12345B",
+  "is_active": true
+}
+```
+
+```bash
+curl -X POST "http://116.193.129.229:8080/api/OrgUpdate" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"org_disp_nm":"Basundhara Microfinance","legal_name":"Basundhara Microfinance Private Limited","state_cd":28,"email":"info@basundhara.local","is_active":true}'
+```
+
+### Success `200`
+
+Returns the updated organization object (same shape as OrgGet).
+
+```json
+{
+  "success": true,
+  "message": "Organization updated successfully",
+  "data": { "...": "same as OrgGet" }
+}
+```
+
+### Errors
+
+| HTTP | When |
+|------|------|
+| `401` | Unauthorized |
+| `404` | Organization not found |
+| `422` | Validation failed / invalid state |
+
+
+# CodeSeries API
+
+## 1. CodeSeriesList
+
+```
+GET /api/CodeSeriesList
+```
+
+### Query params
+
+| Query | Type | Required | Description |
+|-------|------|----------|-------------|
+| `page` | int | No | Default `1` |
+| `per_page` | int | No | Default `50`, max `200` |
+| `series_id` | int | No | Exact series id |
+| `module_key` | string | No | Exact module key |
+| `keyword` / `search` | string | No | Filter module name / key / prefix |
+| `status` | int | No | `1` Active / `0` Inactive |
+
+```bash
+curl -X GET "http://116.193.129.229:8080/api/CodeSeriesList?page=1&per_page=20&status=1" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Accept: application/json"
+```
+
+### Success `200`
+
+```json
+{
+  "success": true,
+  "message": "Code series retrieved successfully",
+  "data": [
+    {
+      "series_id": 1,
+      "module_key": "kendra_centre",
+      "module_name": "Kendra Centre Code Series",
+      "prefix": "CEN-",
+      "next_counter": 3,
+      "padding_digits": 2,
+      "suffix": "",
+      "formatted_sample": "CEN-03",
+      "status": 1,
+      "updated_by": 1,
+      "created_at": "2026-09-18 16:00:00",
+      "updated_at": "2026-09-18 16:00:00"
+    }
+  ],
+  "meta": {
+    "total": 9,
+    "page": 1,
+    "per_page": 20,
+    "last_page": 1,
+    "has_more": false
+  }
+}
+```
+
+---
+
+## 2. CodeSeriesUpdate
+
+Configure a series (prefix, counter, padding, suffix, status).
+
+```
+POST /api/CodeSeriesUpdate
+```
+
+### Request body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `series_id` | int | Yes | Series primary key |
+| `prefix` | string | No | Custom prefix (max 50) |
+| `next_counter` | int | Yes | Next number (≥ 1) |
+| `padding_digits` | int | Yes | Leading zeros (1–12) |
+| `suffix` | string | No | Optional suffix |
+| `status` | int | No | `1` / `0` |
+
+```json
+{
+  "series_id": 1,
+  "prefix": "CEN-",
+  "next_counter": 3,
+  "padding_digits": 2,
+  "suffix": "",
+  "status": 1
+}
+```
+
+```bash
+curl -X POST "http://116.193.129.229:8080/api/CodeSeriesUpdate" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"series_id":1,"prefix":"CEN-","next_counter":3,"padding_digits":2,"suffix":"","status":1}'
+```
+
+### Success `200`
+
+Returns the updated series row (same shape as list item).
+
+---
+
+## Seeded modules
+
+| series_id | module_key | module_name | sample |
+|-----------|------------|-------------|--------|
+| 1 | `kendra_centre` | Kendra Centre Code Series | CEN-03 |
+| 2 | `borrower` | Borrower / Member ID Series | CUST-2026-0004 |
+| 3 | `employee` | Staff / Employee ID Series | EMP-0004 |
+| 4 | `loan_account` | Loan Account Number Series | LN-2026-00005 |
+| 5 | `savings_account` | Savings Account Series | SB-00025 |
+| 6 | `recurring_deposit` | Recurring Deposit Series | RD-0003 |
+| 7 | `fixed_deposit` | Fixed Deposit Series | FD-0004 |
+| 8 | `voucher_journal` | Voucher / Journal Number Series | JV-2026-00005 |
+| 9 | `receipt` | Receipt Number Series | RCP-00004 |
+
+---
+
+## Errors
+
+| HTTP | When |
+|------|------|
+| `401` | Unauthorized |
+| `404` | Series not found |
+| `422` | Validation failed |
+
+
+# WorkingHours API
+
+## 1. WorkingHoursGet
+
+```
+GET /api/WorkingHoursGet
+```
+
+```bash
+curl -X GET "http://116.193.129.229:8080/api/WorkingHoursGet" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Accept: application/json"
+```
+
+### Success `200`
+
+```json
+{
+  "success": true,
+  "message": "Working hours retrieved successfully",
+  "data": {
+    "timing_id": 1,
+    "opening_time": "08:00",
+    "closing_time": "19:30",
+    "session_timeout_min": 30,
+    "working_days_desc": "Monday to Saturday (08:00 AM - 07:30 PM)",
+    "allow_sunday_login": false,
+    "lockout_holidays": true,
+    "allow_offline_collection": true,
+    "updated_by": 1,
+    "created_at": "2026-09-18 16:20:00",
+    "updated_at": "2026-09-18 16:20:00"
+  }
+}
+```
+
+---
+
+## 2. WorkingHoursUpdate
+
+```
+POST /api/WorkingHoursUpdate
+```
+
+### Request body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `opening_time` | string | Yes | `HH:mm` (e.g. `08:00`) |
+| `closing_time` | string | Yes | `HH:mm` (e.g. `19:30`) — must be after opening |
+| `session_timeout_min` | int | Yes | Inactivity timeout minutes (1–1440) |
+| `working_days_desc` | string | No | Display text for working days |
+| `allow_sunday_login` | bool | No | Allow system logins on Sundays |
+| `lockout_holidays` | bool | No | Lockout on national & bank holidays |
+| `allow_offline_collection` | bool | No | Allow FO offline collection outside hours |
+
+```json
+{
+  "opening_time": "08:00",
+  "closing_time": "19:30",
+  "session_timeout_min": 30,
+  "working_days_desc": "Monday to Saturday (08:00 AM - 07:30 PM)",
+  "allow_sunday_login": false,
+  "lockout_holidays": true,
+  "allow_offline_collection": true
+}
+```
+
+```bash
+curl -X POST "http://116.193.129.229:8080/api/WorkingHoursUpdate" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"opening_time":"08:00","closing_time":"19:30","session_timeout_min":30,"working_days_desc":"Monday to Saturday (08:00 AM - 07:30 PM)","allow_sunday_login":false,"lockout_holidays":true,"allow_offline_collection":true}'
+```
+
+### Success `200`
+
+Returns the saved configuration (same shape as Get).
+
+---
+
+## Errors
+
+| HTTP | When |
+|------|------|
+| `401` | Unauthorized |
+| `404` | Not configured (Get only) |
+| `422` | Validation failed / closing ≤ opening |
+
+
+# RbiLendingPolicy API
+
+## 1. RbiLendingPolicyGet
+
+```
+GET /api/RbiLendingPolicyGet
+```
+
+```bash
+curl -X GET "http://116.193.129.229:8080/api/RbiLendingPolicyGet" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Accept: application/json"
+```
+
+### Success `200`
+
+```json
+{
+  "success": true,
+  "message": "RBI lending policy retrieved successfully",
+  "data": {
+    "policy_id": 1,
+    "max_annual_household_income": 300000,
+    "max_foir_pct": 50,
+    "min_jlg_members": 4,
+    "max_jlg_members": 10,
+    "max_sanction_1st_cycle": 50000,
+    "max_sanction_2nd_cycle": 80000,
+    "mandatory_penny_drop": true,
+    "mandatory_bureau_check": true,
+    "allow_prepayment_penalty": false,
+    "updated_by": 1,
+    "created_at": "2026-09-19 10:55:00",
+    "updated_at": "2026-09-19 10:55:00"
+  }
+}
+```
+
+---
+
+## 2. RbiLendingPolicyUpdate
+
+```
+POST /api/RbiLendingPolicyUpdate
+```
+
+### Request body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `max_annual_household_income` | int | Yes | Max annual household income (₹). RBI threshold ₹3,00,000 p.a. |
+| `max_foir_pct` | int | Yes | Max FOIR debt burden ceiling (%), 1–100 |
+| `min_jlg_members` | int | Yes | Min JLG group members |
+| `max_jlg_members` | int | Yes | Max JLG group members (≥ min) |
+| `max_sanction_1st_cycle` | int | Yes | Max sanction limit 1st loan cycle (₹) |
+| `max_sanction_2nd_cycle` | int | Yes | Max sanction limit 2nd+ loan cycle (₹) |
+| `mandatory_penny_drop` | bool | No | Mandatory NPCI penny-drop bank verification (default `true`) |
+| `mandatory_bureau_check` | bool | No | Mandatory live CIBIL/CRIF check before sanction (default `true`) |
+| `allow_prepayment_penalty` | bool | No | Allow prepayment/foreclosure penalties — must stay `false` per RBI (default `false`) |
+
+```json
+{
+  "max_annual_household_income": 300000,
+  "max_foir_pct": 50,
+  "min_jlg_members": 4,
+  "max_jlg_members": 10,
+  "max_sanction_1st_cycle": 50000,
+  "max_sanction_2nd_cycle": 80000,
+  "mandatory_penny_drop": true,
+  "mandatory_bureau_check": true,
+  "allow_prepayment_penalty": false
+}
+```
+
+```bash
+curl -X POST "http://116.193.129.229:8080/api/RbiLendingPolicyUpdate" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"max_annual_household_income":300000,"max_foir_pct":50,"min_jlg_members":4,"max_jlg_members":10,"max_sanction_1st_cycle":50000,"max_sanction_2nd_cycle":80000,"mandatory_penny_drop":true,"mandatory_bureau_check":true,"allow_prepayment_penalty":false}'
+```
+
+### Success `200`
+
+Returns the saved configuration (same shape as Get).
+
+---
+
+## Errors
+
+| HTTP | When |
+|------|------|
+| `401` | Unauthorized |
+| `404` | Not configured (Get only) |
+| `422` | Validation failed / max JLG < min JLG |
+
+
+# Branch API
+
+## 1. BranchList
+
+```
+GET /api/BranchList
+```
+
+### Query params
+
+| Query | Type | Required | Description |
+|-------|------|----------|-------------|
+| `page` | int | No | Default `1` |
+| `per_page` | int | No | Default `50`, max `200` |
+| `branch_id` | int | No | Exact branch id |
+| `keyword` / `search` | string | No | Name / code / address |
+| `is_head` | int | No | `1` / `0` |
+| `is_active` / `status` | int | No | `1` / `0` |
+
+```bash
+curl -X GET "http://116.193.129.229:8080/api/BranchList?page=1&per_page=10&is_active=1" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Accept: application/json"
+```
+
+### Success `200`
+
+```json
+{
+  "success": true,
+  "message": "Branches retrieved successfully",
+  "data": [
+    {
+      "branch_id": 1,
+      "org_id": 1,
+      "branch_code": "HO0001",
+      "branch_name": "Head Office",
+      "branch_address": "123 Main Road, Kolkata",
+      "branch_mobile": "9876543210",
+      "branch_mail": "ho@basundhara.local",
+      "header_text": "Basundhara Microfinance - Head Office",
+      "is_head": true,
+      "is_active": true
+    }
+  ],
+  "meta": {
+    "total": 2,
+    "page": 1,
+    "per_page": 10,
+    "last_page": 1,
+    "has_more": false
+  }
+}
+```
+
+---
+
+## 2. BranchAdd
+
+```
+POST /api/BranchAdd
+```
+
+### Request body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `branch_code` | string | Yes | Max 6 chars, unique per org |
+| `branch_name` | string | Yes | Max 100 |
+| `branch_address` | string | No | Max 200 |
+| `branch_mobile` | string | No | Max 50 |
+| `branch_mail` | string | No | Email, max 50 |
+| `header_text` | string | No | Print/header text |
+| `is_head` | bool | No | Default `false` |
+| `is_active` | bool | No | Default `true` |
+
+```json
+{
+  "branch_code": "BR0003",
+  "branch_name": "Howrah Branch",
+  "branch_address": "Howrah, West Bengal",
+  "branch_mobile": "9876543212",
+  "branch_mail": "howrah@basundhara.local",
+  "header_text": "Basundhara Microfinance - Howrah",
+  "is_head": false,
+  "is_active": true
+}
+```
+
+### Success `201`
+
+```json
+{
+  "success": true,
+  "message": "Branch created successfully",
+  "data": { "branch_id": 3 }
+}
+```
+
+---
+
+## 3. BranchEdit
+
+```
+POST /api/BranchEdit
+```
+
+### Request body
+
+Same as Add, plus required `branch_id`.
+
+```json
+{
+  "branch_id": 3,
+  "branch_code": "BR0003",
+  "branch_name": "Howrah Main Branch",
+  "branch_address": "Howrah, West Bengal",
+  "branch_mobile": "9876543212",
+  "branch_mail": "howrah@basundhara.local",
+  "header_text": "Basundhara Microfinance - Howrah",
+  "is_head": false,
+  "is_active": true
+}
+```
+
+### Success `200`
+
+```json
+{
+  "success": true,
+  "message": "Branch updated successfully",
+  "data": { "branch_id": 3 }
+}
+```
+
+---
+
+## Errors
+
+| HTTP | When |
+|------|------|
+| `401` | Unauthorized |
+| `404` | Branch / org not found |
+| `422` | Validation failed / duplicate branch code |
+
+
+# Staff API
+
+## 1. StaffList
+
+```
+GET /api/StaffList
+```
+
+| Query | Type | Required | Description |
+|-------|------|----------|-------------|
+| `page` | int | No | Default `1` |
+| `per_page` | int | No | Default `50`, max `200` |
+| `staff_id` | int | No | Exact staff (also loads module access) |
+| `branch_id` | int | No | Filter by branch |
+| `designation_id` | int | No | Filter by designation |
+| `keyword` / `search` | string | No | Name / code / mobile / email |
+| `status` | int | No | `1` / `0` |
+| `include_modules` | bool | No | Include module access chips for each row |
+
+```bash
+curl -X GET "http://116.193.129.229:8080/api/StaffList?page=1&per_page=10&include_modules=1" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Accept: application/json"
+```
+
+### Success `200`
+
+```json
+{
+  "success": true,
+  "message": "Staff retrieved successfully",
+  "data": [
+    {
+      "staff_id": 1,
+      "branch_id": 1,
+      "employee_code": "EMP-0001",
+      "full_name": "Rajesh Patil",
+      "designation_id": 1,
+      "designation_name": "Branch Manager",
+      "mobile": "+91 98220 11223",
+      "email": "rajesh.patil@ezimicro.in",
+      "join_date": "2026-01-15",
+      "aadhaar": "XXXX-XXXX-XXXX",
+      "pan": "ABCDE1234F",
+      "monthly_salary": 65000,
+      "collection_target": 1500000,
+      "assignment": "All Branch Centres",
+      "status": 1,
+      "module_access": [
+        { "module_id": 1, "module_key": "lms_collection", "module_label": "LMS — Collection & Receipts" }
+      ],
+      "created_by": 1,
+      "updated_by": null,
+      "created_at": "2026-09-18 16:30:00",
+      "updated_at": "2026-09-18 16:30:00"
+    }
+  ],
+  "meta": {
+    "total": 1,
+    "page": 1,
+    "per_page": 10,
+    "last_page": 1,
+    "has_more": false
+  }
+}
+```
+
+---
+
+## 2. StaffAdd
+
+```
+POST /api/StaffAdd
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `full_name` | string | Yes | Max 100 |
+| `employee_code` | string | No | Auto from code series if omitted |
+| `branch_id` | int | No | Core branch id |
+| `designation_id` | int | No | From DesignationList |
+| `mobile` | string | No | |
+| `email` | string | No | |
+| `join_date` | date | No | `YYYY-MM-DD` |
+| `aadhaar` | string | No | Can store masked value |
+| `pan` | string | No | |
+| `monthly_salary` | number | No | |
+| `collection_target` | number | No | |
+| `assignment` | string | No | Kendra / centres text |
+| `module_ids` | int[] | No | Module access ids |
+| `status` | int | No | Default `1` |
+
+```json
+{
+  "full_name": "Rajesh Patil",
+  "branch_id": 1,
+  "designation_id": 1,
+  "mobile": "+91 98220 11223",
+  "email": "rajesh.patil@ezimicro.in",
+  "join_date": "2026-01-15",
+  "aadhaar": "XXXX-XXXX-XXXX",
+  "pan": "ABCDE1234F",
+  "monthly_salary": 65000,
+  "collection_target": 1500000,
+  "assignment": "All Branch Centres",
+  "module_ids": [1, 2, 3, 4],
+  "status": 1
+}
+```
+
+### Success `201`
+
+```json
+{
+  "success": true,
+  "message": "Staff created successfully",
+  "data": { "staff_id": 2, "employee_code": "EMP-0002" }
+}
+```
+
+---
+
+## 3. StaffEdit
+
+```
+POST /api/StaffEdit
+```
+
+Same body as Add, plus required `staff_id` and `employee_code`.
+
+```json
+{
+  "staff_id": 1,
+  "employee_code": "EMP-0001",
+  "full_name": "Rajesh Patil",
+  "designation_id": 1,
+  "mobile": "+91 98220 11223",
+  "email": "rajesh.patil@ezimicro.in",
+  "join_date": "2026-01-15",
+  "aadhaar": "XXXX-XXXX-XXXX",
+  "pan": "ABCDE1234F",
+  "monthly_salary": 65000,
+  "collection_target": 1500000,
+  "assignment": "All Branch Centres",
+  "module_ids": [1, 2, 3, 4],
+  "status": 1
+}
+```
+
+---
+
+## 4. DesignationList (dropdown)
+
+```
+GET /api/DesignationList
+```
+
+Returns active designations for the Designation dropdown.
+
+---
+
+## 5. ModuleAccessList (chips)
+
+```
+GET /api/ModuleAccessList
+```
+
+Returns available MODULE ACCESS options (use `module_id` in `module_ids`).
+
+Seeded examples: LMS Collection, LOS Sanction, Accounting Full, Dashboard View, Deposits, MIS.
+
+---
+
+## Errors
+
+| HTTP | When |
+|------|------|
+| `401` | Unauthorized |
+| `404` | Staff not found |
+| `422` | Validation / duplicate employee code |
+
+
+# Audit Log API
+
+## 1. AuditLogList
+
+```
+GET /api/AuditLogList
+```
+
+List-only security audit trail (no create/update endpoints).
+
+### Query params
+
+| Query | Type | Required | Description |
+|-------|------|----------|-------------|
+| `page` | int | No | Default `1` |
+| `per_page` | int | No | Page size |
+| `audit_id` | int | No | Exact audit row |
+| `user_id` | int | No | Filter by user |
+| `search` | string | No | Search menu / table / values |
+| `action` | int | No | `1` Create, `2` Update, `4` Login, `5` Logout |
+| `menu_name` | string | No | e.g. `Auth`, `Role`, `Branch` |
+| `table_name` | string | No | e.g. `mst_role` |
+| `date_from` / `from_date` / `from` | date | No | `YYYY-MM-DD` |
+| `date_to` / `to_date` / `to` | date | No | `YYYY-MM-DD` |
+
+### Success `200`
+
+```json
+{
+  "success": true,
+  "message": "Audit logs retrieved successfully",
+  "data": [
+    {
+      "audit_id": 10,
+      "user_id": 1,
+      "menu_name": "Role",
+      "table_name": "mst_role",
+      "record_id": 4,
+      "action": 2,
+      "action_name": "Update",
+      "old_values": { "id": 4, "role_name": "Accountant5" },
+      "new_values": { "id": 4, "role_name": "Accountant" },
+      "ip_address": "103.87.141.135",
+      "user_agent": "node",
+      "created_at": "2026-09-18 20:55:41"
+    }
+  ],
+  "meta": {
+    "total": 11,
+    "page": 1,
+    "per_page": 2,
+    "last_page": 6,
+    "has_more": true
+  }
+}
+```
+
+### Errors
+
+| HTTP | When |
+|------|------|
+| `401` | Unauthorized |
+
+

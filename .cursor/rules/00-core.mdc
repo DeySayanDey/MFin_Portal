@@ -1,0 +1,40 @@
+---
+description: Core engineering rules for the entire project
+alwaysApply: true
+---
+
+# Core Rules
+
+Follow `PROJECT_BLUEPRINT.md` as the primary architecture standard.
+
+Before coding:
+1. Inspect the existing architecture and relevant files.
+2. Search for reusable components, hooks, services, utilities, types, schemas, and next-intl translation keys.
+3. Reuse existing patterns before creating new ones.
+4. Do not introduce a dependency when an existing dependency solves the problem.
+5. Do not modify unrelated files.
+
+Code must be:
+- Type-safe
+- Modular
+- Maintainable
+- Secure
+- Accessible
+- Responsive
+- Performant
+- Multilingual-ready (next-intl)
+
+Never:
+- unnecessarily use `any`
+- hardcode user-visible text (use next-intl message keys)
+- hardcode API URLs
+- expose secrets
+- duplicate business logic
+- duplicate reusable components
+- bypass validation or authorization
+- create unnecessary global state
+- ignore loading/error/empty states
+- convert Server Components to Client Components without a reason
+- introduce an i18n library other than next-intl
+
+Before finishing, verify affected code and run the relevant typecheck, lint, build, and tests when available.

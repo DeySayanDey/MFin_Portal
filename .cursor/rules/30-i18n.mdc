@@ -1,0 +1,41 @@
+---
+description: Mandatory next-intl multilingual and localization rules
+alwaysApply: true
+---
+
+# next-intl Rules
+
+Multilingual support is part of the architecture, not a later feature.
+
+**Use `next-intl` only.** Do not add or propose alternate i18n libraries (`react-i18next`, `next-i18next`, custom dictionary loaders, ad-hoc translation maps) unless a stricter project rule explicitly replaces this standard.
+
+## Required stack
+
+- App Router + `next-intl`
+- Locale segment: `app/[locale]/...`
+- Locale config: `i18n/routing.ts` via `defineRouting`
+- Server request config: `i18n/request.ts` via `getRequestConfig`
+- Locale-aware navigation: project `i18n/navigation` helpers (`Link`, `redirect`, `useRouter`, `usePathname`)
+- Message catalogs: `messages/{locale}.json` (supported: `en`, `bn`, `hi`, `or`; default `en`)
+- Middleware/proxy wired for next-intl locale detection and prefix handling
+
+## Usage
+
+- Server Components: `getTranslations` / `getLocale` from `next-intl/server`
+- Client Components: `useTranslations` / `useLocale` from `next-intl`
+- Prefer namespaced keys (`common.*`, `auth.*`, feature namespaces)
+- Keep namespaces mirrored across all locale files
+- Use ICU-style interpolation and pluralization from next-intl
+- Use locale-aware date/time/number/currency formatting
+
+## Content rules
+
+- Never hardcode user-visible strings.
+- Use translation keys for labels, buttons, placeholders, errors, validation messages, table headers, dialogs, notifications, tooltips, and accessibility labels.
+- Do not concatenate translated strings.
+- Do not assume English text length.
+- Avoid fixed widths around translated text.
+- Prefer CSS logical properties for directional spacing.
+- Keep navigation labels as translation keys.
+- Validate translation completeness in CI when possible.
+- Missing translations must have an explicit fallback strategy (default locale via next-intl).

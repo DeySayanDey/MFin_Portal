@@ -1,0 +1,19 @@
+---
+description: Security rules for frontend and full-stack applications
+alwaysApply: true
+---
+
+# Security Rules
+
+- Never expose secrets, private API keys, database credentials, or signing keys to the browser.
+- Treat all client input as untrusted.
+- Validate input on the server.
+- Frontend validation is UX, not a security boundary.
+- Frontend permission checks are UX, not a security boundary.
+- Enforce authorization on the backend.
+- Enforce tenant isolation on the backend for multi-tenant systems.
+- Prefer secure, httpOnly cookie/session-based authentication where compatible.
+- Do not store long-lived authentication tokens in localStorage unless explicitly required and reviewed.
+- Do not log passwords, tokens, secrets, or unnecessary private information.
+- Validate file uploads on the backend.
+- Consider XSS, CSRF, CORS, rate limiting, dependency vulnerabilities, session security, and injection risks.

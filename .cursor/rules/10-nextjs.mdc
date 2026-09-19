@@ -1,0 +1,16 @@
+---
+description: Next.js App Router and rendering rules
+alwaysApply: false
+---
+# Next.js Rules
+
+- Use App Router.
+- Prefer Server Components.
+- Use `"use client"` only when state, effects, browser APIs, event handlers, or client-only libraries require it.
+- Keep client boundaries small.
+- Do not turn a whole page into a Client Component when a child can remain client-side.
+- Keep server-only modules away from client components.
+- Use route groups and `[locale]` routing with **next-intl** (see `.cursor/rules/30-i18n.mdc`).
+- For locale-aware links and navigation, use the project’s next-intl navigation helpers — not raw `next/link` / `next/navigation` on localized routes.
+- Keep proxy/middleware focused on routing-boundary concerns, including next-intl locale detection.
+- Prefer framework-native data fetching and caching patterns before adding custom client fetching.
