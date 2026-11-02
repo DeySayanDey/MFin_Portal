@@ -1,6 +1,5 @@
 import type { z } from "zod";
 import type {
-  depositAccountMemberDtoSchema,
   depositOpeningTransactionDtoSchema,
   depositProductSchemeDtoSchema,
 } from "../schemas/deposit-account.schema";
@@ -10,7 +9,6 @@ import type {
   DepositAccountCreateInput,
   DepositAccountDto,
   DepositAccountEditInput,
-  DepositAccountMember,
   DepositAccountStatusInput,
   DepositOpeningTransaction,
   DepositProductScheme,
@@ -75,23 +73,16 @@ export function mapDepositAccountDto(dto: DepositAccountDto): DepositAccount {
     nomRegd: dto.nom_regd === true,
     nomineeCount: dto.nominee_count ?? 0,
     signatoryCount: dto.signatory_count ?? 0,
-<<<<<<< Updated upstream
     accountNo: dto.sb?.account_no ?? dto.td?.account_no ?? dto.account_no ?? null,
     fullAccountNo: dto.full_account_no?.trim() || null,
     prodTypeCd: dto.prod_type_cd ?? null,
     prodTypeDesc: text(dto.prod_type_desc),
-    memberCount: dto.member_count ?? null,
+    memberCount: dto.member_count ?? 0,
     refAcNo: (dto.sb?.ref_ac_no ?? dto.td?.ref_ac_no ?? dto.ref_ac_no)?.trim() || null,
     startDate: dto.sb?.start_date ?? dto.td?.start_date ?? dto.start_date ?? null,
     currentBalance:
       dto.sb?.current_balance ?? dto.td?.current_balance ?? dto.current_balance ?? null,
     availableBalance: dto.sb?.available_balance ?? null,
-=======
-    accountNo: dto.sb?.account_no ?? dto.account_no ?? null,
-    refAcNo: (dto.sb?.ref_ac_no ?? dto.ref_ac_no)?.trim() || null,
-    startDate: dto.sb?.start_date ?? dto.start_date ?? null,
-    currentBalance: dto.sb?.current_balance ?? dto.current_balance ?? null,
->>>>>>> Stashed changes
     closingDate: dto.closing_date ?? null,
     closingReason: dto.closing_reason?.trim() || null,
     isClosed: dto.is_closed === true || Boolean(dto.closing_date),
@@ -110,7 +101,7 @@ export function mapDepositAccountDto(dto: DepositAccountDto): DepositAccount {
     cbsAcNo: dto.sb?.cbs_ac_no?.trim() || null,
     openingDeposit: dto.sb?.opening_deposit ?? null,
     sbRoi: dto.sb?.roi ?? null,
-<<<<<<< Updated upstream
+    sbId: dto.sb?.sb_id ?? null,
     td: dto.td
       ? {
           startDate: dto.td.start_date ?? null,
@@ -129,13 +120,6 @@ export function mapDepositAccountDto(dto: DepositAccountDto): DepositAccount {
           currentBalance: dto.td.current_balance ?? null,
         }
       : null,
-=======
-    sbId: dto.sb?.sb_id ?? null,
-    fullAccountNo: dto.full_account_no?.trim() || null,
-    memberCount: dto.member_count ?? 0,
-    prodTypeCd: dto.prod_type_cd ?? null,
-    prodTypeDesc: text(dto.prod_type_desc),
-    availableBalance: dto.sb?.available_balance ?? null,
   };
 }
 
@@ -170,27 +154,6 @@ export function mapDepositProductSchemeDto(
     maxWithdAmt: dto.max_withd_amt ?? null,
     inopDays: dto.inop_days ?? null,
     isActive: dto.is_active !== false,
-  };
-}
-
-export function mapDepositAccountMemberDto(
-  dto: z.infer<typeof depositAccountMemberDtoSchema>,
-): DepositAccountMember {
-  return {
-    id: dto.id,
-    accountId: dto.account_id,
-    memberId: dto.member_id,
-    memberRefCode: text(dto.member_ref_code),
-    memberName: text(dto.member_name),
-    mobileNo: dto.mobile_no?.trim() || null,
-    groupName: text(dto.group_name),
-    memberRole: text(dto.member_role),
-    isCurrentMember: dto.is_current_member !== false,
-    openDate: dto.open_date?.slice(0, 10) ?? null,
-    currentBalance: dto.current_balance ?? null,
-    acStatusCd: dto.ac_status_cd ?? null,
-    acStatusDesc: text(dto.ac_status_desc),
->>>>>>> Stashed changes
   };
 }
 

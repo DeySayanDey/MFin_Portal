@@ -93,17 +93,8 @@ export function DepositAccountEditPage({
       signatories.add.length > 0 ||
       signatories.edit.length > 0 ||
       signatories.deactivate.length > 0;
-<<<<<<< Updated upstream
-    if (
-      Object.keys(input).length === 1 &&
-      !nomineePending &&
-      !signatoryPending
-    ) {
-      router.push("/deposits/savings");
-=======
     if (Object.keys(input).length === 1 && !nomineePending && !signatoryPending) {
       router.push(detailHref);
->>>>>>> Stashed changes
       return;
     }
 
@@ -114,16 +105,9 @@ export function DepositAccountEditPage({
       if (!saved) {
         saved =
           Object.keys(input).length === 1
-<<<<<<< Updated upstream
-            ? account
-            : await updateDepositAccount(input);
-        if (!saved) return;
-        setSavedAccount(saved);
-=======
             ? { account, openingTransaction: null }
             : await updateDepositAccount(input);
         setSavedResult(saved);
->>>>>>> Stashed changes
       }
       for (const item of nominees.deactivate) {
         await changeDepositNomineeStatus(item);

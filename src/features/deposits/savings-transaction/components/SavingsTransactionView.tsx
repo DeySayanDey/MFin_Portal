@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { Search, Send } from "lucide-react";
+import { Search, Send, X } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { FilterPanel } from "@/components/shared/FilterPanel";
@@ -14,6 +14,8 @@ import { fetchApplOptions } from "@/features/master/appl-options";
 import { fetchStaffList } from "@/features/master/staff/services/staff-client";
 import { OPT_DEPOSIT_TYPE } from "@/features/deposits/savings/deposit-account.constants";
 import { parseYmd, todayYmd } from "@/features/deposits/savings/deposit-account.rules";
+import { fetchDepositAccounts } from "@/features/deposits/savings/services/deposit-account-client";
+import type { DepositAccount } from "@/features/deposits/savings/types/deposit-account.types";
 import {
   DEPOSIT_BLOCKED,
   OPT_TRANS_TYPE,
@@ -173,9 +175,25 @@ export function SavingsTransactionView({ initialAccountId = null }: SavingsTrans
         const account = result.items[0];
         if (cancelled || !account) return;
         setScopeAccount(account);
-        setAccounts([account]);
+        setAccounts([
+          {
+            accountId: account.accountId,
+            fullAccountNo: account.fullAccountNo ?? "",
+            applNo: account.applNo,
+            holderName: account.holderName || account.primaryName,
+            depositTypeCd: account.depositTypeCd,
+            depositTypeDesc: account.depositTypeDesc,
+            schemeCode: account.schemeCode,
+            schemeName: account.schemeName,
+            branchId: account.branchId,
+            branchName: account.branchName,
+            statusCd: account.statusCd,
+            statusDesc: account.statusDesc,
+            currentBalance: account.currentBalance,
+            availableBalance: account.availableBalance,
+          },
+        ]);
         setAccountId(String(account.accountId));
-        setKeyword(account.fullAccountNo || account.applNo);
       })
       .catch(() => {
         if (!cancelled) setScopeAccount(null);
@@ -773,14 +791,13 @@ export function SavingsTransactionView({ initialAccountId = null }: SavingsTrans
         </div>
       </form>
 
-<<<<<<< Updated upstream
       <AccountPickerModal
         open={pickerOpen}
         selectedAccountId={accountId ? Number(accountId) : null}
         onClose={() => setPickerOpen(false)}
         onSelect={pickAccount}
       />
-=======
+
       {scopeAccountId != null ? (
         <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm">
           <span className="min-w-0 text-slate-700">
@@ -804,7 +821,6 @@ export function SavingsTransactionView({ initialAccountId = null }: SavingsTrans
           </Button>
         </div>
       ) : null}
->>>>>>> Stashed changes
 
       <DataTable
         data={rows}

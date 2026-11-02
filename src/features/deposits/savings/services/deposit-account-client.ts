@@ -29,9 +29,7 @@ import type {
   DepositSignatoryEditInput,
   DepositSignatoryStatusInput,
   SignatoryCandidate,
-  DepositProductScheme,
-  DepositAccountMember,
-  DepositAccountViewData,
+  DepositProductSchemeGroup,
 } from "../types/deposit-account.types";
 
 export type DepositAccountClientError = {
@@ -97,7 +95,6 @@ function listQueryKey(query: DepositAccountListQuery): string {
   if (query.foId != null) params.set("fo_id", String(query.foId));
   if (query.prodTypeCd != null) params.set("prod_type_cd", String(query.prodTypeCd));
   if (query.schemeId != null) params.set("scheme_id", String(query.schemeId));
-  if (query.prodTypeCd != null) params.set("prod_type_cd", String(query.prodTypeCd));
   if (query.depositTypeCd != null) {
     params.set("deposit_type_cd", String(query.depositTypeCd));
   }
@@ -391,7 +388,7 @@ export async function fetchDepositCustomers(
 
 export async function fetchDepositProductSchemes(
   depositTypeCd = 1,
-): Promise<DepositProductScheme[]> {
+): Promise<DepositProductSchemeGroup[]> {
   return dedupeRequest(
     `deposits:product-schemes:${depositTypeCd}`,
     async () => {
@@ -403,7 +400,7 @@ export async function fetchDepositProductSchemes(
           credentials: "same-origin",
         },
       );
-      return parseEnvelope<DepositProductScheme[]>(response);
+      return parseEnvelope<DepositProductSchemeGroup[]>(response);
     },
     0,
   );
@@ -420,41 +417,4 @@ export async function syncTermDepositSchedule(accountId: number): Promise<void> 
     body: JSON.stringify({ accountId }),
   });
   await parseEnvelope<unknown>(response);
-}
-
-export async function fetchDepositAccountView(
-  accountId: number,
-  txnLimit = 10,
-): Promise<DepositAccountViewData> {
-  const response = await fetch(
-    `${endpoints.bff.depositAccountView}?account_id=${accountId}&txn_limit=${txnLimit}`,
-    {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      credentials: "same-origin",
-    },
-  );
-  return parseEnvelope<DepositAccountViewData>(response);
-}
-
-export async function syncDepositAccountMembers(
-  accountId: number,
-): Promise<{ message: string; members: DepositAccountMember[] }> {
-  const response = await fetch(endpoints.bff.depositAccounts, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    credentials: "same-origin",
-    body: JSON.stringify({
-      action: "sync-members",
-      accountId,
-    }),
-  });
-  const data = await parseEnvelope<DepositAccountMember[]>(response);
-  return {
-    message: "Members synced successfully",
-    members: Array.isArray(data) ? data : [],
-  };
 }

@@ -95,14 +95,6 @@ export function DepositAccountOpenPage() {
           className="min-w-0 flex-1"
           title={t("form.createTitle")}
           description={t("form.stepHint")}
-<<<<<<< Updated upstream
-          breadcrumbs={
-            <Link href="/deposits/savings" className="hover:text-slate-800">
-              {/* {t("title")} */}
-            </Link>
-          }
-=======
->>>>>>> Stashed changes
         />
       </div>
       <DepositAccountForm

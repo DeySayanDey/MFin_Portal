@@ -54,7 +54,6 @@ export async function GET(request: Request) {
       schemeId: readOptionalNumber(searchParams.get("scheme_id")),
       depositTypeCd:
         requestedType ?? (allTypes ? undefined : SAVINGS_DEPOSIT_TYPE),
-      prodTypeCd: readOptionalNumber(searchParams.get("prod_type_cd")),
       custTypeCd: readOptionalNumber(searchParams.get("cust_type_cd")),
       memberId: readOptionalNumber(searchParams.get("member_id")),
       groupId: readOptionalNumber(searchParams.get("group_id")),

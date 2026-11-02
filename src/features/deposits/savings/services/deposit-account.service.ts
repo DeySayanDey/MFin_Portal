@@ -4,13 +4,10 @@ import { api } from "@/lib/api/client";
 import { endpoints } from "@/lib/api/endpoints";
 import { ApiError } from "@/lib/api/errors";
 import { clearAuthSession, getAccessToken } from "@/lib/auth/session";
-import { mapSavingsTransactionDto } from "@/features/deposits/savings-transaction/mappers/savings-transaction.mapper";
-import { savingsTransactionDtoSchema } from "@/features/deposits/savings-transaction/schemas/savings-transaction.schema";
 import { SAVINGS_DEPOSIT_TYPE } from "../deposit-account.constants";
 import {
   mapCustomerRow,
   mapDepositAccountCloseToDto,
-  mapDepositAccountMemberDto,
   mapDepositOpeningTransactionDto,
   mapDepositProductSchemeDto,
   mapDepositNomineeAddToDto,
@@ -34,7 +31,6 @@ import {
   depositAccountDtoSchema,
   depositAccountEditSchema,
   depositAccountIdSchema,
-  depositAccountMemberDtoSchema,
   depositOpeningTransactionDtoSchema,
   depositProductSchemeDtoSchema,
   depositProductTypeDtoSchema,
@@ -51,7 +47,6 @@ import {
 } from "../schemas/deposit-account.schema";
 import type {
   DepositAccount,
-  DepositAccountDetail,
   DepositAccountDto,
   DepositAccountListQuery,
   DepositAccountListResult,
@@ -64,8 +59,7 @@ import type {
   DepositCustomerQuery,
   DepositNominee,
   DepositSignatory,
-  DepositProductScheme,
-  DepositAccountMember,
+  DepositProductSchemeGroup,
   DepositAccountTransaction,
   DepositAccountViewData,
   SignatoryCandidate,
@@ -177,13 +171,33 @@ function withAccountId(row: unknown, accountId: number): unknown {
   return { account_id: accountId, ...(row as Record<string, unknown>) };
 }
 
+function mapMemberRow(row: unknown, accountId: number): DepositAccountMember[] {
+  if (!row || typeof row !== "object") return [];
+  const m = row as Record<string, unknown>;
+  return [
+    {
+      id: Number(m.id ?? m.member_id),
+      accountId: Number(m.account_id ?? accountId),
+      memberId: Number(m.member_id),
+      memberRefCode: String(m.member_ref_code ?? ""),
+      memberName: String(m.member_name ?? ""),
+      mobileNo: m.mobile_no != null ? String(m.mobile_no) : null,
+      groupId: m.group_id != null ? Number(m.group_id) : null,
+      groupName: m.group_name != null ? String(m.group_name) : null,
+      memberRole: m.member_role != null ? String(m.member_role) : null,
+      isCurrentMember: Boolean(m.is_current_member),
+      openDate: m.open_date != null ? String(m.open_date) : null,
+      currentBalance: Number(m.current_balance ?? 0),
+      acStatusCd: Number(m.ac_status_cd ?? 1),
+      acStatusDesc: String(m.ac_status_desc ?? ""),
+      createdBy: m.created_by != null ? Number(m.created_by) : null,
+      createdOn: m.created_on != null ? String(m.created_on) : null,
+    },
+  ];
+}
+
 function parseMembers(rows: unknown[], accountId: number): DepositAccountMember[] {
-  return rows.flatMap((row) => {
-    const parsed = depositAccountMemberDtoSchema.safeParse(
-      withAccountId(row, accountId),
-    );
-    return parsed.success ? [mapDepositAccountMemberDto(parsed.data)] : [];
-  });
+  return rows.flatMap((row) => mapMemberRow(row, accountId));
 }
 
 function validationError(error: { flatten: () => unknown }): ApiError {
@@ -215,7 +229,6 @@ export async function listDepositAccounts(
           prod_type_cd: query.prodTypeCd,
           scheme_id: query.schemeId,
           deposit_type_cd: query.depositTypeCd,
-          prod_type_cd: query.prodTypeCd,
           cust_type_cd: query.custTypeCd,
           member_id: query.memberId,
           group_id: query.groupId,
@@ -303,53 +316,6 @@ export async function listDepositProducts(
   });
 }
 
-/** Laravel: GET /api/DepositAccountView */
-export async function getDepositAccountView(
-  accountId: number,
-  txnLimit?: number,
-): Promise<DepositAccountDetail> {
-  return withUnauthorizedClear(async () => {
-    const token = await requireAccessToken();
-    const data = await api.get<Record<string, unknown>>(
-      endpoints.depositAccount.view,
-      {
-        accessToken: token,
-        expectEnvelope: true,
-        searchParams: { account_id: accountId, txn_limit: txnLimit },
-      },
-    );
-    const account = parseAccountOrThrow(
-      data,
-      "Deposit account view returned an unexpected response",
-    );
-    const nominees = asRows(data?.nominees).flatMap((row) => {
-      const parsed = depositNomineeDtoSchema.safeParse(withAccountId(row, accountId));
-      return parsed.success ? [mapDepositNomineeDto(parsed.data)] : [];
-    });
-    const signatories = asRows(data?.signatories).flatMap((row) => {
-      const parsed = depositSignatoryDtoSchema.safeParse(
-        withAccountId(row, accountId),
-      );
-      return parsed.success ? [mapDepositSignatoryDto(parsed.data)] : [];
-    });
-    const transactions = asRows(data?.transactions).flatMap((row) => {
-      const parsed = savingsTransactionDtoSchema.safeParse(
-        withAccountId(row, accountId),
-      );
-      return parsed.success ? [mapSavingsTransactionDto(parsed.data)] : [];
-    });
-    const count = Number(data?.transaction_count);
-    return {
-      ...account,
-      members: parseMembers(asRows(data?.members), accountId),
-      nominees,
-      signatories,
-      transactions,
-      transactionCount: Number.isFinite(count) ? count : transactions.length,
-    };
-  });
-}
-
 /** Laravel: GET /api/DepositAccountMemberList */
 export async function listDepositAccountMembers(
   accountId: number,
@@ -366,31 +332,6 @@ export async function listDepositAccountMembers(
     );
     assertSuccess(payload, "Failed to load account members");
     return parseMembers(asRows(payload.data), accountId);
-  });
-}
-
-/** Laravel: POST /api/DepositAccountMemberSync */
-export async function syncDepositAccountMembers(
-  input: unknown,
-): Promise<DepositAccountMemberSyncResult> {
-  const validated = depositAccountIdSchema.safeParse(input);
-  if (!validated.success) throw validationError(validated.error);
-
-  return withUnauthorizedClear(async () => {
-    const token = await requireAccessToken();
-    const payload = await api.post<LaravelResponse<unknown[]>>(
-      endpoints.depositAccount.memberSync,
-      { account_id: validated.data.accountId },
-      { accessToken: token, expectEnvelope: false },
-    );
-    assertSuccess(payload, "Failed to sync account members");
-    return {
-      members: parseMembers(asRows(payload.data), validated.data.accountId),
-      message:
-        "message" in payload && typeof payload.message === "string"
-          ? payload.message
-          : "",
-    };
   });
 }
 
@@ -678,7 +619,7 @@ export async function listDepositCustomers(
 /** Laravel: GET /api/DepositProductSchemeList?deposit_type_cd=1 */
 export async function listDepositProductSchemes(
   depositTypeCd = 1,
-): Promise<DepositProductScheme[]> {
+): Promise<DepositProductSchemeGroup[]> {
   return withUnauthorizedClear(async () => {
     const token = await requireAccessToken();
     const payload = await api.get<LaravelResponse<unknown[]>>(
@@ -749,35 +690,15 @@ export async function viewDepositAccount(
     const data = payload.data as Record<string, unknown>;
     const account = parseAccountOrThrow(data, "Invalid account view payload");
 
-    const membersRaw = Array.isArray(data.members) ? data.members : [];
-    const members: DepositAccountMember[] = membersRaw.map((m: Record<string, unknown>) => ({
-      id: Number(m.id ?? m.member_id),
-      accountId: Number(m.account_id ?? accountId),
-      memberId: Number(m.member_id),
-      memberRefCode: String(m.member_ref_code ?? ""),
-      memberName: String(m.member_name ?? ""),
-      mobileNo: m.mobile_no != null ? String(m.mobile_no) : null,
-      groupId: m.group_id != null ? Number(m.group_id) : null,
-      groupName: m.group_name != null ? String(m.group_name) : null,
-      memberRole: m.member_role != null ? String(m.member_role) : null,
-      isCurrentMember: Boolean(m.is_current_member),
-      openDate: m.open_date != null ? String(m.open_date) : null,
-      currentBalance: Number(m.current_balance ?? 0),
-      acStatusCd: Number(m.ac_status_cd ?? 1),
-      acStatusDesc: String(m.ac_status_desc ?? ""),
-      createdBy: m.created_by != null ? Number(m.created_by) : null,
-      createdOn: m.created_on != null ? String(m.created_on) : null,
-    }));
+    const members = parseMembers(asRows(data.members), accountId);
 
-    const nomineesRaw = Array.isArray(data.nominees) ? data.nominees : [];
-    const nominees = nomineesRaw.flatMap((row) => {
-      const parsed = depositNomineeDtoSchema.safeParse(row);
+    const nominees = asRows(data.nominees).flatMap((row) => {
+      const parsed = depositNomineeDtoSchema.safeParse(withAccountId(row, accountId));
       return parsed.success ? [mapDepositNomineeDto(parsed.data)] : [];
     });
 
-    const signatoriesRaw = Array.isArray(data.signatories) ? data.signatories : [];
-    const signatories = signatoriesRaw.flatMap((row) => {
-      const parsed = depositSignatoryDtoSchema.safeParse(row);
+    const signatories = asRows(data.signatories).flatMap((row) => {
+      const parsed = depositSignatoryDtoSchema.safeParse(withAccountId(row, accountId));
       return parsed.success ? [mapDepositSignatoryDto(parsed.data)] : [];
     });
 
@@ -902,7 +823,7 @@ export async function syncTermDepositSchedule(accountId: number): Promise<string
 /** Laravel: POST /api/DepositAccountMemberSync */
 export async function syncDepositAccountMembers(
   accountId: number,
-): Promise<{ message: string; members: DepositAccountMember[] }> {
+): Promise<DepositAccountMemberSyncResult> {
   return withUnauthorizedClear(async () => {
     const token = await requireAccessToken();
     const payload = await api.post<LaravelResponse<unknown[]>>(
@@ -914,25 +835,7 @@ export async function syncDepositAccountMembers(
       },
     );
     assertSuccess(payload, "Failed to sync deposit account members");
-    const rows = Array.isArray(payload.data) ? payload.data : [];
-    const members: DepositAccountMember[] = rows.map((m: any) => ({
-      id: Number(m.id ?? m.member_id),
-      accountId: Number(m.account_id ?? accountId),
-      memberId: Number(m.member_id),
-      memberRefCode: String(m.member_ref_code ?? ""),
-      memberName: String(m.member_name ?? ""),
-      mobileNo: m.mobile_no != null ? String(m.mobile_no) : null,
-      groupId: m.group_id != null ? Number(m.group_id) : null,
-      groupName: m.group_name != null ? String(m.group_name) : null,
-      memberRole: m.member_role != null ? String(m.member_role) : null,
-      isCurrentMember: Boolean(m.is_current_member),
-      openDate: m.open_date != null ? String(m.open_date) : null,
-      currentBalance: Number(m.current_balance ?? 0),
-      acStatusCd: Number(m.ac_status_cd ?? 1),
-      acStatusDesc: String(m.ac_status_desc ?? ""),
-      createdBy: m.created_by != null ? Number(m.created_by) : null,
-      createdOn: m.created_on != null ? String(m.created_on) : null,
-    }));
+    const members = parseMembers(asRows(payload.data), accountId);
     return {
       message: typeof payload.message === "string" ? payload.message : "Account synced",
       members,

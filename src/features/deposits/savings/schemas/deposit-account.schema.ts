@@ -82,10 +82,6 @@ export const depositAccountDtoSchema = z.object({
   created_by: optionalInt.nullish(),
   created_by_name: z.string().nullish(),
   created_at: z.string().nullish(),
-  full_account_no: z.string().nullish(),
-  member_count: optionalInt.nullish(),
-  prod_type_cd: optionalInt.nullish(),
-  prod_type_desc: z.string().nullish(),
   sb: z
     .object({
       sb_id: optionalInt.nullish(),
@@ -97,7 +93,6 @@ export const depositAccountDtoSchema = z.object({
       opening_deposit: optionalNumber.nullish(),
       current_balance: optionalNumber.nullish(),
       available_balance: optionalNumber.nullish(),
-<<<<<<< Updated upstream
     })
     .nullish(),
   td: z
@@ -116,8 +111,6 @@ export const depositAccountDtoSchema = z.object({
       intt_payable_amt: optionalNumber.nullish(),
       matu_ins_desc: z.string().nullish(),
       current_balance: optionalNumber.nullish(),
-=======
->>>>>>> Stashed changes
     })
     .nullish(),
 });
@@ -153,22 +146,6 @@ export const depositProductTypeDtoSchema = z.object({
   prod_type_cd: requiredInt,
   prod_type_desc: z.string().nullish(),
   schemes: z.array(z.unknown()).nullish(),
-});
-
-export const depositAccountMemberDtoSchema = z.object({
-  id: requiredInt,
-  account_id: requiredInt,
-  member_id: requiredInt,
-  member_ref_code: z.string().nullish(),
-  member_name: z.string().nullish(),
-  mobile_no: z.string().nullish(),
-  group_name: z.string().nullish(),
-  member_role: z.string().nullish(),
-  is_current_member: optionalBoolean.nullish(),
-  open_date: z.string().nullish(),
-  current_balance: optionalNumber.nullish(),
-  ac_status_cd: optionalInt.nullish(),
-  ac_status_desc: z.string().nullish(),
 });
 
 const optionalText = (max: number) =>

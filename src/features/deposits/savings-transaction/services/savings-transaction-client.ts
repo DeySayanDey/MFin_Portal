@@ -53,16 +53,12 @@ function queryString(query: SavingsTransactionListQuery): string {
   const params = new URLSearchParams();
   if (query.page != null) params.set("page", String(query.page));
   if (query.perPage != null) params.set("per_page", String(query.perPage));
-<<<<<<< Updated upstream
   if (query.transId != null) params.set("trans_id", String(query.transId));
   if (query.accountId != null) params.set("account_id", String(query.accountId));
   if (query.memberId != null) params.set("member_id", String(query.memberId));
   if (query.groupId != null) params.set("group_id", String(query.groupId));
   if (query.branchId != null) params.set("branch_id", String(query.branchId));
   if (query.foId != null) params.set("fo_id", String(query.foId));
-=======
-  if (query.accountId != null) params.set("account_id", String(query.accountId));
->>>>>>> Stashed changes
   if (query.transTypeCd != null) params.set("trans_type_cd", String(query.transTypeCd));
   if (query.transMode) params.set("trans_mode", query.transMode);
   if (query.statusCd != null) params.set("status_cd", String(query.statusCd));

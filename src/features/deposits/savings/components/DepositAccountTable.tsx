@@ -7,17 +7,9 @@ import { DataTable } from "@/components/shared/DataTable";
 import type { DataTableColumn } from "@/components/shared/DataTable";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-<<<<<<< Updated upstream
-import { parseYmd, todayYmd } from "../deposit-account.rules";
-import type {
-  DepositAccount,
-  PaginationMeta,
-} from "../types/deposit-account.types";
-=======
 import { CUST_TYPE_GROUP, STATUS_ACTIVE } from "../deposit-account.constants";
-import { depositStatusTone, parseYmd } from "../deposit-account.rules";
+import { depositStatusTone, parseYmd, todayYmd } from "../deposit-account.rules";
 import type { DepositAccount, PaginationMeta } from "../types/deposit-account.types";
->>>>>>> Stashed changes
 
 type DepositAccountTableProps = {
   items: DepositAccount[];
@@ -99,7 +91,7 @@ export function DepositAccountTable({
             ) : null}
           </div>
         ) : (
-          <Badge tone={statusTone(row.statusCd)} caps={false}>
+          <Badge tone={depositStatusTone(row.statusCd)} caps={false}>
             {row.statusDesc || t("dash")}
           </Badge>
         ),
@@ -218,19 +210,6 @@ export function DepositAccountTable({
     return [
       {
         id: "accountNo",
-<<<<<<< Updated upstream
-        header: t("columns.applNo"),
-        cell: (row) => (
-          <div>
-            <p className="font-semibold text-slate-900">
-              {row.accountNo != null ? String(row.accountNo) : t("dash")}
-            </p>
-            {/* <p className="text-xs text-muted">
-              {row.applNo
-                ? `${row.applNo} · ${row.depositTypeDesc || t("dash")}`
-                : (row.depositTypeDesc || t("dash"))}
-            </p> */}
-=======
         header: t("columns.accountNo"),
         cell: (row) => (
           <div>
@@ -238,7 +217,6 @@ export function DepositAccountTable({
               {row.fullAccountNo || t("columns.notOpened")}
             </p>
             <p className="text-xs text-muted">{row.applNo || t("dash")}</p>
->>>>>>> Stashed changes
           </div>
         ),
       },
@@ -257,17 +235,6 @@ export function DepositAccountTable({
               <span>{row.holderName || row.primaryName || t("dash")}</span>
             </p>
             <p className="text-xs text-muted">
-<<<<<<< Updated upstream
-              {[
-                row.primaryRefCode,
-                row.custTypeDesc || t("dash"),
-                row.custTypeCd === 1 && row.memberCount != null
-                  ? String(row.memberCount)
-                  : null,
-              ]
-                .filter(Boolean)
-                .join(" · ")}
-=======
               {row.custTypeCd === CUST_TYPE_GROUP
                 ? t("columns.groupMeta", {
                     ref: row.primaryRefCode || t("dash"),
@@ -278,30 +245,12 @@ export function DepositAccountTable({
                     ref: row.primaryRefCode || t("dash"),
                     customerType: row.custTypeDesc || t("dash"),
                   })}
->>>>>>> Stashed changes
             </p>
           </div>
         ),
       },
       {
         id: "scheme",
-<<<<<<< Updated upstream
-        header: t("columns.scheme"),
-        cell: (row) => (
-          <div>
-            <p className="text-slate-800">
-              {[row.prodTypeDesc, row.schemeName].filter(Boolean).join(" · ") || t("dash")}
-            </p>
-            <p className="text-xs text-muted">
-              {t("columns.schemeMeta", {
-                code: row.schemeCode || t("dash"),
-                roi:
-                  row.schemeRoiPercent == null
-                    ? t("dash")
-                    : t("roiPercent", {
-                        value: format.number(row.schemeRoiPercent, {
-                          maximumFractionDigits: 2,
-=======
         header: t("columns.productScheme"),
         cell: (row) => {
           const roi = row.sbRoi ?? row.schemeRoiPercent;
@@ -321,7 +270,6 @@ export function DepositAccountTable({
                       ? t("dash")
                       : t("roiPercent", {
                           value: format.number(roi, { maximumFractionDigits: 2 }),
->>>>>>> Stashed changes
                         }),
                 })}
               </p>
@@ -344,42 +292,9 @@ export function DepositAccountTable({
                 maximumFractionDigits: 2,
               }),
       },
-<<<<<<< Updated upstream
       statusColumn,
     ];
   }, [format, t, variant]);
-=======
-      {
-        id: "status",
-        header: t("columns.status"),
-        cell: (row) =>
-          row.isClosed ? (
-            <div>
-              <Badge tone="neutral" caps={false}>
-                {t("closed")}
-              </Badge>
-              {row.closingDate ? (
-                <p className="mt-1 text-xs text-muted">
-                  {t("closedOn", {
-                    date: format.dateTime(parseYmd(row.closingDate) ?? new Date(row.closingDate), {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    }),
-                  })}
-                </p>
-              ) : null}
-            </div>
-          ) : (
-            <Badge tone={depositStatusTone(row.statusCd)} caps={false}>
-              {row.statusDesc || t("dash")}
-            </Badge>
-          ),
-      },
-    ],
-    [format, t],
-  );
->>>>>>> Stashed changes
 
   return (
     <DataTable
@@ -408,21 +323,6 @@ export function DepositAccountTable({
       caption={t("tableCaption")}
       rowActions={{
         header: t("columns.actions"),
-<<<<<<< Updated upstream
-        render: (row) => (
-          <div className="inline-flex items-center gap-1.5">
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              icon={Eye}
-              tooltip={t("actions.view")}
-              onClick={() => onView(row)}
-            />
-            {row.isClosed ? null : (
-              <>
-                {variant === "savings" ? (
-=======
         render: (row) => {
           const active = row.statusCd === STATUS_ACTIVE;
           return (
@@ -437,46 +337,26 @@ export function DepositAccountTable({
               />
               {row.isClosed ? null : (
                 <>
->>>>>>> Stashed changes
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    icon={Pencil}
-                    tooltip={t("actions.edit")}
-                    onClick={() => onEdit(row)}
-                  />
-<<<<<<< Updated upstream
-                ) : null}
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  icon={SlidersHorizontal}
-                  tooltip={t("actions.changeStatus")}
-                  onClick={() => onStatus(row)}
-                />
-                <Button
-                  type="button"
-                  variant="danger"
-                  size="sm"
-                  icon={Ban}
-                  tooltip={t("actions.close")}
-                  onClick={() => onCloseAccount(row)}
-                />
-              </>
-            )}
-          </div>
-        ),
-=======
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    icon={active ? PowerOff : Power}
-                    tooltip={active ? t("actions.deactivate") : t("actions.activate")}
-                    onClick={() => onToggle(row)}
-                  />
+                  {variant === "savings" ? (
+                    <>
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        icon={Pencil}
+                        tooltip={t("actions.edit")}
+                        onClick={() => onEdit(row)}
+                      />
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        icon={active ? PowerOff : Power}
+                        tooltip={active ? t("actions.deactivate") : t("actions.activate")}
+                        onClick={() => onToggle(row)}
+                      />
+                    </>
+                  ) : null}
                   <Button
                     type="button"
                     variant="secondary"
@@ -498,7 +378,6 @@ export function DepositAccountTable({
             </div>
           );
         },
->>>>>>> Stashed changes
       }}
       pagination={{
         page,

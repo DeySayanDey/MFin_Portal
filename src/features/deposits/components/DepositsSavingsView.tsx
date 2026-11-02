@@ -8,6 +8,7 @@ import { useRouter } from "@/i18n/navigation";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { DepositAccountFilters } from "@/features/deposits/savings/components/DepositAccountFilters";
 import { DepositAccountTable } from "@/features/deposits/savings/components/DepositAccountTable";
+import { DepositAccountViewModal } from "@/features/deposits/savings/components/DepositAccountViewModal";
 import { useDepositAccountActions } from "@/features/deposits/savings/components/useDepositAccountActions";
 import { SAVINGS_DEPOSIT_TYPE } from "@/features/deposits/savings/deposit-account.constants";
 import {
@@ -34,13 +35,10 @@ type DepositsSavingsViewProps = {
   branchName: string;
   initialFilters?: SavingsAccountFilters;
   initialPage?: number;
-<<<<<<< Updated upstream
   initialAccountId?: number | null;
   initialNotice?: { message: string; tone: "success" | "error" } | null;
   depositTypeCd?: number;
   variant?: "savings" | "term";
-=======
->>>>>>> Stashed changes
 };
 
 function optionalNumber(value: string): number | undefined {
@@ -55,17 +53,15 @@ export function DepositsSavingsView({
   branchName,
   initialFilters = DEFAULT_SAVINGS_FILTERS,
   initialPage = 1,
-<<<<<<< Updated upstream
   initialAccountId = null,
   initialNotice = null,
   depositTypeCd = SAVINGS_DEPOSIT_TYPE,
   variant = "savings",
-=======
->>>>>>> Stashed changes
 }: DepositsSavingsViewProps) {
   const t = useTranslations("deposits.savings");
   const tErrors = useTranslations("errors");
   const router = useRouter();
+  const isTerm = variant === "term";
   const startingFilters: SavingsAccountFilters = {
     ...initialFilters,
     branchId:
@@ -82,6 +78,10 @@ export function DepositsSavingsView({
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const [reloadKey, setReloadKey] = useState(0);
+  const [viewingId, setViewingId] = useState<number | null>(
+    isTerm ? initialAccountId : null,
+  );
+  const [viewing, setViewing] = useState<DepositAccount | null>(null);
   const [successMessage, setSuccessMessage] = useToastText();
   const [actionError, setActionError] = useToastText();
 
@@ -110,8 +110,19 @@ export function DepositsSavingsView({
   }, [appliedFilters, filters, setSuccessMessage]);
 
   useEffect(() => {
-    writeSavingsFilters(appliedFilters, page);
-  }, [appliedFilters, page]);
+    writeSavingsFilters(appliedFilters, page, viewingId);
+  }, [appliedFilters, page, viewingId]);
+
+  useEffect(() => {
+    if (!initialNotice) return;
+    if (initialNotice.tone === "error") setActionError(initialNotice.message);
+    else setSuccessMessage(initialNotice.message);
+    const url = new URL(window.location.href);
+    url.searchParams.delete("created");
+    url.searchParams.delete("createdTone");
+    url.searchParams.delete("updated");
+    window.history.replaceState(null, "", url.toString());
+  }, [initialNotice, setActionError, setSuccessMessage]);
 
   useEffect(() => {
     function onPopState() {
@@ -121,10 +132,14 @@ export function DepositsSavingsView({
       setAppliedFilters(savingsFiltersFromQuery(source));
       const nextPage = Number(params.get("page") || "1");
       setPage(Number.isFinite(nextPage) && nextPage > 0 ? nextPage : 1);
+      if (isTerm) {
+        const accountParam = params.get("account_id");
+        setViewingId(accountParam ? Number(accountParam) : null);
+      }
     }
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
-  }, []);
+  }, [isTerm]);
 
   useEffect(() => {
     let cancelled = false;
@@ -171,7 +186,6 @@ export function DepositsSavingsView({
     };
   }, [appliedFilters, depositTypeCd, page, pageSize, reloadKey, scopedBranchId, tErrors]);
 
-<<<<<<< Updated upstream
   useEffect(() => {
     if (viewingId == null) {
       setViewing(null);
@@ -195,70 +209,19 @@ export function DepositsSavingsView({
     };
   }, [depositTypeCd, items, viewingId]);
 
-  function errorText(err: unknown): string {
-    return isDepositAccountClientError(err) ? err.message : tErrors("generic");
-  }
-
   function openCreate() {
-    if (variant === "term") return;
-    router.push("/deposits/savings/open");
+    if (isTerm) return;
+    router.push("/deposits/savings/new");
   }
 
   function openEdit(item: DepositAccount) {
-    if (variant === "term" || item.isClosed) return;
+    if (isTerm || item.isClosed) return;
     router.push(`/deposits/savings/${item.accountId}/edit`);
   }
 
-  async function handleStatus(statusCd: number) {
-    if (!statusTarget) return;
-    setSaving(true);
-    setStatusError(null);
-    try {
-      const updated = await changeDepositAccountStatus({
-        accountId: statusTarget.accountId,
-        statusCd,
-      });
-      setSuccessMessage(
-        t("toast.statusChanged", { status: updated.statusDesc || t("dash") }),
-      );
-      setStatusTarget(null);
-      setReloadKey((key) => key + 1);
-    } catch (err) {
-      const message = errorText(err);
-      if (mapApiMessageToField(message) === "toast") {
-        setActionError(message);
-        setStatusTarget(null);
-        setReloadKey((key) => key + 1);
-      } else {
-        setStatusError(message);
-      }
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  async function handleClose(input: { closingReason: string; closingDate: string }) {
-    if (!closeTarget) return;
-    setSaving(true);
-    setCloseError(null);
-    try {
-      const updated = await closeDepositAccount({
-        accountId: closeTarget.accountId,
-        closingReason: input.closingReason,
-        closingDate: input.closingDate,
-      });
-      setSuccessMessage(t("toast.closed", { applNo: updated.applNo }));
-      setCloseTarget(null);
-      setReloadKey((key) => key + 1);
-    } catch (err) {
-      setCloseError(errorText(err));
-    } finally {
-      setSaving(false);
-    }
-=======
-  function openCreate() {
-    router.push("/deposits/savings/new");
->>>>>>> Stashed changes
+  function openView(item: DepositAccount) {
+    if (isTerm) setViewingId(item.accountId);
+    else router.push(`/deposits/savings/${item.accountId}`);
   }
 
   return (
@@ -298,23 +261,25 @@ export function DepositsSavingsView({
           setPageSize(size);
           setPage(1);
         }}
-        onView={(row) => router.push(`/deposits/savings/${row.accountId}`)}
-        onEdit={(row) => {
-          if (!row.isClosed) router.push(`/deposits/savings/${row.accountId}/edit`);
-        }}
+        onView={openView}
+        onEdit={openEdit}
         onToggle={actions.openToggle}
         onStatus={actions.openStatus}
         onCloseAccount={actions.openClose}
         onOpen={openCreate}
         variant={variant}
         headerActions={
-          variant === "term" ? undefined : (
-          <Button type="button" icon={Plus} onClick={openCreate}>
-            {t("openAccount")}
-          </Button>
+          isTerm ? undefined : (
+            <Button type="button" icon={Plus} onClick={openCreate}>
+              {t("openAccount")}
+            </Button>
           )
         }
       />
+
+      {isTerm ? (
+        <DepositAccountViewModal account={viewing} onClose={() => setViewingId(null)} />
+      ) : null}
 
       {actions.dialogs}
     </div>

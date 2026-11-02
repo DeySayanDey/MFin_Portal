@@ -1,5 +1,3 @@
-import type { SavingsTransaction } from "@/features/deposits/savings-transaction/types/savings-transaction.types";
-
 export type PaginationMeta = {
   total: number;
   perPage: number;
@@ -68,10 +66,6 @@ export type DepositAccountDto = {
   created_by?: number | null;
   created_by_name?: string | null;
   created_at?: string | null;
-  full_account_no?: string | null;
-  member_count?: number | null;
-  prod_type_cd?: number | null;
-  prod_type_desc?: string | null;
   sb?: {
     sb_id?: number | null;
     start_date?: string | null;
@@ -152,7 +146,7 @@ export type DepositAccount = {
   fullAccountNo: string | null;
   prodTypeCd: number | null;
   prodTypeDesc: string;
-  memberCount: number | null;
+  memberCount: number;
   refAcNo: string | null;
   startDate: string | null;
   currentBalance: number | null;
@@ -175,16 +169,8 @@ export type DepositAccount = {
   cbsAcNo: string | null;
   openingDeposit: number | null;
   sbRoi: number | null;
-<<<<<<< Updated upstream
-  td: DepositAccountTerm | null;
-=======
   sbId: number | null;
-  fullAccountNo: string | null;
-  memberCount: number;
-  prodTypeCd: number | null;
-  prodTypeDesc: string;
-  availableBalance: number | null;
->>>>>>> Stashed changes
+  td: DepositAccountTerm | null;
 };
 
 export type DepositAccountSbInput = {
@@ -243,34 +229,12 @@ export type DepositProductQuery = {
   isActive?: 1 | 0 | -1;
 };
 
-export type DepositAccountMember = {
-  id: number;
-  accountId: number;
-  memberId: number;
-  memberRefCode: string;
-  memberName: string;
-  mobileNo: string | null;
-  groupName: string;
-  memberRole: string;
-  isCurrentMember: boolean;
-  openDate: string | null;
-  currentBalance: number | null;
-  acStatusCd: number | null;
-  acStatusDesc: string;
-};
-
 export type DepositAccountMemberSyncResult = {
   members: DepositAccountMember[];
   message: string;
 };
 
-export type DepositAccountDetail = DepositAccount & {
-  members: DepositAccountMember[];
-  nominees: DepositNominee[];
-  signatories: DepositSignatory[];
-  transactions: SavingsTransaction[];
-  transactionCount: number;
-};
+export type DepositAccountDetail = DepositAccountViewData;
 
 export type DepositAccountListQuery = {
   page?: number;
@@ -281,7 +245,6 @@ export type DepositAccountListQuery = {
   prodTypeCd?: number;
   schemeId?: number;
   depositTypeCd?: number;
-  prodTypeCd?: number;
   custTypeCd?: number;
   memberId?: number;
   groupId?: number;
@@ -499,7 +462,7 @@ export type DepositSchemeOption = {
   isActive?: boolean;
 };
 
-export type DepositProductScheme = {
+export type DepositProductSchemeGroup = {
   depositTypeCd: number;
   depositTypeDesc: string;
   optGrpId: number;

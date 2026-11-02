@@ -37,13 +37,18 @@ export async function POST(request: Request) {
   try {
     const user = await requireSessionUser();
     const body = (await request.json()) as Record<string, unknown>;
-    if (typeof body.accountId === "number") {
-      await assertDepositAccountInScope(
-        body.accountId,
-        user.isHead ? undefined : user.branchId ?? undefined,
+    const accountId = body.accountId;
+    if (typeof accountId !== "number" || !Number.isInteger(accountId) || accountId <= 0) {
+      return NextResponse.json(
+        { success: false, message: "Validation failed" },
+        { status: 422 },
       );
     }
-    const result = await syncDepositAccountMembers({ accountId: body.accountId });
+    await assertDepositAccountInScope(
+      accountId,
+      user.isHead ? undefined : user.branchId ?? undefined,
+    );
+    const result = await syncDepositAccountMembers(accountId);
     return NextResponse.json({
       success: true,
       message: result.message || "Account synced",
