@@ -10,6 +10,7 @@ import type {
   MemberListQuery,
   MemberListResult,
   MemberNominee,
+  MemberNomineeRecord,
   MemberSaveInput,
   MemberStatus,
 } from "@/features/onboarding/member-registration/types/member.types";
@@ -290,6 +291,62 @@ export async function saveMember(input: MemberSaveInput): Promise<Member | null>
       { accessToken, expectEnvelope: true },
     );
     return mapMember(data);
+  });
+}
+
+/** Laravel: GET /api/MemberNomineeList */
+export async function listMemberNominees(
+  memberId: number,
+  includeInactive = false,
+): Promise<MemberNomineeRecord[]> {
+  return run(async (accessToken) => {
+    const payload = await api.get<LaravelResponse<Record<string, unknown>>>(
+      endpoints.member.nomineeList,
+      {
+        accessToken,
+        expectEnvelope: false,
+        searchParams: {
+          member_id: memberId,
+          include_inactive: includeInactive ? 1 : undefined,
+        },
+      },
+    );
+    if (!payload || payload.success !== true || !payload.data) {
+      throw new ApiError({
+        message:
+          payload && typeof payload.message === "string"
+            ? payload.message
+            : "Failed to load nominees",
+        status: payload?.success === false ? 422 : 500,
+        code: "VALIDATION",
+      });
+    }
+    const list = Array.isArray(payload.data.nominees) ? payload.data.nominees : [];
+    return list.flatMap((item): MemberNomineeRecord[] => {
+      if (!item || typeof item !== "object") return [];
+      const row = item as RawMember;
+      const name = text(row, "nominee_name", "Nominee_Name");
+      const id = numberValue(row, "member_nominee_id", "Member_Nominee_Id");
+      if (!name || id == null) return [];
+      const age = numberValue(row, "nominee_age", "Nominee_Age");
+      return [
+        {
+          memberNomineeId: id,
+          nomineeName: name,
+          nomineeRelCd: numberValue(row, "nominee_rel_cd", "Nominee_Rel_Cd") ?? 0,
+          relationDesc: text(row, "relation_desc", "nominee_rel_desc", "Relation_Desc") ?? "",
+          nomineeDob: text(row, "nominee_dob", "Nominee_DOB"),
+          nomineeAge: age,
+          isMinor: bool(row, "is_minor", "Is_Minor") || (age != null && age < 18),
+          nomineeMobile: text(row, "nominee_mobile", "Nominee_Mobile"),
+          sharePercent: numberValue(row, "share_percent", "Share_Percent"),
+          sortOrder: numberValue(row, "sort_order", "Sort_Order") ?? 0,
+          isActive: getField(row, "is_active", "Is_Active") == null
+            ? true
+            : bool(row, "is_active", "Is_Active"),
+        },
+      ];
+    });
   });
 }
 

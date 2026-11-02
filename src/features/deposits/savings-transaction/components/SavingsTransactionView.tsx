@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { Check, Search, Send, X } from "lucide-react";
+import { Search, Send } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { FilterPanel } from "@/components/shared/FilterPanel";
@@ -10,16 +10,10 @@ import { Alert } from "@/components/ui/Alert";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { DateField, SelectField, TextField } from "@/components/ui/Form";
-import { Modal } from "@/components/ui/Modal";
 import { fetchApplOptions } from "@/features/master/appl-options";
 import { fetchStaffList } from "@/features/master/staff/services/staff-client";
 import { OPT_DEPOSIT_TYPE } from "@/features/deposits/savings/deposit-account.constants";
-import { todayYmd } from "@/features/deposits/savings/deposit-account.rules";
-import {
-  fetchDepositAccounts,
-  isDepositAccountClientError,
-} from "@/features/deposits/savings/services/deposit-account-client";
-import type { DepositAccount } from "@/features/deposits/savings/types/deposit-account.types";
+import { parseYmd, todayYmd } from "@/features/deposits/savings/deposit-account.rules";
 import {
   DEPOSIT_BLOCKED,
   OPT_TRANS_TYPE,
@@ -32,13 +26,19 @@ import {
   WITHDRAWAL_BLOCKED,
   type TransMode,
 } from "../savings-transaction.constants";
+import { AccountPickerModal } from "./AccountPickerModal";
 import {
   addSavingsTransaction,
-  approveSavingsTransaction,
+  fetchSavingsAccountBalance,
   fetchSavingsTransactions,
   isSavingsTransactionClientError,
+  postMissingVouchers,
 } from "../services/savings-transaction-client";
-import type { SavingsTransaction } from "../types/savings-transaction.types";
+import type {
+  SavingsAccountBalance,
+  SavingsCustomerAccount,
+  SavingsTransaction,
+} from "../types/savings-transaction.types";
 
 type Filters = {
   search: string;
@@ -100,9 +100,10 @@ export function SavingsTransactionView() {
     { value: string; label: string }[]
   >([]);
 
-  const [keyword, setKeyword] = useState("");
-  const [accounts, setAccounts] = useState<DepositAccount[]>([]);
-  const [searching, setSearching] = useState(false);
+  const [accounts, setAccounts] = useState<SavingsCustomerAccount[]>([]);
+  const [balance, setBalance] = useState<SavingsAccountBalance | null>(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [postingVouchers, setPostingVouchers] = useState(false);
   const [accountId, setAccountId] = useState("");
   const [transTypeCd, setTransTypeCd] = useState(String(TRANS_DEPOSIT));
   const [amount, setAmount] = useState("");
@@ -116,20 +117,15 @@ export function SavingsTransactionView() {
   const [formError, setFormError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-  const [decision, setDecision] = useState<{
-    row: SavingsTransaction;
-    approve: boolean;
-  } | null>(null);
-  const [decisionRemarks, setDecisionRemarks] = useState("");
-  const [decisionError, setDecisionError] = useState<string | null>(null);
-  const [deciding, setDeciding] = useState(false);
-
   const selected = accounts.find((account) => String(account.accountId) === accountId) ?? null;
-  const withdrawalBlocked =
-    selected != null &&
-    (selected.isClosed || WITHDRAWAL_BLOCKED.has(selected.statusCd));
-  const depositBlocked =
-    selected != null && (selected.isClosed || DEPOSIT_BLOCKED.has(selected.statusCd));
+  const currentBalance = balance?.currentBalance ?? selected?.currentBalance ?? null;
+  const startDate = balance?.startDate ?? null;
+  const withdrawalBlocked = balance
+    ? !balance.canWithdraw
+    : selected != null && WITHDRAWAL_BLOCKED.has(selected.statusCd);
+  const depositBlocked = balance
+    ? !balance.canDeposit
+    : selected != null && DEPOSIT_BLOCKED.has(selected.statusCd);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -170,6 +166,10 @@ export function SavingsTransactionView() {
       ]);
       if (cancelled) return;
       const mappedTypes = types
+        .filter(
+          (option) =>
+            option.optCode === TRANS_DEPOSIT || option.optCode === TRANS_WITHDRAWAL,
+        )
         .slice()
         .sort((a, b) => a.srlNo - b.srlNo)
         .map((option) => ({
@@ -217,7 +217,6 @@ export function SavingsTransactionView() {
               : staff.fullName,
           })),
         );
-        if (selected.foId != null) setFoId(String(selected.foId));
       })
       .catch(() => {
         if (!cancelled) setOfficers([]);
@@ -225,7 +224,29 @@ export function SavingsTransactionView() {
     return () => {
       cancelled = true;
     };
-  }, [selected?.accountId, selected?.branchId, selected?.foId]);
+  }, [selected?.accountId, selected?.branchId]);
+
+  useEffect(() => {
+    if (!accountId) {
+      setBalance(null);
+      return;
+    }
+    let cancelled = false;
+    fetchSavingsAccountBalance(Number(accountId))
+      .then((next) => {
+        if (!cancelled) setBalance(next);
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        setBalance(null);
+        setFormError(
+          isSavingsTransactionClientError(error) ? error.message : t("form.accountRequired"),
+        );
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [accountId, t]);
 
   useEffect(() => {
     if (transTypeCd === String(TRANS_WITHDRAWAL) && withdrawalBlocked) {
@@ -236,30 +257,30 @@ export function SavingsTransactionView() {
     }
   }, [depositBlocked, transTypeCd, withdrawalBlocked]);
 
-  async function searchAccounts() {
-    const term = keyword.trim();
-    if (!term) return;
-    setSearching(true);
+  function pickAccount(account: SavingsCustomerAccount) {
+    setAccounts([account]);
+    setAccountId(String(account.accountId));
+    setBalance(null);
     setFormError(null);
+    setPickerOpen(false);
+  }
+
+  async function postVouchers() {
+    if (!selected || postingVouchers) return;
+    setPostingVouchers(true);
+    setNotice(null);
     try {
-      const result = await fetchDepositAccounts({
-        search: term,
-        allTypes: true,
-        perPage: 20,
-        page: 1,
-      });
-      const items = result.items ?? [];
-      setAccounts(items);
-      setAccountId(items.length === 1 ? String(items[0].accountId) : "");
-      if (items.length === 0) setFormError(t("form.accountEmpty"));
+      const message = await postMissingVouchers(selected.accountId);
+      setNotice({ tone: "success", text: message });
+      const next = await fetchSavingsAccountBalance(selected.accountId);
+      setBalance(next);
     } catch (error) {
-      setAccounts([]);
-      setAccountId("");
-      setFormError(
-        isDepositAccountClientError(error) ? error.message : t("form.accountRequired"),
-      );
+      setNotice({
+        tone: "error",
+        text: isSavingsTransactionClientError(error) ? error.message : t("form.accountRequired"),
+      });
     } finally {
-      setSearching(false);
+      setPostingVouchers(false);
     }
   }
 
@@ -276,19 +297,20 @@ export function SavingsTransactionView() {
     if (effectDate && effectDate > today) return t("form.futureDate");
     const effectiveTrans = transDate || today;
     if (effectDate && effectDate > effectiveTrans) return t("form.effectRange");
-    if (selected.startDate && effectDate && effectDate < selected.startDate) {
+    if (startDate && effectDate && effectDate < startDate) {
       return t("form.effectRange");
     }
+    const limit =
+      transTypeCd === String(TRANS_WITHDRAWAL)
+        ? (balance?.withdrawableAmount ?? currentBalance)
+        : balance?.depositRemaining;
     if (
-      transTypeCd === String(TRANS_WITHDRAWAL) &&
-      selected.currentBalance != null &&
-      cents(moneyAmount(amount) ?? 0) > cents(selected.currentBalance)
+      limit != null &&
+      cents(moneyAmount(amount) ?? 0) > cents(limit) &&
+      (transTypeCd === String(TRANS_WITHDRAWAL) || balance?.depositRemaining != null)
     ) {
       return t("form.exceedsBalance", {
-        balance: format.number(selected.currentBalance, {
-          style: "currency",
-          currency: "INR",
-        }),
+        balance: format.number(limit, { style: "currency", currency: "INR" }),
       });
     }
     return null;
@@ -326,6 +348,8 @@ export function SavingsTransactionView() {
       setTransDate(today);
       setEffectDate(today);
       setPage(1);
+      const next = await fetchSavingsAccountBalance(selected.accountId).catch(() => null);
+      if (next) setBalance(next);
       await load();
     } catch (caught) {
       setNotice({
@@ -339,35 +363,6 @@ export function SavingsTransactionView() {
     }
   }
 
-  async function confirmDecision() {
-    if (!decision) return;
-    if (!decision.approve && !decisionRemarks.trim()) {
-      setDecisionError(t("approval.remarksRequired"));
-      return;
-    }
-    setDeciding(true);
-    setDecisionError(null);
-    try {
-      const result = await approveSavingsTransaction({
-        transId: decision.row.transId,
-        approve: decision.approve,
-        remarks: decisionRemarks.trim() || null,
-      });
-      setNotice({ tone: "success", text: result.message });
-      setDecision(null);
-      setDecisionRemarks("");
-      await load();
-    } catch (caught) {
-      setDecisionError(
-        isSavingsTransactionClientError(caught)
-          ? caught.message
-          : t("approval.remarksRequired"),
-      );
-    } finally {
-      setDeciding(false);
-    }
-  }
-
   const money = (value: number | null) =>
     value == null
       ? "—"
@@ -375,14 +370,14 @@ export function SavingsTransactionView() {
 
   const enteredAmount = moneyAmount(amount);
   const balanceAfter =
-    selected?.currentBalance == null
+    currentBalance == null
       ? null
       : enteredAmount == null
-        ? selected.currentBalance
+        ? currentBalance
         : Math.round(
             (transTypeCd === String(TRANS_WITHDRAWAL)
-              ? selected.currentBalance - enteredAmount
-              : selected.currentBalance + enteredAmount) * 100,
+              ? currentBalance - enteredAmount
+              : currentBalance + enteredAmount) * 100,
           ) / 100;
 
   const columns = useMemo<DataTableColumn<SavingsTransaction>[]>(
@@ -452,7 +447,12 @@ export function SavingsTransactionView() {
       {
         id: "date",
         header: t("table.date"),
-        cell: (row) => row.transDate || "—",
+        cell: (row) => {
+          const parsed = parseYmd(row.transDate);
+          return parsed
+            ? format.dateTime(parsed, { month: "short", day: "numeric", year: "numeric" })
+            : "—";
+        },
       },
     ],
     [format, t],
@@ -552,48 +552,39 @@ export function SavingsTransactionView() {
           </Alert>
         ) : null}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 [&>*]:min-w-0">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
-            <div className="min-w-0 flex-1">
+          <div className="sm:col-span-2">
+            <div className="grid w-full max-w-2xl grid-cols-1 gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
               <TextField
                 label={t("form.accountSearch")}
-                value={keyword}
-                onChange={setKeyword}
-                placeholder={t("form.accountPlaceholder")}
+                value={
+                  selected
+                    ? [selected.fullAccountNo || selected.applNo, selected.holderName]
+                        .filter(Boolean)
+                        .join(" · ")
+                    : ""
+                }
+                required
+                readOnly
+                placeholder={t("form.accountEmpty")}
+                inputClassName="cursor-pointer"
+                onClick={() => setPickerOpen(true)}
                 onKeyDown={(event) => {
-                  if (event.key !== "Enter") return;
+                  if (event.key !== "Enter" && event.key !== " ") return;
                   event.preventDefault();
-                  void searchAccounts();
+                  setPickerOpen(true);
                 }}
               />
+              <Button
+                type="button"
+                variant="secondary"
+                icon={Search}
+                className="w-full sm:w-auto"
+                onClick={() => setPickerOpen(true)}
+              >
+                {t("form.search")}
+              </Button>
             </div>
-            <Button
-              type="button"
-              variant="secondary"
-              icon={Search}
-              loading={searching}
-              className="w-full sm:w-auto"
-              onClick={() => void searchAccounts()}
-            >
-              {t("form.search")}
-            </Button>
           </div>
-          <SelectField
-            label={t("form.account")}
-            value={accountId}
-            required
-            placeholder={t("form.accountEmpty")}
-            options={accounts.map((account) => ({
-              value: String(account.accountId),
-              label: [
-                account.applNo,
-                account.holderName,
-                account.accountNo != null ? String(account.accountNo) : "",
-              ]
-                .filter(Boolean)
-                .join(" · "),
-            }))}
-            onChange={setAccountId}
-          />
           {selected ? (
             <div className="grid grid-cols-2 gap-3 rounded-xl border border-border bg-background p-3 text-sm sm:col-span-2 sm:grid-cols-4">
               <p>
@@ -602,11 +593,11 @@ export function SavingsTransactionView() {
               </p>
               <p>
                 <span className="block text-muted">{t("form.accountNo")}</span>
-                {selected.accountNo ?? "—"}
+                {selected.fullAccountNo || "—"}
               </p>
               <p>
                 <span className="block text-muted">{t("form.holder")}</span>
-                {selected.holderName || selected.primaryName || "—"}
+                {selected.holderName || "—"}
               </p>
               <p>
                 <span className="block text-muted">{t("form.scheme")}</span>
@@ -618,24 +609,50 @@ export function SavingsTransactionView() {
               </p>
               <p>
                 <span className="block text-muted">{t("form.accountStatus")}</span>
-                {selected.statusDesc || "—"}
+                {balance?.statusDesc || selected.statusDesc || "—"}
               </p>
               <p>
                 <span className="block text-muted">{t("form.balance")}</span>
-                {money(selected.currentBalance)}
+                {money(currentBalance)}
               </p>
               <p>
-                <span className="block text-muted">{t("form.opening")}</span>
-                {money(selected.openingDeposit)}
+                <span className="block text-muted">{t("form.available")}</span>
+                {money(balance?.availableBalance ?? selected.availableBalance)}
               </p>
+              <p>
+                <span className="block text-muted">{t("form.pending")}</span>
+                {balance?.pendingCount ?? "—"}
+              </p>
+              {balance?.depositRemaining != null ? (
+                <p>
+                  <span className="block text-muted">{t("form.depositRemaining")}</span>
+                  {money(balance.depositRemaining)}
+                </p>
+              ) : null}
               <p>
                 <span className="block text-muted">{t("form.branch")}</span>
                 {selected.branchName || "—"}
               </p>
               <p>
                 <span className="block text-muted">{t("form.startDate")}</span>
-                {selected.startDate || "—"}
+                {startDate || "—"}
               </p>
+              {balance && balance.vouchersMissing > 0 ? (
+                <div className="col-span-2 flex flex-wrap items-center justify-between gap-2 sm:col-span-4">
+                  <p className="text-sm text-muted">
+                    {t("form.vouchersMissing", { count: balance.vouchersMissing })}
+                  </p>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="sm"
+                    loading={postingVouchers}
+                    onClick={() => void postVouchers()}
+                  >
+                    {postingVouchers ? t("form.postingVouchers") : t("form.postVouchers")}
+                  </Button>
+                </div>
+              ) : null}
             </div>
           ) : null}
           <SelectField
@@ -658,23 +675,23 @@ export function SavingsTransactionView() {
             restrict="decimal"
             error={
               transTypeCd === String(TRANS_WITHDRAWAL) &&
-              selected?.currentBalance != null &&
+              currentBalance != null &&
               moneyAmount(amount) != null &&
-              cents(moneyAmount(amount) ?? 0) > cents(selected.currentBalance)
+              cents(moneyAmount(amount) ?? 0) >
+                cents(balance?.withdrawableAmount ?? currentBalance)
                 ? t("form.exceedsBalance", {
-                    balance: money(selected.currentBalance),
+                    balance: money(balance?.withdrawableAmount ?? currentBalance),
                   })
                 : undefined
             }
             validate={(value) => {
               if (transTypeCd !== String(TRANS_WITHDRAWAL)) return undefined;
-              if (selected?.currentBalance == null) return undefined;
+              const limit = balance?.withdrawableAmount ?? currentBalance;
+              if (limit == null) return undefined;
               const entered = moneyAmount(value);
               if (entered == null) return undefined;
-              if (cents(entered) <= cents(selected.currentBalance)) return undefined;
-              return t("form.exceedsBalance", {
-                balance: money(selected.currentBalance),
-              });
+              if (cents(entered) <= cents(limit)) return undefined;
+              return t("form.exceedsBalance", { balance: money(limit) });
             }}
             onChange={setAmount}
           />
@@ -700,14 +717,14 @@ export function SavingsTransactionView() {
             label={t("form.transDate")}
             value={transDate}
             max={today}
-            min={selected?.startDate ?? undefined}
+            min={startDate ?? undefined}
             onChange={setTransDate}
           />
           <DateField
             label={t("form.effectDate")}
             value={effectDate}
             max={transDate || today}
-            min={selected?.startDate ?? undefined}
+            min={startDate ?? undefined}
             onChange={setEffectDate}
           />
           <TextField
@@ -727,6 +744,13 @@ export function SavingsTransactionView() {
           </Button>
         </div>
       </form>
+
+      <AccountPickerModal
+        open={pickerOpen}
+        selectedAccountId={accountId ? Number(accountId) : null}
+        onClose={() => setPickerOpen(false)}
+        onSelect={pickAccount}
+      />
 
       <DataTable
         data={rows}
@@ -748,80 +772,8 @@ export function SavingsTransactionView() {
             setPage(1);
           },
         }}
-        rowActions={{
-          header: t("table.actions"),
-          render: (row) =>
-            row.statusCd === STATUS_PENDING ? (
-              <div className="flex flex-wrap justify-end gap-2">
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="success"
-                  icon={Check}
-                  onClick={() => {
-                    setDecision({ row, approve: true });
-                    setDecisionRemarks("");
-                    setDecisionError(null);
-                  }}
-                >
-                  {t("table.approve")}
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="danger"
-                  icon={X}
-                  onClick={() => {
-                    setDecision({ row, approve: false });
-                    setDecisionRemarks("");
-                    setDecisionError(null);
-                  }}
-                >
-                  {t("table.reject")}
-                </Button>
-              </div>
-            ) : null,
-        }}
       />
-
-      <Modal
-        open={decision != null}
-        size="sm"
-        title={decision?.approve ? t("approval.approveTitle") : t("approval.rejectTitle")}
-        onClose={() => {
-          if (deciding) return;
-          setDecision(null);
-        }}
-        footer={
-          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-            <Button
-              type="button"
-              variant="secondary"
-              disabled={deciding}
-              onClick={() => setDecision(null)}
-            >
-              {t("approval.cancel")}
-            </Button>
-            <Button
-              type="button"
-              variant={decision?.approve ? "success" : "danger"}
-              icon={decision?.approve ? Check : X}
-              loading={deciding}
-              onClick={() => void confirmDecision()}
-            >
-              {decision?.approve ? t("approval.confirmApprove") : t("approval.confirmReject")}
-            </Button>
-          </div>
-        }
-      >
-        <TextField
-          label={t("approval.remarks")}
-          value={decisionRemarks}
-          required={decision?.approve === false}
-          error={decisionError ?? undefined}
-          onChange={(value) => setDecisionRemarks(value.slice(0, 200))}
-        />
-      </Modal>
     </div>
   );
 }
+

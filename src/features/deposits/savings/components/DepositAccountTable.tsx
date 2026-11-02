@@ -7,8 +7,11 @@ import { DataTable } from "@/components/shared/DataTable";
 import type { DataTableColumn } from "@/components/shared/DataTable";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { parseYmd } from "../deposit-account.rules";
-import type { DepositAccount, PaginationMeta } from "../types/deposit-account.types";
+import { parseYmd, todayYmd } from "../deposit-account.rules";
+import type {
+  DepositAccount,
+  PaginationMeta,
+} from "../types/deposit-account.types";
 
 type DepositAccountTableProps = {
   items: DepositAccount[];
@@ -26,6 +29,7 @@ type DepositAccountTableProps = {
   onStatus: (row: DepositAccount) => void;
   onCloseAccount: (row: DepositAccount) => void;
   onOpen: () => void;
+  variant?: "savings" | "term";
   headerActions?: ReactNode;
 };
 
@@ -53,29 +57,178 @@ export function DepositAccountTable({
   onStatus,
   onCloseAccount,
   onOpen,
+  variant = "savings",
   headerActions,
 }: DepositAccountTableProps) {
-  const t = useTranslations("deposits.savings");
+  const t = useTranslations(variant === "term" ? "deposits.term" : "deposits.savings");
   const format = useFormatter();
 
-  const columns = useMemo<DataTableColumn<DepositAccount>[]>(
-    () => [
+  const columns = useMemo<DataTableColumn<DepositAccount>[]>(() => {
+    const money = (value: number | null | undefined) =>
+      value == null
+        ? t("dash")
+        : format.number(value, {
+            style: "currency",
+            currency: "INR",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+
+    const statusColumn: DataTableColumn<DepositAccount> = {
+      id: "status",
+      header: t("columns.status"),
+      cell: (row) =>
+        row.isClosed ? (
+          <div>
+            <Badge tone="neutral" caps={false}>
+              {t("closed")}
+            </Badge>
+            {row.closingDate ? (
+              <p className="mt-1 text-xs text-muted">
+                {t("closedOn", {
+                  date: format.dateTime(
+                    parseYmd(row.closingDate) ?? new Date(row.closingDate),
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    },
+                  ),
+                })}
+              </p>
+            ) : null}
+          </div>
+        ) : (
+          <Badge tone={statusTone(row.statusCd)} caps={false}>
+            {row.statusDesc || t("dash")}
+          </Badge>
+        ),
+    };
+
+    if (variant === "term") {
+      return [
+        {
+          id: "accountNo",
+          header: t("columns.account"),
+          cell: (row) => (
+            <div>
+              <p className="font-semibold text-slate-900">
+                {row.fullAccountNo || (row.accountNo != null ? String(row.accountNo) : t("dash"))}
+              </p>
+              <p className="text-xs text-muted">{row.applNo || t("dash")}</p>
+            </div>
+          ),
+        },
+        {
+          id: "holder",
+          header: t("columns.holder"),
+          cell: (row) => (
+            <div>
+              <p className="inline-flex items-center gap-1.5 font-medium text-slate-800">
+                {row.custIdJoint1 != null ? (
+                  <Users
+                    className="h-3.5 w-3.5 shrink-0 text-slate-500"
+                    aria-label={t("columns.joint")}
+                  />
+                ) : null}
+                <span>{row.holderName || row.primaryName || t("dash")}</span>
+              </p>
+              <p className="text-xs text-muted">
+                {[row.primaryRefCode, row.custTypeDesc].filter(Boolean).join(" · ") || t("dash")}
+              </p>
+            </div>
+          ),
+        },
+        {
+          id: "scheme",
+          header: t("columns.scheme"),
+          cell: (row) => (
+            <div>
+              <p className="text-slate-800">{row.schemeName || t("dash")}</p>
+              <p className="text-xs text-muted">
+                {t("columns.schemeMeta", {
+                  product: row.prodTypeDesc || t("dash"),
+                  roi:
+                    (row.td?.roi ?? row.sbRoi ?? row.schemeRoiPercent) == null
+                      ? t("dash")
+                      : t("roiPercent", {
+                          value: format.number(
+                            row.td?.roi ?? row.sbRoi ?? row.schemeRoiPercent ?? 0,
+                            { maximumFractionDigits: 2 },
+                          ),
+                        }),
+                })}
+              </p>
+            </div>
+          ),
+        },
+        {
+          id: "amount",
+          header: t("columns.amount"),
+          cell: (row) => {
+            const amount = row.td?.instAmount;
+            const count = row.td?.instNo;
+            const paid = row.td?.currentBalance ?? row.currentBalance;
+            return (
+              <div>
+                <p className="font-semibold tabular-nums text-slate-900">
+                  {amount == null
+                    ? t("dash")
+                    : count != null && count > 1
+                      ? t("columns.amountTimes", { amount: money(amount), count })
+                      : money(amount)}
+                </p>
+                <p className="text-xs text-muted">
+                  {t("columns.paid", { amount: money(paid) })}
+                </p>
+              </div>
+            );
+          },
+        },
+        {
+          id: "maturity",
+          header: t("columns.maturity"),
+          cell: (row) => {
+            const maturityDate = row.td?.maturityDate;
+            const matured =
+              !row.isClosed && maturityDate != null && maturityDate < todayYmd();
+            return (
+              <div>
+                <p className="text-slate-800">
+                  {maturityDate
+                    ? format.dateTime(parseYmd(maturityDate) ?? new Date(maturityDate), {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : t("dash")}
+                </p>
+                <p className="text-xs text-muted">{money(row.td?.maturityAmount)}</p>
+                {matured ? (
+                  <p className="mt-1 text-xs font-medium text-amber-700">{t("matured")}</p>
+                ) : null}
+              </div>
+            );
+          },
+        },
+        statusColumn,
+      ];
+    }
+
+    return [
       {
-        id: "applNo",
+        id: "accountNo",
         header: t("columns.applNo"),
         cell: (row) => (
           <div>
-            <p className="font-semibold text-slate-900">{row.applNo || t("dash")}</p>
-            <p className="text-xs text-muted">
-              {row.accountNo != null
-                ? t("columns.accountLine", {
-                    number: row.accountNo,
-                    type: row.depositTypeDesc || t("dash"),
-                  })
-                : t("columns.accountPending", {
-                    type: row.depositTypeDesc || t("dash"),
-                  })}
+            <p className="font-semibold text-slate-900">
+              {row.accountNo != null ? String(row.accountNo) : t("dash")}
             </p>
+            {/* <p className="text-xs text-muted">
+              {row.applNo
+                ? `${row.applNo} · ${row.depositTypeDesc || t("dash")}`
+                : (row.depositTypeDesc || t("dash"))}
+            </p> */}
           </div>
         ),
       },
@@ -94,10 +247,15 @@ export function DepositAccountTable({
               <span>{row.holderName || row.primaryName || t("dash")}</span>
             </p>
             <p className="text-xs text-muted">
-              {t("columns.holderMeta", {
-                ref: row.primaryRefCode || t("dash"),
-                customerType: row.custTypeDesc || t("dash"),
-              })}
+              {[
+                row.primaryRefCode,
+                row.custTypeDesc || t("dash"),
+                row.custTypeCd === 1 && row.memberCount != null
+                  ? String(row.memberCount)
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(" · ")}
             </p>
           </div>
         ),
@@ -107,7 +265,9 @@ export function DepositAccountTable({
         header: t("columns.scheme"),
         cell: (row) => (
           <div>
-            <p className="text-slate-800">{row.schemeName || t("dash")}</p>
+            <p className="text-slate-800">
+              {[row.prodTypeDesc, row.schemeName].filter(Boolean).join(" · ") || t("dash")}
+            </p>
             <p className="text-xs text-muted">
               {t("columns.schemeMeta", {
                 code: row.schemeCode || t("dash"),
@@ -146,36 +306,9 @@ export function DepositAccountTable({
                 maximumFractionDigits: 2,
               }),
       },
-      {
-        id: "status",
-        header: t("columns.status"),
-        cell: (row) =>
-          row.isClosed ? (
-            <div>
-              <Badge tone="neutral" caps={false}>
-                {t("closed")}
-              </Badge>
-              {row.closingDate ? (
-                <p className="mt-1 text-xs text-muted">
-                  {t("closedOn", {
-                    date: format.dateTime(parseYmd(row.closingDate) ?? new Date(row.closingDate), {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    }),
-                  })}
-                </p>
-              ) : null}
-            </div>
-          ) : (
-            <Badge tone={statusTone(row.statusCd)} caps={false}>
-              {row.statusDesc || t("dash")}
-            </Badge>
-          ),
-      },
-    ],
-    [format, t],
-  );
+      statusColumn,
+    ];
+  }, [format, t, variant]);
 
   return (
     <DataTable
@@ -194,9 +327,11 @@ export function DepositAccountTable({
       emptyTitle={t("emptyTitle")}
       emptyMessage={t("emptyMessage")}
       emptyAction={
+        variant === "term" ? undefined : (
         <Button type="button" onClick={onOpen}>
           {t("openAccount")}
         </Button>
+        )
       }
       minWidth="960px"
       caption={t("tableCaption")}
@@ -214,14 +349,16 @@ export function DepositAccountTable({
             />
             {row.isClosed ? null : (
               <>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  icon={Pencil}
-                  tooltip={t("actions.edit")}
-                  onClick={() => onEdit(row)}
-                />
+                {variant === "savings" ? (
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="sm"
+                    icon={Pencil}
+                    tooltip={t("actions.edit")}
+                    onClick={() => onEdit(row)}
+                  />
+                ) : null}
                 <Button
                   type="button"
                   variant="secondary"

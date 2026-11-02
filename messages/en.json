@@ -376,6 +376,7 @@
         "employeeId": "Employee ID",
         "designation": "Designation",
         "branch": "Branch",
+        "branchPlaceholder": "Select a branch",
         "status": "Status",
         "active": "Active",
         "inactive": "Inactive",
@@ -2917,6 +2918,105 @@
     }
   },
   "deposits": {
+    "memberLedger": {
+      "metaTitle": "Member ledger",
+      "metaDescription": "Savings and term deposit ledger for a member",
+      "tabsLabel": "Deposit type",
+      "savings": "Savings Deposit",
+      "term": "Term Deposit",
+      "savingsCount": "Savings Deposit ({count})",
+      "termCount": "Term Deposit ({count})",
+      "dash": "—",
+      "closed": "Closed",
+      "loading": "Loading…",
+      "loadError": "The member ledger could not be loaded.",
+      "dateOrder": "The end date cannot be before the start date.",
+      "selectAccount": "Select account",
+      "selectAccountHint": "Select an account to see its ledger.",
+      "noAccounts": "No accounts in this section.",
+      "pendingApproval": "Pending approval",
+      "emptyTitle": "No transactions for this period",
+      "emptyMessage": "Posted entries for the selected account appear here.",
+      "accountTitle": "{account} · {holder}",
+      "sectionSummary": "Balance {balance} · Credit {credit} · Debit {debit}",
+      "search": {
+        "label": "Account",
+        "placeholder": "Search account or holder",
+        "hint": "Search for a member to open the ledger.",
+        "searching": "Searching…",
+        "empty": "No members found.",
+        "change": "Change member"
+      },
+      "roles": {
+        "PRIMARY": "Primary",
+        "JOINT": "Joint"
+      },
+      "filters": {
+        "from": "From",
+        "to": "To",
+        "pending": "Show pending",
+        "sort": "Sort",
+        "newest": "Newest first",
+        "passbook": "Passbook order"
+      },
+      "summary": {
+        "opening": "Opening balance",
+        "credit": "Total credit",
+        "debit": "Total debit",
+        "closing": "Closing balance"
+      },
+      "columns": {
+        "date": "Date",
+        "transNo": "Trans no",
+        "particulars": "Particulars",
+        "voucher": "Voucher no",
+        "credit": "Credit",
+        "debit": "Debit",
+        "balance": "Balance",
+        "status": "Status"
+      }
+    },
+    "specimenUpdate": {
+      "metaTitle": "Specimen update",
+      "metaDescription": "Update signatories and member KYC",
+      "tabsLabel": "Specimen update",
+      "signatories": "Signatories",
+      "kyc": "KYC Update",
+      "kycTitle": "KYC update",
+      "signatoriesTitle": "Signatories",
+      "signatoriesEmpty": "No signatories to update.",
+      "loadError": "Members could not be loaded",
+      "tableDescription": "Savings accounts. Accounts without a signatory are flagged.",
+      "accountsLoadError": "Savings accounts could not be loaded",
+      "emptyTitle": "No savings accounts",
+      "emptyMessage": "Open a savings account to update its specimen.",
+      "columns": {
+        "signatory": "Signatory"
+      },
+      "flagMissing": "No signatory",
+      "flagCount": "{count, plural, one {# signatory} other {# signatories}}",
+      "upload": "Upload specimen",
+      "uploadTitle": "Upload specimen",
+      "uploadHint": "JPG or PNG, up to 2 MB.",
+      "signature": "Signature",
+      "photo": "Photo",
+      "notUploaded": "Not uploaded",
+      "chooseImage": "Choose image",
+      "replaceImage": "Replace image",
+      "holder": "Account holder",
+      "pickMember": "Signatory",
+      "pickMemberPlaceholder": "Select a member",
+      "cancel": "Cancel",
+      "save": "Save specimen",
+      "saving": "Saving…",
+      "saved": "Specimen saved.",
+      "imageType": "Use a JPG or PNG image.",
+      "imageTooLarge": "Image must be 2 MB or smaller.",
+      "imageRequired": "Choose a signature, a photo, or both.",
+      "memberRequired": "Select a signatory.",
+      "loadSignatoriesError": "Signatories could not be loaded.",
+      "saveError": "Specimen could not be saved."
+    },
     "savings": {
       "title": "Savings accounts",
       "description": "Open savings accounts and follow their status",
@@ -2932,11 +3032,11 @@
       "emptyMessage": "Open a savings account to see it here.",
       "loadErrorTitle": "Could not load savings accounts",
       "columns": {
-        "applNo": "Appl no / A/c",
+        "applNo": "Account No.",
         "holder": "Holder",
         "scheme": "Scheme",
         "mode": "Mode",
-        "balance": "Balance",
+        "balance": "Current balance",
         "status": "Status",
         "actions": "Actions",
         "accountLine": "A/c {number} · {type}",
@@ -2971,7 +3071,9 @@
         "toDate": "Appl date to",
         "memberScope": "Showing accounts for this member, including joint accounts.",
         "groupScope": "Showing accounts for this group.",
-        "clearScope": "Clear"
+        "clearScope": "Clear",
+        "product": "Product",
+        "productAll": "All products"
       },
       "form": {
         "createTitle": "Open account",
@@ -2996,7 +3098,7 @@
         "formationDate": "Formation Date",
         "scheme": "Scheme",
         "schemePlaceholder": "Select a savings scheme",
-        "depositType": "Deposit Type",
+        "depositType": "Product Type",
         "depositTypeHint": "The scheme list follows this type, and the scheme must use the same type.",
         "savingsType": "Savings",
         "sb": {
@@ -3022,6 +3124,7 @@
         "applNoPlaceholder": "Auto (DA-{year}-xxxxx)",
         "branch": "Branch",
         "fieldOfficer": "Field Officer",
+        "branchPlaceholder": "Select a branch",
         "fieldOfficerPlaceholder": "Select a field officer",
         "initialStatus": "Initial Status",
         "active": "Active",
@@ -3076,6 +3179,9 @@
         "nominees": {
           "groupNotice": "Nominees are not applicable to group accounts.",
           "empty": "No nominee yet. Add one, or continue without a nominee.",
+          "registeredEmpty": "No nominee is registered for this account.",
+          "memberRequired": "Select a member first.",
+          "minor": "Minor",
           "add": "Add nominee",
           "another": "Another nominee",
           "remove": "Remove nominee",
@@ -3156,7 +3262,39 @@
         "closeReason": "Closing",
         "nomineesEmpty": "{count} nominee records are linked to this account.",
         "signatoriesEmpty": "{count} signatory records are linked to this account.",
-        "transactionsEmpty": "Transactions will appear here."
+        "transactionsEmpty": "Transactions will appear here.",
+        "members": "Members ({count})",
+        "syncMembers": "Sync members",
+        "syncing": "Syncing…",
+        "viewAllTransactions": "View all transactions",
+        "product": "Product",
+        "balance": "Current balance",
+        "available": "Available balance",
+        "fullAccount": "Account number",
+        "accountNo": "Account No: {accountNo}",
+        "mobile": "Mobile",
+        "share": "Share",
+        "role": "Role",
+        "narration": "Narration",
+        "voucher": "Voucher",
+        "loading": "Loading account details…",
+        "membersEmpty": "No member rows on this group account.",
+        "yes": "Yes",
+        "no": "No",
+        "currentMember": "Current",
+        "formerMember": "Left the group",
+        "shownOf": "{shown} of {total}",
+        "sections": {
+          "account": "Account",
+          "savings": "Savings details",
+          "holders": "Holders",
+          "office": "Branch and officer",
+          "members": "Group members",
+          "nominees": "Nominees",
+          "signatories": "Signatories",
+          "transactions": "Recent transactions",
+          "closing": "Closing"
+        }
       },
       "statusDialog": {
         "title": "Change status",
@@ -3188,6 +3326,282 @@
         "closed": "Deposit account {applNo} closed"
       }
     },
+    "term": {
+      "metaTitle": "Term deposits",
+      "metaDescription": "Fixed, recurring and other term deposit accounts",
+      "description": "Term deposit accounts, amount and maturity",
+      "dash": "—",
+      "closed": "Closed",
+      "closedOn": "Closed {date}",
+      "roiPercent": "{value}%",
+      "matured": "Matured",
+      "tableCaption": "Term deposits",
+      "emptyTitle": "No term deposits yet",
+      "emptyMessage": "Term deposit accounts will appear here.",
+      "loadErrorTitle": "Could not load term deposits",
+      "columns": {
+        "account": "Account No.",
+        "holder": "Holder",
+        "joint": "Joint holder",
+        "scheme": "Scheme",
+        "schemeMeta": "{product} · {roi}",
+        "amount": "Amount",
+        "amountTimes": "{amount} × {count}",
+        "paid": "Paid {amount}",
+        "maturity": "Maturity",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "actions": {
+        "view": "View",
+        "edit": "Edit",
+        "changeStatus": "Change status",
+        "close": "Close account"
+      },
+      "details": "Term details",
+      "period": "Period",
+      "periodValue": "{years} y · {months} m · {days} d",
+      "installment": "Installment",
+      "maturityAmount": "Maturity amount",
+      "interest": "Interest payable",
+      "instruction": "Maturity instruction",
+      "schedule": "Installments",
+      "payouts": "Interest payouts",
+      "refresh": "Refresh",
+      "refreshing": "Refreshing…",
+      "scheduleError": "The installment schedule could not be refreshed.",
+      "dueDate": "Due date",
+      "paidOn": "Paid on",
+      "daysOverdue": "Days overdue",
+      "dueAmount": "Due amount",
+      "paidAmount": "Paid",
+      "scheduleEmpty": "No installment schedule.",
+      "payoutEmpty": "No interest payouts.",
+      "scheduleProgress": "{paid} of {total} paid"
+    },
+    "fdSettlement": {
+      "metaTitle": "Term deposit settlement",
+      "metaDescription": "Search a term deposit, review the settlement quote, and submit it for approval.",
+      "title": "Term deposit settlement",
+      "description": "Search deposit accounts and settlement requests.",
+      "history": "History",
+      "dash": "—",
+      "accountMissing": "This deposit account was not found.",
+      "tabsLabel": "Settlement views",
+      "tabs": {
+        "search": "Search deposit",
+        "pending": "Pending approval",
+        "settled": "Settled accounts"
+      },
+      "filters": {
+        "depositType": "Deposit type",
+        "account": "Account / customer",
+        "accountPlaceholder": "Account no. or customer ID",
+        "branch": "Branch",
+        "status": "Account status",
+        "search": "Search account",
+        "allTypes": "All",
+        "allBranches": "All authorized branches",
+        "activeMatured": "Active / Matured",
+        "allStatuses": "All statuses"
+      },
+      "schemes": {
+        "FD": "Fixed deposit",
+        "MIS": "MIS",
+        "OTHER": "Other"
+      },
+      "statuses": {
+        "active": "Active",
+        "matured": "Matured",
+        "closed": "Closed",
+        "settled": "Settled"
+      },
+      "kyc": {
+        "verified": "Verified",
+        "due": "Due",
+        "restricted": "Restricted"
+      },
+      "holding": {
+        "single": "Single",
+        "joint": "Joint",
+        "eitherOrSurvivor": "Either or survivor"
+      },
+      "restrictions": {
+        "lien": "This deposit has a lien. A new settlement cannot be started.",
+        "settled": "This account is already settled. The receipt is available.",
+        "kyc": "KYC is restricted. Settlement cannot continue."
+      },
+      "columns": {
+        "account": "Account",
+        "customer": "Customer",
+        "scheme": "Scheme",
+        "branch": "Branch",
+        "maturity": "Maturity",
+        "status": "Status",
+        "action": "Action",
+        "type": "Settlement type",
+        "date": "Settlement date",
+        "amount": "Net payable",
+        "requestStatus": "Request status"
+      },
+      "actions": {
+        "select": "Select",
+        "view": "View",
+        "change": "Change",
+        "calculate": "Calculate amount",
+        "calculating": "Calculating…",
+        "saveDraft": "Save draft",
+        "review": "Review & submit",
+        "cancel": "Cancel",
+        "back": "Back",
+        "leave": "Leave",
+        "submit": "Submit for approval",
+        "approve": "Approve",
+        "reject": "Reject",
+        "post": "Post",
+        "receipt": "Receipt",
+        "correct": "Correct"
+      },
+      "empty": {
+        "searchTitle": "No accounts",
+        "searchMessage": "No deposit matches these filters.",
+        "pendingTitle": "No pending approvals",
+        "pendingMessage": "Submitted settlements appear here.",
+        "settledTitle": "No settled accounts",
+        "settledMessage": "Posted settlements appear here."
+      },
+      "workspace": {
+        "accountLine": "Account {account}",
+        "customer": "Customer information",
+        "deposit": "Deposit information",
+        "request": "Settlement request",
+        "calculation": "Settlement calculation",
+        "payout": "Payment / transfer",
+        "documents": "Documents and declaration",
+        "name": "Name",
+        "customerId": "Customer ID",
+        "kyc": "KYC",
+        "holding": "Holding",
+        "branch": "Branch",
+        "scheme": "Scheme",
+        "principal": "Principal",
+        "rate": "Rate",
+        "rateValue": "{rate}% p.a.",
+        "open": "Opened",
+        "maturity": "Maturity",
+        "tenure": "Tenure",
+        "tenureValue": "{count, plural, one {# month} other {# months}}",
+        "payoutFrequency": "Interest payout",
+        "cumulative": "Cumulative",
+        "periodic": "Periodic",
+        "type": "Type",
+        "date": "Date",
+        "reason": "Reason",
+        "remarks": "Remarks",
+        "choose": "Choose",
+        "mode": "Mode",
+        "beneficiaryAccount": "Account",
+        "beneficiaryName": "Name",
+        "amount": "Amount",
+        "ifsc": "IFSC",
+        "chequeRef": "Cheque reference",
+        "noPaymentMethods": "No payment method is available for this account.",
+        "upload": "Upload supporting document",
+        "declaration": "I have verified the details",
+        "confirm": "I confirm the details and payout instructions.",
+        "quoteEmpty": "Calculate the settlement to see the payable amount.",
+        "quoteStale": "The quote is out of date. Calculate again before submitting.",
+        "quoteMeta": "Quote {id} · valid until {date}",
+        "types": {
+          "maturity": "Maturity settlement",
+          "premature": "Premature closure"
+        },
+        "reasons": {
+          "customer": "Customer request",
+          "financial": "Financial requirement",
+          "other": "Other"
+        },
+        "modes": {
+          "savings": "Savings transfer",
+          "neft": "NEFT / RTGS",
+          "cheque": "Cheque",
+          "cash": "Cash"
+        },
+        "lines": {
+          "principal": "Principal",
+          "interest": "Interest",
+          "overdue": "Overdue interest",
+          "recovery": "Interest recovery",
+          "penalty": "Penalty",
+          "tds": "TDS / tax",
+          "other": "Other deductions",
+          "net": "Net payable"
+        },
+        "checklist": {
+          "maturity": "Attach the settlement form when it is available.",
+          "premature": "Attach the customer request when it is available."
+        }
+      },
+      "mis": {
+        "title": "Monthly interest details",
+        "monthly": "Monthly interest",
+        "lastPaid": "Last paid date",
+        "totalPaid": "Total interest paid",
+        "unpaid": "Unpaid installments",
+        "pending": "Pending interest",
+        "excess": "Recoverable excess"
+      },
+      "review": {
+        "title": "Review settlement",
+        "subtitle": "Verify all details before forwarding for approval.",
+        "account": "Deposit account",
+        "customer": "Customer",
+        "type": "Settlement type",
+        "date": "Settlement date",
+        "mode": "Payment mode",
+        "beneficiary": "Beneficiary"
+      },
+      "receipt": {
+        "title": "Settlement receipt",
+        "reference": "Reference",
+        "printed": "This receipt is for a settled request."
+      },
+      "requestStatuses": {
+        "draft": "Draft",
+        "pending": "Pending approval",
+        "rejected": "Rejected",
+        "approved": "Approved",
+        "settled": "Settled"
+      },
+      "notices": {
+        "draftSaved": "Draft saved. No ledger entry was posted.",
+        "submitted": "Settlement submitted for approval.",
+        "approved": "Settlement approved.",
+        "rejected": "Settlement rejected.",
+        "posted": "Settlement posted.",
+        "unsavedTitle": "Leave this settlement?",
+        "unsavedMessage": "The quote and unsaved entries will be cleared."
+      },
+      "validation": {
+        "type": "Choose a settlement type.",
+        "date": "Choose a settlement date.",
+        "reason": "Choose a reason.",
+        "quote": "Calculate the settlement before review.",
+        "payment": "Choose a payment mode.",
+        "beneficiary": "Enter the beneficiary account.",
+        "ifsc": "Enter the IFSC.",
+        "cheque": "Enter the cheque reference.",
+        "declaration": "Confirm that the details were verified.",
+        "confirm": "Confirm the payout instructions.",
+        "fileType": "Upload a PDF, JPG, or PNG.",
+        "fileSize": "The file must be 2 MB or smaller.",
+        "rejectReason": "Enter a rejection reason."
+      },
+      "reject": {
+        "title": "Reject settlement",
+        "reason": "Reason"
+      }
+    },
     "savingsTransaction": {
       "title": "Savings transactions",
       "description": "Post a deposit or withdrawal, and approve pending entries.",
@@ -3217,7 +3631,7 @@
         "2": "Withdrawal"
       },
       "table": {
-        "transNo": "Transaction",
+        "transNo": "Transaction Id",
         "account": "Account",
         "type": "Type",
         "mode": "Mode",
@@ -3266,7 +3680,13 @@
         "effectRange": "Effective date must be on or before the transaction date",
         "amountInvalid": "Enter an amount greater than zero",
         "exceedsBalance": "Withdrawal cannot be more than the current balance ({balance})",
-        "accountRequired": "Select an account"
+        "accountRequired": "Select an account",
+        "available": "Available balance",
+        "pending": "Pending",
+        "depositRemaining": "Remaining deposit",
+        "postVouchers": "Post missing vouchers",
+        "postingVouchers": "Posting vouchers…",
+        "vouchersMissing": "{count} posted transactions have no voucher"
       },
       "approval": {
         "approveTitle": "Approve transaction",
@@ -3276,6 +3696,33 @@
         "confirmApprove": "Approve",
         "confirmReject": "Reject",
         "cancel": "Cancel"
+      },
+      "picker": {
+        "title": "Find account",
+        "subtitle": "Leave the filter empty and search to list account holders.",
+        "filter": "Filter",
+        "accountsTitle": "Select account",
+        "back": "Back",
+        "columns": {
+          "code": "Code",
+          "name": "Name",
+          "type": "Type",
+          "mobile": "Mobile",
+          "account": "Account",
+          "scheme": "Scheme",
+          "balance": "Balance",
+          "action": "Action"
+        },
+        "select": "Select",
+        "selected": "Selected",
+        "loading": "Loading accounts…",
+        "empty": "No account holder found",
+        "emptyHint": "Try a different name, code, mobile or account number.",
+        "showing": "Showing {from}–{to} of {total}",
+        "previous": "Previous",
+        "next": "Next",
+        "close": "Close",
+        "loadError": "Accounts could not be loaded"
       }
     }
   },

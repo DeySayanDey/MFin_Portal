@@ -6,6 +6,7 @@ import {
   createDepositAccount,
   listDepositAccounts,
   updateDepositAccount,
+  syncDepositAccountMembers,
 } from "@/features/deposits/savings/services/deposit-account.service";
 import { toBffErrorResponse } from "@/lib/api/bff-response";
 import { requireSessionUser, resolveBranchFilter } from "@/lib/auth/bff-scope";
@@ -51,6 +52,7 @@ export async function GET(request: Request) {
       schemeId: readOptionalNumber(searchParams.get("scheme_id")),
       depositTypeCd:
         requestedType ?? (allTypes ? undefined : SAVINGS_DEPOSIT_TYPE),
+      prodTypeCd: readOptionalNumber(searchParams.get("prod_type_cd")),
       custTypeCd: readOptionalNumber(searchParams.get("cust_type_cd")),
       memberId: readOptionalNumber(searchParams.get("member_id")),
       groupId: readOptionalNumber(searchParams.get("group_id")),
@@ -88,6 +90,15 @@ export async function POST(request: Request) {
         success: true,
         message: "Deposit account status updated",
         data: item,
+      });
+    }
+
+    if (body.action === "sync-members") {
+      const res = await syncDepositAccountMembers(Number(payload.accountId));
+      return NextResponse.json({
+        success: true,
+        message: res.message,
+        data: res.members,
       });
     }
 

@@ -376,6 +376,7 @@
         "employeeId": "କର୍ମଚାରୀ ଆଇଡି",
         "designation": "ପଦବୀ",
         "branch": "ଶାଖା",
+        "branchPlaceholder": "ଶାଖା ଚୟନ କରନ୍ତୁ",
         "status": "ସ୍ଥିତି",
         "active": "ସକ୍ରିୟ",
         "inactive": "ନିଷ୍କ୍ରିୟ",
@@ -2917,6 +2918,105 @@
     }
   },
   "deposits": {
+    "memberLedger": {
+      "metaTitle": "ସଦସ୍ୟ ଖାତା",
+      "metaDescription": "ଜଣେ ସଦସ୍ୟଙ୍କ ସଞ୍ଚୟ ଓ ମିଆଦି ଜମା ଖାତା",
+      "tabsLabel": "ଜମା ପ୍ରକାର",
+      "savings": "ସଞ୍ଚୟ ଜମା",
+      "term": "ମିଆଦି ଜମା",
+      "savingsCount": "ସଞ୍ଚୟ ଜମା ({count})",
+      "termCount": "ମିଆଦି ଜମା ({count})",
+      "dash": "—",
+      "closed": "ବନ୍ଦ",
+      "loading": "ଲୋଡ୍ ହେଉଛି…",
+      "loadError": "ସଦସ୍ୟ ଖାତା ଲୋଡ୍ ହେଲା ନାହିଁ।",
+      "dateOrder": "ଶେଷ ତାରିଖ ଆରମ୍ଭ ତାରିଖ ପୂର୍ବରୁ ହୋଇପାରିବ ନାହିଁ।",
+      "selectAccount": "ଖାତା ବାଛନ୍ତୁ",
+      "selectAccountHint": "ଖାତା ଦେଖିବାକୁ ଏକ ଖାତା ବାଛନ୍ତୁ।",
+      "noAccounts": "ଏହି ବିଭାଗରେ କୌଣସି ଖାତା ନାହିଁ।",
+      "pendingApproval": "ଅନୁମୋଦନ ବାକି",
+      "emptyTitle": "ଏହି ଅବଧିରେ କୌଣସି କାରବାର ନାହିଁ",
+      "emptyMessage": "ବଛାଯାଇଥିବା ଖାତାର ପୋଷ୍ଟ ଏଣ୍ଟ୍ରି ଏଠାରେ ଦେଖାଯିବ।",
+      "accountTitle": "{account} · {holder}",
+      "sectionSummary": "ବାଲାନ୍ସ {balance} · ଜମା {credit} · ଡେବିଟ {debit}",
+      "search": {
+        "label": "ଖାତା",
+        "placeholder": "ଖାତା କିମ୍ବା ଧାରକ ଖୋଜନ୍ତୁ",
+        "hint": "ଖାତା ଖୋଲିବାକୁ ଜଣେ ସଦସ୍ୟ ଖୋଜନ୍ତୁ।",
+        "searching": "ଖୋଜାଯାଉଛି…",
+        "empty": "କୌଣସି ସଦସ୍ୟ ମିଳିଲେ ନାହିଁ।",
+        "change": "ସଦସ୍ୟ ବଦଳାନ୍ତୁ"
+      },
+      "roles": {
+        "PRIMARY": "ପ୍ରାଥମିକ",
+        "JOINT": "ଯୌଥ"
+      },
+      "filters": {
+        "from": "ଠାରୁ",
+        "to": "ପର୍ଯ୍ୟନ୍ତ",
+        "pending": "ବାକି ଦେଖାନ୍ତୁ",
+        "sort": "କ୍ରମ",
+        "newest": "ନୂଆ ଆଗରେ",
+        "passbook": "ପାସବୁକ୍ କ୍ରମ"
+      },
+      "summary": {
+        "opening": "ପ୍ରାରମ୍ଭିକ ବାଲାନ୍ସ",
+        "credit": "ମୋଟ ଜମା",
+        "debit": "ମୋଟ ଡେବିଟ",
+        "closing": "ଅନ୍ତିମ ବାଲାନ୍ସ"
+      },
+      "columns": {
+        "date": "ତାରିଖ",
+        "transNo": "କାରବାର ନଂ",
+        "particulars": "ବିବରଣୀ",
+        "voucher": "ଭାଉଚର ନଂ",
+        "credit": "ଜମା",
+        "debit": "ଡେବିଟ",
+        "balance": "ବାଲାନ୍ସ",
+        "status": "ସ୍ଥିତି"
+      }
+    },
+    "specimenUpdate": {
+      "metaTitle": "ନମୁନା ଅପଡେଟ",
+      "metaDescription": "ସ୍ୱାକ୍ଷରକାରୀ ଏବଂ ସଦସ୍ୟ KYC ଅପଡେଟ କରନ୍ତୁ",
+      "tabsLabel": "ନମୁନା ଅପଡେଟ",
+      "signatories": "ସ୍ୱାକ୍ଷରକାରୀ",
+      "kyc": "KYC ଅପଡେଟ",
+      "kycTitle": "KYC ଅପଡେଟ",
+      "signatoriesTitle": "ସ୍ୱାକ୍ଷରକାରୀ",
+      "signatoriesEmpty": "ଅପଡେଟ ପାଇଁ କୌଣସି ସ୍ୱାକ୍ଷରକାରୀ ନାହାନ୍ତି।",
+      "loadError": "ସଦସ୍ୟ ଲୋଡ ହେଲା ନାହିଁ",
+      "tableDescription": "ସଞ୍ଚୟ ଖାତା। ସ୍ୱାକ୍ଷରକାରୀ ନଥିବା ଖାତାରେ ଚିହ୍ନ ଦେଖାଏ।",
+      "accountsLoadError": "ସଞ୍ଚୟ ଖାତା ଲୋଡ୍ ହେଲା ନାହିଁ",
+      "emptyTitle": "କୌଣସି ସଞ୍ଚୟ ଖାତା ନାହିଁ",
+      "emptyMessage": "ନମୁନା ଅପଡେଟ ପାଇଁ ଏକ ସଞ୍ଚୟ ଖାତା ଖୋଲନ୍ତୁ।",
+      "columns": {
+        "signatory": "ସ୍ୱାକ୍ଷରକାରୀ"
+      },
+      "flagMissing": "କୌଣସି ସ୍ୱାକ୍ଷରକାରୀ ନାହାନ୍ତି",
+      "flagCount": "{count, plural, one {# ସ୍ୱାକ୍ଷରକାରୀ} other {# ସ୍ୱାକ୍ଷରକାରୀ}}",
+      "upload": "ନମୁନା ଅପଲୋଡ୍",
+      "uploadTitle": "ନମୁନା ଅପଲୋଡ୍",
+      "uploadHint": "JPG କିମ୍ବା PNG, ସର୍ବାଧିକ 2 MB।",
+      "signature": "ସ୍ୱାକ୍ଷର",
+      "photo": "ଫଟୋ",
+      "notUploaded": "ଅପଲୋଡ୍ ହୋଇନାହିଁ",
+      "chooseImage": "ଛବି ବାଛନ୍ତୁ",
+      "replaceImage": "ଛବି ବଦଳାନ୍ତୁ",
+      "holder": "ଖାତାଧାରୀ",
+      "pickMember": "ସ୍ୱାକ୍ଷରକାରୀ",
+      "pickMemberPlaceholder": "ସଦସ୍ୟ ବାଛନ୍ତୁ",
+      "cancel": "ବାତିଲ୍",
+      "save": "ନମୁନା ସଂରକ୍ଷଣ",
+      "saving": "ସଂରକ୍ଷଣ ହେଉଛି…",
+      "saved": "ନମୁନା ସଂରକ୍ଷିତ ହେଲା।",
+      "imageType": "JPG କିମ୍ବା PNG ଛବି ବ୍ୟବହାର କରନ୍ତୁ।",
+      "imageTooLarge": "ଛବି 2 MB କିମ୍ବା ତାହାଠାରୁ ଛୋଟ ହେବା ଉଚିତ।",
+      "imageRequired": "ସ୍ୱାକ୍ଷର, ଫଟୋ, କିମ୍ବା ଉଭୟ ବାଛନ୍ତୁ।",
+      "memberRequired": "ଜଣେ ସ୍ୱାକ୍ଷରକାରୀ ବାଛନ୍ତୁ।",
+      "loadSignatoriesError": "ସ୍ୱାକ୍ଷରକାରୀ ଲୋଡ୍ ହେଲା ନାହିଁ।",
+      "saveError": "ନମୁନା ସଂରକ୍ଷଣ ହେଲା ନାହିଁ।"
+    },
     "savings": {
       "title": "ସଞ୍ଚୟ ଖାତା",
       "description": "ସଞ୍ଚୟ ଖାତା ଖୋଲନ୍ତୁ ଏବଂ ସେଗୁଡ଼ିକର ସ୍ଥିତି ଦେଖନ୍ତୁ",
@@ -2971,7 +3071,9 @@
         "toDate": "ଆବେଦନ ତାରିଖ ପର୍ଯ୍ୟନ୍ତ",
         "memberScope": "ଏହି ସଦସ୍ୟଙ୍କ ଖାତା ଦେଖାଯାଉଛି, ଯୁଗ୍ମ ଖାତା ସହିତ।",
         "groupScope": "ଏହି ଗୋଷ୍ଠୀର ଖାତା ଦେଖାଯାଉଛି।",
-        "clearScope": "ଲିଭାନ୍ତୁ"
+        "clearScope": "ଲିଭାନ୍ତୁ",
+        "product": "ଉତ୍ପାଦ",
+        "productAll": "ସମସ୍ତ ଉତ୍ପାଦ"
       },
       "form": {
         "createTitle": "ଖାତା ଖୋଲନ୍ତୁ",
@@ -2996,7 +3098,7 @@
         "formationDate": "ଗଠନ ତାରିଖ",
         "scheme": "ଯୋଜନା",
         "schemePlaceholder": "ଏକ ସଞ୍ଚୟ ଯୋଜନା ବାଛନ୍ତୁ",
-        "depositType": "ଜମା ପ୍ରକାର",
+        "depositType": "ଉତ୍ପାଦ ପ୍ରକାର",
         "depositTypeHint": "ଯୋଜନା ତାଲିକା ଏହି ପ୍ରକାର ଅନୁସାରେ ଆସେ, ଏବଂ ଯୋଜନା ସମାନ ପ୍ରକାରର ହେବା ଉଚିତ।",
         "savingsType": "ସଞ୍ଚୟ",
         "sb": {
@@ -3076,6 +3178,9 @@
         "nominees": {
           "groupNotice": "ଗୋଷ୍ଠୀ ଖାତାରେ ନାମିନି ପ୍ରଯୁଜ୍ୟ ନୁହେଁ।",
           "empty": "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ନାମିନି ନାହିଁ। ଜଣେ ଯୋଡ଼ନ୍ତୁ, କିମ୍ବା ନାମିନି ବିନା ଆଗକୁ ଯାଆନ୍ତୁ।",
+          "registeredEmpty": "ଏହି ଖାତାରେ କୌଣସି ନାମିନି ପଞ୍ଜିକୃତ ନାହିଁ।",
+          "memberRequired": "ପ୍ରଥମେ ସଦସ୍ୟ ବାଛନ୍ତୁ।",
+          "minor": "ନାବାଳକ",
           "add": "ନାମିନି ଯୋଡ଼ନ୍ତୁ",
           "another": "ଆଉ ଜଣେ ନାମିନି",
           "remove": "ନାମିନି ହଟାନ୍ତୁ",
@@ -3131,7 +3236,8 @@
         "collapse": "ସଙ୍କୁଚିତ କରନ୍ତୁ",
         "expand": "ପ୍ରସାରିତ କରନ୍ତୁ",
         "collapseSection": "{section} ସଙ୍କୁଚିତ କରନ୍ତୁ",
-        "expandSection": "{section} ପ୍ରସାରିତ କରନ୍ତୁ"
+        "expandSection": "{section} ପ୍ରସାରିତ କରନ୍ତୁ",
+        "branchPlaceholder": "ଶାଖା ଚୟନ କରନ୍ତୁ"
       },
       "view": {
         "title": "ଖାତା",
@@ -3156,7 +3262,39 @@
         "closeReason": "ବନ୍ଦ",
         "nomineesEmpty": "ଏହି ଖାତାରେ {count}ଟି ନାମିନି ରେକର୍ଡ ଯୋଡ଼ା।",
         "signatoriesEmpty": "ଏହି ଖାତାରେ {count}ଟି ହସ୍ତାକ୍ଷରକାରୀ ରେକର୍ଡ ଯୋଡ଼ା।",
-        "transactionsEmpty": "କାରବାର ଏଠାରେ ଦେଖାଯିବ।"
+        "transactionsEmpty": "କାରବାର ଏଠାରେ ଦେଖାଯିବ।",
+        "members": "ସଦସ୍ୟ ({count})",
+        "syncMembers": "ସଦସ୍ୟ ସିଙ୍କ କରନ୍ତୁ",
+        "syncing": "ସିଙ୍କ ହେଉଛି…",
+        "viewAllTransactions": "ସମସ୍ତ କାରବାର ଦେଖନ୍ତୁ",
+        "product": "ଉତ୍ପାଦ",
+        "balance": "ବର୍ତ୍ତମାନ ବାଲାନ୍ସ",
+        "available": "ଉପଲବ୍ଧ ବାଲାନ୍ସ",
+        "fullAccount": "ଖାତା ସଂଖ୍ୟା",
+        "accountNo": "ଖାତା ନଂ: {accountNo}",
+        "mobile": "ମୋବାଇଲ୍",
+        "share": "ଅଂଶ",
+        "role": "ଭୂମିକା",
+        "narration": "ବିବରଣୀ",
+        "voucher": "ଭାଉଚର୍",
+        "loading": "ଖାତା ବିବରଣୀ ଲୋଡ୍ ହେଉଛି…",
+        "membersEmpty": "ଏହି ଗ୍ରୁପ୍ ଖାତାରେ କୌଣସି ସଦସ୍ୟ ଧାଡ଼ି ନାହିଁ।",
+        "yes": "ହଁ",
+        "no": "ନା",
+        "currentMember": "ବର୍ତ୍ତମାନ",
+        "formerMember": "ଗ୍ରୁପ୍ ଛାଡ଼ିଛନ୍ତି",
+        "shownOf": "{shown} / {total}",
+        "sections": {
+          "account": "ଖାତା",
+          "savings": "ସଞ୍ଚୟ ବିବରଣୀ",
+          "holders": "ଧାରକ",
+          "office": "ଶାଖା ଏବଂ ଅଧିକାରୀ",
+          "members": "ଗ୍ରୁପ୍ ସଦସ୍ୟ",
+          "nominees": "ନାମିନି",
+          "signatories": "ହସ୍ତାକ୍ଷରକାରୀ",
+          "transactions": "ସାମ୍ପ୍ରତିକ କାରବାର",
+          "closing": "ବନ୍ଦ"
+        }
       },
       "statusDialog": {
         "title": "ସ୍ଥିତି ବଦଳାନ୍ତୁ",
@@ -3188,6 +3326,282 @@
         "closed": "ଜମା ଖାତା {applNo} ବନ୍ଦ ହେଲା"
       }
     },
+    "term": {
+      "metaTitle": "ମିଆଦି ଜମା",
+      "metaDescription": "ସ୍ଥାୟୀ, ପୁନରାବୃତ୍ତି ଏବଂ ଅନ୍ୟ ମିଆଦି ଜମା ଖାତା",
+      "description": "ମିଆଦି ଜମା ଖାତା, ରାଶି ଏବଂ ପରିପକ୍ୱତା",
+      "dash": "—",
+      "closed": "ବନ୍ଦ",
+      "closedOn": "{date} ରେ ବନ୍ଦ",
+      "roiPercent": "{value}%",
+      "matured": "ପରିପକ୍ୱ",
+      "tableCaption": "ମିଆଦି ଜମା",
+      "emptyTitle": "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ମିଆଦି ଜମା ନାହିଁ",
+      "emptyMessage": "ମିଆଦି ଜମା ଖାତା ଏଠାରେ ଦେଖାଯିବ।",
+      "loadErrorTitle": "ମିଆଦି ଜମା ଲୋଡ୍ ହେଲା ନାହିଁ",
+      "columns": {
+        "account": "ଖାତା ନଂ",
+        "holder": "ଧାରକ",
+        "joint": "ଯୁଗ୍ମ ଧାରକ",
+        "scheme": "ଯୋଜନା",
+        "schemeMeta": "{product} · {roi}",
+        "amount": "ରାଶି",
+        "amountTimes": "{amount} × {count}",
+        "paid": "ଜମା {amount}",
+        "maturity": "ପରିପକ୍ୱତା",
+        "status": "ସ୍ଥିତି",
+        "actions": "କାମ"
+      },
+      "actions": {
+        "view": "ଦେଖନ୍ତୁ",
+        "edit": "ସମ୍ପାଦନା",
+        "changeStatus": "ସ୍ଥିତି ବଦଳାନ୍ତୁ",
+        "close": "ଖାତା ବନ୍ଦ କରନ୍ତୁ"
+      },
+      "details": "ମିଆଦି ବିବରଣୀ",
+      "period": "ଅବଧି",
+      "periodValue": "{years} ବର୍ଷ · {months} ମାସ · {days} ଦିନ",
+      "installment": "କିସ୍ତି",
+      "maturityAmount": "ପରିପକ୍ୱତା ରାଶି",
+      "interest": "ଦେୟ ସୁଧ",
+      "instruction": "ପରିପକ୍ୱତା ନିର୍ଦ୍ଦେଶ",
+      "schedule": "କିସ୍ତି",
+      "payouts": "ସୁଧ ପ୍ରଦାନ",
+      "refresh": "ରିଫ୍ରେସ୍",
+      "refreshing": "ରିଫ୍ରେସ୍ ହେଉଛି…",
+      "scheduleError": "କିସ୍ତି ତାଲିକା ରିଫ୍ରେସ୍ ହେଲା ନାହିଁ।",
+      "dueDate": "ଦେୟ ତାରିଖ",
+      "paidOn": "ପରିଶୋଧ ତାରିଖ",
+      "daysOverdue": "ବକେୟା ଦିନ",
+      "dueAmount": "ଦେୟ ରାଶି",
+      "paidAmount": "ପରିଶୋଧ",
+      "scheduleEmpty": "କୌଣସି କିସ୍ତି ତାଲିକା ନାହିଁ।",
+      "payoutEmpty": "କୌଣସି ସୁଧ ପ୍ରଦାନ ନାହିଁ।",
+      "scheduleProgress": "{total} ରୁ {paid} ପରିଶୋଧ"
+    },
+    "fdSettlement": {
+      "metaTitle": "ମିଆଦି ଜମା ନିଷ୍ପତ୍ତି",
+      "metaDescription": "ମିଆଦି ଜମା ଖୋଜନ୍ତୁ, ନିଷ୍ପତ୍ତି ଉଦ୍ଧୃତି ଦେଖନ୍ତୁ ଏବଂ ଅନୁମୋଦନ ପାଇଁ ପଠାନ୍ତୁ।",
+      "title": "ମିଆଦି ଜମା ନିଷ୍ପତ୍ତି",
+      "description": "ଜମା ଖାତା ଏବଂ ନିଷ୍ପତ୍ତି ଅନୁରୋଧ ଖୋଜନ୍ତୁ।",
+      "history": "ଇତିହାସ",
+      "dash": "—",
+      "accountMissing": "ଏହି ଜମା ଖାତା ମିଳିଲା ନାହିଁ।",
+      "tabsLabel": "ନିଷ୍ପତ୍ତି ଦୃଶ୍ୟ",
+      "tabs": {
+        "search": "ଜମା ଖୋଜନ୍ତୁ",
+        "pending": "ଅନୁମୋଦନ ବାକି",
+        "settled": "ନିଷ୍ପତ୍ତି ଖାତା"
+      },
+      "filters": {
+        "depositType": "ଜମା ପ୍ରକାର",
+        "account": "ଖାତା / ଗ୍ରାହକ",
+        "accountPlaceholder": "ଖାତା ନମ୍ବର କିମ୍ବା ଗ୍ରାହକ ଆଇଡି",
+        "branch": "ଶାଖା",
+        "status": "ଖାତା ସ୍ଥିତି",
+        "search": "ଖାତା ଖୋଜନ୍ତୁ",
+        "allTypes": "ସବୁ",
+        "allBranches": "ସବୁ ଅନୁମୋଦିତ ଶାଖା",
+        "activeMatured": "ସକ୍ରିୟ / ପରିପକ୍ୱ",
+        "allStatuses": "ସବୁ ସ୍ଥିତି"
+      },
+      "schemes": {
+        "FD": "ମିଆଦି ଜମା",
+        "MIS": "ଏମଆଇଏସ",
+        "OTHER": "ଅନ୍ୟ"
+      },
+      "statuses": {
+        "active": "ସକ୍ରିୟ",
+        "matured": "ପରିପକ୍ୱ",
+        "closed": "ବନ୍ଦ",
+        "settled": "ନିଷ୍ପତ୍ତି"
+      },
+      "kyc": {
+        "verified": "ଯାଞ୍ଚିତ",
+        "due": "ବାକି",
+        "restricted": "ପ୍ରତିବନ୍ଧିତ"
+      },
+      "holding": {
+        "single": "ଏକକ",
+        "joint": "ଯୁଗ୍ମ",
+        "eitherOrSurvivor": "ଯେକୌଣସି ଜଣ କିମ୍ବା ଉତ୍ତରାଧିକାରୀ"
+      },
+      "restrictions": {
+        "lien": "ଏହି ଜମାରେ ବନ୍ଧକ ଅଛି। ନୂଆ ନିଷ୍ପତ୍ତି ଆରମ୍ଭ ହୋଇପାରିବ ନାହିଁ।",
+        "settled": "ଏହି ଖାତା ପୂର୍ବରୁ ନିଷ୍ପତ୍ତି ହୋଇଛି। ରସିଦ ଉପଲବ୍ଧ।",
+        "kyc": "କେୱାଇସି ପ୍ରତିବନ୍ଧିତ। ନିଷ୍ପତ୍ତି ଚାଲିପାରିବ ନାହିଁ।"
+      },
+      "columns": {
+        "account": "ଖାତା",
+        "customer": "ଗ୍ରାହକ",
+        "scheme": "ଯୋଜନା",
+        "branch": "ଶାଖା",
+        "maturity": "ପରିପକ୍ୱତା",
+        "status": "ସ୍ଥିତି",
+        "action": "କାର୍ଯ୍ୟ",
+        "type": "ନିଷ୍ପତ୍ତି ପ୍ରକାର",
+        "date": "ନିଷ୍ପତ୍ତି ତାରିଖ",
+        "amount": "ନିଟ ଦେୟ",
+        "requestStatus": "ଅନୁରୋଧ ସ୍ଥିତି"
+      },
+      "actions": {
+        "select": "ବାଛନ୍ତୁ",
+        "view": "ଦେଖନ୍ତୁ",
+        "change": "ବଦଳାନ୍ତୁ",
+        "calculate": "ରାଶି ଗଣନା କରନ୍ତୁ",
+        "calculating": "ଗଣନା ହେଉଛି…",
+        "saveDraft": "ଖସଡ଼ା ସଂରକ୍ଷଣ",
+        "review": "ସମୀକ୍ଷା ଏବଂ ଦାଖଲ",
+        "cancel": "ବାତିଲ",
+        "back": "ପଛକୁ",
+        "leave": "ଛାଡ଼ନ୍ତୁ",
+        "submit": "ଅନୁମୋଦନ ପାଇଁ ପଠାନ୍ତୁ",
+        "approve": "ଅନୁମୋଦନ",
+        "reject": "ପ୍ରତ୍ୟାଖ୍ୟାନ",
+        "post": "ପୋଷ୍ଟ",
+        "receipt": "ରସିଦ",
+        "correct": "ସୁଧାର"
+      },
+      "empty": {
+        "searchTitle": "କୌଣସି ଖାତା ନାହିଁ",
+        "searchMessage": "ଏହି ଫିଲ୍ଟରରେ କୌଣସି ଜମା ମିଳିଲା ନାହିଁ।",
+        "pendingTitle": "କୌଣସି ବାକି ଅନୁମୋଦନ ନାହିଁ",
+        "pendingMessage": "ଦାଖଲ ହୋଇଥିବା ନିଷ୍ପତ୍ତି ଏଠାରେ ଦେଖାଯିବ।",
+        "settledTitle": "କୌଣସି ନିଷ୍ପତ୍ତି ଖାତା ନାହିଁ",
+        "settledMessage": "ପୋଷ୍ଟ ହୋଇଥିବା ନିଷ୍ପତ୍ତି ଏଠାରେ ଦେଖାଯିବ।"
+      },
+      "workspace": {
+        "accountLine": "ଖାତା {account}",
+        "customer": "ଗ୍ରାହକ ସୂଚନା",
+        "deposit": "ଜମା ସୂଚନା",
+        "request": "ନିଷ୍ପତ୍ତି ଅନୁରୋଧ",
+        "calculation": "ନିଷ୍ପତ୍ତି ଗଣନା",
+        "payout": "ପରିଶୋଧ / ସ୍ଥାନାନ୍ତର",
+        "documents": "ଦଲିଲ ଏବଂ ଘୋଷଣା",
+        "name": "ନାମ",
+        "customerId": "ଗ୍ରାହକ ଆଇଡି",
+        "kyc": "କେୱାଇସି",
+        "holding": "ହୋଲ୍ଡିଂ",
+        "branch": "ଶାଖା",
+        "scheme": "ଯୋଜନା",
+        "principal": "ମୂଳଧନ",
+        "rate": "ହାର",
+        "rateValue": "{rate}% ବାର୍ଷିକ",
+        "open": "ଖୋଲିବା",
+        "maturity": "ପରିପକ୍ୱତା",
+        "tenure": "ଅବଧି",
+        "tenureValue": "{count, plural, one {# ମାସ} other {# ମାସ}}",
+        "payoutFrequency": "ସୁଧ ପରିଶୋଧ",
+        "cumulative": "ସଞ୍ଚୟୀ",
+        "periodic": "ପର୍ଯ୍ୟାୟକ୍ରମିକ",
+        "type": "ପ୍ରକାର",
+        "date": "ତାରିଖ",
+        "reason": "କାରଣ",
+        "remarks": "ମନ୍ତବ୍ୟ",
+        "choose": "ବାଛନ୍ତୁ",
+        "mode": "ମାଧ୍ୟମ",
+        "beneficiaryAccount": "ଖାତା",
+        "beneficiaryName": "ନାମ",
+        "amount": "ରାଶି",
+        "ifsc": "ଆଇଏଫଏସସି",
+        "chequeRef": "ଚେକ ସନ୍ଦର୍ଭ",
+        "noPaymentMethods": "ଏହି ଖାତା ପାଇଁ କୌଣସି ପରିଶୋଧ ମାଧ୍ୟମ ନାହିଁ।",
+        "upload": "ସହାୟକ ଦଲିଲ ଅପଲୋଡ କରନ୍ତୁ",
+        "declaration": "ମୁଁ ବିବରଣୀ ଯାଞ୍ଚ କରିଛି",
+        "confirm": "ମୁଁ ବିବରଣୀ ଏବଂ ପରିଶୋଧ ନିର୍ଦ୍ଦେଶ ନିଶ୍ଚିତ କରୁଛି।",
+        "quoteEmpty": "ଦେୟ ରାଶି ଦେଖିବାକୁ ନିଷ୍ପତ୍ତି ଗଣନା କରନ୍ତୁ।",
+        "quoteStale": "ଉଦ୍ଧୃତି ପୁରୁଣା ହୋଇଛି। ଦାଖଲ ପୂର୍ବରୁ ପୁନଃ ଗଣନା କରନ୍ତୁ।",
+        "quoteMeta": "ଉଦ୍ଧୃତି {id} · {date} ପର୍ଯ୍ୟନ୍ତ ବୈଧ",
+        "types": {
+          "maturity": "ପରିପକ୍ୱତା ନିଷ୍ପତ୍ତି",
+          "premature": "ସମୟ ପୂର୍ବରୁ ବନ୍ଦ"
+        },
+        "reasons": {
+          "customer": "ଗ୍ରାହକ ଅନୁରୋଧ",
+          "financial": "ଆର୍ଥିକ ଆବଶ୍ୟକତା",
+          "other": "ଅନ୍ୟ"
+        },
+        "modes": {
+          "savings": "ସଞ୍ଚୟ ସ୍ଥାନାନ୍ତର",
+          "neft": "ଏନଇଏଫଟି / ଆରଟିଜିଏସ",
+          "cheque": "ଚେକ",
+          "cash": "ନଗଦ"
+        },
+        "lines": {
+          "principal": "ମୂଳଧନ",
+          "interest": "ସୁଧ",
+          "overdue": "ବକେୟା ସୁଧ",
+          "recovery": "ସୁଧ ଆଦାୟ",
+          "penalty": "ଜରିମାନା",
+          "tds": "ଟିଡିଏସ / କର",
+          "other": "ଅନ୍ୟ କଟୌତି",
+          "net": "ନିଟ ଦେୟ"
+        },
+        "checklist": {
+          "maturity": "ନିଷ୍ପତ୍ତି ଫର୍ମ ଥିଲେ ସଂଲଗ୍ନ କରନ୍ତୁ।",
+          "premature": "ଗ୍ରାହକ ଅନୁରୋଧ ଥିଲେ ସଂଲଗ୍ନ କରନ୍ତୁ।"
+        }
+      },
+      "mis": {
+        "title": "ମାସିକ ସୁଧ ବିବରଣୀ",
+        "monthly": "ମାସିକ ସୁଧ",
+        "lastPaid": "ଶେଷ ପରିଶୋଧ ତାରିଖ",
+        "totalPaid": "ମୋଟ ପରିଶୋଧିତ ସୁଧ",
+        "unpaid": "ଅପରିଶୋଧିତ କିସ୍ତି",
+        "pending": "ବକେୟା ସୁଧ",
+        "excess": "ଆଦାୟଯୋଗ୍ୟ ଅତିରିକ୍ତ"
+      },
+      "review": {
+        "title": "ନିଷ୍ପତ୍ତି ସମୀକ୍ଷା",
+        "subtitle": "ଅନୁମୋଦନ ପାଇଁ ପଠାଇବା ପୂର୍ବରୁ ସବୁ ବିବରଣୀ ଯାଞ୍ଚ କରନ୍ତୁ।",
+        "account": "ଜମା ଖାତା",
+        "customer": "ଗ୍ରାହକ",
+        "type": "ନିଷ୍ପତ୍ତି ପ୍ରକାର",
+        "date": "ନିଷ୍ପତ୍ତି ତାରିଖ",
+        "mode": "ପରିଶୋଧ ମାଧ୍ୟମ",
+        "beneficiary": "ହିତାଧିକାରୀ"
+      },
+      "receipt": {
+        "title": "ନିଷ୍ପତ୍ତି ରସିଦ",
+        "reference": "ସନ୍ଦର୍ଭ",
+        "printed": "ଏହି ରସିଦ ଏକ ନିଷ୍ପତ୍ତି ଅନୁରୋଧ ପାଇଁ।"
+      },
+      "requestStatuses": {
+        "draft": "ଖସଡ଼ା",
+        "pending": "ଅନୁମୋଦନ ବାକି",
+        "rejected": "ପ୍ରତ୍ୟାଖ୍ୟାତ",
+        "approved": "ଅନୁମୋଦିତ",
+        "settled": "ନିଷ୍ପତ୍ତି"
+      },
+      "notices": {
+        "draftSaved": "ଖସଡ଼ା ସଂରକ୍ଷିତ। କୌଣସି ଖାତା ଏଣ୍ଟ୍ରି ପୋଷ୍ଟ ହୋଇନାହିଁ।",
+        "submitted": "ନିଷ୍ପତ୍ତି ଅନୁମୋଦନ ପାଇଁ ପଠାଗଲା।",
+        "approved": "ନିଷ୍ପତ୍ତି ଅନୁମୋଦିତ ହେଲା।",
+        "rejected": "ନିଷ୍ପତ୍ତି ପ୍ରତ୍ୟାଖ୍ୟାତ ହେଲା।",
+        "posted": "ନିଷ୍ପତ୍ତି ପୋଷ୍ଟ ହେଲା।",
+        "unsavedTitle": "ଏହି ନିଷ୍ପତ୍ତି ଛାଡ଼ିବେ?",
+        "unsavedMessage": "ଉଦ୍ଧୃତି ଏବଂ ଅସଂରକ୍ଷିତ ଏଣ୍ଟ୍ରି ସଫା ହୋଇଯିବ।"
+      },
+      "validation": {
+        "type": "ନିଷ୍ପତ୍ତି ପ୍ରକାର ବାଛନ୍ତୁ।",
+        "date": "ନିଷ୍ପତ୍ତି ତାରିଖ ବାଛନ୍ତୁ।",
+        "reason": "କାରଣ ବାଛନ୍ତୁ।",
+        "quote": "ସମୀକ୍ଷା ପୂର୍ବରୁ ନିଷ୍ପତ୍ତି ଗଣନା କରନ୍ତୁ।",
+        "payment": "ପରିଶୋଧ ମାଧ୍ୟମ ବାଛନ୍ତୁ।",
+        "beneficiary": "ହିତାଧିକାରୀ ଖାତା ଲେଖନ୍ତୁ।",
+        "ifsc": "ଆଇଏଫଏସସି ଲେଖନ୍ତୁ।",
+        "cheque": "ଚେକ ସନ୍ଦର୍ଭ ଲେଖନ୍ତୁ।",
+        "declaration": "ନିଶ୍ଚିତ କରନ୍ତୁ ଯେ ବିବରଣୀ ଯାଞ୍ଚ ହୋଇଛି।",
+        "confirm": "ପରିଶୋଧ ନିର୍ଦ୍ଦେଶ ନିଶ୍ଚିତ କରନ୍ତୁ।",
+        "fileType": "ପିଡିଏଫ, ଜେପିଜି କିମ୍ବା ପିଏନଜି ଅପଲୋଡ କରନ୍ତୁ।",
+        "fileSize": "ଫାଇଲ 2 ଏମବି କିମ୍ବା ତାହାଠାରୁ ଛୋଟ ହେବା ଉଚିତ।",
+        "rejectReason": "ପ୍ରତ୍ୟାଖ୍ୟାନର କାରଣ ଲେଖନ୍ତୁ।"
+      },
+      "reject": {
+        "title": "ନିଷ୍ପତ୍ତି ପ୍ରତ୍ୟାଖ୍ୟାନ",
+        "reason": "କାରଣ"
+      }
+    },
     "savingsTransaction": {
       "title": "ସଞ୍ଚୟ କାରବାର",
       "description": "ଜମା କିମ୍ବା ଉଠାଣ ପୋଷ୍ଟ କରନ୍ତୁ, ଏବଂ ଅପେକ୍ଷାରତ ଏଣ୍ଟ୍ରି ଅନୁମୋଦନ କରନ୍ତୁ।",
@@ -3217,7 +3631,7 @@
         "2": "ଉଠାଣ"
       },
       "table": {
-        "transNo": "କାରବାର",
+        "transNo": "କାରବାର ଆଇଡି",
         "account": "ଖାତା",
         "type": "ପ୍ରକାର",
         "mode": "ମାଧ୍ୟମ",
@@ -3266,7 +3680,13 @@
         "effectRange": "କାର୍ଯ୍ୟକାରୀ ତାରିଖ କାରବାର ତାରିଖ ବା ତା ପୂର୍ବରୁ ହେବା ଉଚିତ",
         "amountInvalid": "ଶୂନ୍ୟଠାରୁ ଅଧିକ ରାଶି ଦିଅନ୍ତୁ",
         "exceedsBalance": "ଉଠାଣ ବର୍ତ୍ତମାନ ବାଲାନ୍ସଠାରୁ ଅଧିକ ହୋଇପାରିବ ନାହିଁ ({balance})",
-        "accountRequired": "ଏକ ଖାତା ବାଛନ୍ତୁ"
+        "accountRequired": "ଏକ ଖାତା ବାଛନ୍ତୁ",
+        "available": "ଉପଲବ୍ଧ ବାଲାନ୍ସ",
+        "pending": "ବାକି",
+        "depositRemaining": "ଅବଶିଷ୍ଟ ଜମା",
+        "postVouchers": "ଛୁଟିଥିବା ଭାଉଚର ପୋଷ୍ଟ କରନ୍ତୁ",
+        "postingVouchers": "ଭାଉଚର ପୋଷ୍ଟ ହେଉଛି…",
+        "vouchersMissing": "{count}ଟି ପୋଷ୍ଟ କାରବାରର ଭାଉଚର ନାହିଁ"
       },
       "approval": {
         "approveTitle": "କାରବାର ଅନୁମୋଦନ",
@@ -3276,6 +3696,33 @@
         "confirmApprove": "ଅନୁମୋଦନ",
         "confirmReject": "ପ୍ରତ୍ୟାଖ୍ୟାନ",
         "cancel": "ବାତିଲ"
+      },
+      "picker": {
+        "title": "ଖାତା ଖୋଜନ୍ତୁ",
+        "subtitle": "ଫିଲ୍ଟର ଖାଲି ରଖି ଖୋଜନ୍ତୁ, ସବୁ ଖାତାଧାରୀ ଦେଖାଯିବ।",
+        "filter": "ଫିଲ୍ଟର",
+        "accountsTitle": "ଖାତା ବାଛନ୍ତୁ",
+        "back": "ପଛକୁ",
+        "columns": {
+          "code": "କୋଡ",
+          "name": "ନାମ",
+          "type": "ପ୍ରକାର",
+          "mobile": "ମୋବାଇଲ",
+          "account": "ଖାତା",
+          "scheme": "ସ୍କିମ",
+          "balance": "ବାଲାନ୍ସ",
+          "action": "କାମ"
+        },
+        "select": "ବାଛନ୍ତୁ",
+        "selected": "ବଛାଯାଇଛି",
+        "loading": "ଖାତା ଲୋଡ ହେଉଛି…",
+        "empty": "କୌଣସି ଖାତାଧାରୀ ମିଳିଲେ ନାହିଁ",
+        "emptyHint": "ଅନ୍ୟ ନାମ, କୋଡ, ମୋବାଇଲ କିମ୍ବା ଖାତା ନମ୍ବର ଚେଷ୍ଟା କରନ୍ତୁ।",
+        "showing": "{total} ମଧ୍ୟରୁ {from}–{to}",
+        "previous": "ପୂର୍ବ",
+        "next": "ପର",
+        "close": "ବନ୍ଦ",
+        "loadError": "ଖାତା ଲୋଡ ହେଲା ନାହିଁ"
       }
     }
   },

@@ -3,7 +3,7 @@
  */
 
 import { clearDedupe, dedupeRequest } from "@/lib/client/request-dedupe";
-import type {
+export type {
   Branch,
   BranchCreateInput,
   BranchListQuery,

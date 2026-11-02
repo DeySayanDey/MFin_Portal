@@ -4,6 +4,7 @@ import type {
   Member,
   MemberListQuery,
   MemberListResult,
+  MemberNomineeRecord,
   MemberSaveInput,
   MemberStatus,
   MemberTabCounts,
@@ -66,6 +67,21 @@ export async function fetchMembers(
       }),
     );
   }, 0);
+}
+
+export async function fetchMemberNominees(
+  memberId: number,
+  includeInactive = false,
+): Promise<MemberNomineeRecord[]> {
+  const params = new URLSearchParams({ member_id: String(memberId) });
+  if (includeInactive) params.set("include_inactive", "1");
+  return parse<MemberNomineeRecord[]>(
+    await fetch(`${endpoints.bff.memberNominees}?${params.toString()}`, {
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    }),
+  );
 }
 
 export async function fetchMemberById(memberId: number): Promise<Member | null> {

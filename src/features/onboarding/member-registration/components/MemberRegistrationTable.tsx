@@ -37,6 +37,9 @@ export type MemberRegistrationTableProps = {
   onOpenKyc: (member: Member) => void;
   onOpenLocation: (member: Member) => void;
   onRequestStatusChange: (member: Member, nextStatus: MemberStatus) => void;
+  /** Full row menu, or only the KYC action. */
+  actionMode?: "full" | "kyc";
+  title?: ReactNode;
   headerActions?: ReactNode;
   onResetFilters?: () => void;
   onCreateNew?: () => void;
@@ -59,6 +62,8 @@ export function MemberRegistrationTable({
   onOpenKyc,
   onOpenLocation,
   onRequestStatusChange,
+  actionMode = "full",
+  title,
   headerActions,
   onResetFilters,
   onCreateNew,
@@ -107,13 +112,17 @@ export function MemberRegistrationTable({
         header: "MEMBER NAME",
         cell: (row) => (
           <div className="flex flex-col">
-            <button
-              type="button"
-              className="cursor-pointer text-left font-medium text-slate-800 transition hover:text-brand hover:underline"
-              onClick={() => onView(row)}
-            >
-              {row.memberName}
-            </button>
+            {actionMode === "kyc" ? (
+              <span className="font-medium text-slate-800">{row.memberName}</span>
+            ) : (
+              <button
+                type="button"
+                className="cursor-pointer text-left font-medium text-slate-800 transition hover:text-brand hover:underline"
+                onClick={() => onView(row)}
+              >
+                {row.memberName}
+              </button>
+            )}
             <span className="text-[11px] text-muted">
               {row.age ? `${row.age} yrs` : ""}
               {row.age && row.genderDesc ? " • " : ""}
@@ -220,12 +229,12 @@ export function MemberRegistrationTable({
         },
       },
     ],
-    [onView],
+    [actionMode, onView],
   );
 
   return (
     <DataTable
-      title="Member Directory"
+      title={title ?? "Member Directory"}
       actions={headerActions}
       columns={columns}
       data={items}
@@ -268,6 +277,20 @@ export function MemberRegistrationTable({
       rowActions={{
         header: "ACTIONS",
         render: (row) => {
+          if (actionMode === "kyc") {
+            return (
+              <Button
+                type="button"
+                size="sm"
+                variant="secondary"
+                icon={FileCheck2}
+                tooltip={tKyc("open")}
+                aria-label={tKyc("open")}
+                onClick={() => onOpenKyc(row)}
+              />
+            );
+          }
+
           const canEdit = row.statusCd !== 4 && row.statusCd !== 5;
           const isMenuOpen = activeMenuId === row.memberId;
 

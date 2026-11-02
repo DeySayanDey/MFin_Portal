@@ -33,7 +33,9 @@ type DepositAccountEditPageProps = {
   accountId: number;
 };
 
-export function DepositAccountEditPage({ accountId }: DepositAccountEditPageProps) {
+export function DepositAccountEditPage({
+  accountId,
+}: DepositAccountEditPageProps) {
   const t = useTranslations("deposits.savings");
   const tUi = useTranslations("ui");
   const tErrors = useTranslations("errors");
@@ -89,7 +91,11 @@ export function DepositAccountEditPage({ accountId }: DepositAccountEditPageProp
       signatories.add.length > 0 ||
       signatories.edit.length > 0 ||
       signatories.deactivate.length > 0;
-    if (Object.keys(input).length === 1 && !nomineePending && !signatoryPending) {
+    if (
+      Object.keys(input).length === 1 &&
+      !nomineePending &&
+      !signatoryPending
+    ) {
       router.push("/deposits/savings");
       return;
     }
@@ -100,7 +106,9 @@ export function DepositAccountEditPage({ accountId }: DepositAccountEditPageProp
       let saved = savedAccount;
       if (!saved) {
         saved =
-          Object.keys(input).length === 1 ? account : await updateDepositAccount(input);
+          Object.keys(input).length === 1
+            ? account
+            : await updateDepositAccount(input);
         if (!saved) return;
         setSavedAccount(saved);
       }
@@ -163,7 +171,7 @@ export function DepositAccountEditPage({ accountId }: DepositAccountEditPageProp
           description={account?.applNo || t("form.stepHint")}
           breadcrumbs={
             <Link href="/deposits/savings" className="hover:text-slate-800">
-              {t("title")}
+              {/* {t("title")} */}
             </Link>
           }
         />

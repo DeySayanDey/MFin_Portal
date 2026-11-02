@@ -7,9 +7,16 @@ import { FilterPanel } from "@/components/shared/FilterPanel";
 import { Button } from "@/components/ui/Button";
 import { DateField, SelectField } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
-import { fetchApplOptions } from "@/features/master/appl-options";
+import { fetchApplOptions, type ApplOption } from "@/features/master/appl-options";
 import { fetchBranchList } from "@/features/master/branch/services/branch-client";
-import { fetchDepositSchemeSetups } from "@/features/master/deposit-schemes";
+import type { BranchListResult } from "@/features/master/branch/types/branch.types";
+import { fetchDepositProductSchemes } from "../services/deposit-account-client";
+import type { DepositProductScheme } from "../types/deposit-account.types";
+import { useMemo } from "react";
+import {
+  fetchDepositSchemeSetups,
+  type DepositSchemeListResult,
+} from "@/features/master/deposit-schemes";
 import {
   OPT_CUST_TYPE,
   OPT_STATUS,
@@ -21,6 +28,7 @@ type DepositAccountFiltersProps = {
   values: SavingsAccountFilters;
   isHead: boolean;
   branchName: string;
+  depositTypeCd?: number;
   onChange: (values: SavingsAccountFilters) => void;
   onReset: () => void;
 };
@@ -29,11 +37,13 @@ export function DepositAccountFilters({
   values,
   isHead,
   branchName,
+  depositTypeCd = SAVINGS_DEPOSIT_TYPE,
   onChange,
   onReset,
 }: DepositAccountFiltersProps) {
   const t = useTranslations("deposits.savings");
   const tUi = useTranslations("ui");
+  const [productSchemes, setProductSchemes] = useState<DepositProductScheme[]>([]);
   const [schemes, setSchemes] = useState<
     { value: string; label: string }[]
   >([]);
@@ -50,35 +60,40 @@ export function DepositAccountFilters({
   useEffect(() => {
     let cancelled = false;
     async function load() {
-      const [schemeResult, branchResult, statusOptions, customerOptions] =
-        await Promise.all([
-          fetchDepositSchemeSetups({
-            perPage: 200,
-            isActive: 1,
-            depositTypeCd: SAVINGS_DEPOSIT_TYPE,
-          }).catch(() => null),
-          isHead
-            ? fetchBranchList({ perPage: 200, isActive: 1 }).catch(() => null)
-            : Promise.resolve(null),
-          fetchApplOptions(OPT_STATUS).catch(() => []),
-          fetchApplOptions(OPT_CUST_TYPE).catch(() => []),
-        ]);
+      const productResult: DepositProductScheme[] = await fetchDepositProductSchemes(
+        depositTypeCd,
+      ).catch(() => []);
+      const schemeResult: DepositSchemeListResult | null = await fetchDepositSchemeSetups({
+        perPage: 200,
+        isActive: 1,
+        depositTypeCd,
+      }).catch(() => null);
+      const branchResult: BranchListResult | null = isHead
+        ? await fetchBranchList({ perPage: 200, isActive: 1 }).catch(() => null)
+        : null;
+      const statusOptions: ApplOption[] = await fetchApplOptions(OPT_STATUS).catch(
+        () => [],
+      );
+      const customerOptions: ApplOption[] = await fetchApplOptions(OPT_CUST_TYPE).catch(
+        () => [],
+      );
       if (cancelled) return;
+      setProductSchemes(productResult);
       setSchemes(
-        (schemeResult?.items ?? []).map((scheme) => ({
+        schemeResult?.items.map((scheme) => ({
           value: String(scheme.id),
           label: scheme.schemeCode
             ? `${scheme.schemeCode} · ${scheme.schemeName}`
             : scheme.schemeName,
-        })),
+        })) ?? [],
       );
       setBranches(
-        (branchResult?.items ?? []).map((branch) => ({
+        branchResult?.items.map((branch) => ({
           value: String(branch.branchId),
           label: branch.branchCode
             ? `${branch.branchCode} · ${branch.branchName}`
             : branch.branchName,
-        })),
+        })) ?? [],
       );
       setStatuses(
         statusOptions.map((option) => ({
@@ -97,7 +112,44 @@ export function DepositAccountFilters({
     return () => {
       cancelled = true;
     };
-  }, [isHead]);
+  }, [depositTypeCd, isHead]);
+
+  const productOptions = useMemo(() => {
+    return productSchemes.map((p) => ({
+      value: String(p.prodTypeCd),
+      label: p.prodTypeDesc,
+      disabled: p.schemes.length === 0,
+    }));
+  }, [productSchemes]);
+
+  const schemeOptions = useMemo(() => {
+    if (values.prodTypeCd) {
+      const selectedProduct = productSchemes.find(
+        (p) => String(p.prodTypeCd) === values.prodTypeCd,
+      );
+      if (selectedProduct) {
+        return selectedProduct.schemes.map((s) => ({
+          value: String(s.schemeId),
+          label: s.schemeCode ? `${s.schemeCode} · ${s.schemeName}` : s.schemeName,
+        }));
+      }
+    }
+    if (productSchemes.length > 0) {
+      const all: { value: string; label: string }[] = [];
+      for (const p of productSchemes) {
+        for (const s of p.schemes) {
+          if (!all.some((item) => item.value === String(s.schemeId))) {
+            all.push({
+              value: String(s.schemeId),
+              label: s.schemeCode ? `${s.schemeCode} · ${s.schemeName}` : s.schemeName,
+            });
+          }
+        }
+      }
+      if (all.length > 0) return all;
+    }
+    return schemes;
+  }, [productSchemes, schemes, values.prodTypeCd]);
 
   const scope =
     values.memberId !== ""
@@ -167,13 +219,36 @@ export function DepositAccountFilters({
         )}
 
         <SelectField
+          label={t("filters.product")}
+          value={values.prodTypeCd}
+          searchable={false}
+          placeholder={t("filters.productAll")}
+          searchPlaceholder={tUi("selectSearch")}
+          emptyMessage={tUi("selectEmpty")}
+          onChange={(prodTypeCd) => {
+            const relevantProduct = productSchemes.find(
+              (p) => String(p.prodTypeCd) === prodTypeCd,
+            );
+            const schemeStillValid = relevantProduct?.schemes.some(
+              (s) => String(s.schemeId) === values.schemeId,
+            );
+            onChange({
+              ...values,
+              prodTypeCd,
+              schemeId: prodTypeCd && !schemeStillValid ? "" : values.schemeId,
+            });
+          }}
+          options={[{ value: "", label: t("filters.productAll") }, ...productOptions]}
+        />
+
+        <SelectField
           label={t("filters.scheme")}
           value={values.schemeId}
           placeholder={t("filters.schemeAll")}
           searchPlaceholder={tUi("selectSearch")}
           emptyMessage={tUi("selectEmpty")}
           onChange={(schemeId) => onChange({ ...values, schemeId })}
-          options={[{ value: "", label: t("filters.schemeAll") }, ...schemes]}
+          options={[{ value: "", label: t("filters.schemeAll") }, ...schemeOptions]}
         />
 
         <SelectField

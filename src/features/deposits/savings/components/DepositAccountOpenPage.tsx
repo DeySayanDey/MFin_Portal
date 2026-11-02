@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PageHeader } from "@/components/shared/PageHeader";
@@ -29,6 +29,13 @@ export function DepositAccountOpenPage() {
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [savedAccount, setSavedAccount] = useState<DepositAccount | null>(null);
+
+  useEffect(() => {
+    const scroller = document.querySelector("main");
+    if (scroller) {
+      scroller.scrollTop = 0;
+    }
+  }, []);
 
   function leave() {
     if (saving) return;
@@ -100,7 +107,7 @@ export function DepositAccountOpenPage() {
           description={t("form.stepHint")}
           breadcrumbs={
             <Link href="/deposits/savings" className="hover:text-slate-800">
-              {t("title")}
+              {/* {t("title")} */}
             </Link>
           }
         />

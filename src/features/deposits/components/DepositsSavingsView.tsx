@@ -41,6 +41,8 @@ type DepositsSavingsViewProps = {
   initialPage?: number;
   initialAccountId?: number | null;
   initialNotice?: { message: string; tone: "success" | "error" } | null;
+  depositTypeCd?: number;
+  variant?: "savings" | "term";
 };
 
 function optionalNumber(value: string): number | undefined {
@@ -57,6 +59,8 @@ export function DepositsSavingsView({
   initialPage = 1,
   initialAccountId = null,
   initialNotice = null,
+  depositTypeCd = SAVINGS_DEPOSIT_TYPE,
+  variant = "savings",
 }: DepositsSavingsViewProps) {
   const t = useTranslations("deposits.savings");
   const tErrors = useTranslations("errors");
@@ -140,9 +144,10 @@ export function DepositsSavingsView({
         const result = await fetchDepositAccounts({
           page,
           perPage: pageSize,
-          depositTypeCd: SAVINGS_DEPOSIT_TYPE,
+          depositTypeCd,
           search: appliedFilters.search.trim() || undefined,
           branchId: optionalNumber(scopedBranchId),
+          prodTypeCd: optionalNumber(appliedFilters.prodTypeCd),
           schemeId: optionalNumber(appliedFilters.schemeId),
           custTypeCd: optionalNumber(appliedFilters.custTypeCd),
           statusCd: optionalNumber(appliedFilters.statusCd),
@@ -172,7 +177,7 @@ export function DepositsSavingsView({
     return () => {
       cancelled = true;
     };
-  }, [appliedFilters, page, pageSize, reloadKey, scopedBranchId, tErrors]);
+  }, [appliedFilters, depositTypeCd, page, pageSize, reloadKey, scopedBranchId, tErrors]);
 
   useEffect(() => {
     if (viewingId == null) {
@@ -185,7 +190,7 @@ export function DepositsSavingsView({
       return;
     }
     let cancelled = false;
-    fetchDepositAccounts({ accountId: viewingId, perPage: 1, depositTypeCd: SAVINGS_DEPOSIT_TYPE })
+    fetchDepositAccounts({ accountId: viewingId, perPage: 1, depositTypeCd })
       .then((result) => {
         if (!cancelled) setViewing(result.items[0] ?? null);
       })
@@ -195,18 +200,19 @@ export function DepositsSavingsView({
     return () => {
       cancelled = true;
     };
-  }, [items, viewingId]);
+  }, [depositTypeCd, items, viewingId]);
 
   function errorText(err: unknown): string {
     return isDepositAccountClientError(err) ? err.message : tErrors("generic");
   }
 
   function openCreate() {
+    if (variant === "term") return;
     router.push("/deposits/savings/open");
   }
 
   function openEdit(item: DepositAccount) {
-    if (item.isClosed) return;
+    if (variant === "term" || item.isClosed) return;
     router.push(`/deposits/savings/${item.accountId}/edit`);
   }
 
@@ -267,6 +273,7 @@ export function DepositsSavingsView({
         values={filters}
         isHead={isHead}
         branchName={branchName}
+        depositTypeCd={depositTypeCd}
         onChange={setFilters}
         onReset={() => {
           const next = {
@@ -305,10 +312,13 @@ export function DepositsSavingsView({
           setCloseTarget(row);
         }}
         onOpen={openCreate}
+        variant={variant}
         headerActions={
+          variant === "term" ? undefined : (
           <Button type="button" icon={Plus} onClick={openCreate}>
             {t("openAccount")}
           </Button>
+          )
         }
       />
 

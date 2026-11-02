@@ -1,5 +1,19 @@
 export type MemberStatus = 1 | 2 | 3 | 4 | 5;
 
+export type MemberNomineeRecord = {
+  memberNomineeId: number;
+  nomineeName: string;
+  nomineeRelCd: number;
+  relationDesc: string;
+  nomineeDob: string | null;
+  nomineeAge: number | null;
+  isMinor: boolean;
+  nomineeMobile: string | null;
+  sharePercent: number | null;
+  sortOrder: number;
+  isActive: boolean;
+};
+
 export type MemberNominee = {
   nomineeId: number | null;
   name: string;

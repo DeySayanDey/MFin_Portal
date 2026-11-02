@@ -1,187 +1,370 @@
-# Loan Book, Schedule & Member Ledger
+FRONTEND UI / UX IMPLEMENTATION DOCUMENT
+Term Deposit
+Settlement
+FD • MIS • Configurable Term Deposit Schemes
 
-Screens: **Loan Book** (`/lms/loan-book`), loan account drawer, repayment schedule tab, member ledger.
+ROUTE   /deposits/fd-settlement
 
-Tables: `mst_loan_account`, `trans_loanac_schedule`, `trans_loan_collection`, `mst_loan_account_disbursement`.
 
-| Endpoint | Method | Procedure |
-|----------|--------|-----------|
-| `/api/LoanBookList` | `GET` | `USP_LOAN_BOOK_LIST` |
-| `/api/LoanAccountGet` | `GET` | `USP_LOAN_BOOK_LIST` (one row) + schedule, collections, disbursements, adjustments, charges, guarantors, mortgages, freezes |
-| `/api/LoanScheduleList` | `GET` | `USP_LOAN_SCHEDULE_LIST` |
-| `/api/LoanMemberLedger` | `GET` | `USP_LOAN_MEMBER_LEDGER` |
+DOCUMENT PROFILE	VALUE
+Purpose	Screen diagrams, field-level UI requirements, validation rules and integration handoff
+Audience	Frontend developers, UI/UX designers, backend engineers and QA reviewers
+Scope	Search → settlement calculation → beneficiary → approval → posting → receipt
+Version	1.0 — implementation specification
+Prepared	31 October 2026
+Status	Proposed UI design; confirm integration with existing application
 
-> The design calls the book list `LoanAccountList`; that name is already taken by the existing loan-account master API (`/api/LoanAccountList`, unchanged), so the book is `/api/LoanBookList`.
 
-### Computed values (all "as on" `as_on_date`, default today)
+Design principle
+Use one reusable settlement workflow for all supported deposit schemes. Display scheme-specific fields and actions from server-provided rules; never hardcode financial calculations in the browser.
+All names, account numbers, dates, financial amounts and search results shown in wireframes are fictional examples for layout demonstration.
+Document contents
+1. Product objective and user journey
+2. Screen A — deposit search and selection
+3. Screen B — settlement workspace
+4. FD and MIS dynamic behavior
+5. Review, approval and settlement lifecycle
+6. Validation, controls and error states
+7. Proposed API integration contract
+8. Frontend component architecture and UI standards
+9. Implementation acceptance checklist
+1. Product objective and user journey
+The Term Deposit Settlement screen enables authorized staff to locate a deposit account, establish closure eligibility, request a scheme-accurate settlement quote, specify a compliant payout method, submit the request for approval and monitor the final settlement outcome.
+User-facing navigation
+NAVIGATION / USER JOURNEY
+Deposits  >  Term Deposit Settlement
+          |
+          +-- Search Deposit ---------> Select Account
+          |                                 |
+          +-- Pending Approvals             v
+          |                        Customer + Deposit Details
+          +-- Settlement History            |
+                                            v
+                               Settlement Request + Quote
+                                            |
+                                            v
+                                 Beneficiary + Documents
+                                            |
+                                            v
+                              Review > Approval > Posting
+                                            |
+                                            v
+                                        Receipt
 
-| Value | Meaning |
-|-------|---------|
-| `principal_outstanding` | Disbursed − principal collected − principal waived (+ capitalized interest) |
-| `overdue_principal` / `overdue_interest` | Unpaid scheduled amounts with due date before the as-on date |
-| `principal_due` / `interest_due` | Overdue + the installment due on the as-on date |
-| `penalty_due` | Scheme penalty on overdue installments − penalty already collected / waived |
-| `dpd` | Days past due of the oldest unpaid installment (0 when nothing overdue) |
-| `bucket` | `current` (DPD 0), `par` (DPD ≥ 1, below the scheme's NPA days), `npa` (DPD ≥ scheme NPA days, or marked NPA), `closed` (closed / written off) |
-| `is_defaulter` / `is_npa` | Manual flags (see [08](08_LoanMonitoring.md)) |
+Primary workflow principles
+•	Search, eligibility and calculation are distinct states: selecting an account is not the same as authorizing settlement.
+•	Maturity closure and premature closure can use different rules, controls and reason requirements.
+•	Maker and checker actions must be distinct according to role permissions.
+•	“Settled” must only appear after the required financial posting and payment outcome are confirmed.
+2. Screen A — Deposit search and selection
+Initial page displayed at /deposits/fd-settlement. Allow users to search authorized branches and select an eligible account without loading or editing financial fields prematurely.
+SCREEN A / ACCOUNT SEARCH
+Deposits / Term Deposit Settlement
+TERM DEPOSIT SETTLEMENT                          [History]
+Search deposit accounts and settlement requests
+------------------------------------------------------------
+[Search Deposit]  [Pending Approval]  [Settled Accounts]
+                                                            
+SEARCH DEPOSIT ACCOUNT
+Deposit Type          [All | FD | MIS | Other           v]
+Account / Customer    [Enter account no. or customer ID    ]
+Branch                [All authorized branches         v]
+Account Status        [Active / Matured               v]
+                                   [Reset] [Search Account]
+------------------------------------------------------------
+RESULTS / ACCOUNT          SCHEME      STATUS      ACTION
+FD000123  Rahul Sharma      FD          Matured    [Select]
+MIS000456 Anita Das         MIS         Active     [Select]
+FD000789  Suman Roy         FD          Active     [Select]
 
----
+Search filter specification
+Field	UI component	Behavior / source
+Deposit Type	Select	All, FD, MIS and available other term-deposit product types.
+Account / Customer	Text input	Search by permitted account number, customer ID or name; debounce if live search.
+Branch	Select	Restrict options to branches the logged-in user is authorized to view.
+Account Status	Select	Default Active / Matured; optionally include other statuses for history.
+Search / Reset	Buttons	Search queries API; Reset restores defaults and clears stale results.
 
-## 1. LoanBookList
+Results columns and states
+Show account number (masked where appropriate), customer name, scheme, branch, maturity date, account status and a Select / View action. Include pagination and an empty-state message. Display a skeleton while loading, and a retry action if the request fails.
+Select action: fetch the deposit context, financial summary, restrictions and scheme metadata. If eligible, open the workspace; if restricted, show the exact reason and permitted next action.
+3. Screen B — Settlement workspace
+Use a desktop two-column design: left column for identity, deposit and settlement inputs; right column for itemized payable calculation and payout instructions. On smaller screens stack the panels vertically.
+LEFT / REQUEST DETAILS	RIGHT / FINANCIAL + PAYOUT
+Account  FD000123 [Change]
+A. CUSTOMER INFORMATION
+ Name: Rahul Sharma
+ ID: CUST00120  KYC: Verified
+ Holding: Single  Branch: Main
+-----------------------------
+B. DEPOSIT INFORMATION
+ Scheme: Fixed Deposit
+ Principal: INR 1,00,000.00
+ Rate: 7.00% p.a.
+ Open: 01 Jan 2025
+ Maturity: 01 Jan 2027
+ Tenure: 24 months
+-----------------------------
+C. SETTLEMENT REQUEST
+ Type: [Premature Closure v]
+ Date: [31 Oct 2026      ]
+ Reason: [Customer Req. v]
+ Remarks: [              ]
+        [Calculate Amount]	D. SETTLEMENT CALCULATION
+ Principal     1,00,000.00
+ Interest      +12,000.00
+ Overdue Int.        +0.00
+ Int. Recovery    -500.00
+ Penalty        -1,000.00
+ TDS / Tax           -0.00
+ Other Ded.          -0.00
+-----------------------------
+ NET PAYABLE: INR 1,10,500.00
+-----------------------------
+E. PAYMENT / TRANSFER
+ Mode: [Savings Transfer v]
+ Account: [****4589      v]
+ Name: Rahul Sharma
+ Amount: 1,10,500.00
+-----------------------------
+F. DOCUMENTS + DECLARATION
+ [Upload supporting document]
+ [ ] I have verified details
+-----------------------------
+[Save Draft] [Review & Submit]
 
-```
-GET /api/LoanBookList?bucket=par&page=1&per_page=20
-```
+Financial values above are illustrations and must not be used as application formulas.
+A. Customer information — read-only
+Field	Data / expected behavior
+Customer name and customer ID	Fetched from customer master; do not permit manual override.
+Account holding / operating mode	Display single, joint, either-or-survivor or other applicable mode.
+KYC / compliance state	Display verified, due or restricted state returned by backend.
+Branch	Display owning branch and/or servicing branch as appropriate.
+Contact / nominee data	Show only when authorized and relevant; minimize unnecessary exposure.
 
-| Query | Type | Description |
-|-------|------|-------------|
-| `loan_account_id`, `branch_id`, `group_id`, `center_id`, `scheme_id`, `fo_id`, `member_id` | int | |
-| `ln_status_cd` | int | Group 40: 1 Active, 2 Closed, 3 Written Off |
-| `bucket` | string | `current`, `par`, `npa`, `closed`, or a DPD range `par_1_30`, `par_31_60`, `par_61_90`, `npa_90_plus` |
-| `is_defaulter`, `is_npa` | bool | |
-| `as_on_date` | date | Default today |
-| `keyword` / `search` | string | Loan account no, application no, member / group name, mobile |
-| `page` / `per_page` | int | |
+B. Deposit information — read-only
+Display scheme name, account number, principal, applicable rate, opening date, maturity date, original term, interest payout frequency and any liens, holds, linked loans or pending claims. Values should be fetched from authoritative account data.
+3.1 Settlement request, calculation and payout
+C. Settlement request — editable inputs
+Field	Control	Logic / validation
+Settlement type *	Select	Maturity Settlement; Premature Closure; Deceased Claim only if dedicated flow is enabled.
+Settlement date *	Date picker	Validate against business date, permissible effective dates and quote validity.
+Reason *	Select	Required when policy demands; options may include Customer Request / Financial Requirement / Other.
+Remarks	Textarea	Capture meaningful explanation; mandatory for exceptions or rejection resubmissions if configured.
+Calculate Settlement	Action	Call server quote API; show loading and new authoritative breakup. Invalidate quote if inputs change.
 
-### Success `200`
+D. Settlement calculation — backend-issued, read-only
+Line item	Example value	Display note
+Principal amount	INR 1,00,000.00	Original outstanding principal (scheme rules apply).
+Interest payable	+ INR 12,000.00	May include interest earned or unpaid within configured policy.
+Overdue interest	+ INR 0.00	Show only if applicable.
+Interest recovery	- INR 500.00	Recover excess / previously credited amount if required.
+Premature penalty	- INR 1,000.00	Calculated by authoritative backend rules.
+TDS / tax	- INR 0.00	Display server-provided tax; no client-side tax engine.
+Other deductions	- INR 0.00	Itemize offsets, fees or recoveries when relevant.
+NET PAYABLE	INR 1,10,500.00	Emphasize; read-only and version-bound.
 
-```json
-{
-  "success": true,
-  "message": "Loan book retrieved successfully",
-  "data": [
-    {
-      "loan_account_id": 9, "loan_account_no": "LN-2026-00005",
-      "application_id": 13, "application_no": "LA-2026-00001",
-      "cust_type_cd": 2, "cust_type": "Individual",
-      "member_id": 9046, "member_name": "M2", "member_ref_code": "CUST-2026-0009", "mobile_no": "9000000000",
-      "group_id": null, "group_name": null, "center_id": null, "center_name": null,
-      "scheme_id": 9, "scheme_name": "test 1",
-      "loan_date": "2026-10-28", "loan_amount": 38000, "interest_rate": 18, "disbursed_amount": 38000,
-      "principal_outstanding": 35086.16,
-      "total_collected": 3483.84, "principal_collected": 2913.84, "interest_collected": 570,
-      "installment_amount": 3483.84, "tenure": 12, "paid_installments": 1,
-      "next_due_date": "2026-12-28", "next_due_amount": 3483.84,
-      "principal_due": 0, "interest_due": 0,
-      "overdue_principal": 0, "overdue_interest": 0, "overdue_amount": 0, "overdue_installments": 0,
-      "penalty_due": 0, "oldest_due_date": null, "dpd": 0, "bucket": "current",
-      "is_defaulter": false, "is_npa": false,
-      "final_due_date": "2027-10-28", "ln_status_cd": 1, "ln_status": "Active",
-      "branch_id": 2, "branch_name": "Salt Lake Branch", "fo_id": 2, "fo_name": "Anita Desai"
-    }
-  ],
-  "meta": {
-    "total": 1, "page": 1, "per_page": 20, "last_page": 1, "has_more": false,
-    "summary": {
-      "total_count": 1, "active_count": 1,
-      "total_outstanding": 35086.16, "total_overdue": 0,
-      "par_count": 0, "par_amount": 0, "npa_count": 0, "npa_amount": 0,
-      "current_count": 1, "closed_count": 0
-    }
-  }
-}
-```
+Calculation availability is not settlement approval. Quote results must carry quote ID, expiry, source version and blocking warnings. The browser must not locally recalculate payout amounts.
+E. Payment and transfer
+Field	Control / requirements
+Payment mode *	Select from server-allowed methods: linked savings transfer; NEFT/RTGS; cheque; cash only if permitted.
+Beneficiary account *	Select approved linked account or capture external beneficiary details via separate validated flow.
+Beneficiary name	Read-only after verified lookup; support maker-checker beneficiary changes.
+Payment amount	Locked to confirmed net payable unless backend explicitly supports and validates split payouts.
+Method-specific fields	Bank account + IFSC for external transfer; cheque reference when needed; enforce configured payment restrictions.
 
-`meta.summary` covers **all** rows matching the filters (not only the page) — use it for the KPI cards.
+F. Documents and declaration
+•	Upload customer request / settlement form and other applicable supporting documents; enforce file type, file size and retention rules.
+•	Require verification acknowledgement before submitting. Show required-documents checklist based on settlement type.
+•	Actions: Cancel, Save Draft, Review & Submit. Draft must not post ledger entries.
+Payout field-visibility rules
+Payment method	Additional fields / constraints
+Linked savings transfer	Display authorized linked account, beneficiary verification and transfer reference.
+NEFT / RTGS	Collect validated beneficiary banking details and enforce configured limits.
+Cheque	Capture payable party, clearing / cheque reference and bank-defined disbursement steps.
+Cash	Only render if enabled by institution policy, amount thresholds and user permissions.
 
----
+If the server returns no permitted payment methods, block the payout stage and display the supplied reason. Hide methods that are unavailable rather than allowing the user to select an invalid option.
+4. FD and MIS — scheme-driven behavior
+Use a single shared settlement component; drive visibility, labels, validation and calculation fields from backend scheme metadata. FD and MIS differ in how interest may have been accumulated or paid periodically.
+Field / behavior	FD	MIS
+Principal amount	Required	Required
+Interest rate	Required	Required
+Opening and maturity dates	Required	Required
+Cumulative interest	When cumulative	Normally not cumulative
+Periodic interest paid	If periodic-payout FD	Required when applicable
+Last interest payout date	If periodic payouts	Show
+Unpaid monthly installments	If scheme supports	Show if outstanding
+Excess interest recovery	Conditional	Conditional
+Premature penalty / deduction	Server-calculated	Server-calculated
+Final net payable	Required	Required
+Renewal / reinvestment	Only if supported	Only if supported
 
-## 2. LoanAccountGet
+MIS-only panel — example layout
+MIS / MONTHLY INTEREST DETAILS
+Monthly Interest         INR 740.00
+Last Paid Date           30 Sep 2026
+Total Interest Paid      INR 8,880.00
+Unpaid Installments      1
+Pending Interest         INR 740.00
+Recoverable Excess       INR 0.00
+----------------------------------------------------
+The server must distinguish already-paid interest from
+pending interest to avoid paying the same amount twice.
 
-```
-GET /api/LoanAccountGet?loan_account_id=9&as_on_date=2026-10-28
-```
+Scheme policy must not be assumed
+“MIS” can denote different products in different institutions. Do not assume all MIS schemes use government Post Office MIS rules or that all FD products have identical premature-closure rules. Display closure eligibility, deductions and permitted payment modes from the configured product and authoritative server checks.
+5. Review, approval and settlement lifecycle
+Review and confirmation dialog
+SCREEN C / REVIEW SETTLEMENT
+REVIEW SETTLEMENT                     [X]
+Verify all details before forwarding for approval.
+--------------------------------------------------
+Deposit Account       FD000123
+Customer              Rahul Sharma
+Settlement Type       Premature Closure
+Settlement Date       31 Oct 2026
+Payment Mode          Savings Transfer
+Beneficiary           ****4589
+--------------------------------------------------
+NET PAYABLE:          INR 1,10,500.00
+[ ] I confirm the details and payout instructions.
+                           [Back] [Submit for Approval]
 
-`data` = the book row above plus:
+Use modal confirmation for submission. The dialog is not a financial-posting confirmation unless the active user has a separate authorized posting action. Revalidate the quote on the server when submitting.
+Approval and posting state diagram
+SETTLEMENT STATES / HIGH LEVEL
+[DRAFT] --> [CALCULATED] --> [PENDING APPROVAL]
+                                  |
+                        +---------+---------+
+                        |                   |
+                    [APPROVED]          [REJECTED]
+                        |                   |
+                  [POSTING]          [CORRECTION /
+                        |             RESUBMISSION]
+                 [PAYMENT PROCESSING]
+                        |
+                 [SETTLED / RECEIPT]
+   Exception paths: POSTING FAILED / PAYMENT FAILED
+   or PAYMENT PENDING, based on backend lifecycle.
 
-| Key | Content |
-|-----|---------|
-| `schedule` | `LoanScheduleList` rows |
-| `collections` | `LoanCollectionList` items of this loan (see [06](06_LoanCollection.md)) |
-| `disbursements` | `LoanDisbursementList` items (see [04](04_LoanDisbursement.md)) |
-| `adjustments` | `LoanAdjustmentList` items (see [07](07_LoanAdjustmentClosure.md)) |
-| `charges`, `guarantors`, `mortgages`, `deposit_freezes` | Child lists of the application (see [02](02_LoanApplicationChildren.md)) |
+Role and state behavior
+State	Primary actions / UI
+Draft	Edit, recalculate, save and cancel if permitted.
+Calculated	Show quote ID and expiry; request review and submit.
+Pending Approval	Maker sees status; checker sees Approve / Reject if authorized.
+Rejected	Show reason; maker may correct and resubmit under workflow rules.
+Approved	Display approval details; restrict post action to authorized role or service.
+Posting / Payment Pending	Show progress and reference IDs; prevent duplicate posting.
+Settled	Read-only record; settlement reference and downloadable / printable receipt.
+Posting / Payment Failed	Display recoverable error and escalation/retry controlled by backend.
 
-`404` *Loan account not found*.
+6. Validation, controls and error states
+Scenario	Frontend requirement
+Unknown deposit number	Show account-not-found message; preserve search inputs.
+Closed or settled account	Disable a new settlement; provide existing settlement/receipt if permitted.
+Premature closure	Apply eligibility and cut-off restrictions provided by backend.
+Scheme disallows closure	Block submit and display user-readable denial reason.
+Lien, freeze or legal hold	Block or route authorized exception approval per server response.
+Outstanding loan against FD	Show linked liability and approved recovery/release requirements.
+Joint holder instruction	Require operating-mode checks and signatures/authorizations.
+Deceased depositor	Route to dedicated claim / deceased-account workflow when supported.
+KYC/compliance restriction	Display restriction; prevent unauthorized override.
+Calculation not available	Disable review, approval and settlement submission.
+Quote expired / stale balance	Require recalculation and rerender new payable amount.
+Payment limit exceeded	Show permitted method or required approval level.
+Duplicate submission	Disable repeated clicks and use backend idempotency.
+Approval rejected	Display rejection reason; route to correction if allowed.
+Payment still pending	Never show final Settled state until backend confirmation.
 
----
+Cross-cutting controls
+•	Financial processing is server-authoritative: no local interest, TDS, penalty, waiver, outstanding-loan or rounding logic.
+•	Role visibility enhances usability but is not authorization; enforce every protected operation on the server.
+•	Use tamper-resistant quote/record IDs, concurrency checks and idempotency tokens for mutations.
+•	Support error, empty, loading, stale quote and recoverable payment states. Never present a speculative success message.
+•	Mask sensitive identifiers and avoid exposing unnecessary customer information in logs and UI telemetry.
+7. Proposed API integration contract
+The endpoints below are recommended interfaces, not verified existing application routes. Adapt naming, transport and permissions to the current backend without altering established business logic.
+Method	Endpoint	Purpose
+GET	/api/deposits/settlement-search	Find deposits using authorized filters.
+GET	/api/deposits/{id}/settlement-context	Return customer, deposit, restrictions and scheme flags.
+POST	/api/deposits/{id}/settlement-quote	Get authoritative line-item settlement calculation.
+POST	/api/deposit-settlements	Create or save a draft request.
+POST	/api/deposit-settlements/{id}/submit	Submit request to configured approval workflow.
+POST	/api/deposit-settlements/{id}/approve	Authorize settlement via checker permission.
+POST	/api/deposit-settlements/{id}/reject	Reject with explicit reason.
+POST	/api/deposit-settlements/{id}/post	Perform authorized posting (if exposed as API).
+GET	/api/deposit-settlements/{id}/receipt	Retrieve printable settlement receipt.
 
-## 3. LoanScheduleList
+Frontend data contract — minimum expected properties
+Domain	Suggested fields
+Account context	depositId; accountNumberMasked; schemeCode; schemeName; customer; branch; principal; dates; status
+Eligibility	eligible; permittedSettlementTypes; restrictions[]; requiredDocuments[]; paymentMethods[]
+Scheme flags	interestPayoutFrequency; showMISPanel; renewalAllowed; configurableFields[]
+Quote	quoteId; quoteExpiry; accountVersion; currency; lineItems[]; netPayable; warnings[]; blockingErrors[]
+Settlement request	settlementId; requestStatus; settlementDate; reasonCode; remarks; beneficiary; documentIds[]
+Audit / workflow	createdBy; submittedAt; approvedBy; approvedAt; rejectionReason; postingRef; paymentStatus
 
-```
-GET /api/LoanScheduleList?loan_account_id=9
-```
+Integration rules
+1.	Fetch an authoritative account context immediately after Select; clear old context when choosing another deposit.
+2.	Recalculate whenever settlement date, type or another quote-critical parameter changes.
+3.	Treat quote expiry, version mismatch and backend restrictions as hard submission blockers.
+4.	Use exactly one request submission path with idempotency protection and explicit in-flight loading state.
+5.	Refetch state after approval, posting and receipt operations; do not infer workflow transitions locally.
+8. Component architecture and design standards
+Recommended React component structure
+COMPONENT TREE
+pages/deposits/fd-settlement/
+  TermDepositSettlementPage
+  +-- DepositSearchPanel
+  +-- DepositSearchResults
+  +-- SettlementWorkspace
+  |   +-- CustomerInformationCard
+  |   +-- DepositInformationCard
+  |   +-- MISInterestDetails
+  |   +-- SettlementRequestForm
+  |   +-- SettlementCalculationPanel
+  |   +-- PayoutDetailsForm
+  |   +-- SupportingDocuments
+  +-- SettlementReviewDialog
+  +-- PendingSettlementApprovals
+  +-- SettlementHistory
+  +-- SettlementReceipt
 
-| Query | Type | Required |
-|-------|------|----------|
-| `loan_account_id` | int | Yes |
-| `as_on_date` | date | No (decides Due / Overdue) |
+Responsive layout
+Viewport	Layout behavior
+Desktop (>= 1024 px)	Two columns, approx. 7/5 or 8/4 ratio; keep settlement summary visible while scrolling if practical.
+Tablet (768–1023 px)	Stack some panels or retain compact columns; do not compress monetary rows into unreadable cells.
+Mobile (< 768 px)	Single column; search filters stack; results use horizontal scroll or compact record cards; sticky action footer if appropriate.
 
-Paid amounts are allocated FIFO from approved collections.
+Accessibility and interaction standards
+•	Associate labels and helper text with every control. Clearly identify required inputs and invalid fields.
+•	Ensure keyboard navigation, focus-visible outlines, meaningful status text and accessible dialogs.
+•	Do not communicate approval, failure or eligibility with color alone.
+•	Use Indian numbering convention and two decimal places for INR; keep monetary alignment consistent.
+•	Read-only financial and account fields must be clearly distinct from editable inputs.
+•	Show skeletons on account load, spinners on quote and posting operations, and retry actions for safe requests.
+•	On Leave page / Change Account, warn about unsaved edits and clear stale quote state.
+Recommended screen hierarchy
+Search  →  Customer & Deposit  →  Settlement Request  →  Quote  →  Payout  →  Review  →  Approval  →  Posting  →  Receipt
 
-```json
-{
-  "success": true,
-  "message": "Repayment schedule retrieved successfully",
-  "data": [
-    {
-      "schedule_id": 101, "loan_account_id": 9, "installment_no": 1, "due_date": "2026-11-28",
-      "principal_due": 2913.84, "interest_due": 570, "total_due": 3483.84,
-      "principal_waived": 0, "interest_waived": 0, "advance_paid": 3483.84,
-      "principal_paid": 2913.84, "interest_paid": 570, "paid_amount": 3483.84, "balance_due": 0,
-      "outs_principal": 35086.16, "collection_id": 41, "collection_trans_no": "LC-0000003",
-      "status": "Paid"
-    }
-  ]
-}
-```
-
-`status`: `Paid`, `Partly Paid`, `Due` (first unpaid on / after the as-on date), `Overdue` (before the as-on date), `Upcoming`, `Closed` (unpaid rows of a closed / written-off loan).
-
----
-
-## 4. LoanMemberLedger
-
-Principal statement of a loan account, or of every loan of a member (as borrower, joint applicant or group member).
-
-```
-GET /api/LoanMemberLedger?member_id=9046&from_date=2026-10-01&to_date=2026-10-31
-```
-
-| Query | Type | Required | Description |
-|-------|------|----------|-------------|
-| `loan_account_id` | int | One of the two | |
-| `member_id` | int | One of the two | |
-| `from_date` / `to_date` | date | No | Entries before `from_date` form the opening balance |
-
-- **Debit**: approved disbursement (gross) and capitalized interest. **Credit**: principal collected and principal waived.
-- `interest`, `penalty`, `total` are informational (amounts collected / waived on that entry).
-- `balance` = running principal balance (`opening_balance` + debit − credit).
-
-```json
-{
-  "success": true,
-  "message": "Member ledger retrieved successfully",
-  "data": {
-    "opening_balance": 0,
-    "entries": [
-      { "date": "2026-10-28", "entry_date": "2026-10-28", "loan_account_id": 9, "loan_account_no": "LN-2026-00005", "entry_type": "disbursement", "ref_no": "DB-000001", "voucher_id": null, "voucher_no": null, "narration": "Loan disbursement", "debit": 20000, "credit": 0, "interest": 0, "penalty": 0, "total": 20000, "balance": 20000 },
-      { "date": "2026-10-28", "entry_date": "2026-10-28", "loan_account_id": 9, "loan_account_no": "LN-2026-00005", "entry_type": "collection", "ref_no": "LC-0000003", "voucher_id": 33, "voucher_no": "RV-2026-00002", "narration": "Advance collection", "debit": 0, "credit": 2913.84, "interest": 570, "penalty": 0, "total": 3483.84, "balance": 17086.16 }
-    ],
-    "closing_balance": 17086.16
-  }
-}
-```
-
-`entry_type`: `disbursement`, `collection`, `adjustment`.
-
----
-
-## Errors
-
-| HTTP | When |
-|------|------|
-| `401` | Unauthorized |
-| `404` | Loan account not found (Get / Schedule) |
-| `422` | Missing `loan_account_id` (Get / Schedule) or both `loan_account_id` and `member_id` (Ledger); `to_date` before `from_date` |
-
+9. Frontend acceptance checklist
+☐  The route /deposits/fd-settlement loads within the existing application navigation and permission system.
+☐  Deposit type, branch, status and account search filters work; authorized results and pagination are supported.
+☐  Selecting an account loads immutable customer/deposit details and explicit eligibility restrictions.
+☐  FD and MIS render shared components with correct scheme-specific fields and conditional panels.
+☐  Settlement type, date, reason and remarks are validated before quoting.
+☐  All financial numbers in the calculation panel are sourced from the authoritative settlement quote.
+☐  Changing quote-affecting fields invalidates the old quote and blocks submission until recalculated.
+☐  Payment methods, beneficiaries and documents follow backend-supplied constraints.
+☐  Review dialog shows accurate summary and requires positive verification acknowledgement.
+☐  Save Draft, Submit, Approve, Reject and Post actions respect server permissions and workflow states.
+☐  Duplicate clicks and repeated requests do not create duplicate settlements or financial postings.
+☐  Pending payment, posting failure, rejected and successful settlement states have distinct user-facing UI.
+☐  Final receipt is available only for an actually settled/eligible transaction.
+☐  Responsive mobile, tablet and desktop layouts, accessible controls and keyboard interactions are verified.
+☐  Mock names, dates and amounts have been removed from production and replaced with real API data.
+Implementation boundary
+This document is a proposed frontend implementation specification, not a legal interpretation of any deposit scheme. Settlement eligibility, interest, penalties, tax, recoveries, posting, receipts and approval permissions must be sourced from and validated by the existing backend and approved institution policies.
+Handoff note
+Recommended implementation: create a single TermDepositSettlementPage and reusable cards and dialogs, while keeping all financial calculation and business-policy logic server-side. Confirm existing API endpoints, scheme metadata, user roles and transaction state definitions before connecting production operations.

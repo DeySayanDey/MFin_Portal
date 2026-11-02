@@ -60,6 +60,10 @@ export const depositAccountDtoSchema = z.object({
   nominee_count: optionalInt.nullish(),
   signatory_count: optionalInt.nullish(),
   account_no: optionalInt.nullish(),
+  full_account_no: z.string().nullish(),
+  prod_type_cd: optionalInt.nullish(),
+  prod_type_desc: z.string().nullish(),
+  member_count: optionalInt.nullish(),
   ref_ac_no: z.string().nullish(),
   start_date: z.string().nullish(),
   current_balance: optionalNumber.nullish(),
@@ -86,6 +90,26 @@ export const depositAccountDtoSchema = z.object({
       cbs_ac_no: z.string().nullish(),
       roi: optionalNumber.nullish(),
       opening_deposit: optionalNumber.nullish(),
+      current_balance: optionalNumber.nullish(),
+      available_balance: optionalNumber.nullish(),
+    })
+    .nullish(),
+  td: z
+    .object({
+      start_date: z.string().nullish(),
+      account_no: optionalInt.nullish(),
+      ref_ac_no: z.string().nullish(),
+      period_yy: optionalInt.nullish(),
+      period_mm: optionalInt.nullish(),
+      period_dd: optionalInt.nullish(),
+      roi: optionalNumber.nullish(),
+      inst_no: optionalInt.nullish(),
+      inst_amount: optionalNumber.nullish(),
+      maturity_date: z.string().nullish(),
+      maturity_amt: optionalNumber.nullish(),
+      intt_payable_amt: optionalNumber.nullish(),
+      matu_ins_desc: z.string().nullish(),
+      current_balance: optionalNumber.nullish(),
     })
     .nullish(),
 });

@@ -1,6 +1,12 @@
 import type { z } from "zod";
-import type { savingsTransactionDtoSchema } from "../schemas/savings-transaction.schema";
 import type {
+  savingsAccountBalanceSchema,
+  savingsCustomerDtoSchema,
+  savingsTransactionDtoSchema,
+} from "../schemas/savings-transaction.schema";
+import type {
+  SavingsAccountBalance,
+  SavingsCustomer,
   SavingsTransaction,
   SavingsTransactionAddInput,
   SavingsTransactionApproveInput,
@@ -63,6 +69,59 @@ export function mapSavingsTransactionAddToDto(
   }
   if (input.remarks?.trim()) payload.remarks = input.remarks.trim();
   return payload;
+}
+
+type CustomerDto = z.infer<typeof savingsCustomerDtoSchema>;
+type BalanceDto = z.infer<typeof savingsAccountBalanceSchema>;
+
+export function mapSavingsCustomerDto(dto: CustomerDto): SavingsCustomer {
+  return {
+    custTypeCd: dto.cust_type_cd ?? 0,
+    custTypeDesc: text(dto.cust_type_desc),
+    custId: dto.cust_id,
+    name: text(dto.name),
+    refCode: text(dto.ref_code),
+    mobileNo: text(dto.mobile_no) || null,
+    memberId: dto.member_id ?? null,
+    groupId: dto.group_id ?? null,
+    accounts: (dto.accounts ?? []).map((account) => ({
+      accountId: account.account_id,
+      fullAccountNo: text(account.full_account_no),
+      applNo: text(account.appl_no),
+      holderName: text(account.holder_name),
+      depositTypeCd: account.deposit_type_cd ?? 0,
+      depositTypeDesc: text(account.deposit_type_desc),
+      schemeCode: text(account.scheme_code),
+      schemeName: text(account.scheme_name),
+      branchId: account.branch_id ?? null,
+      branchName: text(account.branch_name),
+      statusCd: account.status_cd ?? 0,
+      statusDesc: text(account.status_desc),
+      currentBalance: account.current_balance ?? null,
+      availableBalance: account.available_balance ?? null,
+    })),
+  };
+}
+
+export function mapSavingsAccountBalanceDto(dto: BalanceDto): SavingsAccountBalance {
+  return {
+    accountId: dto.account_id,
+    currentBalance: dto.current_balance ?? null,
+    availableBalance: dto.available_balance ?? null,
+    pendingCount: dto.pending_count ?? 0,
+    canDeposit: dto.can_deposit !== false,
+    canWithdraw: dto.can_withdraw === true,
+    withdrawableAmount: dto.withdrawable_amount ?? null,
+    depositRemaining: dto.deposit_remaining ?? null,
+    instAmount: dto.inst_amount ?? null,
+    maturityDate: text(dto.maturity_date) || null,
+    startDate: text(dto.start_date) || null,
+    minBalance: dto.min_balance ?? null,
+    vouchersMissing: dto.vouchers_missing ?? 0,
+    isClosed: dto.is_closed === true,
+    statusCd: dto.status_cd ?? 0,
+    statusDesc: text(dto.status_desc),
+  };
 }
 
 export function mapSavingsTransactionApproveToDto(

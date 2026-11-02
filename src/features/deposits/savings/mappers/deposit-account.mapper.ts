@@ -66,10 +66,16 @@ export function mapDepositAccountDto(dto: DepositAccountDto): DepositAccount {
     nomRegd: dto.nom_regd === true,
     nomineeCount: dto.nominee_count ?? 0,
     signatoryCount: dto.signatory_count ?? 0,
-    accountNo: dto.sb?.account_no ?? dto.account_no ?? null,
-    refAcNo: (dto.sb?.ref_ac_no ?? dto.ref_ac_no)?.trim() || null,
-    startDate: dto.sb?.start_date ?? dto.start_date ?? null,
-    currentBalance: dto.current_balance ?? null,
+    accountNo: dto.sb?.account_no ?? dto.td?.account_no ?? dto.account_no ?? null,
+    fullAccountNo: dto.full_account_no?.trim() || null,
+    prodTypeCd: dto.prod_type_cd ?? null,
+    prodTypeDesc: text(dto.prod_type_desc),
+    memberCount: dto.member_count ?? null,
+    refAcNo: (dto.sb?.ref_ac_no ?? dto.td?.ref_ac_no ?? dto.ref_ac_no)?.trim() || null,
+    startDate: dto.sb?.start_date ?? dto.td?.start_date ?? dto.start_date ?? null,
+    currentBalance:
+      dto.sb?.current_balance ?? dto.td?.current_balance ?? dto.current_balance ?? null,
+    availableBalance: dto.sb?.available_balance ?? null,
     closingDate: dto.closing_date ?? null,
     closingReason: dto.closing_reason?.trim() || null,
     isClosed: dto.is_closed === true || Boolean(dto.closing_date),
@@ -88,6 +94,24 @@ export function mapDepositAccountDto(dto: DepositAccountDto): DepositAccount {
     cbsAcNo: dto.sb?.cbs_ac_no?.trim() || null,
     openingDeposit: dto.sb?.opening_deposit ?? null,
     sbRoi: dto.sb?.roi ?? null,
+    td: dto.td
+      ? {
+          startDate: dto.td.start_date ?? null,
+          accountNo: dto.td.account_no ?? null,
+          refAcNo: dto.td.ref_ac_no?.trim() || null,
+          periodYy: dto.td.period_yy ?? null,
+          periodMm: dto.td.period_mm ?? null,
+          periodDd: dto.td.period_dd ?? null,
+          roi: dto.td.roi ?? null,
+          instNo: dto.td.inst_no ?? null,
+          instAmount: dto.td.inst_amount ?? null,
+          maturityDate: dto.td.maturity_date ?? null,
+          maturityAmount: dto.td.maturity_amt ?? null,
+          interestPayable: dto.td.intt_payable_amt ?? null,
+          maturityInstruction: text(dto.td.matu_ins_desc),
+          currentBalance: dto.td.current_balance ?? null,
+        }
+      : null,
   };
 }
 

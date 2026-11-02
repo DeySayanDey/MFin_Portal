@@ -44,5 +44,6 @@ next-env.d.ts
 
 # private uploaded files (paths only are stored in the API)
 /storage/kyc
+/storage/specimen
 /storage/loc
 /storage/support-clients

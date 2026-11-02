@@ -78,6 +78,66 @@ export const savingsTransactionApproveSchema = z
     }
   });
 
+const optionalBoolean = z.preprocess((value) => {
+  if (value === 1 || value === "1" || value === "true") return true;
+  if (value === 0 || value === "0" || value === "false") return false;
+  return value;
+}, z.boolean().nullable());
+
+export const savingsCustomerAccountSchema = z
+  .object({
+    account_id: requiredInt,
+    full_account_no: optionalText,
+    appl_no: optionalText,
+    holder_name: optionalText,
+    deposit_type_cd: optionalInt.nullish(),
+    deposit_type_desc: optionalText,
+    scheme_code: optionalText,
+    scheme_name: optionalText,
+    branch_id: optionalInt.nullish(),
+    branch_name: optionalText,
+    status_cd: optionalInt.nullish(),
+    status_desc: optionalText,
+    current_balance: optionalNumber.nullish(),
+    available_balance: optionalNumber.nullish(),
+  })
+  .passthrough();
+
+export const savingsCustomerDtoSchema = z
+  .object({
+    cust_type_cd: optionalInt.nullish(),
+    cust_type_desc: optionalText,
+    cust_id: requiredInt,
+    name: optionalText,
+    ref_code: optionalText,
+    mobile_no: optionalText,
+    member_id: optionalInt.nullish(),
+    group_id: optionalInt.nullish(),
+    accounts: z.array(savingsCustomerAccountSchema).nullish(),
+  })
+  .passthrough();
+
+export const savingsAccountBalanceSchema = z
+  .object({
+    account_id: requiredInt,
+    current_balance: optionalNumber.nullish(),
+    available_balance: optionalNumber.nullish(),
+    pending_count: optionalInt.nullish(),
+    can_deposit: optionalBoolean.nullish(),
+    can_withdraw: optionalBoolean.nullish(),
+    withdrawable_amount: optionalNumber.nullish(),
+    deposit_remaining: optionalNumber.nullish(),
+    inst_amount: optionalNumber.nullish(),
+    maturity_date: optionalText,
+    start_date: optionalText,
+    min_balance: optionalNumber.nullish(),
+    vouchers_missing: optionalInt.nullish(),
+    is_closed: optionalBoolean.nullish(),
+    status_cd: optionalInt.nullish(),
+    status_desc: optionalText,
+  })
+  .passthrough();
+
 export const paginationMetaDtoSchema = z.object({
   total: z.preprocess(asNumber, z.number()),
   page: z.preprocess(asNumber, z.number()).optional(),

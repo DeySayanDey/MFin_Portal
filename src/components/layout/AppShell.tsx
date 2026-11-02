@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "@/i18n/navigation";
 import type { AuthUser } from "@/features/auth/types/auth";
 import { refreshStoredAuthUser } from "@/features/auth/services/auth-client";
 import { storeAuthUser } from "@/features/auth/utils/auth-user-storage";
@@ -16,6 +17,14 @@ type AppShellProps = {
 
 export function AppShell({ children, user }: AppShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const pathname = usePathname();
+  const mainRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.scrollTop = 0;
+    }
+  }, [pathname]);
 
   useEffect(() => {
     storeAuthUser(user);
@@ -65,6 +74,7 @@ export function AppShell({ children, user }: AppShellProps) {
       >
         <Header onMenuClick={() => setSidebarOpen(true)} user={user} />
         <main
+          ref={mainRef}
           className="scrollbar-thin"
           style={{ flex: "1 1 auto", minHeight: 0, overflowY: "auto" }}
         >

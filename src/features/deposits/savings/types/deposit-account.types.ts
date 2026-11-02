@@ -44,6 +44,10 @@ export type DepositAccountDto = {
   nominee_count?: number | null;
   signatory_count?: number | null;
   account_no?: number | null;
+  full_account_no?: string | null;
+  prod_type_cd?: number | null;
+  prod_type_desc?: string | null;
+  member_count?: number | null;
   ref_ac_no?: string | null;
   start_date?: string | null;
   current_balance?: number | null;
@@ -69,7 +73,42 @@ export type DepositAccountDto = {
     cbs_ac_no?: string | null;
     roi?: number | null;
     opening_deposit?: number | null;
+    current_balance?: number | null;
+    available_balance?: number | null;
   } | null;
+  td?: {
+    start_date?: string | null;
+    account_no?: number | null;
+    ref_ac_no?: string | null;
+    period_yy?: number | null;
+    period_mm?: number | null;
+    period_dd?: number | null;
+    roi?: number | null;
+    inst_no?: number | null;
+    inst_amount?: number | null;
+    maturity_date?: string | null;
+    maturity_amt?: number | null;
+    intt_payable_amt?: number | null;
+    matu_ins_desc?: string | null;
+    current_balance?: number | null;
+  } | null;
+};
+
+export type DepositAccountTerm = {
+  startDate: string | null;
+  accountNo: number | null;
+  refAcNo: string | null;
+  periodYy: number | null;
+  periodMm: number | null;
+  periodDd: number | null;
+  roi: number | null;
+  instNo: number | null;
+  instAmount: number | null;
+  maturityDate: string | null;
+  maturityAmount: number | null;
+  interestPayable: number | null;
+  maturityInstruction: string;
+  currentBalance: number | null;
 };
 
 export type DepositAccount = {
@@ -103,9 +142,14 @@ export type DepositAccount = {
   nomineeCount: number;
   signatoryCount: number;
   accountNo: number | null;
+  fullAccountNo: string | null;
+  prodTypeCd: number | null;
+  prodTypeDesc: string;
+  memberCount: number | null;
   refAcNo: string | null;
   startDate: string | null;
   currentBalance: number | null;
+  availableBalance: number | null;
   closingDate: string | null;
   closingReason: string | null;
   isClosed: boolean;
@@ -124,6 +168,7 @@ export type DepositAccount = {
   cbsAcNo: string | null;
   openingDeposit: number | null;
   sbRoi: number | null;
+  td: DepositAccountTerm | null;
 };
 
 export type DepositAccountSbInput = {
@@ -143,6 +188,7 @@ export type DepositAccountListQuery = {
   foId?: number;
   schemeId?: number;
   depositTypeCd?: number;
+  prodTypeCd?: number;
   custTypeCd?: number;
   memberId?: number;
   groupId?: number;
@@ -271,6 +317,7 @@ export type DepositNominee = {
   guardianName: string;
   sharePercent: number | null;
   isActive: boolean;
+  isMinor?: boolean;
 };
 
 export type DepositNomineeEditInput = {
@@ -338,4 +385,111 @@ export type DepositSignatorySave = {
   add: DepositSignatoryAddItem[];
   edit: DepositSignatoryEditInput[];
   deactivate: DepositSignatoryStatusInput[];
+};
+
+export type DepositSchemeOption = {
+  schemeId: number;
+  schemeCode: string;
+  schemeName: string;
+  roiPercent: number | null;
+  inttTypeCd?: number;
+  inttTypeDesc?: string;
+  inttPayoutCd?: number;
+  inttPayoutDesc?: string;
+  minBalance?: number | null;
+  withdAllow?: boolean;
+  maxWithdAmt?: number | null;
+  inopDays?: number | null;
+  fieldColl?: boolean;
+  isActive?: boolean;
+};
+
+export type DepositProductScheme = {
+  depositTypeCd: number;
+  depositTypeDesc: string;
+  optGrpId: number;
+  prodTypeCd: number;
+  prodTypeDesc: string;
+  schemes: DepositSchemeOption[];
+};
+
+export type DepositAccountMember = {
+  id: number;
+  accountId: number;
+  memberId: number;
+  memberRefCode: string;
+  memberName: string;
+  mobileNo: string | null;
+  groupId: number | null;
+  groupName: string | null;
+  memberRole: string | null;
+  isCurrentMember: boolean;
+  openDate: string | null;
+  currentBalance: number;
+  acStatusCd: number;
+  acStatusDesc: string;
+  createdBy: number | null;
+  createdOn: string | null;
+};
+
+export type DepositAccountTransaction = {
+  transId: number;
+  transNo: string;
+  transDate: string;
+  effectDate: string;
+  transMode: string;
+  transModeDesc: string;
+  transTypeCd: number;
+  transTypeDesc: string;
+  transAmount: number;
+  balanceAfter: number | null;
+  ledgerNarration: string;
+  voucherId: number | null;
+  voucherNo?: string | null;
+  statusCd: number;
+  statusDesc: string;
+};
+
+export type TermScheduleItem = {
+  scheduleId: number;
+  instlNo: number;
+  dueDate: string;
+  instlAmt: number;
+  paidDate: string | null;
+  paidAmount: number;
+  balanceAmount: number;
+  daysOverdue: number;
+  statusCd: number;
+  statusDesc: string;
+};
+
+export type TermScheduleSummary = {
+  totalInstallments: number;
+  paidInstallments: number;
+  overdueInstallments: number;
+  paidAmount: number;
+  balanceAmount: number;
+  nextDueDate: string | null;
+  nextDueAmount: number | null;
+};
+
+export type TermPayoutItem = {
+  payoutId: number;
+  dueDate: string;
+  dueAmount: number;
+  paidDate: string | null;
+  statusCd: number;
+  statusDesc: string;
+  voucherNo: string | null;
+};
+
+export type DepositAccountViewData = DepositAccount & {
+  members: DepositAccountMember[];
+  nominees: DepositNominee[];
+  signatories: DepositSignatory[];
+  transactions: DepositAccountTransaction[];
+  transactionCount: number;
+  rdSchedule: TermScheduleItem[];
+  scheduleSummary: TermScheduleSummary | null;
+  misPayouts: TermPayoutItem[];
 };

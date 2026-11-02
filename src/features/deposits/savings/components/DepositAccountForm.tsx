@@ -15,11 +15,17 @@ import {
 } from "@/components/ui/Form";
 import { fetchApplOptions, type ApplOption } from "@/features/master/appl-options";
 import { DepositAccountCustomerPicker } from "./DepositAccountCustomerPicker";
-import { DepositAccountNomineeStep } from "./DepositAccountNomineeStep";
+import {
+  DepositAccountNomineeStep,
+  RegisteredNomineeList,
+} from "./DepositAccountNomineeStep";
 import { DepositAccountSignatoryStep } from "./DepositAccountSignatoryStep";
 import { DepositAccountSummaryStep } from "./DepositAccountSummaryStep";
 import { fetchDepositSchemeSetups } from "@/features/master/deposit-schemes";
+import { fetchMemberNominees, isMemberClientError } from "@/features/onboarding/member-registration/services/member-client";
 import { fetchStaffList } from "@/features/master/staff/services/staff-client";
+import { fetchBranchList } from "@/features/master/branch/services/branch-client";
+import type { Branch } from "@/features/master/branch/types/branch.types";
 import type { DepositSchemeSetup } from "@/features/master/deposit-schemes";
 import {
   CUST_TYPE_GROUP,
@@ -76,6 +82,7 @@ import type {
   DepositAccountCreateInput,
   DepositAccountEditInput,
   DepositCustomer,
+  DepositNominee,
   DepositNomineeSave,
   DepositSignatorySave,
 } from "../types/deposit-account.types";
@@ -186,6 +193,7 @@ function SavingsDetails({
         <TextField
           label={t("form.sb.roi")}
           restrict="decimal"
+          readOnly
           value={form.sbRoi}
           error={errors.sbRoi}
           placeholder={t("form.sb.roiPlaceholder")}
@@ -227,6 +235,7 @@ type FormState = {
   nomRegd: boolean;
   applDate: string;
   applNo: string;
+  branchId: string;
   foId: string;
   statusCd: string;
   statusTouched: boolean;
@@ -298,6 +307,7 @@ function emptyState(): FormState {
     nomRegd: false,
     applDate: todayYmd(),
     applNo: "",
+    branchId: "",
     foId: "",
     statusCd: String(STATUS_ACTIVE),
     statusTouched: false,
@@ -330,6 +340,7 @@ function stateFromAccount(account: DepositAccount): FormState {
     nomRegd: account.nomRegd,
     applDate: account.applDate || todayYmd(),
     applNo: account.applNo,
+    branchId: account.branchId != null ? String(account.branchId) : "",
     foId: account.foId != null ? String(account.foId) : "",
     statusCd: String(account.statusCd),
     statusTouched: true,
@@ -439,6 +450,9 @@ function DepositAccountFormBody({
   );
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [nominees, setNominees] = useState<NomineeDraft[]>([]);
+  const [listedNominees, setListedNominees] = useState<DepositNominee[]>([]);
+  const [nomineesLoading, setNomineesLoading] = useState(false);
+  const [nomineesListError, setNomineesListError] = useState<string | null>(null);
   const nomineesRef = useRef(nominees);
   nomineesRef.current = nominees;
   const [signatories, setSignatories] = useState<SignatoryDraft[]>([]);
@@ -454,9 +468,55 @@ function DepositAccountFormBody({
   const [statuses, setStatuses] = useState<ApplOption[]>([]);
   const [opModes, setOpModes] = useState<ApplOption[]>([]);
   const [categories, setCategories] = useState<ApplOption[]>([]);
+  const [branches, setBranches] = useState<Branch[]>([]);
   const [officers, setOfficers] = useState<
     { value: string; label: string }[]
   >([]);
+
+  const effectiveBranchId = form.branchId
+    ? Number(form.branchId)
+    : (form.customer?.branchId ?? (account?.branchId ?? null));
+
+  const branchOptions = useMemo(() => {
+    const opts = branches.map((branch) => ({
+      value: String(branch.branchId),
+      label: branch.branchCode
+        ? `${branch.branchCode} · ${branch.branchName}`
+        : branch.branchName,
+    }));
+    if (account?.branchId && account.branchName) {
+      const accountBranchIdStr = String(account.branchId);
+      if (!opts.some((opt) => opt.value === accountBranchIdStr)) {
+        opts.unshift({
+          value: accountBranchIdStr,
+          label: account.branchCode
+            ? `${account.branchCode} · ${account.branchName}`
+            : account.branchName,
+        });
+      }
+    }
+    const customer = form.customer;
+    if (customer?.branchId && customer.branchName) {
+      const customerBranchIdStr = String(customer.branchId);
+      if (!opts.some((opt) => opt.value === customerBranchIdStr)) {
+        opts.unshift({
+          value: customerBranchIdStr,
+          label: customer.branchCode
+            ? `${customer.branchCode} · ${customer.branchName}`
+            : customer.branchName,
+        });
+      }
+    }
+    return opts;
+  }, [
+    branches,
+    account?.branchId,
+    account?.branchCode,
+    account?.branchName,
+    form.customer?.branchId,
+    form.customer?.branchCode,
+    form.customer?.branchName,
+  ]);
 
   const locked = mode === "edit" && accountFieldsLocked(account);
   const joints = jointVisibility(form.custTypeCd, Number(form.opModeCd) || 0);
@@ -546,14 +606,22 @@ function DepositAccountFormBody({
   useEffect(() => {
     let cancelled = false;
     async function load() {
-      const [types, customerTypes, statusOptions, modes, specials, relationOptions] =
-        await Promise.all([
-        fetchApplOptions(OPT_DEPOSIT_TYPE).catch(() => []),
-        fetchApplOptions(OPT_CUST_TYPE).catch(() => []),
-        fetchApplOptions(OPT_STATUS).catch(() => []),
-        fetchApplOptions(OPT_OP_MODE).catch(() => []),
-        fetchApplOptions(OPT_SPECIAL).catch(() => []),
-        fetchApplOptions(OPT_RELATION).catch(() => []),
+      const [
+        types,
+        customerTypes,
+        statusOptions,
+        modes,
+        specials,
+        relationOptions,
+        branchResult,
+      ] = await Promise.all([
+        fetchApplOptions(OPT_DEPOSIT_TYPE).catch((): ApplOption[] => []),
+        fetchApplOptions(OPT_CUST_TYPE).catch((): ApplOption[] => []),
+        fetchApplOptions(OPT_STATUS).catch((): ApplOption[] => []),
+        fetchApplOptions(OPT_OP_MODE).catch((): ApplOption[] => []),
+        fetchApplOptions(OPT_SPECIAL).catch((): ApplOption[] => []),
+        fetchApplOptions(OPT_RELATION).catch((): ApplOption[] => []),
+        fetchBranchList({ page: 1, perPage: 200, isActive: 1 }).catch((): null => null),
       ]);
       if (cancelled) return;
       setDepositTypes(types);
@@ -561,7 +629,14 @@ function DepositAccountFormBody({
       setStatuses(statusOptions);
       setOpModes(modes);
       setCategories(specials);
-      setRelations(relationOptions.filter((option) => option.optCode !== RELATION_SELF));
+      setRelations(
+        (relationOptions ?? []).filter(
+          (option: ApplOption) => option.optCode !== RELATION_SELF,
+        ),
+      );
+      if (branchResult?.items) {
+        setBranches(branchResult.items);
+      }
     }
     void load();
     return () => {
@@ -593,13 +668,12 @@ function DepositAccountFormBody({
   }, [form.depositTypeCd]);
 
   useEffect(() => {
-    const branchId = form.customer?.branchId;
-    if (branchId == null) {
+    if (effectiveBranchId == null) {
       setOfficers([]);
       return;
     }
     let cancelled = false;
-    fetchStaffList({ branchId, status: 1, perPage: 200 })
+    fetchStaffList({ branchId: effectiveBranchId, status: 1, perPage: 200 })
       .then((result) => {
         if (cancelled) return;
         const options = result.items.map((staff) => ({
@@ -626,13 +700,23 @@ function DepositAccountFormBody({
     return () => {
       cancelled = true;
     };
-  }, [account?.foName, form.customer?.branchId, form.foId]);
+  }, [account?.foName, effectiveBranchId, form.foId]);
 
-  const stepScrollReady = useRef(false);
+  const lastStepRef = useRef(form.step);
   useEffect(() => {
+    const prevStep = lastStepRef.current;
+    lastStepRef.current = form.step;
+
+    if (prevStep === form.step) {
+      return;
+    }
+
     if (layout === "page") {
-      if (!stepScrollReady.current) {
-        stepScrollReady.current = true;
+      if (form.step === 1) {
+        const scroller = formRef.current?.closest(".overflow-y-auto");
+        if (scroller instanceof HTMLElement) {
+          scroller.scrollTo({ top: 0, behavior: "smooth" });
+        }
         return;
       }
       document
@@ -652,7 +736,8 @@ function DepositAccountFormBody({
     fetchDepositNominees(account.accountId)
       .then((items) => {
         if (cancelled) return;
-        setNominees(items.filter((item) => item.isActive).map(draftFromNominee));
+        const active = items.filter((item) => item.isActive);
+        setNominees(active.map(draftFromNominee));
         setDeactivateIds([]);
       })
       .catch(() => {
@@ -667,6 +752,58 @@ function DepositAccountFormBody({
       cancelled = true;
     };
   }, [account?.accountId, form.custTypeCd, mode, t]);
+
+  useEffect(() => {
+    if (!form.nomRegd || form.custTypeCd !== CUST_TYPE_INDIVIDUAL) return;
+    const memberId = form.customer?.id;
+    if (memberId == null) {
+      setListedNominees([]);
+      setNomineesListError(t("form.nominees.memberRequired"));
+      setNomineesLoading(false);
+      return;
+    }
+    let cancelled = false;
+    setNomineesLoading(true);
+    setNomineesListError(null);
+    fetchMemberNominees(memberId)
+      .then((items) => {
+        if (cancelled) return;
+        setListedNominees(
+          items
+            .filter((item) => item.isActive)
+            .map((item) => ({
+              nomineeId: item.memberNomineeId,
+              accountId: 0,
+              nomCustId: null,
+              nomCustRefCode: "",
+              nomName: item.nomineeName,
+              contactNo: item.nomineeMobile ?? "",
+              relationCd: item.nomineeRelCd,
+              relationDesc: item.relationDesc,
+              age: item.nomineeAge,
+              birthDate: item.nomineeDob,
+              address: "",
+              guardianName: "",
+              sharePercent: item.sharePercent,
+              isActive: item.isActive,
+              isMinor: item.isMinor,
+            })),
+        );
+      })
+      .catch((error: unknown) => {
+        if (cancelled) return;
+        setListedNominees([]);
+        setNomineesListError(
+          isMemberClientError(error) ? error.message : t("form.nominees.loadError"),
+        );
+      })
+      .finally(() => {
+        if (!cancelled) setNomineesLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [form.custTypeCd, form.customer?.id, form.nomRegd, t]);
 
   useEffect(() => {
     if (mode !== "edit" || account?.accountId == null) return;
@@ -710,6 +847,10 @@ function DepositAccountFormBody({
   function selectCustomer(customer: DepositCustomer | null) {
     patch({
       customer,
+      branchId:
+        customer?.branchId != null
+          ? String(customer.branchId)
+          : form.branchId,
       joint1:
         form.joint1 && customer && form.joint1.id === customer.id
           ? null
@@ -725,7 +866,7 @@ function DepositAccountFormBody({
           ? String(STATUS_KYC_PENDING)
           : form.statusCd,
     });
-    setFieldErrors((current) => ({ ...current, custIdPrimary: "" }));
+    setFieldErrors((current) => ({ ...current, custIdPrimary: "", branchId: "" }));
   }
 
   function selectCustType(custTypeCd: number) {
@@ -836,7 +977,11 @@ function DepositAccountFormBody({
         next[fieldKey] = signatoryError(issue.field);
       }
     }
-    if (step === 4 && form.custTypeCd === CUST_TYPE_INDIVIDUAL) {
+    if (
+      step === 4 &&
+      form.custTypeCd === CUST_TYPE_INDIVIDUAL &&
+      listedNominees.length === 0
+    ) {
       const holderIds = [form.customer?.id, form.joint1?.id, form.joint2?.id].filter(
         (id): id is number => id != null,
       );
@@ -937,12 +1082,12 @@ function DepositAccountFormBody({
         form.custTypeCd === CUST_TYPE_INDIVIDUAL &&
         (form.nomRegd || nominees.length > 0),
       foId: form.foId ? Number(form.foId) : null,
-      branchId: form.customer.branchId,
+      branchId: effectiveBranchId,
       statusCd: Number(form.statusCd) === STATUS_KYC_PENDING ? 7 : 1,
       sb: savingsDetails,
     };
     const nomineePayload =
-      form.custTypeCd === CUST_TYPE_INDIVIDUAL
+      form.custTypeCd === CUST_TYPE_INDIVIDUAL && listedNominees.length === 0
         ? toNomineeSave(nominees, deactivateIds)
         : { add: [], edit: [], deactivate: [] };
     const signatoryPayload = toSignatorySave(signatories, signatoryDeactivateIds);
@@ -1034,7 +1179,7 @@ function DepositAccountFormBody({
       rows: [
         { label: t("form.applDate"), value: applDateLabel },
         { label: t("form.applNo"), value: form.applNo.trim() || t("form.applNoPlaceholder", { year }) },
-        { label: t("form.branch"), value: form.customer?.branchName || t("dash") },
+        { label: t("form.branch"), value: branchOptions.find((b) => b.value === String(effectiveBranchId))?.label || form.customer?.branchName || t("dash") },
         { label: t("form.fieldOfficer"), value: officerLabel },
         ...(mode === "create"
           ? [
@@ -1054,6 +1199,22 @@ function DepositAccountFormBody({
       rows:
         form.custTypeCd === CUST_TYPE_GROUP
           ? [{ label: t("form.stepNominees"), value: t("form.summary.notApplicable") }]
+          : form.nomRegd && listedNominees.length > 0
+            ? listedNominees.map((nominee, index) => ({
+                  label: t("form.nominees.block", { number: index + 1 }),
+                  value: [
+                    nominee.nomName || t("dash"),
+                    nominee.relationDesc,
+                    nominee.age != null
+                      ? t("form.nominees.ageValue", { age: nominee.age })
+                      : "",
+                    nominee.sharePercent != null
+                      ? t("form.nominees.shareValue", { percent: nominee.sharePercent })
+                      : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" · "),
+                }))
           : nominees.length === 0
             ? [{ label: t("form.stepNominees"), value: t("form.summary.none") }]
             : nominees.map((draft, index) => {
@@ -1387,25 +1548,23 @@ function DepositAccountFormBody({
             error={fieldErrors.applDate}
             onChange={(applDate) => patch({ applDate })}
           />
-          <TextField
-            label={t("form.applNo")}
-            value={form.applNo}
-            maxLength={25}
-            error={fieldErrors.applNo}
-            placeholder={t("form.applNoPlaceholder", { year })}
-            onChange={(applNo) => patch({ applNo: applNo.toUpperCase() })}
-          />
-          <TextField
+          <SelectField
             label={t("form.branch")}
-            value={
-              form.customer?.branchName
-                ? [form.customer.branchCode, form.customer.branchName]
-                    .filter(Boolean)
-                    .join(" · ")
-                : ""
-            }
-            readOnly
+            required
+            value={effectiveBranchId != null ? String(effectiveBranchId) : ""}
             error={fieldErrors.branchId}
+            placeholder={t("form.branchPlaceholder")}
+            searchPlaceholder={tUi("selectSearch")}
+            emptyMessage={tUi("selectEmpty")}
+            disabled={locked}
+            onChange={(branchId) => {
+              patch({
+                branchId,
+                foId: "",
+              });
+              setFieldErrors((current) => ({ ...current, branchId: "" }));
+            }}
+            options={branchOptions}
           />
           <SelectField
             label={t("form.fieldOfficer")}
@@ -1414,7 +1573,7 @@ function DepositAccountFormBody({
             placeholder={t("form.fieldOfficerPlaceholder")}
             searchPlaceholder={tUi("selectSearch")}
             emptyMessage={tUi("selectEmpty")}
-            disabled={form.customer?.branchId == null}
+            disabled={effectiveBranchId == null}
             onChange={(foId) => patch({ foId })}
             options={[{ value: "", label: t("form.fieldOfficerPlaceholder") }, ...officers]}
           />
@@ -1476,9 +1635,28 @@ function DepositAccountFormBody({
           <CheckboxField
             label={t("form.nominee")}
             checked={form.nomRegd}
-            onChange={(nomRegd) => patch({ nomRegd })}
+            onChange={(nomRegd) => {
+              patch({ nomRegd });
+              if (nomRegd) {
+                setNomineesLoading(Boolean(form.customer?.id));
+                setNomineesListError(null);
+                return;
+              }
+              setListedNominees([]);
+              setNomineesListError(null);
+              setNomineesLoading(false);
+            }}
           />
         ) : null}
+        {form.custTypeCd === CUST_TYPE_INDIVIDUAL &&
+        form.nomRegd &&
+        (nomineesLoading || nomineesListError || listedNominees.length > 0) ? (
+          <RegisteredNomineeList
+            nominees={listedNominees}
+            loading={nomineesLoading}
+            error={nomineesListError}
+          />
+        ) : (
         <DepositAccountNomineeStep
           drafts={nominees}
           holderIds={[form.customer?.id, form.joint1?.id, form.joint2?.id].filter(
@@ -1494,10 +1672,11 @@ function DepositAccountFormBody({
           }}
           groupAccount={form.custTypeCd === CUST_TYPE_GROUP}
           relations={relations}
-          branchId={form.customer?.branchId ?? null}
+          branchId={effectiveBranchId}
           errors={fieldErrors}
           onChange={setNominees}
         />
+        )}
         </FormSection>
       ) : null}
 
@@ -1516,7 +1695,7 @@ function DepositAccountFormBody({
             groupId={
               form.custTypeCd === CUST_TYPE_GROUP ? (form.customer?.id ?? null) : null
             }
-            branchId={form.customer?.branchId ?? null}
+            branchId={effectiveBranchId}
             authorisedEmpty={
               Number(form.opModeCd) === OP_MODE_SIGNATORY && signatories.length === 0
             }

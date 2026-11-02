@@ -1,5 +1,6 @@
 export type SavingsAccountFilters = {
   search: string;
+  prodTypeCd: string;
   branchId: string;
   schemeId: string;
   custTypeCd: string;
@@ -13,6 +14,7 @@ export type SavingsAccountFilters = {
 
 export const DEFAULT_SAVINGS_FILTERS: SavingsAccountFilters = {
   search: "",
+  prodTypeCd: "",
   branchId: "",
   schemeId: "",
   custTypeCd: "",
@@ -30,6 +32,7 @@ export function savingsFiltersEqual(
 ): boolean {
   return (
     left.search === right.search &&
+    left.prodTypeCd === right.prodTypeCd &&
     left.branchId === right.branchId &&
     left.schemeId === right.schemeId &&
     left.custTypeCd === right.custTypeCd &&
@@ -58,6 +61,7 @@ export function savingsFiltersFromQuery(
   const hasClosed = Object.prototype.hasOwnProperty.call(source, "is_closed");
   return {
     search: readParam(source, "keyword") || readParam(source, "search"),
+    prodTypeCd: readParam(source, "prod_type_cd"),
     branchId: readParam(source, "branch_id"),
     schemeId: readParam(source, "scheme_id"),
     custTypeCd: readParam(source, "cust_type_cd"),
@@ -81,6 +85,7 @@ export function writeSavingsFilters(
     else url.searchParams.delete(key);
   };
   set("keyword", filters.search.trim());
+  set("prod_type_cd", filters.prodTypeCd);
   set("branch_id", filters.branchId);
   set("scheme_id", filters.schemeId);
   set("cust_type_cd", filters.custTypeCd);

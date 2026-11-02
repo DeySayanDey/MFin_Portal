@@ -80,3 +80,70 @@ export type SavingsTransactionResult = {
   item: SavingsTransaction;
   message: string;
 };
+
+export type SavingsCustomerAccount = {
+  accountId: number;
+  fullAccountNo: string;
+  applNo: string;
+  holderName: string;
+  depositTypeCd: number;
+  depositTypeDesc: string;
+  schemeCode: string;
+  schemeName: string;
+  branchId: number | null;
+  branchName: string;
+  statusCd: number;
+  statusDesc: string;
+  currentBalance: number | null;
+  availableBalance: number | null;
+};
+
+export type SavingsCustomer = {
+  custTypeCd: number;
+  custTypeDesc: string;
+  custId: number;
+  name: string;
+  refCode: string;
+  mobileNo: string | null;
+  memberId: number | null;
+  groupId: number | null;
+  accounts: SavingsCustomerAccount[];
+};
+
+export type SavingsCustomerListResult = {
+  items: SavingsCustomer[];
+  meta: {
+    total: number;
+    page: number;
+    perPage: number;
+    lastPage: number;
+  } | null;
+};
+
+export type SavingsCustomerQuery = {
+  page?: number;
+  perPage?: number;
+  keyword?: string;
+  custTypeCd?: number;
+  depositTypeCd?: number;
+  branchId?: number;
+};
+
+export type SavingsAccountBalance = {
+  accountId: number;
+  currentBalance: number | null;
+  availableBalance: number | null;
+  pendingCount: number;
+  canDeposit: boolean;
+  canWithdraw: boolean;
+  withdrawableAmount: number | null;
+  depositRemaining: number | null;
+  instAmount: number | null;
+  maturityDate: string | null;
+  startDate: string | null;
+  minBalance: number | null;
+  vouchersMissing: number;
+  isClosed: boolean;
+  statusCd: number;
+  statusDesc: string;
+};

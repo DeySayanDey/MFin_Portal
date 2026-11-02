@@ -376,6 +376,7 @@
         "employeeId": "কর্মচারী আইডি",
         "designation": "পদবি",
         "branch": "শাখা",
+        "branchPlaceholder": "শাখা নির্বাচন করুন",
         "status": "স্থিতি",
         "active": "সক্রিয়",
         "inactive": "নিষ্ক্রিয়",
@@ -2917,6 +2918,105 @@
     }
   },
   "deposits": {
+    "memberLedger": {
+      "metaTitle": "সদস্য খতিয়ান",
+      "metaDescription": "একজন সদস্যের সঞ্চয় ও মেয়াদি আমানতের খতিয়ান",
+      "tabsLabel": "জমার ধরন",
+      "savings": "সঞ্চয় জমা",
+      "term": "মেয়াদি আমানত",
+      "savingsCount": "সঞ্চয় জমা ({count})",
+      "termCount": "মেয়াদি আমানত ({count})",
+      "dash": "—",
+      "closed": "বন্ধ",
+      "loading": "লোড হচ্ছে…",
+      "loadError": "সদস্য খতিয়ান লোড করা যায়নি।",
+      "dateOrder": "শেষ তারিখ শুরুর তারিখের আগে হতে পারে না।",
+      "selectAccount": "হিসাব বেছে নিন",
+      "selectAccountHint": "খতিয়ান দেখতে একটি হিসাব বেছে নিন।",
+      "noAccounts": "এই অংশে কোনো হিসাব নেই।",
+      "pendingApproval": "অনুমোদন বাকি",
+      "emptyTitle": "এই সময়ে কোনো লেনদেন নেই",
+      "emptyMessage": "নির্বাচিত হিসাবের পোস্ট এন্ট্রি এখানে দেখা যাবে।",
+      "accountTitle": "{account} · {holder}",
+      "sectionSummary": "ব্যালেন্স {balance} · জমা {credit} · ডেবিট {debit}",
+      "search": {
+        "label": "হিসাব",
+        "placeholder": "হিসাব বা ধারক খুঁজুন",
+        "hint": "খতিয়ান খুলতে একজন সদস্য খুঁজুন।",
+        "searching": "খোঁজা হচ্ছে…",
+        "empty": "কোনো সদস্য পাওয়া যায়নি।",
+        "change": "সদস্য বদলান"
+      },
+      "roles": {
+        "PRIMARY": "প্রাথমিক",
+        "JOINT": "যৌথ"
+      },
+      "filters": {
+        "from": "থেকে",
+        "to": "পর্যন্ত",
+        "pending": "অমীমাংসিত দেখান",
+        "sort": "সাজান",
+        "newest": "নতুন আগে",
+        "passbook": "পাসবুক ক্রম"
+      },
+      "summary": {
+        "opening": "প্রারম্ভিক ব্যালেন্স",
+        "credit": "মোট জমা",
+        "debit": "মোট ডেবিট",
+        "closing": "সমাপনী ব্যালেন্স"
+      },
+      "columns": {
+        "date": "তারিখ",
+        "transNo": "লেনদেন নং",
+        "particulars": "বিবরণ",
+        "voucher": "ভাউচার নং",
+        "credit": "জমা",
+        "debit": "ডেবিট",
+        "balance": "ব্যালেন্স",
+        "status": "অবস্থা"
+      }
+    },
+    "specimenUpdate": {
+      "metaTitle": "নমুনা হালনাগাদ",
+      "metaDescription": "স্বাক্ষরকারী এবং সদস্যের কেওয়াইসি হালনাগাদ করুন",
+      "tabsLabel": "নমুনা হালনাগাদ",
+      "signatories": "স্বাক্ষরকারী",
+      "kyc": "কেওয়াইসি হালনাগাদ",
+      "kycTitle": "কেওয়াইসি হালনাগাদ",
+      "signatoriesTitle": "স্বাক্ষরকারী",
+      "signatoriesEmpty": "হালনাগাদের জন্য কোনো স্বাক্ষরকারী নেই।",
+      "loadError": "সদস্য লোড করা যায়নি",
+      "tableDescription": "সঞ্চয় হিসাব। স্বাক্ষরকারী না থাকলে সারণিতে চিহ্ন দেখায়।",
+      "accountsLoadError": "সঞ্চয় হিসাব লোড করা যায়নি",
+      "emptyTitle": "কোনো সঞ্চয় হিসাব নেই",
+      "emptyMessage": "নমুনা হালনাগাদ করতে একটি সঞ্চয় হিসাব খুলুন।",
+      "columns": {
+        "signatory": "স্বাক্ষরকারী"
+      },
+      "flagMissing": "কোনো স্বাক্ষরকারী নেই",
+      "flagCount": "{count, plural, one {# জন স্বাক্ষরকারী} other {# জন স্বাক্ষরকারী}}",
+      "upload": "নমুনা আপলোড",
+      "uploadTitle": "নমুনা আপলোড",
+      "uploadHint": "JPG বা PNG, সর্বোচ্চ 2 MB।",
+      "signature": "স্বাক্ষর",
+      "photo": "ছবি",
+      "notUploaded": "আপলোড হয়নি",
+      "chooseImage": "ছবি বেছে নিন",
+      "replaceImage": "ছবি বদলান",
+      "holder": "হিসাবধারী",
+      "pickMember": "স্বাক্ষরকারী",
+      "pickMemberPlaceholder": "সদস্য নির্বাচন করুন",
+      "cancel": "বাতিল",
+      "save": "নমুনা সংরক্ষণ",
+      "saving": "সংরক্ষণ হচ্ছে…",
+      "saved": "নমুনা সংরক্ষিত হয়েছে।",
+      "imageType": "JPG বা PNG ছবি ব্যবহার করুন।",
+      "imageTooLarge": "ছবি 2 MB বা তার কম হতে হবে।",
+      "imageRequired": "স্বাক্ষর, ছবি, অথবা দুটিই বেছে নিন।",
+      "memberRequired": "একজন স্বাক্ষরকারী নির্বাচন করুন।",
+      "loadSignatoriesError": "স্বাক্ষরকারী লোড করা যায়নি।",
+      "saveError": "নমুনা সংরক্ষণ করা যায়নি।"
+    },
     "savings": {
       "title": "সঞ্চয় হিসাব",
       "description": "সঞ্চয় হিসাব খুলুন এবং তার অবস্থা দেখুন",
@@ -2971,7 +3071,9 @@
         "toDate": "আবেদনের তারিখ পর্যন্ত",
         "memberScope": "এই সদস্যের হিসাব দেখানো হচ্ছে, যৌথ হিসাবসহ।",
         "groupScope": "এই দলের হিসাব দেখানো হচ্ছে।",
-        "clearScope": "মুছুন"
+        "clearScope": "মুছুন",
+        "product": "পণ্য",
+        "productAll": "সমস্ত পণ্য"
       },
       "form": {
         "createTitle": "হিসাব খুলুন",
@@ -2996,7 +3098,7 @@
         "formationDate": "গঠনের তারিখ",
         "scheme": "স্কিম",
         "schemePlaceholder": "একটি সঞ্চয় স্কিম বেছে নিন",
-        "depositType": "জমার ধরন",
+        "depositType": "পণ্যের ধরন",
         "depositTypeHint": "স্কিম তালিকা এই ধরন অনুসারে আসে, এবং স্কিম একই ধরনের হতে হবে।",
         "savingsType": "সঞ্চয়",
         "sb": {
@@ -3076,6 +3178,9 @@
         "nominees": {
           "groupNotice": "দলের হিসাবে নমিনি প্রযোজ্য নয়।",
           "empty": "এখনও কোনো নমিনি নেই। একজন যোগ করুন, অথবা নমিনি ছাড়াই এগোন।",
+          "registeredEmpty": "এই হিসাবে কোনো নমিনি নথিভুক্ত নেই।",
+          "memberRequired": "আগে সদস্য নির্বাচন করুন।",
+          "minor": "অপ্রাপ্তবয়স্ক",
           "add": "নমিনি যোগ করুন",
           "another": "আরেকজন নমিনি",
           "remove": "নমিনি সরান",
@@ -3131,7 +3236,8 @@
         "collapse": "সংকুচিত করুন",
         "expand": "প্রসারিত করুন",
         "collapseSection": "{section} সংকুচিত করুন",
-        "expandSection": "{section} প্রসারিত করুন"
+        "expandSection": "{section} প্রসারিত করুন",
+        "branchPlaceholder": "শাখা নির্বাচন করুন"
       },
       "view": {
         "title": "হিসাব",
@@ -3156,7 +3262,39 @@
         "closeReason": "বন্ধ",
         "nomineesEmpty": "এই হিসাবে {count}টি নমিনি রেকর্ড যুক্ত।",
         "signatoriesEmpty": "এই হিসাবে {count}টি স্বাক্ষরকারীর রেকর্ড যুক্ত।",
-        "transactionsEmpty": "লেনদেন এখানে দেখা যাবে।"
+        "transactionsEmpty": "লেনদেন এখানে দেখা যাবে।",
+        "members": "সদস্য ({count})",
+        "syncMembers": "সদস্য সিঙ্ক করুন",
+        "syncing": "সিঙ্ক হচ্ছে…",
+        "viewAllTransactions": "সমস্ত লেনদেন দেখুন",
+        "product": "পণ্য",
+        "balance": "বর্তমান ব্যালেন্স",
+        "available": "উপলব্ধ ব্যালেন্স",
+        "fullAccount": "হিসাব নম্বর",
+        "accountNo": "হিসাব নং: {accountNo}",
+        "mobile": "মোবাইল",
+        "share": "অংশ",
+        "role": "ভূমিকা",
+        "narration": "বিবরণ",
+        "voucher": "ভাউচার",
+        "loading": "হিসাবের বিবরণ লোড হচ্ছে…",
+        "membersEmpty": "এই গ্রুপ হিসাবে কোনো সদস্য সারি নেই।",
+        "yes": "হ্যাঁ",
+        "no": "না",
+        "currentMember": "বর্তমান",
+        "formerMember": "গ্রুপ ছেড়েছেন",
+        "shownOf": "{shown} / {total}",
+        "sections": {
+          "account": "হিসাব",
+          "savings": "সঞ্চয়ের বিবরণ",
+          "holders": "ধারক",
+          "office": "শাখা ও কর্মকর্তা",
+          "members": "গ্রুপ সদস্য",
+          "nominees": "নমিনি",
+          "signatories": "স্বাক্ষরকারী",
+          "transactions": "সাম্প্রতিক লেনদেন",
+          "closing": "বন্ধ"
+        }
       },
       "statusDialog": {
         "title": "অবস্থা বদলান",
@@ -3188,6 +3326,282 @@
         "closed": "জমার হিসাব {applNo} বন্ধ হয়েছে"
       }
     },
+    "term": {
+      "metaTitle": "মেয়াদি আমানত",
+      "metaDescription": "স্থায়ী, পুনরাবৃত্ত এবং অন্যান্য মেয়াদি আমানত হিসাব",
+      "description": "মেয়াদি আমানত হিসাব, অর্থ এবং মেয়াদপূর্তি",
+      "dash": "—",
+      "closed": "বন্ধ",
+      "closedOn": "{date} তারিখে বন্ধ",
+      "roiPercent": "{value}%",
+      "matured": "মেয়াদপূর্তি",
+      "tableCaption": "মেয়াদি আমানত",
+      "emptyTitle": "এখনও কোনো মেয়াদি আমানত নেই",
+      "emptyMessage": "মেয়াদি আমানত হিসাব এখানে দেখা যাবে।",
+      "loadErrorTitle": "মেয়াদি আমানত লোড করা যায়নি",
+      "columns": {
+        "account": "হিসাব নং",
+        "holder": "ধারক",
+        "joint": "যৌথ ধারক",
+        "scheme": "স্কিম",
+        "schemeMeta": "{product} · {roi}",
+        "amount": "অর্থ",
+        "amountTimes": "{amount} × {count}",
+        "paid": "জমা {amount}",
+        "maturity": "মেয়াদপূর্তি",
+        "status": "অবস্থা",
+        "actions": "কাজ"
+      },
+      "actions": {
+        "view": "দেখুন",
+        "edit": "সম্পাদনা",
+        "changeStatus": "অবস্থা বদলান",
+        "close": "হিসাব বন্ধ করুন"
+      },
+      "details": "মেয়াদি বিবরণ",
+      "period": "মেয়াদ",
+      "periodValue": "{years} বছর · {months} মাস · {days} দিন",
+      "installment": "কিস্তি",
+      "maturityAmount": "মেয়াদপূর্তির অর্থ",
+      "interest": "প্রদেয় সুদ",
+      "instruction": "মেয়াদপূর্তির নির্দেশ",
+      "schedule": "কিস্তি",
+      "payouts": "সুদ প্রদান",
+      "refresh": "রিফ্রেশ",
+      "refreshing": "রিফ্রেশ হচ্ছে…",
+      "scheduleError": "কিস্তির তালিকা রিফ্রেশ করা যায়নি।",
+      "dueDate": "দেয় তারিখ",
+      "paidOn": "পরিশোধের তারিখ",
+      "daysOverdue": "বকেয়া দিন",
+      "dueAmount": "দেয় অর্থ",
+      "paidAmount": "পরিশোধ",
+      "scheduleEmpty": "কোনো কিস্তির তালিকা নেই।",
+      "payoutEmpty": "কোনো সুদ প্রদান নেই।",
+      "scheduleProgress": "{total} এর মধ্যে {paid} পরিশোধ"
+    },
+    "fdSettlement": {
+      "metaTitle": "মেয়াদি আমানত নিষ্পত্তি",
+      "metaDescription": "মেয়াদি আমানত খুঁজুন, নিষ্পত্তির উদ্ধৃতি দেখুন এবং অনুমোদনের জন্য পাঠান।",
+      "title": "মেয়াদি আমানত নিষ্পত্তি",
+      "description": "আমানত হিসাব ও নিষ্পত্তির অনুরোধ খুঁজুন।",
+      "history": "ইতিহাস",
+      "dash": "—",
+      "accountMissing": "এই আমানত হিসাব পাওয়া যায়নি।",
+      "tabsLabel": "নিষ্পত্তির দৃশ্য",
+      "tabs": {
+        "search": "আমানত খুঁজুন",
+        "pending": "অনুমোদন বাকি",
+        "settled": "নিষ্পত্তিকৃত হিসাব"
+      },
+      "filters": {
+        "depositType": "আমানতের ধরন",
+        "account": "হিসাব / গ্রাহক",
+        "accountPlaceholder": "হিসাব নম্বর বা গ্রাহক আইডি",
+        "branch": "শাখা",
+        "status": "হিসাবের অবস্থা",
+        "search": "হিসাব খুঁজুন",
+        "allTypes": "সব",
+        "allBranches": "সব অনুমোদিত শাখা",
+        "activeMatured": "সক্রিয় / পরিপক্ক",
+        "allStatuses": "সব অবস্থা"
+      },
+      "schemes": {
+        "FD": "মেয়াদি আমানত",
+        "MIS": "এমআইএস",
+        "OTHER": "অন্যান্য"
+      },
+      "statuses": {
+        "active": "সক্রিয়",
+        "matured": "পরিপক্ক",
+        "closed": "বন্ধ",
+        "settled": "নিষ্পত্তিকৃত"
+      },
+      "kyc": {
+        "verified": "যাচাইকৃত",
+        "due": "বাকি",
+        "restricted": "সীমাবদ্ধ"
+      },
+      "holding": {
+        "single": "একক",
+        "joint": "যৌথ",
+        "eitherOrSurvivor": "যেকোনো একজন বা উত্তরাধিকারী"
+      },
+      "restrictions": {
+        "lien": "এই আমানতে গ্রেপ্তারস্বত্ব আছে। নতুন নিষ্পত্তি শুরু করা যাবে না।",
+        "settled": "এই হিসাব ইতিমধ্যে নিষ্পত্তি হয়েছে। রসিদ পাওয়া যাবে।",
+        "kyc": "কেওয়াইসি সীমাবদ্ধ। নিষ্পত্তি চালানো যাবে না।"
+      },
+      "columns": {
+        "account": "হিসাব",
+        "customer": "গ্রাহক",
+        "scheme": "স্কিম",
+        "branch": "শাখা",
+        "maturity": "মেয়াদ",
+        "status": "অবস্থা",
+        "action": "কার্য",
+        "type": "নিষ্পত্তির ধরন",
+        "date": "নিষ্পত্তির তারিখ",
+        "amount": "নিট প্রদেয়",
+        "requestStatus": "অনুরোধের অবস্থা"
+      },
+      "actions": {
+        "select": "বেছে নিন",
+        "view": "দেখুন",
+        "change": "বদলান",
+        "calculate": "অঙ্ক হিসাব করুন",
+        "calculating": "হিসাব হচ্ছে…",
+        "saveDraft": "খসড়া সংরক্ষণ",
+        "review": "পর্যালোচনা ও জমা",
+        "cancel": "বাতিল",
+        "back": "ফিরে যান",
+        "leave": "ছেড়ে যান",
+        "submit": "অনুমোদনের জন্য পাঠান",
+        "approve": "অনুমোদন",
+        "reject": "প্রত্যাখ্যান",
+        "post": "পোস্ট",
+        "receipt": "রসিদ",
+        "correct": "সংশোধন"
+      },
+      "empty": {
+        "searchTitle": "কোনো হিসাব নেই",
+        "searchMessage": "এই ফিল্টারে কোনো আমানত মেলেনি।",
+        "pendingTitle": "কোনো অমীমাংসিত অনুমোদন নেই",
+        "pendingMessage": "জমা দেওয়া নিষ্পত্তি এখানে দেখা যাবে।",
+        "settledTitle": "কোনো নিষ্পত্তিকৃত হিসাব নেই",
+        "settledMessage": "পোস্ট করা নিষ্পত্তি এখানে দেখা যাবে।"
+      },
+      "workspace": {
+        "accountLine": "হিসাব {account}",
+        "customer": "গ্রাহকের তথ্য",
+        "deposit": "আমানতের তথ্য",
+        "request": "নিষ্পত্তির অনুরোধ",
+        "calculation": "নিষ্পত্তির হিসাব",
+        "payout": "পরিশোধ / স্থানান্তর",
+        "documents": "নথি ও ঘোষণা",
+        "name": "নাম",
+        "customerId": "গ্রাহক আইডি",
+        "kyc": "কেওয়াইসি",
+        "holding": "হোল্ডিং",
+        "branch": "শাখা",
+        "scheme": "স্কিম",
+        "principal": "আসল",
+        "rate": "হার",
+        "rateValue": "{rate}% বার্ষিক",
+        "open": "খোলার তারিখ",
+        "maturity": "মেয়াদ",
+        "tenure": "মেয়াদকাল",
+        "tenureValue": "{count, plural, one {# মাস} other {# মাস}}",
+        "payoutFrequency": "সুদ পরিশোধ",
+        "cumulative": "ক্রমযোজিত",
+        "periodic": "পর্যায়ক্রমিক",
+        "type": "ধরন",
+        "date": "তারিখ",
+        "reason": "কারণ",
+        "remarks": "মন্তব্য",
+        "choose": "বেছে নিন",
+        "mode": "মাধ্যম",
+        "beneficiaryAccount": "হিসাব",
+        "beneficiaryName": "নাম",
+        "amount": "অঙ্ক",
+        "ifsc": "আইএফএসসি",
+        "chequeRef": "চেক রেফারেন্স",
+        "noPaymentMethods": "এই হিসাবের জন্য কোনো পরিশোধ মাধ্যম নেই।",
+        "upload": "সহায়ক নথি আপলোড করুন",
+        "declaration": "আমি বিবরণ যাচাই করেছি",
+        "confirm": "আমি বিবরণ ও পরিশোধ নির্দেশ নিশ্চিত করছি।",
+        "quoteEmpty": "প্রদেয় অঙ্ক দেখতে নিষ্পত্তি হিসাব করুন।",
+        "quoteStale": "উদ্ধৃতি পুরনো হয়ে গেছে। জমা দেওয়ার আগে আবার হিসাব করুন।",
+        "quoteMeta": "উদ্ধৃতি {id} · {date} পর্যন্ত বৈধ",
+        "types": {
+          "maturity": "মেয়াদপূর্তি নিষ্পত্তি",
+          "premature": "মেয়াদপূর্ব বন্ধ"
+        },
+        "reasons": {
+          "customer": "গ্রাহকের অনুরোধ",
+          "financial": "আর্থিক প্রয়োজন",
+          "other": "অন্যান্য"
+        },
+        "modes": {
+          "savings": "সঞ্চয় স্থানান্তর",
+          "neft": "এনইএফটি / আরটিজিএস",
+          "cheque": "চেক",
+          "cash": "নগদ"
+        },
+        "lines": {
+          "principal": "আসল",
+          "interest": "সুদ",
+          "overdue": "বকেয়া সুদ",
+          "recovery": "সুদ আদায়",
+          "penalty": "জরিমানা",
+          "tds": "টিডিএস / কর",
+          "other": "অন্যান্য কর্তন",
+          "net": "নিট প্রদেয়"
+        },
+        "checklist": {
+          "maturity": "নিষ্পত্তি ফর্ম থাকলে সংযুক্ত করুন।",
+          "premature": "গ্রাহকের অনুরোধ থাকলে সংযুক্ত করুন।"
+        }
+      },
+      "mis": {
+        "title": "মাসিক সুদের বিবরণ",
+        "monthly": "মাসিক সুদ",
+        "lastPaid": "শেষ পরিশোধের তারিখ",
+        "totalPaid": "মোট পরিশোধিত সুদ",
+        "unpaid": "অপরিশোধিত কিস্তি",
+        "pending": "বকেয়া সুদ",
+        "excess": "আদায়যোগ্য অতিরিক্ত"
+      },
+      "review": {
+        "title": "নিষ্পত্তি পর্যালোচনা",
+        "subtitle": "অনুমোদনের জন্য পাঠানোর আগে সব বিবরণ যাচাই করুন।",
+        "account": "আমানত হিসাব",
+        "customer": "গ্রাহক",
+        "type": "নিষ্পত্তির ধরন",
+        "date": "নিষ্পত্তির তারিখ",
+        "mode": "পরিশোধ মাধ্যম",
+        "beneficiary": "সুবিধাভোগী"
+      },
+      "receipt": {
+        "title": "নিষ্পত্তি রসিদ",
+        "reference": "রেফারেন্স",
+        "printed": "এই রসিদ একটি নিষ্পত্তিকৃত অনুরোধের জন্য।"
+      },
+      "requestStatuses": {
+        "draft": "খসড়া",
+        "pending": "অনুমোদন বাকি",
+        "rejected": "প্রত্যাখ্যাত",
+        "approved": "অনুমোদিত",
+        "settled": "নিষ্পত্তিকৃত"
+      },
+      "notices": {
+        "draftSaved": "খসড়া সংরক্ষিত। কোনো খতিয়ান এন্ট্রি পোস্ট হয়নি।",
+        "submitted": "নিষ্পত্তি অনুমোদনের জন্য পাঠানো হয়েছে।",
+        "approved": "নিষ্পত্তি অনুমোদিত হয়েছে।",
+        "rejected": "নিষ্পত্তি প্রত্যাখ্যাত হয়েছে।",
+        "posted": "নিষ্পত্তি পোস্ট হয়েছে।",
+        "unsavedTitle": "এই নিষ্পত্তি ছাড়বেন?",
+        "unsavedMessage": "উদ্ধৃতি ও অসংরক্ষিত এন্ট্রি মুছে যাবে।"
+      },
+      "validation": {
+        "type": "নিষ্পত্তির ধরন বেছে নিন।",
+        "date": "নিষ্পত্তির তারিখ বেছে নিন।",
+        "reason": "কারণ বেছে নিন।",
+        "quote": "পর্যালোচনার আগে নিষ্পত্তি হিসাব করুন।",
+        "payment": "পরিশোধ মাধ্যম বেছে নিন।",
+        "beneficiary": "সুবিধাভোগীর হিসাব লিখুন।",
+        "ifsc": "আইএফএসসি লিখুন।",
+        "cheque": "চেক রেফারেন্স লিখুন।",
+        "declaration": "নিশ্চিত করুন যে বিবরণ যাচাই হয়েছে।",
+        "confirm": "পরিশোধ নির্দেশ নিশ্চিত করুন।",
+        "fileType": "পিডিএফ, জেপিজি বা পিএনজি আপলোড করুন।",
+        "fileSize": "ফাইল ২ এমবি বা তার কম হতে হবে।",
+        "rejectReason": "প্রত্যাখ্যানের কারণ লিখুন।"
+      },
+      "reject": {
+        "title": "নিষ্পত্তি প্রত্যাখ্যান",
+        "reason": "কারণ"
+      }
+    },
     "savingsTransaction": {
       "title": "সঞ্চয় লেনদেন",
       "description": "জমা বা উত্তোলন পোস্ট করুন, এবং অপেক্ষমাণ এন্ট্রি অনুমোদন করুন।",
@@ -3217,7 +3631,7 @@
         "2": "উত্তোলন"
       },
       "table": {
-        "transNo": "লেনদেন",
+        "transNo": "লেনদেন আইডি",
         "account": "অ্যাকাউন্ট",
         "type": "ধরন",
         "mode": "মাধ্যম",
@@ -3266,7 +3680,13 @@
         "effectRange": "কার্যকর তারিখ লেনদেনের তারিখের আগে বা সমান হতে হবে",
         "amountInvalid": "শূন্যের বেশি পরিমাণ দিন",
         "exceedsBalance": "উত্তোলন বর্তমান ব্যালেন্সের বেশি হতে পারবে না ({balance})",
-        "accountRequired": "একটি অ্যাকাউন্ট বেছে নিন"
+        "accountRequired": "একটি অ্যাকাউন্ট বেছে নিন",
+        "available": "উপলব্ধ ব্যালেন্স",
+        "pending": "অমীমাংসিত",
+        "depositRemaining": "বাকি জমা",
+        "postVouchers": "বাদ পড়া ভাউচার পোস্ট করুন",
+        "postingVouchers": "ভাউচার পোস্ট হচ্ছে…",
+        "vouchersMissing": "{count}টি পোস্ট লেনদেনের ভাউচার নেই"
       },
       "approval": {
         "approveTitle": "লেনদেন অনুমোদন",
@@ -3276,6 +3696,33 @@
         "confirmApprove": "অনুমোদন",
         "confirmReject": "প্রত্যাখ্যান",
         "cancel": "বাতিল"
+      },
+      "picker": {
+        "title": "অ্যাকাউন্ট খুঁজুন",
+        "subtitle": "ফিল্টার খালি রেখে খুঁজলে সব হিসাবধারী দেখাবে।",
+        "filter": "ফিল্টার",
+        "accountsTitle": "অ্যাকাউন্ট বেছে নিন",
+        "back": "ফিরে যান",
+        "columns": {
+          "code": "কোড",
+          "name": "নাম",
+          "type": "ধরন",
+          "mobile": "মোবাইল",
+          "account": "অ্যাকাউন্ট",
+          "scheme": "স্কিম",
+          "balance": "ব্যালেন্স",
+          "action": "কাজ"
+        },
+        "select": "বেছে নিন",
+        "selected": "নির্বাচিত",
+        "loading": "অ্যাকাউন্ট লোড হচ্ছে…",
+        "empty": "কোনো হিসাবধারী পাওয়া যায়নি",
+        "emptyHint": "অন্য নাম, কোড, মোবাইল বা অ্যাকাউন্ট নম্বর চেষ্টা করুন।",
+        "showing": "{total}টির মধ্যে {from}–{to} দেখানো হচ্ছে",
+        "previous": "আগের",
+        "next": "পরের",
+        "close": "বন্ধ",
+        "loadError": "অ্যাকাউন্ট লোড করা যায়নি"
       }
     }
   },

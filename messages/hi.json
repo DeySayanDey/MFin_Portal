@@ -376,6 +376,7 @@
         "employeeId": "कर्मचारी आईडी",
         "designation": "पदनाम",
         "branch": "शाखा",
+        "branchPlaceholder": "शाखा चुनें",
         "status": "स्थिति",
         "active": "सक्रिय",
         "inactive": "निष्क्रिय",
@@ -2917,6 +2918,105 @@
     }
   },
   "deposits": {
+    "memberLedger": {
+      "metaTitle": "सदस्य बही",
+      "metaDescription": "सदस्य की बचत और सावधि जमा बही",
+      "tabsLabel": "जमा प्रकार",
+      "savings": "बचत जमा",
+      "term": "सावधि जमा",
+      "savingsCount": "बचत जमा ({count})",
+      "termCount": "सावधि जमा ({count})",
+      "dash": "—",
+      "closed": "बंद",
+      "loading": "लोड हो रहा है…",
+      "loadError": "सदस्य बही लोड नहीं हो सकी।",
+      "dateOrder": "अंतिम तिथि आरंभ तिथि से पहले नहीं हो सकती।",
+      "selectAccount": "खाता चुनें",
+      "selectAccountHint": "बही देखने के लिए एक खाता चुनें।",
+      "noAccounts": "इस खंड में कोई खाता नहीं है।",
+      "pendingApproval": "अनुमोदन लंबित",
+      "emptyTitle": "इस अवधि में कोई लेनदेन नहीं",
+      "emptyMessage": "चुने हुए खाते की पोस्ट प्रविष्टियाँ यहाँ दिखेंगी।",
+      "accountTitle": "{account} · {holder}",
+      "sectionSummary": "शेष {balance} · जमा {credit} · नामे {debit}",
+      "search": {
+        "label": "खाता",
+        "placeholder": "खाता या धारक खोजें",
+        "hint": "बही खोलने के लिए सदस्य खोजें।",
+        "searching": "खोज रहे हैं…",
+        "empty": "कोई सदस्य नहीं मिला।",
+        "change": "सदस्य बदलें"
+      },
+      "roles": {
+        "PRIMARY": "प्राथमिक",
+        "JOINT": "संयुक्त"
+      },
+      "filters": {
+        "from": "से",
+        "to": "तक",
+        "pending": "लंबित दिखाएँ",
+        "sort": "क्रम",
+        "newest": "नया पहले",
+        "passbook": "पासबुक क्रम"
+      },
+      "summary": {
+        "opening": "प्रारंभिक शेष",
+        "credit": "कुल जमा",
+        "debit": "कुल नामे",
+        "closing": "अंतिम शेष"
+      },
+      "columns": {
+        "date": "तिथि",
+        "transNo": "लेनदेन सं.",
+        "particulars": "विवरण",
+        "voucher": "वाउचर सं.",
+        "credit": "जमा",
+        "debit": "नामे",
+        "balance": "शेष",
+        "status": "स्थिति"
+      }
+    },
+    "specimenUpdate": {
+      "metaTitle": "नमूना अद्यतन",
+      "metaDescription": "हस्ताक्षरकर्ता और सदस्य केवाईसी अपडेट करें",
+      "tabsLabel": "नमूना अद्यतन",
+      "signatories": "हस्ताक्षरकर्ता",
+      "kyc": "केवाईसी अपडेट",
+      "kycTitle": "केवाईसी अपडेट",
+      "signatoriesTitle": "हस्ताक्षरकर्ता",
+      "signatoriesEmpty": "अपडेट करने के लिए कोई हस्ताक्षरकर्ता नहीं।",
+      "loadError": "सदस्य लोड नहीं हो सके",
+      "tableDescription": "बचत खाते। जिन खातों पर हस्ताक्षरकर्ता नहीं है, उन पर चिह्न दिखता है।",
+      "accountsLoadError": "बचत खाते लोड नहीं हो सके",
+      "emptyTitle": "कोई बचत खाता नहीं",
+      "emptyMessage": "नमूना अपडेट करने के लिए एक बचत खाता खोलें।",
+      "columns": {
+        "signatory": "हस्ताक्षरकर्ता"
+      },
+      "flagMissing": "कोई हस्ताक्षरकर्ता नहीं",
+      "flagCount": "{count, plural, one {# हस्ताक्षरकर्ता} other {# हस्ताक्षरकर्ता}}",
+      "upload": "नमूना अपलोड करें",
+      "uploadTitle": "नमूना अपलोड करें",
+      "uploadHint": "JPG या PNG, अधिकतम 2 MB।",
+      "signature": "हस्ताक्षर",
+      "photo": "फोटो",
+      "notUploaded": "अपलोड नहीं है",
+      "chooseImage": "चित्र चुनें",
+      "replaceImage": "चित्र बदलें",
+      "holder": "खाता धारक",
+      "pickMember": "हस्ताक्षरकर्ता",
+      "pickMemberPlaceholder": "सदस्य चुनें",
+      "cancel": "रद्द करें",
+      "save": "नमूना सहेजें",
+      "saving": "सहेजा जा रहा है…",
+      "saved": "नमूना सहेजा गया।",
+      "imageType": "JPG या PNG चित्र चुनें।",
+      "imageTooLarge": "चित्र 2 MB या उससे छोटा होना चाहिए।",
+      "imageRequired": "हस्ताक्षर, फोटो, या दोनों चुनें।",
+      "memberRequired": "हस्ताक्षरकर्ता चुनें।",
+      "loadSignatoriesError": "हस्ताक्षरकर्ता लोड नहीं हो सके।",
+      "saveError": "नमूना सहेजा नहीं जा सका।"
+    },
     "savings": {
       "title": "बचत खाते",
       "description": "बचत खाते खोलें और उनकी स्थिति देखें",
@@ -2971,7 +3071,9 @@
         "toDate": "आवेदन तिथि तक",
         "memberScope": "इस सदस्य के खाते दिखाए जा रहे हैं, संयुक्त खातों सहित।",
         "groupScope": "इस समूह के खाते दिखाए जा रहे हैं।",
-        "clearScope": "हटाएँ"
+        "clearScope": "हटाएँ",
+        "product": "उत्पाद",
+        "productAll": "सभी उत्पाद"
       },
       "form": {
         "createTitle": "खाता खोलें",
@@ -2996,7 +3098,7 @@
         "formationDate": "गठन तिथि",
         "scheme": "योजना",
         "schemePlaceholder": "एक बचत योजना चुनें",
-        "depositType": "जमा प्रकार",
+        "depositType": "उत्पाद प्रकार",
         "depositTypeHint": "योजना सूची इस प्रकार के अनुसार आती है, और योजना उसी प्रकार की होनी चाहिए।",
         "savingsType": "बचत",
         "sb": {
@@ -3076,6 +3178,9 @@
         "nominees": {
           "groupNotice": "समूह खातों पर नामांकित लागू नहीं होते।",
           "empty": "अभी कोई नामांकित नहीं है। एक जोड़ें, या बिना नामांकित आगे बढ़ें।",
+          "registeredEmpty": "इस खाते पर कोई नामांकित पंजीकृत नहीं है।",
+          "memberRequired": "पहले सदस्य चुनें।",
+          "minor": "नाबालिग",
           "add": "नामांकित जोड़ें",
           "another": "एक और नामांकित",
           "remove": "नामांकित हटाएँ",
@@ -3131,7 +3236,8 @@
         "collapse": "समेटें",
         "expand": "फैलाएँ",
         "collapseSection": "{section} समेटें",
-        "expandSection": "{section} फैलाएँ"
+        "expandSection": "{section} फैलाएँ",
+        "branchPlaceholder": "शाखा चुनें"
       },
       "view": {
         "title": "खाता",
@@ -3156,7 +3262,39 @@
         "closeReason": "बंद होना",
         "nomineesEmpty": "इस खाते से {count} नामांकित रिकॉर्ड जुड़े हैं।",
         "signatoriesEmpty": "इस खाते से {count} हस्ताक्षरकर्ता रिकॉर्ड जुड़े हैं।",
-        "transactionsEmpty": "लेनदेन यहाँ दिखेंगे।"
+        "transactionsEmpty": "लेनदेन यहाँ दिखेंगे।",
+        "members": "सदस्य ({count})",
+        "syncMembers": "सदस्य सिंक करें",
+        "syncing": "सिंक हो रहा है…",
+        "viewAllTransactions": "सभी लेनदेन देखें",
+        "product": "उत्पाद",
+        "balance": "वर्तमान शेष",
+        "available": "उपलब्ध शेष",
+        "fullAccount": "खाता संख्या",
+        "accountNo": "खाता सं.: {accountNo}",
+        "mobile": "मोबाइल",
+        "share": "हिस्सा",
+        "role": "भूमिका",
+        "narration": "विवरण",
+        "voucher": "वाउचर",
+        "loading": "खाता विवरण लोड हो रहा है…",
+        "membersEmpty": "इस समूह खाते पर कोई सदस्य पंक्ति नहीं है।",
+        "yes": "हाँ",
+        "no": "नहीं",
+        "currentMember": "वर्तमान",
+        "formerMember": "समूह छोड़ चुके",
+        "shownOf": "{shown} / {total}",
+        "sections": {
+          "account": "खाता",
+          "savings": "बचत विवरण",
+          "holders": "धारक",
+          "office": "शाखा और अधिकारी",
+          "members": "समूह सदस्य",
+          "nominees": "नामांकित",
+          "signatories": "हस्ताक्षरकर्ता",
+          "transactions": "हाल के लेनदेन",
+          "closing": "बंद होना"
+        }
       },
       "statusDialog": {
         "title": "स्थिति बदलें",
@@ -3188,6 +3326,282 @@
         "closed": "जमा खाता {applNo} बंद हो गया"
       }
     },
+    "term": {
+      "metaTitle": "मियादी जमा",
+      "metaDescription": "सावधि, आवर्ती और अन्य मियादी जमा खाते",
+      "description": "मियादी जमा खाते, राशि और परिपक्वता",
+      "dash": "—",
+      "closed": "बंद",
+      "closedOn": "{date} को बंद",
+      "roiPercent": "{value}%",
+      "matured": "परिपक्व",
+      "tableCaption": "मियादी जमा",
+      "emptyTitle": "अभी कोई मियादी जमा नहीं",
+      "emptyMessage": "मियादी जमा खाते यहाँ दिखेंगे।",
+      "loadErrorTitle": "मियादी जमा लोड नहीं हो सके",
+      "columns": {
+        "account": "खाता सं.",
+        "holder": "धारक",
+        "joint": "संयुक्त धारक",
+        "scheme": "योजना",
+        "schemeMeta": "{product} · {roi}",
+        "amount": "राशि",
+        "amountTimes": "{amount} × {count}",
+        "paid": "जमा {amount}",
+        "maturity": "परिपक्वता",
+        "status": "स्थिति",
+        "actions": "कार्रवाई"
+      },
+      "actions": {
+        "view": "देखें",
+        "edit": "संपादित करें",
+        "changeStatus": "स्थिति बदलें",
+        "close": "खाता बंद करें"
+      },
+      "details": "मियादी विवरण",
+      "period": "अवधि",
+      "periodValue": "{years} वर्ष · {months} माह · {days} दिन",
+      "installment": "किस्त",
+      "maturityAmount": "परिपक्वता राशि",
+      "interest": "देय ब्याज",
+      "instruction": "परिपक्वता निर्देश",
+      "schedule": "किस्तें",
+      "payouts": "ब्याज भुगतान",
+      "refresh": "रीफ़्रेश",
+      "refreshing": "रीफ़्रेश हो रहा है…",
+      "scheduleError": "किस्त अनुसूची रीफ़्रेश नहीं हो सकी।",
+      "dueDate": "देय तिथि",
+      "paidOn": "भुगतान तिथि",
+      "daysOverdue": "विलंब दिन",
+      "dueAmount": "देय राशि",
+      "paidAmount": "चुकाया",
+      "scheduleEmpty": "कोई किस्त अनुसूची नहीं।",
+      "payoutEmpty": "कोई ब्याज भुगतान नहीं।",
+      "scheduleProgress": "{total} में से {paid} चुकाए"
+    },
+    "fdSettlement": {
+      "metaTitle": "सावधि जमा निपटान",
+      "metaDescription": "सावधि जमा खोजें, निपटान उद्धरण देखें, और अनुमोदन के लिए भेजें।",
+      "title": "सावधि जमा निपटान",
+      "description": "जमा खाते और निपटान अनुरोध खोजें।",
+      "history": "इतिहास",
+      "dash": "—",
+      "accountMissing": "यह जमा खाता नहीं मिला।",
+      "tabsLabel": "निपटान दृश्य",
+      "tabs": {
+        "search": "जमा खोजें",
+        "pending": "अनुमोदन लंबित",
+        "settled": "निपटान खाते"
+      },
+      "filters": {
+        "depositType": "जमा प्रकार",
+        "account": "खाता / ग्राहक",
+        "accountPlaceholder": "खाता नंबर या ग्राहक आईडी",
+        "branch": "शाखा",
+        "status": "खाता स्थिति",
+        "search": "खाता खोजें",
+        "allTypes": "सभी",
+        "allBranches": "सभी अधिकृत शाखाएँ",
+        "activeMatured": "सक्रिय / परिपक्व",
+        "allStatuses": "सभी स्थितियाँ"
+      },
+      "schemes": {
+        "FD": "सावधि जमा",
+        "MIS": "एमआईएस",
+        "OTHER": "अन्य"
+      },
+      "statuses": {
+        "active": "सक्रिय",
+        "matured": "परिपक्व",
+        "closed": "बंद",
+        "settled": "निपटान"
+      },
+      "kyc": {
+        "verified": "सत्यापित",
+        "due": "बकाया",
+        "restricted": "प्रतिबंधित"
+      },
+      "holding": {
+        "single": "एकल",
+        "joint": "संयुक्त",
+        "eitherOrSurvivor": "कोई एक या उत्तरजीवी"
+      },
+      "restrictions": {
+        "lien": "इस जमा पर ग्रहणाधिकार है। नया निपटान शुरू नहीं हो सकता।",
+        "settled": "यह खाता पहले ही निपटाया जा चुका है। रसीद उपलब्ध है।",
+        "kyc": "केवाईसी प्रतिबंधित है। निपटान जारी नहीं रह सकता।"
+      },
+      "columns": {
+        "account": "खाता",
+        "customer": "ग्राहक",
+        "scheme": "योजना",
+        "branch": "शाखा",
+        "maturity": "परिपक्वता",
+        "status": "स्थिति",
+        "action": "कार्रवाई",
+        "type": "निपटान प्रकार",
+        "date": "निपटान तिथि",
+        "amount": "शुद्ध देय",
+        "requestStatus": "अनुरोध स्थिति"
+      },
+      "actions": {
+        "select": "चुनें",
+        "view": "देखें",
+        "change": "बदलें",
+        "calculate": "राशि गणना करें",
+        "calculating": "गणना हो रही है…",
+        "saveDraft": "मसौदा सहेजें",
+        "review": "समीक्षा और जमा करें",
+        "cancel": "रद्द करें",
+        "back": "वापस",
+        "leave": "छोड़ें",
+        "submit": "अनुमोदन के लिए भेजें",
+        "approve": "स्वीकृत करें",
+        "reject": "अस्वीकार करें",
+        "post": "पोस्ट करें",
+        "receipt": "रसीद",
+        "correct": "सुधारें"
+      },
+      "empty": {
+        "searchTitle": "कोई खाता नहीं",
+        "searchMessage": "इन फ़िल्टर से कोई जमा नहीं मिला।",
+        "pendingTitle": "कोई लंबित अनुमोदन नहीं",
+        "pendingMessage": "जमा किए गए निपटान यहाँ दिखेंगे।",
+        "settledTitle": "कोई निपटान खाता नहीं",
+        "settledMessage": "पोस्ट किए गए निपटान यहाँ दिखेंगे।"
+      },
+      "workspace": {
+        "accountLine": "खाता {account}",
+        "customer": "ग्राहक जानकारी",
+        "deposit": "जमा जानकारी",
+        "request": "निपटान अनुरोध",
+        "calculation": "निपटान गणना",
+        "payout": "भुगतान / अंतरण",
+        "documents": "दस्तावेज़ और घोषणा",
+        "name": "नाम",
+        "customerId": "ग्राहक आईडी",
+        "kyc": "केवाईसी",
+        "holding": "होल्डिंग",
+        "branch": "शाखा",
+        "scheme": "योजना",
+        "principal": "मूलधन",
+        "rate": "दर",
+        "rateValue": "{rate}% प्रति वर्ष",
+        "open": "आरंभ",
+        "maturity": "परिपक्वता",
+        "tenure": "अवधि",
+        "tenureValue": "{count, plural, one {# माह} other {# माह}}",
+        "payoutFrequency": "ब्याज भुगतान",
+        "cumulative": "संचयी",
+        "periodic": "आवधिक",
+        "type": "प्रकार",
+        "date": "तिथि",
+        "reason": "कारण",
+        "remarks": "टिप्पणी",
+        "choose": "चुनें",
+        "mode": "माध्यम",
+        "beneficiaryAccount": "खाता",
+        "beneficiaryName": "नाम",
+        "amount": "राशि",
+        "ifsc": "आईएफएससी",
+        "chequeRef": "चेक संदर्भ",
+        "noPaymentMethods": "इस खाते के लिए कोई भुगतान माध्यम उपलब्ध नहीं है।",
+        "upload": "सहायक दस्तावेज़ अपलोड करें",
+        "declaration": "मैंने विवरण जाँच लिया है",
+        "confirm": "मैं विवरण और भुगतान निर्देशों की पुष्टि करता हूँ।",
+        "quoteEmpty": "देय राशि देखने के लिए निपटान की गणना करें।",
+        "quoteStale": "उद्धरण पुराना हो गया है। भेजने से पहले फिर गणना करें।",
+        "quoteMeta": "उद्धरण {id} · {date} तक मान्य",
+        "types": {
+          "maturity": "परिपक्वता निपटान",
+          "premature": "समयपूर्व बंद"
+        },
+        "reasons": {
+          "customer": "ग्राहक अनुरोध",
+          "financial": "वित्तीय आवश्यकता",
+          "other": "अन्य"
+        },
+        "modes": {
+          "savings": "बचत अंतरण",
+          "neft": "एनईएफटी / आरटीजीएस",
+          "cheque": "चेक",
+          "cash": "नकद"
+        },
+        "lines": {
+          "principal": "मूलधन",
+          "interest": "ब्याज",
+          "overdue": "बकाया ब्याज",
+          "recovery": "ब्याज वसूली",
+          "penalty": "जुर्माना",
+          "tds": "टीडीएस / कर",
+          "other": "अन्य कटौती",
+          "net": "शुद्ध देय"
+        },
+        "checklist": {
+          "maturity": "उपलब्ध होने पर निपटान फ़ॉर्म संलग्न करें।",
+          "premature": "उपलब्ध होने पर ग्राहक अनुरोध संलग्न करें।"
+        }
+      },
+      "mis": {
+        "title": "मासिक ब्याज विवरण",
+        "monthly": "मासिक ब्याज",
+        "lastPaid": "अंतिम भुगतान तिथि",
+        "totalPaid": "कुल भुगतान किया गया ब्याज",
+        "unpaid": "अभुगतान किस्तें",
+        "pending": "लंबित ब्याज",
+        "excess": "वसूली योग्य अतिरिक्त"
+      },
+      "review": {
+        "title": "निपटान की समीक्षा",
+        "subtitle": "अनुमोदन के लिए भेजने से पहले सभी विवरण जाँचें।",
+        "account": "जमा खाता",
+        "customer": "ग्राहक",
+        "type": "निपटान प्रकार",
+        "date": "निपटान तिथि",
+        "mode": "भुगतान माध्यम",
+        "beneficiary": "लाभार्थी"
+      },
+      "receipt": {
+        "title": "निपटान रसीद",
+        "reference": "संदर्भ",
+        "printed": "यह रसीद निपटाए गए अनुरोध के लिए है।"
+      },
+      "requestStatuses": {
+        "draft": "मसौदा",
+        "pending": "अनुमोदन लंबित",
+        "rejected": "अस्वीकृत",
+        "approved": "स्वीकृत",
+        "settled": "निपटान"
+      },
+      "notices": {
+        "draftSaved": "मसौदा सहेजा गया। कोई खाता प्रविष्टि पोस्ट नहीं हुई।",
+        "submitted": "निपटान अनुमोदन के लिए भेजा गया।",
+        "approved": "निपटान स्वीकृत हुआ।",
+        "rejected": "निपटान अस्वीकृत हुआ।",
+        "posted": "निपटान पोस्ट हुआ।",
+        "unsavedTitle": "यह निपटान छोड़ें?",
+        "unsavedMessage": "उद्धरण और बिना सहेजी प्रविष्टियाँ हट जाएँगी।"
+      },
+      "validation": {
+        "type": "निपटान प्रकार चुनें।",
+        "date": "निपटान तिथि चुनें।",
+        "reason": "कारण चुनें।",
+        "quote": "समीक्षा से पहले निपटान की गणना करें।",
+        "payment": "भुगतान माध्यम चुनें।",
+        "beneficiary": "लाभार्थी खाता दर्ज करें।",
+        "ifsc": "आईएफएससी दर्ज करें।",
+        "cheque": "चेक संदर्भ दर्ज करें।",
+        "declaration": "पुष्टि करें कि विवरण जाँचे गए।",
+        "confirm": "भुगतान निर्देशों की पुष्टि करें।",
+        "fileType": "पीडीएफ, जेपीजी या पीएनजी अपलोड करें।",
+        "fileSize": "फ़ाइल 2 एमबी या उससे छोटी होनी चाहिए।",
+        "rejectReason": "अस्वीकृति का कारण दर्ज करें।"
+      },
+      "reject": {
+        "title": "निपटान अस्वीकार करें",
+        "reason": "कारण"
+      }
+    },
     "savingsTransaction": {
       "title": "बचत लेनदेन",
       "description": "जमा या निकासी पोस्ट करें, और लंबित प्रविष्टियाँ स्वीकृत करें।",
@@ -3217,7 +3631,7 @@
         "2": "निकासी"
       },
       "table": {
-        "transNo": "लेनदेन",
+        "transNo": "लेनदेन आईडी",
         "account": "खाता",
         "type": "प्रकार",
         "mode": "माध्यम",
@@ -3266,7 +3680,13 @@
         "effectRange": "प्रभावी तिथि लेनदेन तिथि पर या उससे पहले होनी चाहिए",
         "amountInvalid": "शून्य से अधिक राशि दर्ज करें",
         "exceedsBalance": "निकासी वर्तमान शेष से अधिक नहीं हो सकती ({balance})",
-        "accountRequired": "एक खाता चुनें"
+        "accountRequired": "एक खाता चुनें",
+        "available": "उपलब्ध शेष",
+        "pending": "लंबित",
+        "depositRemaining": "शेष जमा",
+        "postVouchers": "छूटे वाउचर पोस्ट करें",
+        "postingVouchers": "वाउचर पोस्ट हो रहे हैं…",
+        "vouchersMissing": "{count} पोस्ट लेनदेन का वाउचर नहीं है"
       },
       "approval": {
         "approveTitle": "लेनदेन स्वीकृत करें",
@@ -3276,6 +3696,33 @@
         "confirmApprove": "स्वीकृत करें",
         "confirmReject": "अस्वीकार करें",
         "cancel": "रद्द करें"
+      },
+      "picker": {
+        "title": "खाता खोजें",
+        "subtitle": "फ़िल्टर खाली रखकर खोजें, तो सभी खाताधारक दिखेंगे।",
+        "filter": "फ़िल्टर",
+        "accountsTitle": "खाता चुनें",
+        "back": "वापस",
+        "columns": {
+          "code": "कोड",
+          "name": "नाम",
+          "type": "प्रकार",
+          "mobile": "मोबाइल",
+          "account": "खाता",
+          "scheme": "योजना",
+          "balance": "शेष",
+          "action": "कार्रवाई"
+        },
+        "select": "चुनें",
+        "selected": "चुना गया",
+        "loading": "खाते लोड हो रहे हैं…",
+        "empty": "कोई खाताधारक नहीं मिला",
+        "emptyHint": "दूसरा नाम, कोड, मोबाइल या खाता नंबर आज़माएँ।",
+        "showing": "{total} में से {from}–{to} दिख रहे हैं",
+        "previous": "पिछला",
+        "next": "अगला",
+        "close": "बंद करें",
+        "loadError": "खाते लोड नहीं हो सके"
       }
     }
   },

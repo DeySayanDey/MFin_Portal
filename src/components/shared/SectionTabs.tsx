@@ -13,6 +13,8 @@ type SectionTabsProps<T extends string> = {
   activeId: T;
   onChange: (id: T) => void;
   label: string;
+  /** Icon above the title, or beside it on one line. */
+  layout?: "stack" | "inline";
 };
 
 function gridClass(count: number): string {
@@ -31,6 +33,7 @@ export function SectionTabs<T extends string>({
   activeId,
   onChange,
   label,
+  layout = "stack",
 }: SectionTabsProps<T>) {
   return (
     <div
@@ -48,7 +51,11 @@ export function SectionTabs<T extends string>({
             role="tab"
             aria-selected={active}
             onClick={() => onChange(tab.id)}
-            className={`flex cursor-pointer flex-col items-start gap-1.5 rounded-2xl border px-3.5 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 ${
+            className={`flex cursor-pointer rounded-2xl border px-3.5 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 ${
+              layout === "inline"
+                ? "flex-row items-center gap-2"
+                : "flex-col items-start gap-1.5"
+            } ${
               active
                 ? "border-brand bg-brand text-white shadow-sm"
                 : "border-border bg-surface-muted text-foreground transition-colors duration-150 hover:border-brand/30 hover:bg-surface motion-reduce:transition-none"

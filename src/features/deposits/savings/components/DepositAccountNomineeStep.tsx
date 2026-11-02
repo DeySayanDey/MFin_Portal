@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { Alert } from "@/components/ui/Alert";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import {
   CheckboxField,
@@ -15,6 +16,7 @@ import {
 import { Textarea } from "@/components/ui/Textarea";
 import type { ApplOption } from "@/features/master/appl-options";
 import { DepositAccountCustomerPicker } from "./DepositAccountCustomerPicker";
+import type { DepositNominee } from "../types/deposit-account.types";
 import {
   MAX_ACTIVE_NOMINEES,
   MINOR_AGE,
@@ -23,7 +25,7 @@ import {
   remainingShare,
   type NomineeDraft,
 } from "../nominee-draft";
-import { todayYmd } from "../deposit-account.rules";
+import { parseYmd, todayYmd } from "../deposit-account.rules";
 import type { DepositCustomer } from "../types/deposit-account.types";
 
 type DepositAccountNomineeStepProps = {
@@ -55,8 +57,6 @@ export function DepositAccountNomineeStep({
   const tUi = useTranslations("ui");
   const room = Math.max(0, MAX_ACTIVE_NOMINEES - reservedCount - drafts.length);
   const remaining = remainingShare(drafts, reservedShare);
-
-  console.log("groupAccount=",groupAccount);
   
 
   function update(key: string, partial: Partial<NomineeDraft>) {
@@ -132,6 +132,77 @@ export function DepositAccountNomineeStep({
           {drafts.length === 0 ? t("form.nominees.add") : t("form.nominees.another")}
         </Button>
       </div>
+    </div>
+  );
+}
+
+export function RegisteredNomineeList({
+  nominees,
+  loading,
+  error,
+  emptyMessage,
+}: {
+  nominees: DepositNominee[];
+  loading: boolean;
+  error: string | null;
+  emptyMessage?: string;
+}) {
+  const t = useTranslations("deposits.savings");
+  const format = useFormatter();
+  const dash = t("dash");
+  const birthLabel = (value: string | null) => {
+    const parsed = value ? parseYmd(value) : null;
+    return parsed
+      ? format.dateTime(parsed, { month: "short", day: "numeric", year: "numeric" })
+      : null;
+  };
+
+  if (loading) {
+    return <p className="text-sm text-muted">{t("view.loading")}</p>;
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      {error ? <Alert tone="error">{error}</Alert> : null}
+      {!error && nominees.length === 0 ? (
+        <p className="text-sm text-muted">
+          {emptyMessage ?? t("form.nominees.registeredEmpty")}
+        </p>
+      ) : null}
+      {nominees.map((nominee) => (
+        <div
+          key={nominee.nomineeId}
+          className={`rounded-xl border border-border p-3 ${nominee.isActive ? "" : "opacity-60"}`}
+        >
+          <p className="flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-900">
+            <span>{nominee.nomName || dash}</span>
+            {nominee.isMinor ? (
+              <Badge tone="warning" caps={false}>
+                {t("form.nominees.minor")}
+              </Badge>
+            ) : null}
+          </p>
+          <p className="mt-1 text-xs text-slate-600">
+            {[
+              nominee.relationDesc,
+              nominee.age != null ? t("form.nominees.ageValue", { age: nominee.age }) : null,
+              birthLabel(nominee.birthDate),
+              nominee.contactNo,
+              nominee.guardianName,
+            ]
+              .filter(Boolean)
+              .join(" · ") || dash}
+          </p>
+          {nominee.address ? (
+            <p className="mt-1 text-xs text-slate-600">{nominee.address}</p>
+          ) : null}
+          {nominee.sharePercent != null ? (
+            <p className="mt-2 text-sm font-medium text-slate-800">
+              {t("form.nominees.shareValue", { percent: nominee.sharePercent })}
+            </p>
+          ) : null}
+        </div>
+      ))}
     </div>
   );
 }
