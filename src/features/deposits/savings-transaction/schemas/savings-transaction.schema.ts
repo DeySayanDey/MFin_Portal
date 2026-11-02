@@ -47,6 +47,8 @@ export const savingsTransactionDtoSchema = z
     created_at: optionalText,
     approved_by_name: optionalText,
     approved_at: optionalText,
+    voucher_id: optionalInt.nullish(),
+    voucher_no: optionalText,
   })
   .passthrough();
 

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { SAVINGS_DEPOSIT_TYPE } from "@/features/deposits/savings/deposit-account.constants";
 import {
+  assertDepositAccountInScope,
   changeDepositAccountStatus,
   closeDepositAccount,
   createDepositAccount,
@@ -49,6 +50,7 @@ export async function GET(request: Request) {
         readOptionalNumber(searchParams.get("branch_id")),
       ),
       foId: readOptionalNumber(searchParams.get("fo_id")),
+      prodTypeCd: readOptionalNumber(searchParams.get("prod_type_cd")),
       schemeId: readOptionalNumber(searchParams.get("scheme_id")),
       depositTypeCd:
         requestedType ?? (allTypes ? undefined : SAVINGS_DEPOSIT_TYPE),
@@ -79,10 +81,14 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    await requireSessionUser();
+    const user = await requireSessionUser();
     const body = (await request.json()) as Record<string, unknown>;
     const payload = { ...body };
     delete payload.action;
+    const branchScope = user.isHead ? undefined : user.branchId ?? undefined;
+    if (typeof payload.accountId === "number") {
+      await assertDepositAccountInScope(payload.accountId, branchScope);
+    }
 
     if (body.action === "status") {
       const item = await changeDepositAccountStatus(payload);
@@ -112,20 +118,24 @@ export async function POST(request: Request) {
     }
 
     if (body.action === "update" || typeof payload.accountId === "number") {
-      const item = await updateDepositAccount(payload);
+      if (branchScope != null && payload.branchId != null) {
+        payload.branchId = branchScope;
+      }
+      const result = await updateDepositAccount(payload);
       return NextResponse.json({
         success: true,
         message: "Deposit account updated",
-        data: item,
+        data: result,
       });
     }
 
-    const item = await createDepositAccount(payload);
+    if (branchScope != null) payload.branchId = branchScope;
+    const result = await createDepositAccount(payload);
     return NextResponse.json(
       {
         success: true,
         message: "Deposit account created",
-        data: item,
+        data: result,
       },
       { status: 201 },
     );

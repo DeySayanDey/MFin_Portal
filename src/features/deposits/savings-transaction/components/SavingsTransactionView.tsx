@@ -78,10 +78,17 @@ function cents(value: number): number {
   return Math.round(value * 100);
 }
 
-export function SavingsTransactionView() {
+type SavingsTransactionViewProps = {
+  /** Preselects this account in the form and scopes the list to it. */
+  initialAccountId?: number | null;
+};
+
+export function SavingsTransactionView({ initialAccountId = null }: SavingsTransactionViewProps) {
   const t = useTranslations("deposits.savingsTransaction");
   const format = useFormatter();
   const today = todayYmd();
+  const [scopeAccount, setScopeAccount] = useState<DepositAccount | null>(null);
+  const [scopeAccountId, setScopeAccountId] = useState<number | null>(initialAccountId);
 
   const [filters, setFilters] = useState<Filters>(emptyFilters);
   const [applied, setApplied] = useState<Filters>(emptyFilters);
@@ -134,6 +141,7 @@ export function SavingsTransactionView() {
       const result = await fetchSavingsTransactions({
         page,
         perPage: pageSize,
+        accountId: scopeAccountId ?? undefined,
         search: applied.search || undefined,
         transTypeCd: applied.transTypeCd ? Number(applied.transTypeCd) : undefined,
         transMode: applied.transMode || undefined,
@@ -151,11 +159,31 @@ export function SavingsTransactionView() {
     } finally {
       setLoading(false);
     }
-  }, [applied, page, pageSize, t]);
+  }, [applied, page, pageSize, scopeAccountId, t]);
 
   useEffect(() => {
     void load();
   }, [load]);
+
+  useEffect(() => {
+    if (initialAccountId == null) return;
+    let cancelled = false;
+    fetchDepositAccounts({ accountId: initialAccountId, allTypes: true, perPage: 1 })
+      .then((result) => {
+        const account = result.items[0];
+        if (cancelled || !account) return;
+        setScopeAccount(account);
+        setAccounts([account]);
+        setAccountId(String(account.accountId));
+        setKeyword(account.fullAccountNo || account.applNo);
+      })
+      .catch(() => {
+        if (!cancelled) setScopeAccount(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [initialAccountId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -745,12 +773,38 @@ export function SavingsTransactionView() {
         </div>
       </form>
 
+<<<<<<< Updated upstream
       <AccountPickerModal
         open={pickerOpen}
         selectedAccountId={accountId ? Number(accountId) : null}
         onClose={() => setPickerOpen(false)}
         onSelect={pickAccount}
       />
+=======
+      {scopeAccountId != null ? (
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm">
+          <span className="min-w-0 text-slate-700">
+            {t("accountScope", {
+              account: scopeAccount
+                ? scopeAccount.fullAccountNo || scopeAccount.applNo
+                : String(scopeAccountId),
+            })}
+          </span>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            icon={X}
+            onClick={() => {
+              setScopeAccountId(null);
+              setPage(1);
+            }}
+          >
+            {t("clearScope")}
+          </Button>
+        </div>
+      ) : null}
+>>>>>>> Stashed changes
 
       <DataTable
         data={rows}

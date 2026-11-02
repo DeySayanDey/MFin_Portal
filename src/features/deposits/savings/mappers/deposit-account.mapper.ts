@@ -1,10 +1,19 @@
+import type { z } from "zod";
+import type {
+  depositAccountMemberDtoSchema,
+  depositOpeningTransactionDtoSchema,
+  depositProductSchemeDtoSchema,
+} from "../schemas/deposit-account.schema";
 import type {
   DepositAccount,
   DepositAccountCloseInput,
   DepositAccountCreateInput,
   DepositAccountDto,
   DepositAccountEditInput,
+  DepositAccountMember,
   DepositAccountStatusInput,
+  DepositOpeningTransaction,
+  DepositProductScheme,
   DepositCustomer,
   DepositNominee,
   DepositNomineeAddInput,
@@ -66,6 +75,7 @@ export function mapDepositAccountDto(dto: DepositAccountDto): DepositAccount {
     nomRegd: dto.nom_regd === true,
     nomineeCount: dto.nominee_count ?? 0,
     signatoryCount: dto.signatory_count ?? 0,
+<<<<<<< Updated upstream
     accountNo: dto.sb?.account_no ?? dto.td?.account_no ?? dto.account_no ?? null,
     fullAccountNo: dto.full_account_no?.trim() || null,
     prodTypeCd: dto.prod_type_cd ?? null,
@@ -76,6 +86,12 @@ export function mapDepositAccountDto(dto: DepositAccountDto): DepositAccount {
     currentBalance:
       dto.sb?.current_balance ?? dto.td?.current_balance ?? dto.current_balance ?? null,
     availableBalance: dto.sb?.available_balance ?? null,
+=======
+    accountNo: dto.sb?.account_no ?? dto.account_no ?? null,
+    refAcNo: (dto.sb?.ref_ac_no ?? dto.ref_ac_no)?.trim() || null,
+    startDate: dto.sb?.start_date ?? dto.start_date ?? null,
+    currentBalance: dto.sb?.current_balance ?? dto.current_balance ?? null,
+>>>>>>> Stashed changes
     closingDate: dto.closing_date ?? null,
     closingReason: dto.closing_reason?.trim() || null,
     isClosed: dto.is_closed === true || Boolean(dto.closing_date),
@@ -94,6 +110,7 @@ export function mapDepositAccountDto(dto: DepositAccountDto): DepositAccount {
     cbsAcNo: dto.sb?.cbs_ac_no?.trim() || null,
     openingDeposit: dto.sb?.opening_deposit ?? null,
     sbRoi: dto.sb?.roi ?? null,
+<<<<<<< Updated upstream
     td: dto.td
       ? {
           startDate: dto.td.start_date ?? null,
@@ -112,6 +129,68 @@ export function mapDepositAccountDto(dto: DepositAccountDto): DepositAccount {
           currentBalance: dto.td.current_balance ?? null,
         }
       : null,
+=======
+    sbId: dto.sb?.sb_id ?? null,
+    fullAccountNo: dto.full_account_no?.trim() || null,
+    memberCount: dto.member_count ?? 0,
+    prodTypeCd: dto.prod_type_cd ?? null,
+    prodTypeDesc: text(dto.prod_type_desc),
+    availableBalance: dto.sb?.available_balance ?? null,
+  };
+}
+
+export function mapDepositOpeningTransactionDto(
+  dto: z.infer<typeof depositOpeningTransactionDtoSchema>,
+): DepositOpeningTransaction {
+  return {
+    transId: dto.trans_id,
+    transNo: text(dto.trans_no),
+    transAmount: dto.trans_amount ?? 0,
+    statusCd: dto.status_cd,
+    statusDesc: text(dto.status_desc),
+    balanceAfter: dto.balance_after ?? null,
+    voucherId: dto.voucher_id ?? null,
+    voucherNo: text(dto.voucher_no),
+    voucherNote: dto.voucher_note?.trim() || null,
+  };
+}
+
+export function mapDepositProductSchemeDto(
+  dto: z.infer<typeof depositProductSchemeDtoSchema>,
+): DepositProductScheme {
+  return {
+    schemeId: dto.scheme_id,
+    schemeCode: text(dto.scheme_code),
+    schemeName: text(dto.scheme_name),
+    roiPercent: dto.roi_percent ?? null,
+    inttTypeDesc: text(dto.intt_type_desc),
+    inttPayoutDesc: text(dto.intt_payout_desc),
+    minBalance: dto.min_balance ?? null,
+    withdAllow: dto.withd_allow === true,
+    maxWithdAmt: dto.max_withd_amt ?? null,
+    inopDays: dto.inop_days ?? null,
+    isActive: dto.is_active !== false,
+  };
+}
+
+export function mapDepositAccountMemberDto(
+  dto: z.infer<typeof depositAccountMemberDtoSchema>,
+): DepositAccountMember {
+  return {
+    id: dto.id,
+    accountId: dto.account_id,
+    memberId: dto.member_id,
+    memberRefCode: text(dto.member_ref_code),
+    memberName: text(dto.member_name),
+    mobileNo: dto.mobile_no?.trim() || null,
+    groupName: text(dto.group_name),
+    memberRole: text(dto.member_role),
+    isCurrentMember: dto.is_current_member !== false,
+    openDate: dto.open_date?.slice(0, 10) ?? null,
+    currentBalance: dto.current_balance ?? null,
+    acStatusCd: dto.ac_status_cd ?? null,
+    acStatusDesc: text(dto.ac_status_desc),
+>>>>>>> Stashed changes
   };
 }
 
@@ -127,6 +206,7 @@ export function mapDepositAccountCreateToDto(
     nom_regd: input.nomRegd ?? false,
     status_cd: input.statusCd ?? 1,
   };
+  if (input.prodTypeCd != null) payload.prod_type_cd = input.prodTypeCd;
   if (input.applNo) payload.appl_no = input.applNo;
   if (input.specialCatgCd != null) payload.special_catg_cd = input.specialCatgCd;
   if (input.custIdJoint1 != null) payload.cust_id_joint1 = input.custIdJoint1;
@@ -146,6 +226,7 @@ export function mapDepositAccountEditToDto(
 ): Record<string, unknown> {
   const payload: Record<string, unknown> = { account_id: input.accountId };
   if (input.applDate !== undefined) payload.appl_date = input.applDate;
+  if (input.prodTypeCd != null) payload.prod_type_cd = input.prodTypeCd;
   if (input.schemeId !== undefined) payload.scheme_id = input.schemeId;
   if (input.custTypeCd !== undefined) payload.cust_type_cd = input.custTypeCd;
   if (input.custIdPrimary !== undefined) {
@@ -181,6 +262,8 @@ function mapSbToDto(input: NonNullable<DepositAccountCreateInput["sb"]>) {
   if (input.cbsAcNo) row.cbs_ac_no = input.cbsAcNo;
   if (input.roi != null) row.roi = input.roi;
   if (input.openingDeposit != null) row.opening_deposit = input.openingDeposit;
+  if (input.paymentModeCd != null) row.payment_mode_cd = input.paymentModeCd;
+  if (input.remarks) row.remarks = input.remarks;
   return row;
 }
 

@@ -1,3 +1,5 @@
+import type { SavingsTransaction } from "@/features/deposits/savings-transaction/types/savings-transaction.types";
+
 export type PaginationMeta = {
   total: number;
   perPage: number;
@@ -66,7 +68,12 @@ export type DepositAccountDto = {
   created_by?: number | null;
   created_by_name?: string | null;
   created_at?: string | null;
+  full_account_no?: string | null;
+  member_count?: number | null;
+  prod_type_cd?: number | null;
+  prod_type_desc?: string | null;
   sb?: {
+    sb_id?: number | null;
     start_date?: string | null;
     account_no?: number | null;
     ref_ac_no?: string | null;
@@ -168,7 +175,16 @@ export type DepositAccount = {
   cbsAcNo: string | null;
   openingDeposit: number | null;
   sbRoi: number | null;
+<<<<<<< Updated upstream
   td: DepositAccountTerm | null;
+=======
+  sbId: number | null;
+  fullAccountNo: string | null;
+  memberCount: number;
+  prodTypeCd: number | null;
+  prodTypeDesc: string;
+  availableBalance: number | null;
+>>>>>>> Stashed changes
 };
 
 export type DepositAccountSbInput = {
@@ -178,6 +194,82 @@ export type DepositAccountSbInput = {
   cbsAcNo?: string | null;
   roi?: number | null;
   openingDeposit?: number | null;
+  paymentModeCd?: number | null;
+  remarks?: string | null;
+};
+
+export type DepositOpeningTransaction = {
+  transId: number;
+  transNo: string;
+  transAmount: number;
+  statusCd: number;
+  statusDesc: string;
+  balanceAfter: number | null;
+  voucherId: number | null;
+  voucherNo: string;
+  voucherNote: string | null;
+};
+
+export type DepositAccountSaveResult = {
+  account: DepositAccount;
+  openingTransaction: DepositOpeningTransaction | null;
+};
+
+export type DepositProductScheme = {
+  schemeId: number;
+  schemeCode: string;
+  schemeName: string;
+  roiPercent: number | null;
+  inttTypeDesc: string;
+  inttPayoutDesc: string;
+  minBalance: number | null;
+  withdAllow: boolean;
+  maxWithdAmt: number | null;
+  inopDays: number | null;
+  isActive: boolean;
+};
+
+export type DepositProductType = {
+  depositTypeCd: number;
+  prodTypeCd: number;
+  prodTypeDesc: string;
+  schemes: DepositProductScheme[];
+};
+
+export type DepositProductQuery = {
+  depositTypeCd?: number;
+  prodTypeCd?: number;
+  /** `1` active schemes, `0` inactive, `-1` all. */
+  isActive?: 1 | 0 | -1;
+};
+
+export type DepositAccountMember = {
+  id: number;
+  accountId: number;
+  memberId: number;
+  memberRefCode: string;
+  memberName: string;
+  mobileNo: string | null;
+  groupName: string;
+  memberRole: string;
+  isCurrentMember: boolean;
+  openDate: string | null;
+  currentBalance: number | null;
+  acStatusCd: number | null;
+  acStatusDesc: string;
+};
+
+export type DepositAccountMemberSyncResult = {
+  members: DepositAccountMember[];
+  message: string;
+};
+
+export type DepositAccountDetail = DepositAccount & {
+  members: DepositAccountMember[];
+  nominees: DepositNominee[];
+  signatories: DepositSignatory[];
+  transactions: SavingsTransaction[];
+  transactionCount: number;
 };
 
 export type DepositAccountListQuery = {
@@ -186,6 +278,7 @@ export type DepositAccountListQuery = {
   accountId?: number;
   branchId?: number;
   foId?: number;
+  prodTypeCd?: number;
   schemeId?: number;
   depositTypeCd?: number;
   prodTypeCd?: number;
@@ -209,6 +302,7 @@ export type DepositAccountListResult = {
 
 export type DepositAccountCreateInput = {
   applDate: string;
+  prodTypeCd?: number | null;
   schemeId: number;
   custTypeCd: number;
   custIdPrimary: number;
@@ -228,6 +322,7 @@ export type DepositAccountCreateInput = {
 export type DepositAccountEditInput = {
   accountId: number;
   applDate?: string;
+  prodTypeCd?: number | null;
   schemeId?: number;
   custTypeCd?: number;
   custIdPrimary?: number;

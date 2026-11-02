@@ -5,8 +5,8 @@ import { ArrowLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Button } from "@/components/ui/Button";
-import { Link, useRouter } from "@/i18n/navigation";
-import { mapApiMessageToField } from "../deposit-account.rules";
+import { useRouter } from "@/i18n/navigation";
+import { accountDetailHref } from "../deposit-account.rules";
 import {
   addDepositNominees,
   addDepositSignatories,
@@ -14,9 +14,9 @@ import {
   isDepositAccountClientError,
 } from "../services/deposit-account-client";
 import type {
-  DepositAccount,
   DepositAccountCreateInput,
   DepositAccountEditInput,
+  DepositAccountSaveResult,
   DepositNomineeSave,
   DepositSignatorySave,
 } from "../types/deposit-account.types";
@@ -28,7 +28,7 @@ export function DepositAccountOpenPage() {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
-  const [savedAccount, setSavedAccount] = useState<DepositAccount | null>(null);
+  const [savedResult, setSavedResult] = useState<DepositAccountSaveResult | null>(null);
 
   useEffect(() => {
     const scroller = document.querySelector("main");
@@ -55,36 +55,26 @@ export function DepositAccountOpenPage() {
     setSaving(true);
     setFormError(null);
     try {
-      let saved = savedAccount;
+      let saved = savedResult;
       if (!saved) {
         saved = await createDepositAccount(input);
-        setSavedAccount(saved);
+        setSavedResult(saved);
       }
       if (nominees.add.length > 0) {
         await addDepositNominees({
-          accountId: saved.accountId,
+          accountId: saved.account.accountId,
           nominees: nominees.add,
         });
       }
       if (signatories.add.length > 0) {
         await addDepositSignatories({
-          accountId: saved.accountId,
+          accountId: saved.account.accountId,
           signatories: signatories.add,
         });
       }
-      const created = encodeURIComponent(saved.applNo);
-      router.push(`/deposits/savings?created=${created}`);
+      router.push(accountDetailHref(saved, "created"));
     } catch (err) {
-      const message = isDepositAccountClientError(err)
-        ? err.message
-        : tErrors("generic");
-      if (mapApiMessageToField(message) === "toast") {
-        router.push(
-          `/deposits/savings?created=${encodeURIComponent(message)}&createdTone=error`,
-        );
-        return;
-      }
-      setFormError(message);
+      setFormError(isDepositAccountClientError(err) ? err.message : tErrors("generic"));
     } finally {
       setSaving(false);
     }
@@ -105,11 +95,14 @@ export function DepositAccountOpenPage() {
           className="min-w-0 flex-1"
           title={t("form.createTitle")}
           description={t("form.stepHint")}
+<<<<<<< Updated upstream
           breadcrumbs={
             <Link href="/deposits/savings" className="hover:text-slate-800">
               {/* {t("title")} */}
             </Link>
           }
+=======
+>>>>>>> Stashed changes
         />
       </div>
       <DepositAccountForm

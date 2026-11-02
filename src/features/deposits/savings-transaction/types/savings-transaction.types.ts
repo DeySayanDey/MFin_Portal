@@ -28,6 +28,8 @@ export type SavingsTransaction = {
   createdAt: string | null;
   approvedByName: string;
   approvedAt: string | null;
+  voucherId: number | null;
+  voucherNo: string;
 };
 
 export type SavingsTransactionListQuery = {

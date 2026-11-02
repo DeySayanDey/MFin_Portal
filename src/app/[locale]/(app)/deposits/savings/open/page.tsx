@@ -1,14 +1,6 @@
-import { getTranslations } from "next-intl/server";
-import { DepositAccountOpenPage } from "@/features/deposits/savings/components/DepositAccountOpenPage";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 
-export async function generateMetadata() {
-  const t = await getTranslations("deposits.savings");
-  return {
-    title: t("form.createTitle"),
-    description: t("metaDescription"),
-  };
-}
-
-export default function Page() {
-  return <DepositAccountOpenPage />;
+export default async function Page() {
+  redirect({ href: "/deposits/savings/new", locale: await getLocale() });
 }

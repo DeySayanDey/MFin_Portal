@@ -82,8 +82,13 @@ export const depositAccountDtoSchema = z.object({
   created_by: optionalInt.nullish(),
   created_by_name: z.string().nullish(),
   created_at: z.string().nullish(),
+  full_account_no: z.string().nullish(),
+  member_count: optionalInt.nullish(),
+  prod_type_cd: optionalInt.nullish(),
+  prod_type_desc: z.string().nullish(),
   sb: z
     .object({
+      sb_id: optionalInt.nullish(),
       start_date: z.string().nullish(),
       account_no: optionalInt.nullish(),
       ref_ac_no: z.string().nullish(),
@@ -92,6 +97,7 @@ export const depositAccountDtoSchema = z.object({
       opening_deposit: optionalNumber.nullish(),
       current_balance: optionalNumber.nullish(),
       available_balance: optionalNumber.nullish(),
+<<<<<<< Updated upstream
     })
     .nullish(),
   td: z
@@ -110,8 +116,59 @@ export const depositAccountDtoSchema = z.object({
       intt_payable_amt: optionalNumber.nullish(),
       matu_ins_desc: z.string().nullish(),
       current_balance: optionalNumber.nullish(),
+=======
+>>>>>>> Stashed changes
     })
     .nullish(),
+});
+
+export const depositOpeningTransactionDtoSchema = z.object({
+  trans_id: requiredInt,
+  trans_no: z.string().nullish(),
+  trans_amount: optionalNumber.nullish(),
+  status_cd: requiredInt,
+  status_desc: z.string().nullish(),
+  balance_after: optionalNumber.nullish(),
+  voucher_id: optionalInt.nullish(),
+  voucher_no: z.string().nullish(),
+  voucher_note: z.string().nullish(),
+});
+
+export const depositProductSchemeDtoSchema = z.object({
+  scheme_id: requiredInt,
+  scheme_code: z.string().nullish(),
+  scheme_name: z.string().nullish(),
+  roi_percent: optionalNumber.nullish(),
+  intt_type_desc: z.string().nullish(),
+  intt_payout_desc: z.string().nullish(),
+  min_balance: optionalNumber.nullish(),
+  withd_allow: optionalBoolean.nullish(),
+  max_withd_amt: optionalNumber.nullish(),
+  inop_days: optionalInt.nullish(),
+  is_active: optionalBoolean.nullish(),
+});
+
+export const depositProductTypeDtoSchema = z.object({
+  deposit_type_cd: requiredInt,
+  prod_type_cd: requiredInt,
+  prod_type_desc: z.string().nullish(),
+  schemes: z.array(z.unknown()).nullish(),
+});
+
+export const depositAccountMemberDtoSchema = z.object({
+  id: requiredInt,
+  account_id: requiredInt,
+  member_id: requiredInt,
+  member_ref_code: z.string().nullish(),
+  member_name: z.string().nullish(),
+  mobile_no: z.string().nullish(),
+  group_name: z.string().nullish(),
+  member_role: z.string().nullish(),
+  is_current_member: optionalBoolean.nullish(),
+  open_date: z.string().nullish(),
+  current_balance: optionalNumber.nullish(),
+  ac_status_cd: optionalInt.nullish(),
+  ac_status_desc: z.string().nullish(),
 });
 
 const optionalText = (max: number) =>
@@ -129,10 +186,13 @@ const sbInputSchema = z.object({
   cbsAcNo: optionalText(25),
   roi: z.number().min(0).max(100).nullable().optional(),
   openingDeposit: z.number().min(0).nullable().optional(),
+  paymentModeCd: z.number().int().positive().nullable().optional(),
+  remarks: optionalText(250),
 });
 
 export const depositAccountCreateSchema = z.object({
   applDate: ymd,
+  prodTypeCd: z.number().int().positive().nullable().optional(),
   schemeId: z.number().int().positive(),
   custTypeCd: z.number().int().positive(),
   custIdPrimary: z.number().int().positive(),
@@ -152,6 +212,7 @@ export const depositAccountCreateSchema = z.object({
 export const depositAccountEditSchema = z.object({
   accountId: z.number().int().positive(),
   applDate: ymd.optional(),
+  prodTypeCd: z.number().int().positive().nullable().optional(),
   schemeId: z.number().int().positive().optional(),
   custTypeCd: z.number().int().positive().optional(),
   custIdPrimary: z.number().int().positive().optional(),
@@ -170,6 +231,10 @@ export const depositAccountEditSchema = z.object({
 export const depositAccountStatusSchema = z.object({
   accountId: z.number().int().positive(),
   statusCd: z.number().int().positive(),
+});
+
+export const depositAccountIdSchema = z.object({
+  accountId: z.number().int().positive(),
 });
 
 export const depositAccountCloseSchema = z.object({

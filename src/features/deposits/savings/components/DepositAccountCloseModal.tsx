@@ -72,7 +72,7 @@ export function DepositAccountCloseModal({
       open
       onClose={onClose}
       title={t("closeDialog.title")}
-      subtitle={account.applNo}
+      subtitle={account.fullAccountNo || account.applNo}
       size="md"
       footer={
         <>

@@ -3032,22 +3032,25 @@
       "emptyMessage": "ଏଠାରେ ଦେଖିବାକୁ ଏକ ସଞ୍ଚୟ ଖାତା ଖୋଲନ୍ତୁ।",
       "loadErrorTitle": "ସଞ୍ଚୟ ଖାତା ଲୋଡ୍ ହେଲା ନାହିଁ",
       "columns": {
-        "applNo": "ଆବେଦନ ନଂ / ଖାତା",
+        "accountNo": "ଆକାଉଣ୍ଟ ନଂ",
+        "notOpened": "ଏପର୍ଯ୍ୟନ୍ତ ଖୋଲାଯାଇନାହିଁ",
         "holder": "ଧାରକ",
-        "scheme": "ଯୋଜନା",
-        "mode": "ପଦ୍ଧତି",
+        "productScheme": "ପ୍ରଡକ୍ଟ · ସ୍କିମ୍",
+        "productLine": "{product} · {scheme}",
         "balance": "ବାକି",
         "status": "ସ୍ଥିତି",
         "actions": "କାମ",
-        "accountLine": "ଖାତା {number} · {type}",
-        "accountPending": "— · {type}",
         "holderMeta": "{ref} · {customerType}",
+        "groupMeta": "{ref} · {customerType} · {count, plural, one {# ସଦସ୍ୟ} other {# ସଦସ୍ୟ}}",
         "schemeMeta": "{code} · {roi}",
         "joint": "ଯୁଗ୍ମ ଧାରକ"
       },
       "actions": {
         "view": "ଦେଖନ୍ତୁ",
         "edit": "ସମ୍ପାଦନା",
+        "activate": "ସକ୍ରିୟ କରନ୍ତୁ",
+        "deactivate": "ନିଷ୍କ୍ରିୟ କରନ୍ତୁ",
+        "depositWithdraw": "ଜମା / ଉଠାଣ",
         "changeStatus": "ସ୍ଥିତି ବଦଳାନ୍ତୁ",
         "close": "ଖାତା ବନ୍ଦ କରନ୍ତୁ"
       },
@@ -3057,8 +3060,11 @@
         "branch": "ଶାଖା",
         "branchAll": "ସବୁ ଶାଖା",
         "branchFixed": "ଆପଣଙ୍କ ଶାଖା",
+        "product": "ପ୍ରଡକ୍ଟ",
+        "productAll": "ସମସ୍ତ ପ୍ରଡକ୍ଟ",
         "scheme": "ଯୋଜନା",
         "schemeAll": "ସବୁ ଯୋଜନା",
+        "schemeOption": "{code} · {name}",
         "customer": "ଗ୍ରାହକ",
         "customerAll": "ସବୁ ଗ୍ରାହକ",
         "status": "ସ୍ଥିତି",
@@ -3078,10 +3084,10 @@
       "form": {
         "createTitle": "ଖାତା ଖୋଲନ୍ତୁ",
         "editTitle": "ଖାତା ସମ୍ପାଦନା",
-        "stepHint": "ଗ୍ରାହକ, ଯୋଜନା, ଧାରକ, ନାମିନି, ଦସ୍ତଖତକାରୀ, ତାପରେ ସାରାଂଶ",
+        "stepHint": "ପ୍ରଡକ୍ଟ ଓ ସ୍କିମ୍, ଗ୍ରାହକ, ଧାରକ, ସଞ୍ଚୟ ବିବରଣୀ, ଆବେଦନ, ନମିନି, ସ୍ୱାକ୍ଷରକାରୀ, ତାପରେ ସାରାଂଶ",
         "stepLabel": "ପଦକ୍ଷେପ {current} / {total}",
+        "stepProduct": "ପ୍ରଡକ୍ଟ",
         "stepCustomer": "ଗ୍ରାହକ",
-        "stepScheme": "ଯୋଜନା",
         "stepSavings": "ସଞ୍ଚୟ ବିବରଣୀ",
         "stepHolders": "ଧାରକ",
         "stepApplication": "ଆବେଦନ",
@@ -3098,24 +3104,50 @@
         "formationDate": "ଗଠନ ତାରିଖ",
         "scheme": "ଯୋଜନା",
         "schemePlaceholder": "ଏକ ସଞ୍ଚୟ ଯୋଜନା ବାଛନ୍ତୁ",
+<<<<<<< Updated upstream
         "depositType": "ଉତ୍ପାଦ ପ୍ରକାର",
         "depositTypeHint": "ଯୋଜନା ତାଲିକା ଏହି ପ୍ରକାର ଅନୁସାରେ ଆସେ, ଏବଂ ଯୋଜନା ସମାନ ପ୍ରକାରର ହେବା ଉଚିତ।",
         "savingsType": "ସଞ୍ଚୟ",
+=======
+        "productType": "ପ୍ରଡକ୍ଟ ପ୍ରକାର",
+        "productsError": "ସଞ୍ଚୟ ପ୍ରଡକ୍ଟ ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ।",
+        "productsEmpty": "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ସଞ୍ଚୟ ପ୍ରଡକ୍ଟ ସେଟ୍ ଅପ୍ ହୋଇନାହିଁ।",
+        "noActiveScheme": "କୌଣସି ସକ୍ରିୟ ସ୍କିମ୍ ନାହିଁ",
+        "schemeCount": "{count, plural, one {# ସ୍କିମ୍} other {# ସ୍କିମ୍}}",
+        "schemeHint": "ପ୍ରଥମେ ଏକ ପ୍ରଡକ୍ଟ ବାଛନ୍ତୁ।",
+        "schemeInterest": "ସୁଧ",
+        "schemeMinBalance": "ସର୍ବନିମ୍ନ ବାଲାନ୍ସ",
+        "schemeWithdrawal": "ଉଠାଣ",
+        "withdrawalAllowed": "ଅନୁମତି ଅଛି",
+        "withdrawalBlocked": "ଅନୁମତି ନାହିଁ",
+        "minBalanceShort": "ସର୍ବନିମ୍ନ {amount}",
+        "customerTypeFixed": "ଏହି ପ୍ରଡକ୍ଟ {type} ଗ୍ରାହକଙ୍କ ପାଇଁ।",
+        "customerAfterProduct": "ଗ୍ରାହକ ପ୍ରକାର ସ୍ଥିର କରିବାକୁ ଏକ ପ୍ରଡକ୍ଟ ବାଛନ୍ତୁ।",
+>>>>>>> Stashed changes
         "sb": {
           "startDate": "ଆରମ୍ଭ ତାରିଖ",
           "opening": "ପ୍ରାରମ୍ଭିକ ଜମା",
           "roi": "ସୁଧ ହାର (%)",
           "roiPlaceholder": "ଯୋଜନା ହାର",
+          "accountNo": "ଆକାଉଣ୍ଟ ନଂ",
+          "accountNoPlaceholder": "ସ୍ୱୟଂଚାଳିତ",
+          "accountNoHint": "ଏହି ଶାଖା ଓ ସ୍କିମ୍‌ର ପରବର୍ତ୍ତୀ ନମ୍ବର ପାଇବାକୁ ଖାଲି ଛାଡନ୍ତୁ।",
           "refAcNo": "ରେଫରେନ୍ସ ଖାତା ସଂଖ୍ୟା",
           "cbsAcNo": "ସିବିଏସ ଖାତା ସଂଖ୍ୟା",
-          "locked": "ବାଲାନ୍ସ ଶୂନ୍ୟ ନଥିଲେ ଆରମ୍ଭ ତାରିଖ, ଖାତା ସଂଖ୍ୟା ଏବଂ ପ୍ରାରମ୍ଭିକ ଜମା ବଦଳି ହୁଏ ନାହିଁ।"
+          "openingSection": "ପ୍ରାରମ୍ଭିକ ଜମା",
+          "paymentMode": "ପେମେଣ୍ଟ ମାଧ୍ୟମ",
+          "cash": "ନଗଦ",
+          "remarks": "ମନ୍ତବ୍ୟ",
+          "remarksPlaceholder": "ପ୍ରାରମ୍ଭିକ ଜମା ପାଇଁ ଇଚ୍ଛାଧୀନ ନୋଟ୍",
+          "openingHint": "ପ୍ରାରମ୍ଭିକ ଜମା ଏକ ଅପେକ୍ଷାରତ କାରବାର ଭାବେ ପୋଷ୍ଟ ହୁଏ ଏବଂ ଅନୁମୋଦନ ଆବଶ୍ୟକ।",
+          "minBalance": "ସ୍କିମ୍‌ର ସର୍ବନିମ୍ନ ବାଲାନ୍ସ {amount}।",
+          "locked": "ବାଲାନ୍ସ ଶୂନ୍ୟ ନ ହେଲେ କିମ୍ବା ଆକାଉଣ୍ଟରେ କାରବାର ଥିଲେ ଆରମ୍ଭ ତାରିଖ, ଆକାଉଣ୍ଟ ନମ୍ବର ଓ ପ୍ରାରମ୍ଭିକ ଜମା ଲକ୍ ରହେ।"
         },
         "operationMode": "ପରିଚାଳନା ପଦ୍ଧତି",
         "joint1": "ଯୁଗ୍ମ ଧାରକ ୧",
         "joint2": "ଯୁଗ୍ମ ଧାରକ ୨",
         "holderName": "ଧାରକଙ୍କ ନାମ",
-        "holderNameHint": "ଧାରକଙ୍କ ନାମରୁ ତିଆରି। ବଦଳାଇବାକୁ ପେନ୍ସିଲ୍ ବ୍ୟବହାର କରନ୍ତୁ।",
-        "editHolderName": "ଧାରକଙ୍କ ନାମ ସମ୍ପାଦନା",
+        "holderNameHint": "ଧାରକଙ୍କ ନାମରୁ ତିଆରି। ବଦଳାଇବାକୁ ଟାଇପ୍ କରନ୍ତୁ।",
         "specialCategory": "ବିଶେଷ ଶ୍ରେଣୀ",
         "seniorHint": "ବୟସ ୬୦+ ଦରକାର",
         "nominee": "ନାମିନି ପଞ୍ଜିକୃତ",
@@ -3139,8 +3171,9 @@
         "errors": {
           "customer": "ଜଣେ ଗ୍ରାହକ ବାଛନ୍ତୁ।",
           "scheme": "ଏକ ଯୋଜନା ବାଛନ୍ତୁ।",
-          "depositType": "ଜମା ପ୍ରକାର ସଞ୍ଚୟ ହେବା ଉଚିତ। ଏକ ସଞ୍ଚୟ ଯୋଜନା ବାଛନ୍ତୁ।",
-          "depositTypeRequired": "ଜମା ପ୍ରକାର ବାଛନ୍ତୁ।",
+          "productType": "ଏକ ପ୍ରଡକ୍ଟ ପ୍ରକାର ବାଛନ୍ତୁ।",
+          "customerType": "ଏହି ଗ୍ରାହକ ପ୍ରକାର ପ୍ରଡକ୍ଟ ସହ ମେଳ ଖାଉନାହିଁ। ଅନ୍ୟ ଗ୍ରାହକ ବାଛନ୍ତୁ।",
+          "sbRemarks": "ମନ୍ତବ୍ୟ 250 ଅକ୍ଷରରୁ ଅଧିକ ହୋଇପାରିବ ନାହିଁ।",
           "sbStart": "ଆରମ୍ଭ ତାରିଖ ଆବେଦନ ତାରିଖ ପୂର୍ବରୁ କିମ୍ବା ଭବିଷ୍ୟତରେ ହୋଇପାରିବ ନାହିଁ।",
           "sbAccount": "ଖାତା ସଂଖ୍ୟା 1 ରୁ 32767 ମଧ୍ୟରେ ହେବା ଉଚିତ।",
           "sbRef": "ରେଫରେନ୍ସ ଖାତା ସଂଖ୍ୟା 15 ଅକ୍ଷରରୁ ଅଧିକ ହୋଇପାରିବ ନାହିଁ।",
@@ -3173,7 +3206,8 @@
         "submit": "ଦାଖଲ କରନ୍ତୁ",
         "summary": {
           "none": "କିଛି ଯୋଡ଼ାଯାଇନାହିଁ",
-          "notApplicable": "ପ୍ରଯୁଜ୍ୟ ନୁହେଁ"
+          "notApplicable": "ପ୍ରଯୁଜ୍ୟ ନୁହେଁ",
+          "opening": "{mode} ମାଧ୍ୟମରେ {amount}"
         },
         "nominees": {
           "groupNotice": "ଗୋଷ୍ଠୀ ଖାତାରେ ନାମିନି ପ୍ରଯୁଜ୍ୟ ନୁହେଁ।",
@@ -3241,25 +3275,43 @@
       },
       "view": {
         "title": "ଖାତା",
-        "subtitle": "{applNo} · ଖାତା {accountNo}",
+        "notFound": "ଏହି ଆକାଉଣ୍ଟ ମିଳିଲା ନାହିଁ, କିମ୍ବା ଏଥିରେ ଆପଣଙ୍କର ଆକ୍ସେସ୍ ନାହିଁ।",
+        "retry": "ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ",
+        "backToList": "ଆକାଉଣ୍ଟକୁ ଫେରନ୍ତୁ",
+        "summary": "ଆକାଉଣ୍ଟ ସାରାଂଶ",
+        "accountNo": "ଆକାଉଣ୍ଟ ନଂ",
+        "status": "ସ୍ଥିତି",
+        "balance": "ବାଲାନ୍ସ",
+        "available": "ଉପଲବ୍ଧ ବାଲାନ୍ସ",
+        "openingPending": "ପ୍ରାରମ୍ଭିକ ଜମା ଅନୁମୋଦନ ପାଇଁ ଅପେକ୍ଷାରତ। ଅନୁମୋଦନ ପରେ ବାଲାନ୍ସ ଅପଡେଟ୍ ହେବ।",
+        "voucherNote": "ଭାଉଚର: {note}",
         "overview": "ସାରାଂଶ",
+        "members": "ସଦସ୍ୟ ({count})",
         "nominees": "ନାମିନି ({count})",
         "signatories": "ହସ୍ତାକ୍ଷରକାରୀ ({count})",
-        "transactions": "କାରବାର",
+        "transactions": "କାରବାର ({count})",
         "nomineeWarning": "ନାମିନି ପଞ୍ଜିକୃତ ବୋଲି ଚିହ୍ନିତ, କିନ୍ତୁ କୌଣସି ନାମିନି ଯୋଡ଼ାଯାଇନାହିଁ।",
-        "noAccountYet": "ଖାତା ନମ୍ବର ସଞ୍ଚୟ ବିବରଣୀ ସହିତ ତିଆରି ହୁଏ।",
+        "manage": "ପରିଚାଳନା କରନ୍ତୁ",
+        "product": "ପ୍ରଡକ୍ଟ",
         "scheme": "ଯୋଜନା",
-        "type": "ପ୍ରକାର",
         "roi": "ସୁଧ ହାର",
         "category": "ଶ୍ରେଣୀ",
         "mode": "ପରିଚାଳନା ପଦ୍ଧତି",
+        "customerType": "ଗ୍ରାହକ ପ୍ରକାର",
         "primary": "ମୂଳ ଧାରକ",
         "jointHolder": "ଯୁଗ୍ମ ଧାରକ",
+        "mobile": "ମୋବାଇଲ୍",
         "branch": "ଶାଖା",
         "fieldOfficer": "କ୍ଷେତ୍ର ଅଧିକାରୀ",
+        "application": "ଆବେଦନ",
         "applDate": "ଆବେଦନ ତାରିଖ",
+        "startDate": "ଆରମ୍ଭ ତାରିଖ",
+        "openingDeposit": "ପ୍ରାରମ୍ଭିକ ଜମା",
+        "refAcNo": "ରେଫରେନ୍ସ ଆକାଉଣ୍ଟ ନଂ",
+        "cbsAcNo": "CBS ଆକାଉଣ୍ଟ ନଂ",
         "createdBy": "ତିଆରି କରିଛନ୍ତି",
         "closeReason": "ବନ୍ଦ",
+<<<<<<< Updated upstream
         "nomineesEmpty": "ଏହି ଖାତାରେ {count}ଟି ନାମିନି ରେକର୍ଡ ଯୋଡ଼ା।",
         "signatoriesEmpty": "ଏହି ଖାତାରେ {count}ଟି ହସ୍ତାକ୍ଷରକାରୀ ରେକର୍ଡ ଯୋଡ଼ା।",
         "transactionsEmpty": "କାରବାର ଏଠାରେ ଦେଖାଯିବ।",
@@ -3295,6 +3347,58 @@
           "transactions": "ସାମ୍ପ୍ରତିକ କାରବାର",
           "closing": "ବନ୍ଦ"
         }
+=======
+        "membersTitle": "ଗୋଷ୍ଠୀ ସଦସ୍ୟ",
+        "membersHint": "ପ୍ରତ୍ୟେକ ସକ୍ରିୟ ଗୋଷ୍ଠୀ ସଦସ୍ୟଙ୍କର ଏହି ଗୋଷ୍ଠୀ ଆକାଉଣ୍ଟ ଅଧୀନରେ ଏକ ସଞ୍ଚୟ ଆକାଉଣ୍ଟ ଥାଏ।",
+        "syncMembers": "ସଦସ୍ୟ ସିଙ୍କ୍ କରନ୍ତୁ",
+        "memberLeft": "ଗୋଷ୍ଠୀ ଛାଡିଛନ୍ତି",
+        "membersEmptyTitle": "କୌଣସି ସଦସ୍ୟ ଯୋଡାଯାଇନାହିଁ",
+        "membersEmpty": "ଗୋଷ୍ଠୀର ସକ୍ରିୟ ସଦସ୍ୟଙ୍କୁ ଯୋଡିବାକୁ ସଦସ୍ୟ ସିଙ୍କ୍ କରନ୍ତୁ।",
+        "memberColumns": {
+          "member": "ସଦସ୍ୟ",
+          "role": "ଭୂମିକା",
+          "openDate": "ଖୋଲିବା ତାରିଖ",
+          "balance": "ବାଲାନ୍ସ",
+          "status": "ସ୍ଥିତି"
+        },
+        "nomineesTitle": "ନମିନି",
+        "nomineesEmptyTitle": "କୌଣସି ନମିନି ନାହିଁ",
+        "nomineesEmpty": "ଏହି ଆକାଉଣ୍ଟ ପାଇଁ କୌଣସି ନମିନି ପଞ୍ଜୀକୃତ ନାହିଁ।",
+        "nomineeColumns": {
+          "name": "ନାମ",
+          "relation": "ସମ୍ପର୍କ",
+          "age": "ବୟସ",
+          "share": "ଅଂଶ"
+        },
+        "signatoriesTitle": "ସ୍ୱାକ୍ଷରକାରୀ",
+        "signatoriesEmptyTitle": "କୌଣସି ସ୍ୱାକ୍ଷରକାରୀ ନାହିଁ",
+        "signatoriesEmpty": "ଏହି ଆକାଉଣ୍ଟ ପାଇଁ କୌଣସି ସ୍ୱାକ୍ଷରକାରୀ ପଞ୍ଜୀକୃତ ନାହିଁ।",
+        "signatoryColumns": {
+          "name": "ନାମ",
+          "role": "ଭୂମିକା"
+        },
+        "transactionsTitle": "ସାମ୍ପ୍ରତିକ କାରବାର",
+        "transactionsShowing": "{total} ମଧ୍ୟରୁ {shown} ଦେଖାଯାଉଛି",
+        "viewAll": "ସବୁ ଦେଖନ୍ତୁ",
+        "transactionsEmptyTitle": "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି କାରବାର ନାହିଁ",
+        "transactionsEmpty": "ଜମା ଓ ଉଠାଣ ଏଠାରେ ଦେଖାଯିବ।",
+        "transactionColumns": {
+          "transNo": "କାରବାର",
+          "type": "ପ୍ରକାର",
+          "amount": "ପରିମାଣ",
+          "balanceAfter": "ପରବର୍ତ୍ତୀ ବାଲାନ୍ସ",
+          "voucher": "ଭାଉଚର",
+          "status": "ସ୍ଥିତି"
+        }
+      },
+      "toggleDialog": {
+        "activateTitle": "ଆକାଉଣ୍ଟ ସକ୍ରିୟ କରିବେ?",
+        "deactivateTitle": "ଆକାଉଣ୍ଟ ନିଷ୍କ୍ରିୟ କରିବେ?",
+        "activateHelp": "ଆକାଉଣ୍ଟଟି ପୁଣି ଜମା ଓ ଉଠାଣ ପାଇଁ ବ୍ୟବହାର ହୋଇପାରିବ।",
+        "deactivateHelp": "ପୁଣି ସକ୍ରିୟ ନ ହେବା ପର୍ଯ୍ୟନ୍ତ ଆକାଉଣ୍ଟଟି ନିଷ୍କ୍ରିୟ ରହିବ।",
+        "itemType": "ଆକାଉଣ୍ଟ",
+        "itemName": "{holder} · {accountNo}"
+>>>>>>> Stashed changes
       },
       "statusDialog": {
         "title": "ସ୍ଥିତି ବଦଳାନ୍ତୁ",
@@ -3320,10 +3424,11 @@
         "unfreeze": "ବନ୍ଦ କରିବା ପୂର୍ବରୁ ଅନଫ୍ରିଜ୍ କରନ୍ତୁ।"
       },
       "toast": {
-        "created": "ଜମା ଖାତା {applNo} ତିଆରି ହେଲା",
-        "updated": "ଜମା ଖାତା {applNo} ଅପଡେଟ୍ ହେଲା",
+        "created": "ଜମା ଆକାଉଣ୍ଟ {accountNo} ତିଆରି ହେଲା",
+        "updated": "ଜମା ଆକାଉଣ୍ଟ {accountNo} ଅପଡେଟ୍ ହେଲା",
         "statusChanged": "ସ୍ଥିତି ବର୍ତ୍ତମାନ {status}",
-        "closed": "ଜମା ଖାତା {applNo} ବନ୍ଦ ହେଲା"
+        "closed": "ଜମା ଆକାଉଣ୍ଟ {accountNo} ବନ୍ଦ ହେଲା",
+        "membersSynced": "ଗୋଷ୍ଠୀ ସଦସ୍ୟ ସିଙ୍କ୍ ହେଲେ"
       }
     },
     "term": {
@@ -3605,6 +3710,8 @@
     "savingsTransaction": {
       "title": "ସଞ୍ଚୟ କାରବାର",
       "description": "ଜମା କିମ୍ବା ଉଠାଣ ପୋଷ୍ଟ କରନ୍ତୁ, ଏବଂ ଅପେକ୍ଷାରତ ଏଣ୍ଟ୍ରି ଅନୁମୋଦନ କରନ୍ତୁ।",
+      "accountScope": "ଆକାଉଣ୍ଟ {account} ର କାରବାର ଦେଖାଯାଉଛି।",
+      "clearScope": "ସବୁ ଦେଖାନ୍ତୁ",
       "filters": {
         "search": "ଖୋଜନ୍ତୁ",
         "searchPlaceholder": "କାରବାର ନଂ, ଖାତା, ଧାରକ",

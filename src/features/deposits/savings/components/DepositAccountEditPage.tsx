@@ -5,10 +5,10 @@ import { ArrowLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
+import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Link, useRouter } from "@/i18n/navigation";
-import { SAVINGS_DEPOSIT_TYPE } from "../deposit-account.constants";
-import { mapApiMessageToField } from "../deposit-account.rules";
+import { accountDetailHref, mapApiMessageToField } from "../deposit-account.rules";
 import {
   addDepositNominees,
   addDepositSignatories,
@@ -16,14 +16,15 @@ import {
   changeDepositSignatoryStatus,
   editDepositNominee,
   editDepositSignatory,
-  fetchDepositAccounts,
+  fetchDepositAccountView,
   isDepositAccountClientError,
   updateDepositAccount,
 } from "../services/deposit-account-client";
 import type {
-  DepositAccount,
   DepositAccountCreateInput,
+  DepositAccountDetail,
   DepositAccountEditInput,
+  DepositAccountSaveResult,
   DepositNomineeSave,
   DepositSignatorySave,
 } from "../types/deposit-account.types";
@@ -40,22 +41,23 @@ export function DepositAccountEditPage({
   const tUi = useTranslations("ui");
   const tErrors = useTranslations("errors");
   const router = useRouter();
-  const [account, setAccount] = useState<DepositAccount | null>(null);
+  const [account, setAccount] = useState<DepositAccountDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
-  const [savedAccount, setSavedAccount] = useState<DepositAccount | null>(null);
+  const [savedResult, setSavedResult] = useState<DepositAccountSaveResult | null>(null);
+  const [actionError, setActionError] = useToastText();
+  const detailHref = `/deposits/savings/${accountId}`;
 
   useEffect(() => {
     let cancelled = false;
-    fetchDepositAccounts({
-      accountId,
-      perPage: 1,
-      depositTypeCd: SAVINGS_DEPOSIT_TYPE,
-    })
+    setLoading(true);
+    setLoadError(false);
+    fetchDepositAccountView(accountId, 1)
       .then((result) => {
-        if (!cancelled) setAccount(result.items[0] ?? null);
+        if (!cancelled) setAccount(result);
       })
       .catch(() => {
         if (!cancelled) setLoadError(true);
@@ -66,7 +68,7 @@ export function DepositAccountEditPage({
     return () => {
       cancelled = true;
     };
-  }, [accountId]);
+  }, [accountId, reloadKey]);
 
   function leave() {
     if (saving) return;
@@ -74,7 +76,7 @@ export function DepositAccountEditPage({
       router.back();
       return;
     }
-    router.push("/deposits/savings");
+    router.push(detailHref);
   }
 
   async function handleSave(
@@ -82,7 +84,7 @@ export function DepositAccountEditPage({
     nominees: DepositNomineeSave,
     signatories: DepositSignatorySave,
   ) {
-    if (!("accountId" in input)) return;
+    if (!("accountId" in input) || !account) return;
     const nomineePending =
       nominees.add.length > 0 ||
       nominees.edit.length > 0 ||
@@ -91,26 +93,37 @@ export function DepositAccountEditPage({
       signatories.add.length > 0 ||
       signatories.edit.length > 0 ||
       signatories.deactivate.length > 0;
+<<<<<<< Updated upstream
     if (
       Object.keys(input).length === 1 &&
       !nomineePending &&
       !signatoryPending
     ) {
       router.push("/deposits/savings");
+=======
+    if (Object.keys(input).length === 1 && !nomineePending && !signatoryPending) {
+      router.push(detailHref);
+>>>>>>> Stashed changes
       return;
     }
 
     setSaving(true);
     setFormError(null);
     try {
-      let saved = savedAccount;
+      let saved = savedResult;
       if (!saved) {
         saved =
           Object.keys(input).length === 1
+<<<<<<< Updated upstream
             ? account
             : await updateDepositAccount(input);
         if (!saved) return;
         setSavedAccount(saved);
+=======
+            ? { account, openingTransaction: null }
+            : await updateDepositAccount(input);
+        setSavedResult(saved);
+>>>>>>> Stashed changes
       }
       for (const item of nominees.deactivate) {
         await changeDepositNomineeStatus(item);
@@ -120,7 +133,7 @@ export function DepositAccountEditPage({
       }
       if (nominees.add.length > 0) {
         await addDepositNominees({
-          accountId: saved.accountId,
+          accountId: saved.account.accountId,
           nominees: nominees.add,
         });
       }
@@ -132,20 +145,19 @@ export function DepositAccountEditPage({
       }
       if (signatories.add.length > 0) {
         await addDepositSignatories({
-          accountId: saved.accountId,
+          accountId: saved.account.accountId,
           signatories: signatories.add,
         });
       }
-      const updated = encodeURIComponent(saved.applNo);
-      router.push(`/deposits/savings?updated=${updated}`);
+      router.push(accountDetailHref(saved, "updated"));
     } catch (err) {
       const message = isDepositAccountClientError(err)
         ? err.message
         : tErrors("generic");
       if (mapApiMessageToField(message) === "toast") {
-        router.push(
-          `/deposits/savings?created=${encodeURIComponent(message)}&createdTone=error`,
-        );
+        setActionError(message);
+        setSavedResult(null);
+        setReloadKey((key) => key + 1);
         return;
       }
       setFormError(message);
@@ -156,6 +168,7 @@ export function DepositAccountEditPage({
 
   return (
     <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
+      <PageToast message={actionError} tone="error" />
       <div className="flex min-w-0 items-start gap-2">
         <Button
           variant="ghost"
@@ -168,7 +181,7 @@ export function DepositAccountEditPage({
         <PageHeader
           className="min-w-0 flex-1"
           title={t("form.editTitle")}
-          description={account?.applNo || t("form.stepHint")}
+          description={account?.fullAccountNo || account?.applNo || t("form.stepHint")}
           breadcrumbs={
             <Link href="/deposits/savings" className="hover:text-slate-800">
               {/* {t("title")} */}
@@ -188,12 +201,14 @@ export function DepositAccountEditPage({
           </Button>
         </div>
       ) : null}
-      {account && !account.isClosed ? (
+      {account && !account.isClosed && !loading ? (
         <DepositAccountForm
+          key={reloadKey}
           open
           layout="page"
           mode="edit"
           account={account}
+          transactionCount={account.transactionCount}
           saving={saving}
           errorMessage={formError}
           onClose={leave}

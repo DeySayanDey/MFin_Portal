@@ -2,6 +2,7 @@ export type SavingsAccountFilters = {
   search: string;
   prodTypeCd: string;
   branchId: string;
+  prodTypeCd: string;
   schemeId: string;
   custTypeCd: string;
   statusCd: string;
@@ -16,6 +17,7 @@ export const DEFAULT_SAVINGS_FILTERS: SavingsAccountFilters = {
   search: "",
   prodTypeCd: "",
   branchId: "",
+  prodTypeCd: "",
   schemeId: "",
   custTypeCd: "",
   statusCd: "",
@@ -34,6 +36,7 @@ export function savingsFiltersEqual(
     left.search === right.search &&
     left.prodTypeCd === right.prodTypeCd &&
     left.branchId === right.branchId &&
+    left.prodTypeCd === right.prodTypeCd &&
     left.schemeId === right.schemeId &&
     left.custTypeCd === right.custTypeCd &&
     left.statusCd === right.statusCd &&
@@ -63,6 +66,7 @@ export function savingsFiltersFromQuery(
     search: readParam(source, "keyword") || readParam(source, "search"),
     prodTypeCd: readParam(source, "prod_type_cd"),
     branchId: readParam(source, "branch_id"),
+    prodTypeCd: readParam(source, "prod_type_cd"),
     schemeId: readParam(source, "scheme_id"),
     custTypeCd: readParam(source, "cust_type_cd"),
     statusCd: readParam(source, "status_cd") || readParam(source, "status"),
@@ -74,11 +78,7 @@ export function savingsFiltersFromQuery(
   };
 }
 
-export function writeSavingsFilters(
-  filters: SavingsAccountFilters,
-  page: number,
-  accountId: number | null,
-) {
+export function writeSavingsFilters(filters: SavingsAccountFilters, page: number) {
   const url = new URL(window.location.href);
   const set = (key: string, value: string) => {
     if (value) url.searchParams.set(key, value);
@@ -87,6 +87,7 @@ export function writeSavingsFilters(
   set("keyword", filters.search.trim());
   set("prod_type_cd", filters.prodTypeCd);
   set("branch_id", filters.branchId);
+  set("prod_type_cd", filters.prodTypeCd);
   set("scheme_id", filters.schemeId);
   set("cust_type_cd", filters.custTypeCd);
   set("status_cd", filters.statusCd);
@@ -99,7 +100,5 @@ export function writeSavingsFilters(
   url.searchParams.delete("status");
   if (page > 1) url.searchParams.set("page", String(page));
   else url.searchParams.delete("page");
-  if (accountId != null) url.searchParams.set("account_id", String(accountId));
-  else url.searchParams.delete("account_id");
   window.history.replaceState(null, "", url.toString());
 }

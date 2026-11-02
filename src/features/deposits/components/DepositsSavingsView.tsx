@@ -6,13 +6,10 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "@/i18n/navigation";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
-import { DepositAccountCloseModal } from "@/features/deposits/savings/components/DepositAccountCloseModal";
 import { DepositAccountFilters } from "@/features/deposits/savings/components/DepositAccountFilters";
-import { DepositAccountStatusModal } from "@/features/deposits/savings/components/DepositAccountStatusModal";
 import { DepositAccountTable } from "@/features/deposits/savings/components/DepositAccountTable";
-import { DepositAccountViewModal } from "@/features/deposits/savings/components/DepositAccountViewModal";
+import { useDepositAccountActions } from "@/features/deposits/savings/components/useDepositAccountActions";
 import { SAVINGS_DEPOSIT_TYPE } from "@/features/deposits/savings/deposit-account.constants";
-import { mapApiMessageToField } from "@/features/deposits/savings/deposit-account.rules";
 import {
   DEFAULT_SAVINGS_FILTERS,
   savingsFiltersEqual,
@@ -21,8 +18,6 @@ import {
   type SavingsAccountFilters,
 } from "@/features/deposits/savings/savings-filters";
 import {
-  changeDepositAccountStatus,
-  closeDepositAccount,
   fetchDepositAccounts,
   isDepositAccountClientError,
 } from "@/features/deposits/savings/services/deposit-account-client";
@@ -39,10 +34,13 @@ type DepositsSavingsViewProps = {
   branchName: string;
   initialFilters?: SavingsAccountFilters;
   initialPage?: number;
+<<<<<<< Updated upstream
   initialAccountId?: number | null;
   initialNotice?: { message: string; tone: "success" | "error" } | null;
   depositTypeCd?: number;
   variant?: "savings" | "term";
+=======
+>>>>>>> Stashed changes
 };
 
 function optionalNumber(value: string): number | undefined {
@@ -57,10 +55,13 @@ export function DepositsSavingsView({
   branchName,
   initialFilters = DEFAULT_SAVINGS_FILTERS,
   initialPage = 1,
+<<<<<<< Updated upstream
   initialAccountId = null,
   initialNotice = null,
   depositTypeCd = SAVINGS_DEPOSIT_TYPE,
   variant = "savings",
+=======
+>>>>>>> Stashed changes
 }: DepositsSavingsViewProps) {
   const t = useTranslations("deposits.savings");
   const tErrors = useTranslations("errors");
@@ -81,15 +82,19 @@ export function DepositsSavingsView({
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const [reloadKey, setReloadKey] = useState(0);
-  const [viewingId, setViewingId] = useState<number | null>(initialAccountId);
-  const [viewing, setViewing] = useState<DepositAccount | null>(null);
-  const [statusTarget, setStatusTarget] = useState<DepositAccount | null>(null);
-  const [closeTarget, setCloseTarget] = useState<DepositAccount | null>(null);
-  const [saving, setSaving] = useState(false);
-  const [statusError, setStatusError] = useState<string | null>(null);
-  const [closeError, setCloseError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useToastText();
   const [actionError, setActionError] = useToastText();
+
+  const actions = useDepositAccountActions({
+    onChanged: (message) => {
+      setSuccessMessage(message);
+      setReloadKey((key) => key + 1);
+    },
+    onActionError: (message) => {
+      setActionError(message);
+      setReloadKey((key) => key + 1);
+    },
+  });
 
   const scopedBranchId =
     !isHead && branchId != null ? String(branchId) : appliedFilters.branchId;
@@ -105,19 +110,8 @@ export function DepositsSavingsView({
   }, [appliedFilters, filters, setSuccessMessage]);
 
   useEffect(() => {
-    writeSavingsFilters(appliedFilters, page, viewingId);
-  }, [appliedFilters, page, viewingId]);
-
-  useEffect(() => {
-    if (!initialNotice) return;
-    if (initialNotice.tone === "error") setActionError(initialNotice.message);
-    else setSuccessMessage(initialNotice.message);
-    const url = new URL(window.location.href);
-    url.searchParams.delete("created");
-    url.searchParams.delete("createdTone");
-    url.searchParams.delete("updated");
-    window.history.replaceState(null, "", url.toString());
-  }, [initialNotice, setActionError, setSuccessMessage]);
+    writeSavingsFilters(appliedFilters, page);
+  }, [appliedFilters, page]);
 
   useEffect(() => {
     function onPopState() {
@@ -127,8 +121,6 @@ export function DepositsSavingsView({
       setAppliedFilters(savingsFiltersFromQuery(source));
       const nextPage = Number(params.get("page") || "1");
       setPage(Number.isFinite(nextPage) && nextPage > 0 ? nextPage : 1);
-      const accountParam = params.get("account_id");
-      setViewingId(accountParam ? Number(accountParam) : null);
     }
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
@@ -179,6 +171,7 @@ export function DepositsSavingsView({
     };
   }, [appliedFilters, depositTypeCd, page, pageSize, reloadKey, scopedBranchId, tErrors]);
 
+<<<<<<< Updated upstream
   useEffect(() => {
     if (viewingId == null) {
       setViewing(null);
@@ -262,6 +255,10 @@ export function DepositsSavingsView({
     } finally {
       setSaving(false);
     }
+=======
+  function openCreate() {
+    router.push("/deposits/savings/new");
+>>>>>>> Stashed changes
   }
 
   return (
@@ -301,16 +298,13 @@ export function DepositsSavingsView({
           setPageSize(size);
           setPage(1);
         }}
-        onView={(row) => setViewingId(row.accountId)}
-        onEdit={openEdit}
-        onStatus={(row) => {
-          setStatusError(null);
-          setStatusTarget(row);
+        onView={(row) => router.push(`/deposits/savings/${row.accountId}`)}
+        onEdit={(row) => {
+          if (!row.isClosed) router.push(`/deposits/savings/${row.accountId}/edit`);
         }}
-        onCloseAccount={(row) => {
-          setCloseError(null);
-          setCloseTarget(row);
-        }}
+        onToggle={actions.openToggle}
+        onStatus={actions.openStatus}
+        onCloseAccount={actions.openClose}
         onOpen={openCreate}
         variant={variant}
         headerActions={
@@ -322,34 +316,7 @@ export function DepositsSavingsView({
         }
       />
 
-      <DepositAccountViewModal
-        account={viewing}
-        onClose={() => setViewingId(null)}
-      />
-
-      <DepositAccountStatusModal
-        account={statusTarget}
-        saving={saving}
-        errorMessage={statusError}
-        onClose={() => {
-          if (saving) return;
-          setStatusTarget(null);
-          setStatusError(null);
-        }}
-        onConfirm={handleStatus}
-      />
-
-      <DepositAccountCloseModal
-        account={closeTarget}
-        saving={saving}
-        errorMessage={closeError}
-        onClose={() => {
-          if (saving) return;
-          setCloseTarget(null);
-          setCloseError(null);
-        }}
-        onConfirm={handleClose}
-      />
+      {actions.dialogs}
     </div>
   );
 }

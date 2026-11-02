@@ -4,9 +4,15 @@ import { api } from "@/lib/api/client";
 import { endpoints } from "@/lib/api/endpoints";
 import { ApiError } from "@/lib/api/errors";
 import { clearAuthSession, getAccessToken } from "@/lib/auth/session";
+import { mapSavingsTransactionDto } from "@/features/deposits/savings-transaction/mappers/savings-transaction.mapper";
+import { savingsTransactionDtoSchema } from "@/features/deposits/savings-transaction/schemas/savings-transaction.schema";
+import { SAVINGS_DEPOSIT_TYPE } from "../deposit-account.constants";
 import {
   mapCustomerRow,
   mapDepositAccountCloseToDto,
+  mapDepositAccountMemberDto,
+  mapDepositOpeningTransactionDto,
+  mapDepositProductSchemeDto,
   mapDepositNomineeAddToDto,
   mapDepositNomineeDto,
   mapDepositNomineeEditToDto,
@@ -27,6 +33,11 @@ import {
   depositAccountCreateSchema,
   depositAccountDtoSchema,
   depositAccountEditSchema,
+  depositAccountIdSchema,
+  depositAccountMemberDtoSchema,
+  depositOpeningTransactionDtoSchema,
+  depositProductSchemeDtoSchema,
+  depositProductTypeDtoSchema,
   depositAccountStatusSchema,
   depositNomineeAddSchema,
   depositNomineeDtoSchema,
@@ -40,9 +51,15 @@ import {
 } from "../schemas/deposit-account.schema";
 import type {
   DepositAccount,
+  DepositAccountDetail,
   DepositAccountDto,
   DepositAccountListQuery,
   DepositAccountListResult,
+  DepositAccountMember,
+  DepositAccountMemberSyncResult,
+  DepositAccountSaveResult,
+  DepositProductQuery,
+  DepositProductType,
   DepositCustomer,
   DepositCustomerQuery,
   DepositNominee,
@@ -135,6 +152,40 @@ function parseAccountOrThrow(row: unknown, fallback: string): DepositAccount {
   return item;
 }
 
+function parseSaveResult(row: unknown, fallback: string): DepositAccountSaveResult {
+  const account = parseAccountOrThrow(row, fallback);
+  const raw =
+    row && typeof row === "object" && "opening_transaction" in row
+      ? (row as { opening_transaction: unknown }).opening_transaction
+      : null;
+  const opening = raw ? depositOpeningTransactionDtoSchema.safeParse(raw) : null;
+  return {
+    account,
+    openingTransaction: opening?.success
+      ? mapDepositOpeningTransactionDto(opening.data)
+      : null,
+  };
+}
+
+function asRows(value: unknown): unknown[] {
+  return Array.isArray(value) ? value : [];
+}
+
+/** Child rows of the View payload may omit their parent `account_id`. */
+function withAccountId(row: unknown, accountId: number): unknown {
+  if (!row || typeof row !== "object") return row;
+  return { account_id: accountId, ...(row as Record<string, unknown>) };
+}
+
+function parseMembers(rows: unknown[], accountId: number): DepositAccountMember[] {
+  return rows.flatMap((row) => {
+    const parsed = depositAccountMemberDtoSchema.safeParse(
+      withAccountId(row, accountId),
+    );
+    return parsed.success ? [mapDepositAccountMemberDto(parsed.data)] : [];
+  });
+}
+
 function validationError(error: { flatten: () => unknown }): ApiError {
   return new ApiError({
     message: "Validation failed",
@@ -161,6 +212,7 @@ export async function listDepositAccounts(
           account_id: query.accountId,
           branch_id: query.branchId,
           fo_id: query.foId,
+          prod_type_cd: query.prodTypeCd,
           scheme_id: query.schemeId,
           deposit_type_cd: query.depositTypeCd,
           prod_type_cd: query.prodTypeCd,
@@ -197,10 +249,155 @@ export async function listDepositAccounts(
   });
 }
 
+/** Rejects an account outside the caller's branch as not found. */
+export async function assertDepositAccountInScope(
+  accountId: number,
+  branchId: number | undefined,
+): Promise<void> {
+  if (branchId == null) return;
+  const result = await listDepositAccounts({ accountId, branchId, perPage: 1 });
+  if (!result.items.some((item) => item.accountId === accountId)) {
+    throw new ApiError({
+      message: "Deposit account not found",
+      status: 404,
+      code: "NOT_FOUND",
+    });
+  }
+}
+
+/** Laravel: GET /api/DepositProductSchemeList */
+export async function listDepositProducts(
+  query: DepositProductQuery = {},
+): Promise<DepositProductType[]> {
+  return withUnauthorizedClear(async () => {
+    const token = await requireAccessToken();
+    const payload = await api.get<LaravelResponse<unknown[]>>(
+      endpoints.depositAccount.productSchemeList,
+      {
+        accessToken: token,
+        expectEnvelope: false,
+        searchParams: {
+          deposit_type_cd: query.depositTypeCd ?? SAVINGS_DEPOSIT_TYPE,
+          prod_type_cd: query.prodTypeCd,
+          is_active: query.isActive ?? 1,
+        },
+      },
+    );
+    assertSuccess(payload, "Failed to load deposit products");
+    return asRows(payload.data).flatMap((row) => {
+      const parsed = depositProductTypeDtoSchema.safeParse(row);
+      if (!parsed.success) return [];
+      const schemes = asRows(parsed.data.schemes).flatMap((scheme) => {
+        const item = depositProductSchemeDtoSchema.safeParse(scheme);
+        return item.success ? [mapDepositProductSchemeDto(item.data)] : [];
+      });
+      return [
+        {
+          depositTypeCd: parsed.data.deposit_type_cd,
+          prodTypeCd: parsed.data.prod_type_cd,
+          prodTypeDesc: parsed.data.prod_type_desc?.trim() ?? "",
+          schemes,
+        },
+      ];
+    });
+  });
+}
+
+/** Laravel: GET /api/DepositAccountView */
+export async function getDepositAccountView(
+  accountId: number,
+  txnLimit?: number,
+): Promise<DepositAccountDetail> {
+  return withUnauthorizedClear(async () => {
+    const token = await requireAccessToken();
+    const data = await api.get<Record<string, unknown>>(
+      endpoints.depositAccount.view,
+      {
+        accessToken: token,
+        expectEnvelope: true,
+        searchParams: { account_id: accountId, txn_limit: txnLimit },
+      },
+    );
+    const account = parseAccountOrThrow(
+      data,
+      "Deposit account view returned an unexpected response",
+    );
+    const nominees = asRows(data?.nominees).flatMap((row) => {
+      const parsed = depositNomineeDtoSchema.safeParse(withAccountId(row, accountId));
+      return parsed.success ? [mapDepositNomineeDto(parsed.data)] : [];
+    });
+    const signatories = asRows(data?.signatories).flatMap((row) => {
+      const parsed = depositSignatoryDtoSchema.safeParse(
+        withAccountId(row, accountId),
+      );
+      return parsed.success ? [mapDepositSignatoryDto(parsed.data)] : [];
+    });
+    const transactions = asRows(data?.transactions).flatMap((row) => {
+      const parsed = savingsTransactionDtoSchema.safeParse(
+        withAccountId(row, accountId),
+      );
+      return parsed.success ? [mapSavingsTransactionDto(parsed.data)] : [];
+    });
+    const count = Number(data?.transaction_count);
+    return {
+      ...account,
+      members: parseMembers(asRows(data?.members), accountId),
+      nominees,
+      signatories,
+      transactions,
+      transactionCount: Number.isFinite(count) ? count : transactions.length,
+    };
+  });
+}
+
+/** Laravel: GET /api/DepositAccountMemberList */
+export async function listDepositAccountMembers(
+  accountId: number,
+): Promise<DepositAccountMember[]> {
+  return withUnauthorizedClear(async () => {
+    const token = await requireAccessToken();
+    const payload = await api.get<LaravelResponse<unknown[]>>(
+      endpoints.depositAccount.memberList,
+      {
+        accessToken: token,
+        expectEnvelope: false,
+        searchParams: { account_id: accountId },
+      },
+    );
+    assertSuccess(payload, "Failed to load account members");
+    return parseMembers(asRows(payload.data), accountId);
+  });
+}
+
+/** Laravel: POST /api/DepositAccountMemberSync */
+export async function syncDepositAccountMembers(
+  input: unknown,
+): Promise<DepositAccountMemberSyncResult> {
+  const validated = depositAccountIdSchema.safeParse(input);
+  if (!validated.success) throw validationError(validated.error);
+
+  return withUnauthorizedClear(async () => {
+    const token = await requireAccessToken();
+    const payload = await api.post<LaravelResponse<unknown[]>>(
+      endpoints.depositAccount.memberSync,
+      { account_id: validated.data.accountId },
+      { accessToken: token, expectEnvelope: false },
+    );
+    assertSuccess(payload, "Failed to sync account members");
+    return {
+      members: parseMembers(asRows(payload.data), validated.data.accountId),
+      message:
+        "message" in payload && typeof payload.message === "string"
+          ? payload.message
+          : "",
+    };
+  });
+}
+
 /** Laravel: POST /api/DepositAccountAdd */
 export async function createDepositAccount(
   input: unknown,
-): Promise<DepositAccount> {
+): Promise<DepositAccountSaveResult> {
   const validated = depositAccountCreateSchema.safeParse(input);
   if (!validated.success) throw validationError(validated.error);
 
@@ -211,7 +408,7 @@ export async function createDepositAccount(
       mapDepositAccountCreateToDto(validated.data),
       { accessToken: token, expectEnvelope: true },
     );
-    return parseAccountOrThrow(
+    return parseSaveResult(
       data,
       "Deposit account creation returned an unexpected response",
     );
@@ -221,7 +418,7 @@ export async function createDepositAccount(
 /** Laravel: POST /api/DepositAccountEdit */
 export async function updateDepositAccount(
   input: unknown,
-): Promise<DepositAccount> {
+): Promise<DepositAccountSaveResult> {
   const validated = depositAccountEditSchema.safeParse(input);
   if (!validated.success) throw validationError(validated.error);
 
@@ -232,7 +429,7 @@ export async function updateDepositAccount(
       mapDepositAccountEditToDto(validated.data),
       { accessToken: token, expectEnvelope: true },
     );
-    return parseAccountOrThrow(
+    return parseSaveResult(
       data,
       "Deposit account update returned an unexpected response",
     );

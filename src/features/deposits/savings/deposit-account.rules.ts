@@ -1,3 +1,5 @@
+import type { BadgeTone } from "@/components/ui/Badge";
+import { STATUS_PENDING as TRANSACTION_STATUS_PENDING } from "@/features/deposits/savings-transaction/savings-transaction.constants";
 import {
   CUST_TYPE_GROUP,
   CUST_TYPE_INDIVIDUAL,
@@ -6,15 +8,19 @@ import {
   OP_MODE_ANY,
   OP_MODE_EITHER,
   OP_MODE_JOINTLY,
+  PROD_TYPE_GROUP,
+  PROD_TYPE_INDIVIDUAL,
   SPECIAL_SENIOR,
 } from "./deposit-account.constants";
 import type {
   DepositAccount,
   DepositAccountCreateInput,
   DepositAccountEditInput,
+  DepositAccountSaveResult,
 } from "./types/deposit-account.types";
 
 export type DepositAccountField =
+  | "prodTypeCd"
   | "schemeId"
   | "custIdPrimary"
   | "opModeCd"
@@ -33,7 +39,8 @@ export type DepositAccountField =
   | "sbRefAcNo"
   | "sbCbsAcNo"
   | "sbRoi"
-  | "sbOpening";
+  | "sbOpening"
+  | "sbRemarks";
 
 export function todayYmd(now = new Date()): string {
   const year = now.getFullYear();
@@ -108,8 +115,50 @@ export function isSpecialAllowed(
   return true;
 }
 
-export function accountFieldsLocked(account: DepositAccount | null): boolean {
-  return account?.accountNo != null;
+/** Detail page URL carrying the save notice and the opening deposit outcome. */
+export function accountDetailHref(
+  result: DepositAccountSaveResult,
+  notice: "created" | "updated",
+): string {
+  const params = new URLSearchParams();
+  params.set(notice, result.account.fullAccountNo || result.account.applNo);
+  const opening = result.openingTransaction;
+  if (opening?.statusCd === TRANSACTION_STATUS_PENDING) params.set("opening", "pending");
+  if (opening?.voucherNote) params.set("voucherNote", opening.voucherNote);
+  return `/deposits/savings/${result.account.accountId}?${params.toString()}`;
+}
+
+export function depositStatusTone(statusCd: number): BadgeTone {
+  if (statusCd === 1) return "success";
+  if (statusCd === 7) return "warning";
+  if (statusCd === 4) return "danger";
+  if (statusCd === 5 || statusCd === 6) return "amber";
+  return "neutral";
+}
+
+/** Customer type a savings product type requires; `null` when either is allowed. */
+export function custTypeForProduct(prodTypeCd: number | null): number | null {
+  if (prodTypeCd === PROD_TYPE_INDIVIDUAL) return CUST_TYPE_INDIVIDUAL;
+  if (prodTypeCd === PROD_TYPE_GROUP) return CUST_TYPE_GROUP;
+  return null;
+}
+
+/** Product, scheme, customer type and primary customer lock once the account is opened. */
+export function accountFieldsLocked(
+  account: DepositAccount | null,
+  transactionCount = 0,
+): boolean {
+  if (!account) return false;
+  return account.accountNo != null || transactionCount > 0;
+}
+
+/** Start date, account number and opening deposit lock once money has moved. */
+export function savingsFieldsLocked(
+  account: DepositAccount | null,
+  transactionCount = 0,
+): boolean {
+  if (!account) return false;
+  return (account.currentBalance ?? 0) !== 0 || transactionCount > 0;
 }
 
 export function mapApiMessageToField(message: string): DepositAccountField | "toast" | "close" | null {
@@ -117,6 +166,10 @@ export function mapApiMessageToField(message: string): DepositAccountField | "to
   if (text.includes("cannot be changed once")) return "toast";
   if (text.includes("closed deposit account")) return "toast";
   if (text.includes("individual deposit accounts only")) return "toast";
+  if (text.includes("opening deposit")) return "sbOpening";
+  if (text.includes("product type") || text.includes("savings product")) {
+    return "prodTypeCd";
+  }
   if (
     text.includes("nominee") ||
     text.includes("share") ||
@@ -175,6 +228,7 @@ export function mapApiMessageToField(message: string): DepositAccountField | "to
 
 type FormSnapshot = {
   applDate: string;
+  prodTypeCd: number | null;
   schemeId: number;
   custTypeCd: number;
   custIdPrimary: number;
@@ -196,6 +250,7 @@ export function toCreateInput(form: FormSnapshot): DepositAccountCreateInput {
   const joints = jointVisibility(form.custTypeCd, form.opModeCd);
   return {
     applDate: form.applDate,
+    prodTypeCd: form.prodTypeCd,
     schemeId: form.schemeId,
     custTypeCd: form.custTypeCd,
     custIdPrimary: form.custIdPrimary,
@@ -221,7 +276,10 @@ export function toEditInput(
   const next = toCreateInput(form);
   const input: DepositAccountEditInput = { accountId: account.accountId };
   if (next.applDate !== account.applDate) input.applDate = next.applDate;
-  if (next.schemeId !== account.schemeId) input.schemeId = next.schemeId;
+  if (next.schemeId !== account.schemeId) {
+    input.schemeId = next.schemeId;
+    input.prodTypeCd = next.prodTypeCd ?? null;
+  }
   if (next.custTypeCd !== account.custTypeCd) input.custTypeCd = next.custTypeCd;
   if (next.custIdPrimary !== account.custIdPrimary) {
     input.custIdPrimary = next.custIdPrimary;
@@ -269,6 +327,8 @@ export function toEditInput(
     }
     if ((next.sb.openingDeposit ?? null) !== (account.openingDeposit ?? null)) {
       sb.openingDeposit = next.sb.openingDeposit ?? null;
+      if (next.sb.paymentModeCd != null) sb.paymentModeCd = next.sb.paymentModeCd;
+      if (next.sb.remarks) sb.remarks = next.sb.remarks;
     }
     if (Object.keys(sb).length > 0) input.sb = sb;
   }

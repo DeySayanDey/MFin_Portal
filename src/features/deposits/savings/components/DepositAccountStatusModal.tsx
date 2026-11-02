@@ -60,7 +60,7 @@ export function DepositAccountStatusModal({
       open={account != null}
       onClose={onClose}
       title={t("statusDialog.title")}
-      subtitle={account?.applNo}
+      subtitle={account ? account.fullAccountNo || account.applNo : undefined}
       size="md"
       footer={
         <>

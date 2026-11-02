@@ -9,6 +9,7 @@ import { DateField, SelectField } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { fetchApplOptions, type ApplOption } from "@/features/master/appl-options";
 import { fetchBranchList } from "@/features/master/branch/services/branch-client";
+<<<<<<< Updated upstream
 import type { BranchListResult } from "@/features/master/branch/types/branch.types";
 import { fetchDepositProductSchemes } from "../services/deposit-account-client";
 import type { DepositProductScheme } from "../types/deposit-account.types";
@@ -17,12 +18,16 @@ import {
   fetchDepositSchemeSetups,
   type DepositSchemeListResult,
 } from "@/features/master/deposit-schemes";
+=======
+>>>>>>> Stashed changes
 import {
   OPT_CUST_TYPE,
   OPT_STATUS,
   SAVINGS_DEPOSIT_TYPE,
 } from "../deposit-account.constants";
 import type { SavingsAccountFilters } from "../savings-filters";
+import { fetchDepositProducts } from "../services/deposit-account-client";
+import type { DepositProductType } from "../types/deposit-account.types";
 
 type DepositAccountFiltersProps = {
   values: SavingsAccountFilters;
@@ -43,10 +48,14 @@ export function DepositAccountFilters({
 }: DepositAccountFiltersProps) {
   const t = useTranslations("deposits.savings");
   const tUi = useTranslations("ui");
+<<<<<<< Updated upstream
   const [productSchemes, setProductSchemes] = useState<DepositProductScheme[]>([]);
   const [schemes, setSchemes] = useState<
     { value: string; label: string }[]
   >([]);
+=======
+  const [products, setProducts] = useState<DepositProductType[]>([]);
+>>>>>>> Stashed changes
   const [branches, setBranches] = useState<{ value: string; label: string }[]>(
     [],
   );
@@ -60,6 +69,7 @@ export function DepositAccountFilters({
   useEffect(() => {
     let cancelled = false;
     async function load() {
+<<<<<<< Updated upstream
       const productResult: DepositProductScheme[] = await fetchDepositProductSchemes(
         depositTypeCd,
       ).catch(() => []);
@@ -87,6 +97,22 @@ export function DepositAccountFilters({
             : scheme.schemeName,
         })) ?? [],
       );
+=======
+      const [productResult, branchResult, statusOptions, customerOptions] =
+        await Promise.all([
+          fetchDepositProducts({
+            depositTypeCd: SAVINGS_DEPOSIT_TYPE,
+            isActive: -1,
+          }).catch(() => []),
+          isHead
+            ? fetchBranchList({ perPage: 200, isActive: 1 }).catch(() => null)
+            : Promise.resolve(null),
+          fetchApplOptions(OPT_STATUS).catch(() => []),
+          fetchApplOptions(OPT_CUST_TYPE).catch(() => []),
+        ]);
+      if (cancelled) return;
+      setProducts(productResult);
+>>>>>>> Stashed changes
       setBranches(
         branchResult?.items.map((branch) => ({
           value: String(branch.branchId),
@@ -150,6 +176,19 @@ export function DepositAccountFilters({
     }
     return schemes;
   }, [productSchemes, schemes, values.prodTypeCd]);
+
+  const schemes = products
+    .filter(
+      (product) =>
+        values.prodTypeCd === "" || String(product.prodTypeCd) === values.prodTypeCd,
+    )
+    .flatMap((product) => product.schemes)
+    .map((scheme) => ({
+      value: String(scheme.schemeId),
+      label: scheme.schemeCode
+        ? t("filters.schemeOption", { code: scheme.schemeCode, name: scheme.schemeName })
+        : scheme.schemeName,
+    }));
 
   const scope =
     values.memberId !== ""
@@ -226,6 +265,7 @@ export function DepositAccountFilters({
           searchPlaceholder={tUi("selectSearch")}
           emptyMessage={tUi("selectEmpty")}
           onChange={(prodTypeCd) => {
+<<<<<<< Updated upstream
             const relevantProduct = productSchemes.find(
               (p) => String(p.prodTypeCd) === prodTypeCd,
             );
@@ -239,6 +279,29 @@ export function DepositAccountFilters({
             });
           }}
           options={[{ value: "", label: t("filters.productAll") }, ...productOptions]}
+=======
+            const product = products.find(
+              (item) => String(item.prodTypeCd) === prodTypeCd,
+            );
+            const keepScheme =
+              prodTypeCd === "" ||
+              product?.schemes.some(
+                (scheme) => String(scheme.schemeId) === values.schemeId,
+              );
+            onChange({
+              ...values,
+              prodTypeCd,
+              schemeId: keepScheme ? values.schemeId : "",
+            });
+          }}
+          options={[
+            { value: "", label: t("filters.productAll") },
+            ...products.map((product) => ({
+              value: String(product.prodTypeCd),
+              label: product.prodTypeDesc,
+            })),
+          ]}
+>>>>>>> Stashed changes
         />
 
         <SelectField

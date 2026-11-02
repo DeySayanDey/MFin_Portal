@@ -4,14 +4,20 @@
 
 import { endpoints } from "@/lib/api/endpoints";
 import { dedupeRequest } from "@/lib/client/request-dedupe";
+import { SAVINGS_DEPOSIT_TYPE } from "../deposit-account.constants";
 import type {
   DepositAccount,
   DepositAccountCloseInput,
   DepositAccountCreateInput,
+  DepositAccountDetail,
   DepositAccountEditInput,
   DepositAccountListQuery,
   DepositAccountListResult,
+  DepositAccountMemberSyncResult,
+  DepositAccountSaveResult,
   DepositAccountStatusInput,
+  DepositProductQuery,
+  DepositProductType,
   DepositCustomer,
   DepositCustomerQuery,
   DepositNominee,
@@ -89,6 +95,7 @@ function listQueryKey(query: DepositAccountListQuery): string {
   if (query.accountId != null) params.set("account_id", String(query.accountId));
   if (query.branchId != null) params.set("branch_id", String(query.branchId));
   if (query.foId != null) params.set("fo_id", String(query.foId));
+  if (query.prodTypeCd != null) params.set("prod_type_cd", String(query.prodTypeCd));
   if (query.schemeId != null) params.set("scheme_id", String(query.schemeId));
   if (query.prodTypeCd != null) params.set("prod_type_cd", String(query.prodTypeCd));
   if (query.depositTypeCd != null) {
@@ -146,14 +153,69 @@ async function postAccount<T>(body: unknown): Promise<T> {
 
 export async function createDepositAccount(
   input: DepositAccountCreateInput,
-): Promise<DepositAccount> {
-  return postAccount<DepositAccount>({ action: "create", ...input });
+): Promise<DepositAccountSaveResult> {
+  return postAccount<DepositAccountSaveResult>({ action: "create", ...input });
 }
 
 export async function updateDepositAccount(
   input: DepositAccountEditInput,
-): Promise<DepositAccount> {
-  return postAccount<DepositAccount>({ action: "update", ...input });
+): Promise<DepositAccountSaveResult> {
+  return postAccount<DepositAccountSaveResult>({ action: "update", ...input });
+}
+
+async function getJson<T>(url: string): Promise<T> {
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+    credentials: "same-origin",
+    cache: "no-store",
+  });
+  return parseEnvelope<T>(response);
+}
+
+export async function fetchDepositProducts(
+  query: DepositProductQuery = {},
+): Promise<DepositProductType[]> {
+  const params = new URLSearchParams();
+  params.set("deposit_type_cd", String(query.depositTypeCd ?? SAVINGS_DEPOSIT_TYPE));
+  if (query.prodTypeCd != null) params.set("prod_type_cd", String(query.prodTypeCd));
+  if (query.isActive != null) params.set("is_active", String(query.isActive));
+  const qs = params.toString();
+  return dedupeRequest(
+    `deposits:products:${qs}`,
+    () => getJson<DepositProductType[]>(`${endpoints.bff.depositAccountProducts}?${qs}`),
+    0,
+  );
+}
+
+export async function fetchDepositAccountView(
+  accountId: number,
+  txnLimit?: number,
+): Promise<DepositAccountDetail> {
+  const params = new URLSearchParams();
+  params.set("account_id", String(accountId));
+  if (txnLimit != null) params.set("txn_limit", String(txnLimit));
+  const qs = params.toString();
+  return dedupeRequest(
+    `deposits:view:${qs}`,
+    () => getJson<DepositAccountDetail>(`${endpoints.bff.depositAccountView}?${qs}`),
+    0,
+  );
+}
+
+export async function syncDepositAccountMembers(
+  accountId: number,
+): Promise<DepositAccountMemberSyncResult> {
+  const response = await fetch(endpoints.bff.depositAccountMembers, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    credentials: "same-origin",
+    body: JSON.stringify({ accountId }),
+  });
+  return parseEnvelope<DepositAccountMemberSyncResult>(response);
 }
 
 export async function changeDepositAccountStatus(

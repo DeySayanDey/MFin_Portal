@@ -49,6 +49,8 @@ export function mapSavingsTransactionDto(dto: Dto): SavingsTransaction {
     createdAt: dto.created_at ?? null,
     approvedByName: text(dto.approved_by_name),
     approvedAt: dto.approved_at ?? null,
+    voucherId: dto.voucher_id ?? null,
+    voucherNo: text(dto.voucher_no),
   };
 }
 

@@ -3032,22 +3032,33 @@
       "emptyMessage": "Open a savings account to see it here.",
       "loadErrorTitle": "Could not load savings accounts",
       "columns": {
+<<<<<<< Updated upstream
         "applNo": "Account No.",
         "holder": "Holder",
         "scheme": "Scheme",
         "mode": "Mode",
         "balance": "Current balance",
+=======
+        "accountNo": "Account no",
+        "notOpened": "Not opened yet",
+        "holder": "Holder",
+        "productScheme": "Product · Scheme",
+        "productLine": "{product} · {scheme}",
+        "balance": "Balance",
+>>>>>>> Stashed changes
         "status": "Status",
         "actions": "Actions",
-        "accountLine": "A/c {number} · {type}",
-        "accountPending": "— · {type}",
         "holderMeta": "{ref} · {customerType}",
+        "groupMeta": "{ref} · {customerType} · {count, plural, one {# member} other {# members}}",
         "schemeMeta": "{code} · {roi}",
         "joint": "Joint holder"
       },
       "actions": {
         "view": "View",
         "edit": "Edit",
+        "activate": "Activate",
+        "deactivate": "Deactivate",
+        "depositWithdraw": "Deposit / Withdraw",
         "changeStatus": "Change status",
         "close": "Close account"
       },
@@ -3057,8 +3068,11 @@
         "branch": "Branch",
         "branchAll": "All branches",
         "branchFixed": "Your branch",
+        "product": "Product",
+        "productAll": "All products",
         "scheme": "Scheme",
         "schemeAll": "All schemes",
+        "schemeOption": "{code} · {name}",
         "customer": "Customer",
         "customerAll": "All customers",
         "status": "Status",
@@ -3078,10 +3092,10 @@
       "form": {
         "createTitle": "Open account",
         "editTitle": "Edit account",
-        "stepHint": "Customer, scheme, holders, nominees, signatories, then a summary",
+        "stepHint": "Product and scheme, customer, holders, savings details, application, nominees, signatories, then a summary",
         "stepLabel": "Step {current} of {total}",
+        "stepProduct": "Product",
         "stepCustomer": "Customer",
-        "stepScheme": "Scheme",
         "stepSavings": "Savings Details",
         "stepHolders": "Holders",
         "stepApplication": "Application",
@@ -3098,24 +3112,50 @@
         "formationDate": "Formation Date",
         "scheme": "Scheme",
         "schemePlaceholder": "Select a savings scheme",
+<<<<<<< Updated upstream
         "depositType": "Product Type",
         "depositTypeHint": "The scheme list follows this type, and the scheme must use the same type.",
         "savingsType": "Savings",
+=======
+        "productType": "Product Type",
+        "productsError": "Savings products could not be loaded.",
+        "productsEmpty": "No savings products are set up yet.",
+        "noActiveScheme": "No active scheme",
+        "schemeCount": "{count, plural, one {# scheme} other {# schemes}}",
+        "schemeHint": "Choose a product first.",
+        "schemeInterest": "Interest",
+        "schemeMinBalance": "Minimum balance",
+        "schemeWithdrawal": "Withdrawal",
+        "withdrawalAllowed": "Allowed",
+        "withdrawalBlocked": "Not allowed",
+        "minBalanceShort": "Min {amount}",
+        "customerTypeFixed": "This product is for {type} customers.",
+        "customerAfterProduct": "Choose a product to set the customer type.",
+>>>>>>> Stashed changes
         "sb": {
           "startDate": "Start Date",
           "opening": "Opening Deposit",
           "roi": "Interest Rate (%)",
           "roiPlaceholder": "Scheme rate",
+          "accountNo": "Account No",
+          "accountNoPlaceholder": "Auto",
+          "accountNoHint": "Leave blank to get the next number for this branch and scheme.",
           "refAcNo": "Reference Account No",
           "cbsAcNo": "CBS Account No",
-          "locked": "Start date, account number, and opening deposit stay locked while the balance is not zero."
+          "openingSection": "Opening deposit",
+          "paymentMode": "Payment Mode",
+          "cash": "Cash",
+          "remarks": "Remarks",
+          "remarksPlaceholder": "Optional note for the opening deposit",
+          "openingHint": "An opening deposit is posted as a pending transaction and needs approval.",
+          "minBalance": "The scheme minimum balance is {amount}.",
+          "locked": "Start date, account number, and opening deposit stay locked while the balance is not zero or the account has transactions."
         },
         "operationMode": "Operation Mode",
         "joint1": "Joint Holder 1",
         "joint2": "Joint Holder 2",
         "holderName": "Holder Name",
-        "holderNameHint": "Built from the holder names. Use the pencil to override.",
-        "editHolderName": "Edit holder name",
+        "holderNameHint": "Built from the holder names. Type to override.",
         "specialCategory": "Special Category",
         "seniorHint": "Needs age 60+",
         "nominee": "Nominee Registered",
@@ -3140,8 +3180,9 @@
         "errors": {
           "customer": "Select a customer.",
           "scheme": "Select a scheme.",
-          "depositType": "Deposit type must be Savings. Choose a savings scheme.",
-          "depositTypeRequired": "Select a deposit type.",
+          "productType": "Select a product type.",
+          "customerType": "This customer type does not match the product. Choose another customer.",
+          "sbRemarks": "Remarks must be 250 characters or fewer.",
           "sbStart": "Start date cannot be before the application date or in the future.",
           "sbAccount": "Account number must be from 1 to 32767.",
           "sbRef": "Reference account number must be 15 characters or fewer.",
@@ -3174,7 +3215,8 @@
         "submit": "Submit",
         "summary": {
           "none": "None added",
-          "notApplicable": "Not applicable"
+          "notApplicable": "Not applicable",
+          "opening": "{amount} by {mode}"
         },
         "nominees": {
           "groupNotice": "Nominees are not applicable to group accounts.",
@@ -3241,25 +3283,43 @@
       },
       "view": {
         "title": "Account",
-        "subtitle": "{applNo} · A/c {accountNo}",
+        "notFound": "This account was not found, or you do not have access to it.",
+        "retry": "Try again",
+        "backToList": "Back to accounts",
+        "summary": "Account summary",
+        "accountNo": "Account no",
+        "status": "Status",
+        "balance": "Balance",
+        "available": "Available balance",
+        "openingPending": "The opening deposit is pending approval. The balance updates once it is approved.",
+        "voucherNote": "Voucher: {note}",
         "overview": "Overview",
+        "members": "Members ({count})",
         "nominees": "Nominees ({count})",
         "signatories": "Signatories ({count})",
-        "transactions": "Transactions",
+        "transactions": "Transactions ({count})",
         "nomineeWarning": "Nominee marked as registered but no nominee added.",
-        "noAccountYet": "Account number is created with the savings detail.",
+        "manage": "Manage",
+        "product": "Product",
         "scheme": "Scheme",
-        "type": "Type",
         "roi": "Rate of interest",
         "category": "Category",
         "mode": "Operation mode",
+        "customerType": "Customer type",
         "primary": "Primary holder",
         "jointHolder": "Joint holders",
+        "mobile": "Mobile",
         "branch": "Branch",
         "fieldOfficer": "Field officer",
+        "application": "Application",
         "applDate": "Application date",
+        "startDate": "Start date",
+        "openingDeposit": "Opening deposit",
+        "refAcNo": "Reference account no",
+        "cbsAcNo": "CBS account no",
         "createdBy": "Created by",
         "closeReason": "Closing",
+<<<<<<< Updated upstream
         "nomineesEmpty": "{count} nominee records are linked to this account.",
         "signatoriesEmpty": "{count} signatory records are linked to this account.",
         "transactionsEmpty": "Transactions will appear here.",
@@ -3295,6 +3355,58 @@
           "transactions": "Recent transactions",
           "closing": "Closing"
         }
+=======
+        "membersTitle": "Group members",
+        "membersHint": "Each active group member has a savings account under this group account.",
+        "syncMembers": "Sync members",
+        "memberLeft": "Left the group",
+        "membersEmptyTitle": "No members linked",
+        "membersEmpty": "Sync members to link the group's active members.",
+        "memberColumns": {
+          "member": "Member",
+          "role": "Role",
+          "openDate": "Opened",
+          "balance": "Balance",
+          "status": "Status"
+        },
+        "nomineesTitle": "Nominees",
+        "nomineesEmptyTitle": "No nominees",
+        "nomineesEmpty": "No nominee is registered for this account.",
+        "nomineeColumns": {
+          "name": "Name",
+          "relation": "Relation",
+          "age": "Age",
+          "share": "Share"
+        },
+        "signatoriesTitle": "Signatories",
+        "signatoriesEmptyTitle": "No signatories",
+        "signatoriesEmpty": "No signatory is registered for this account.",
+        "signatoryColumns": {
+          "name": "Name",
+          "role": "Role"
+        },
+        "transactionsTitle": "Recent transactions",
+        "transactionsShowing": "Showing {shown} of {total}",
+        "viewAll": "View all",
+        "transactionsEmptyTitle": "No transactions yet",
+        "transactionsEmpty": "Deposits and withdrawals will appear here.",
+        "transactionColumns": {
+          "transNo": "Transaction",
+          "type": "Type",
+          "amount": "Amount",
+          "balanceAfter": "Balance after",
+          "voucher": "Voucher",
+          "status": "Status"
+        }
+      },
+      "toggleDialog": {
+        "activateTitle": "Activate account?",
+        "deactivateTitle": "Deactivate account?",
+        "activateHelp": "The account can be used for deposits and withdrawals again.",
+        "deactivateHelp": "The account becomes inoperative until it is activated again.",
+        "itemType": "Account",
+        "itemName": "{holder} · {accountNo}"
+>>>>>>> Stashed changes
       },
       "statusDialog": {
         "title": "Change status",
@@ -3320,10 +3432,11 @@
         "unfreeze": "Unfreeze before closing."
       },
       "toast": {
-        "created": "Deposit account {applNo} created",
-        "updated": "Deposit account {applNo} updated",
+        "created": "Deposit account {accountNo} created",
+        "updated": "Deposit account {accountNo} updated",
         "statusChanged": "Status changed to {status}",
-        "closed": "Deposit account {applNo} closed"
+        "closed": "Deposit account {accountNo} closed",
+        "membersSynced": "Group members synced"
       }
     },
     "term": {
@@ -3605,6 +3718,8 @@
     "savingsTransaction": {
       "title": "Savings transactions",
       "description": "Post a deposit or withdrawal, and approve pending entries.",
+      "accountScope": "Showing transactions for account {account}.",
+      "clearScope": "Show all",
       "filters": {
         "search": "Search",
         "searchPlaceholder": "Transaction no, account, holder",
