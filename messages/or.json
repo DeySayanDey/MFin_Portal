@@ -3043,7 +3043,12 @@
         "holderMeta": "{ref} · {customerType}",
         "groupMeta": "{ref} · {customerType} · {count, plural, one {# ସଦସ୍ୟ} other {# ସଦସ୍ୟ}}",
         "schemeMeta": "{code} · {roi}",
-        "joint": "ଯୁଗ୍ମ ଧାରକ"
+        "joint": "ଯୁଗ୍ମ ଧାରକ",
+        "applNo": "ଆବେଦନ ନଂ / ଖାତା",
+        "scheme": "ଯୋଜନା",
+        "mode": "ପଦ୍ଧତି",
+        "accountLine": "ଖାତା {number} · {type}",
+        "accountPending": "— · {type}"
       },
       "actions": {
         "view": "ଦେଖନ୍ତୁ",
@@ -3060,8 +3065,8 @@
         "branch": "ଶାଖା",
         "branchAll": "ସବୁ ଶାଖା",
         "branchFixed": "ଆପଣଙ୍କ ଶାଖା",
-        "product": "ପ୍ରଡକ୍ଟ",
-        "productAll": "ସମସ୍ତ ପ୍ରଡକ୍ଟ",
+        "product": "ଉତ୍ପାଦ",
+        "productAll": "ସମସ୍ତ ଉତ୍ପାଦ",
         "scheme": "ଯୋଜନା",
         "schemeAll": "ସବୁ ଯୋଜନା",
         "schemeOption": "{code} · {name}",
@@ -3077,9 +3082,7 @@
         "toDate": "ଆବେଦନ ତାରିଖ ପର୍ଯ୍ୟନ୍ତ",
         "memberScope": "ଏହି ସଦସ୍ୟଙ୍କ ଖାତା ଦେଖାଯାଉଛି, ଯୁଗ୍ମ ଖାତା ସହିତ।",
         "groupScope": "ଏହି ଗୋଷ୍ଠୀର ଖାତା ଦେଖାଯାଉଛି।",
-        "clearScope": "ଲିଭାନ୍ତୁ",
-        "product": "ଉତ୍ପାଦ",
-        "productAll": "ସମସ୍ତ ଉତ୍ପାଦ"
+        "clearScope": "ଲିଭାନ୍ତୁ"
       },
       "form": {
         "createTitle": "ଖାତା ଖୋଲନ୍ତୁ",
@@ -3104,11 +3107,6 @@
         "formationDate": "ଗଠନ ତାରିଖ",
         "scheme": "ଯୋଜନା",
         "schemePlaceholder": "ଏକ ସଞ୍ଚୟ ଯୋଜନା ବାଛନ୍ତୁ",
-<<<<<<< Updated upstream
-        "depositType": "ଉତ୍ପାଦ ପ୍ରକାର",
-        "depositTypeHint": "ଯୋଜନା ତାଲିକା ଏହି ପ୍ରକାର ଅନୁସାରେ ଆସେ, ଏବଂ ଯୋଜନା ସମାନ ପ୍ରକାରର ହେବା ଉଚିତ।",
-        "savingsType": "ସଞ୍ଚୟ",
-=======
         "productType": "ପ୍ରଡକ୍ଟ ପ୍ରକାର",
         "productsError": "ସଞ୍ଚୟ ପ୍ରଡକ୍ଟ ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ।",
         "productsEmpty": "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ସଞ୍ଚୟ ପ୍ରଡକ୍ଟ ସେଟ୍ ଅପ୍ ହୋଇନାହିଁ।",
@@ -3123,7 +3121,9 @@
         "minBalanceShort": "ସର୍ବନିମ୍ନ {amount}",
         "customerTypeFixed": "ଏହି ପ୍ରଡକ୍ଟ {type} ଗ୍ରାହକଙ୍କ ପାଇଁ।",
         "customerAfterProduct": "ଗ୍ରାହକ ପ୍ରକାର ସ୍ଥିର କରିବାକୁ ଏକ ପ୍ରଡକ୍ଟ ବାଛନ୍ତୁ।",
->>>>>>> Stashed changes
+        "depositType": "ଉତ୍ପାଦ ପ୍ରକାର",
+        "depositTypeHint": "ଯୋଜନା ତାଲିକା ଏହି ପ୍ରକାର ଅନୁସାରେ ଆସେ, ଏବଂ ଯୋଜନା ସମାନ ପ୍ରକାରର ହେବା ଉଚିତ।",
+        "savingsType": "ସଞ୍ଚୟ",
         "sb": {
           "startDate": "ଆରମ୍ଭ ତାରିଖ",
           "opening": "ପ୍ରାରମ୍ଭିକ ଜମା",
@@ -3198,7 +3198,9 @@
           "nomineeLimit": "ସକ୍ରିୟ ନାମିନି ସର୍ବାଧିକ ୪ ଜଣ।",
           "signatoryMember": "ଏହି ଖାତାରେ ଦସ୍ତଖତ କରିପାରିବା ସକ୍ରିୟ ସଦସ୍ୟ ବାଛନ୍ତୁ।",
           "signatoryFile": "ଫାଇଲ ନାମ ୭୫ ଅକ୍ଷର ମଧ୍ୟରେ ରହିବା ଉଚିତ।",
-          "signatoryLimit": "ଦସ୍ତଖତକାରୀ ସର୍ବାଧିକ ୧୦ ଜଣ।"
+          "signatoryLimit": "ଦସ୍ତଖତକାରୀ ସର୍ବାଧିକ ୧୦ ଜଣ।",
+          "depositType": "ଜମା ପ୍ରକାର ସଞ୍ଚୟ ହେବା ଉଚିତ। ଏକ ସଞ୍ଚୟ ଯୋଜନା ବାଛନ୍ତୁ।",
+          "depositTypeRequired": "ଜମା ପ୍ରକାର ବାଛନ୍ତୁ।"
         },
         "stepNominees": "ନାମିନି",
         "stepSignatories": "ଦସ୍ତଖତକାରୀ",
@@ -3271,7 +3273,9 @@
         "expand": "ପ୍ରସାରିତ କରନ୍ତୁ",
         "collapseSection": "{section} ସଙ୍କୁଚିତ କରନ୍ତୁ",
         "expandSection": "{section} ପ୍ରସାରିତ କରନ୍ତୁ",
-        "branchPlaceholder": "ଶାଖା ଚୟନ କରନ୍ତୁ"
+        "branchPlaceholder": "ଶାଖା ଚୟନ କରନ୍ତୁ",
+        "stepScheme": "ଯୋଜନା",
+        "editHolderName": "ଧାରକଙ୍କ ନାମ ସମ୍ପାଦନା"
       },
       "view": {
         "title": "ଖାତା",
@@ -3279,9 +3283,9 @@
         "retry": "ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ",
         "backToList": "ଆକାଉଣ୍ଟକୁ ଫେରନ୍ତୁ",
         "summary": "ଆକାଉଣ୍ଟ ସାରାଂଶ",
-        "accountNo": "ଆକାଉଣ୍ଟ ନଂ",
+        "accountNo": "ଖାତା ନଂ: {accountNo}",
         "status": "ସ୍ଥିତି",
-        "balance": "ବାଲାନ୍ସ",
+        "balance": "ବର୍ତ୍ତମାନ ବାଲାନ୍ସ",
         "available": "ଉପଲବ୍ଧ ବାଲାନ୍ସ",
         "openingPending": "ପ୍ରାରମ୍ଭିକ ଜମା ଅନୁମୋଦନ ପାଇଁ ଅପେକ୍ଷାରତ। ଅନୁମୋଦନ ପରେ ବାଲାନ୍ସ ଅପଡେଟ୍ ହେବ।",
         "voucherNote": "ଭାଉଚର: {note}",
@@ -3292,7 +3296,7 @@
         "transactions": "କାରବାର ({count})",
         "nomineeWarning": "ନାମିନି ପଞ୍ଜିକୃତ ବୋଲି ଚିହ୍ନିତ, କିନ୍ତୁ କୌଣସି ନାମିନି ଯୋଡ଼ାଯାଇନାହିଁ।",
         "manage": "ପରିଚାଳନା କରନ୍ତୁ",
-        "product": "ପ୍ରଡକ୍ଟ",
+        "product": "ଉତ୍ପାଦ",
         "scheme": "ଯୋଜନା",
         "roi": "ସୁଧ ହାର",
         "category": "ଶ୍ରେଣୀ",
@@ -3311,26 +3315,56 @@
         "cbsAcNo": "CBS ଆକାଉଣ୍ଟ ନଂ",
         "createdBy": "ତିଆରି କରିଛନ୍ତି",
         "closeReason": "ବନ୍ଦ",
-<<<<<<< Updated upstream
-        "nomineesEmpty": "ଏହି ଖାତାରେ {count}ଟି ନାମିନି ରେକର୍ଡ ଯୋଡ଼ା।",
-        "signatoriesEmpty": "ଏହି ଖାତାରେ {count}ଟି ହସ୍ତାକ୍ଷରକାରୀ ରେକର୍ଡ ଯୋଡ଼ା।",
-        "transactionsEmpty": "କାରବାର ଏଠାରେ ଦେଖାଯିବ।",
-        "members": "ସଦସ୍ୟ ({count})",
+        "membersTitle": "ଗୋଷ୍ଠୀ ସଦସ୍ୟ",
+        "membersHint": "ପ୍ରତ୍ୟେକ ସକ୍ରିୟ ଗୋଷ୍ଠୀ ସଦସ୍ୟଙ୍କର ଏହି ଗୋଷ୍ଠୀ ଆକାଉଣ୍ଟ ଅଧୀନରେ ଏକ ସଞ୍ଚୟ ଆକାଉଣ୍ଟ ଥାଏ।",
         "syncMembers": "ସଦସ୍ୟ ସିଙ୍କ କରନ୍ତୁ",
+        "memberLeft": "ଗୋଷ୍ଠୀ ଛାଡିଛନ୍ତି",
+        "membersEmptyTitle": "କୌଣସି ସଦସ୍ୟ ଯୋଡାଯାଇନାହିଁ",
+        "membersEmpty": "ଏହି ଗ୍ରୁପ୍ ଖାତାରେ କୌଣସି ସଦସ୍ୟ ଧାଡ଼ି ନାହିଁ।",
+        "memberColumns": {
+          "member": "ସଦସ୍ୟ",
+          "role": "ଭୂମିକା",
+          "openDate": "ଖୋଲିବା ତାରିଖ",
+          "balance": "ବାଲାନ୍ସ",
+          "status": "ସ୍ଥିତି"
+        },
+        "nomineesTitle": "ନମିନି",
+        "nomineesEmptyTitle": "କୌଣସି ନମିନି ନାହିଁ",
+        "nomineesEmpty": "ଏହି ଖାତାରେ {count}ଟି ନାମିନି ରେକର୍ଡ ଯୋଡ଼ା।",
+        "nomineeColumns": {
+          "name": "ନାମ",
+          "relation": "ସମ୍ପର୍କ",
+          "age": "ବୟସ",
+          "share": "ଅଂଶ"
+        },
+        "signatoriesTitle": "ସ୍ୱାକ୍ଷରକାରୀ",
+        "signatoriesEmptyTitle": "କୌଣସି ସ୍ୱାକ୍ଷରକାରୀ ନାହିଁ",
+        "signatoriesEmpty": "ଏହି ଖାତାରେ {count}ଟି ହସ୍ତାକ୍ଷରକାରୀ ରେକର୍ଡ ଯୋଡ଼ା।",
+        "signatoryColumns": {
+          "name": "ନାମ",
+          "role": "ଭୂମିକା"
+        },
+        "transactionsTitle": "ସାମ୍ପ୍ରତିକ କାରବାର",
+        "transactionsShowing": "{total} ମଧ୍ୟରୁ {shown} ଦେଖାଯାଉଛି",
+        "viewAll": "ସବୁ ଦେଖନ୍ତୁ",
+        "transactionsEmptyTitle": "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି କାରବାର ନାହିଁ",
+        "transactionsEmpty": "କାରବାର ଏଠାରେ ଦେଖାଯିବ।",
+        "transactionColumns": {
+          "transNo": "କାରବାର",
+          "type": "ପ୍ରକାର",
+          "amount": "ପରିମାଣ",
+          "balanceAfter": "ପରବର୍ତ୍ତୀ ବାଲାନ୍ସ",
+          "voucher": "ଭାଉଚର",
+          "status": "ସ୍ଥିତି"
+        },
         "syncing": "ସିଙ୍କ ହେଉଛି…",
         "viewAllTransactions": "ସମସ୍ତ କାରବାର ଦେଖନ୍ତୁ",
-        "product": "ଉତ୍ପାଦ",
-        "balance": "ବର୍ତ୍ତମାନ ବାଲାନ୍ସ",
-        "available": "ଉପଲବ୍ଧ ବାଲାନ୍ସ",
         "fullAccount": "ଖାତା ସଂଖ୍ୟା",
-        "accountNo": "ଖାତା ନଂ: {accountNo}",
-        "mobile": "ମୋବାଇଲ୍",
         "share": "ଅଂଶ",
         "role": "ଭୂମିକା",
         "narration": "ବିବରଣୀ",
         "voucher": "ଭାଉଚର୍",
         "loading": "ଖାତା ବିବରଣୀ ଲୋଡ୍ ହେଉଛି…",
-        "membersEmpty": "ଏହି ଗ୍ରୁପ୍ ଖାତାରେ କୌଣସି ସଦସ୍ୟ ଧାଡ଼ି ନାହିଁ।",
         "yes": "ହଁ",
         "no": "ନା",
         "currentMember": "ବର୍ତ୍ତମାନ",
@@ -3346,50 +3380,12 @@
           "signatories": "ହସ୍ତାକ୍ଷରକାରୀ",
           "transactions": "ସାମ୍ପ୍ରତିକ କାରବାର",
           "closing": "ବନ୍ଦ"
-        }
-=======
-        "membersTitle": "ଗୋଷ୍ଠୀ ସଦସ୍ୟ",
-        "membersHint": "ପ୍ରତ୍ୟେକ ସକ୍ରିୟ ଗୋଷ୍ଠୀ ସଦସ୍ୟଙ୍କର ଏହି ଗୋଷ୍ଠୀ ଆକାଉଣ୍ଟ ଅଧୀନରେ ଏକ ସଞ୍ଚୟ ଆକାଉଣ୍ଟ ଥାଏ।",
-        "syncMembers": "ସଦସ୍ୟ ସିଙ୍କ୍ କରନ୍ତୁ",
-        "memberLeft": "ଗୋଷ୍ଠୀ ଛାଡିଛନ୍ତି",
-        "membersEmptyTitle": "କୌଣସି ସଦସ୍ୟ ଯୋଡାଯାଇନାହିଁ",
-        "membersEmpty": "ଗୋଷ୍ଠୀର ସକ୍ରିୟ ସଦସ୍ୟଙ୍କୁ ଯୋଡିବାକୁ ସଦସ୍ୟ ସିଙ୍କ୍ କରନ୍ତୁ।",
-        "memberColumns": {
-          "member": "ସଦସ୍ୟ",
-          "role": "ଭୂମିକା",
-          "openDate": "ଖୋଲିବା ତାରିଖ",
-          "balance": "ବାଲାନ୍ସ",
-          "status": "ସ୍ଥିତି"
         },
-        "nomineesTitle": "ନମିନି",
-        "nomineesEmptyTitle": "କୌଣସି ନମିନି ନାହିଁ",
-        "nomineesEmpty": "ଏହି ଆକାଉଣ୍ଟ ପାଇଁ କୌଣସି ନମିନି ପଞ୍ଜୀକୃତ ନାହିଁ।",
-        "nomineeColumns": {
-          "name": "ନାମ",
-          "relation": "ସମ୍ପର୍କ",
-          "age": "ବୟସ",
-          "share": "ଅଂଶ"
-        },
-        "signatoriesTitle": "ସ୍ୱାକ୍ଷରକାରୀ",
-        "signatoriesEmptyTitle": "କୌଣସି ସ୍ୱାକ୍ଷରକାରୀ ନାହିଁ",
-        "signatoriesEmpty": "ଏହି ଆକାଉଣ୍ଟ ପାଇଁ କୌଣସି ସ୍ୱାକ୍ଷରକାରୀ ପଞ୍ଜୀକୃତ ନାହିଁ।",
-        "signatoryColumns": {
-          "name": "ନାମ",
-          "role": "ଭୂମିକା"
-        },
-        "transactionsTitle": "ସାମ୍ପ୍ରତିକ କାରବାର",
-        "transactionsShowing": "{total} ମଧ୍ୟରୁ {shown} ଦେଖାଯାଉଛି",
-        "viewAll": "ସବୁ ଦେଖନ୍ତୁ",
-        "transactionsEmptyTitle": "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି କାରବାର ନାହିଁ",
-        "transactionsEmpty": "ଜମା ଓ ଉଠାଣ ଏଠାରେ ଦେଖାଯିବ।",
-        "transactionColumns": {
-          "transNo": "କାରବାର",
-          "type": "ପ୍ରକାର",
-          "amount": "ପରିମାଣ",
-          "balanceAfter": "ପରବର୍ତ୍ତୀ ବାଲାନ୍ସ",
-          "voucher": "ଭାଉଚର",
-          "status": "ସ୍ଥିତି"
-        }
+        "subtitle": "{applNo} · ଖାତା {accountNo}",
+        "noAccountYet": "ଖାତା ନମ୍ବର ସଞ୍ଚୟ ବିବରଣୀ ସହିତ ତିଆରି ହୁଏ।",
+        "type": "ପ୍ରକାର",
+        "nomineesNone": "ଏହି ଆକାଉଣ୍ଟ ପାଇଁ କୌଣସି ନମିନି ପଞ୍ଜୀକୃତ ନାହିଁ।",
+        "signatoriesNone": "ଏହି ଆକାଉଣ୍ଟ ପାଇଁ କୌଣସି ସ୍ୱାକ୍ଷରକାରୀ ପଞ୍ଜୀକୃତ ନାହିଁ।"
       },
       "toggleDialog": {
         "activateTitle": "ଆକାଉଣ୍ଟ ସକ୍ରିୟ କରିବେ?",
@@ -3398,7 +3394,6 @@
         "deactivateHelp": "ପୁଣି ସକ୍ରିୟ ନ ହେବା ପର୍ଯ୍ୟନ୍ତ ଆକାଉଣ୍ଟଟି ନିଷ୍କ୍ରିୟ ରହିବ।",
         "itemType": "ଆକାଉଣ୍ଟ",
         "itemName": "{holder} · {accountNo}"
->>>>>>> Stashed changes
       },
       "statusDialog": {
         "title": "ସ୍ଥିତି ବଦଳାନ୍ତୁ",

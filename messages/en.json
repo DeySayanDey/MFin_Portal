@@ -3032,26 +3032,23 @@
       "emptyMessage": "Open a savings account to see it here.",
       "loadErrorTitle": "Could not load savings accounts",
       "columns": {
-<<<<<<< Updated upstream
-        "applNo": "Account No.",
-        "holder": "Holder",
-        "scheme": "Scheme",
-        "mode": "Mode",
-        "balance": "Current balance",
-=======
         "accountNo": "Account no",
         "notOpened": "Not opened yet",
         "holder": "Holder",
         "productScheme": "Product · Scheme",
         "productLine": "{product} · {scheme}",
-        "balance": "Balance",
->>>>>>> Stashed changes
+        "balance": "Current balance",
+        "applNo": "Account No.",
+        "scheme": "Scheme",
+        "mode": "Mode",
         "status": "Status",
         "actions": "Actions",
         "holderMeta": "{ref} · {customerType}",
         "groupMeta": "{ref} · {customerType} · {count, plural, one {# member} other {# members}}",
         "schemeMeta": "{code} · {roi}",
-        "joint": "Joint holder"
+        "joint": "Joint holder",
+        "accountLine": "A/c {number} · {type}",
+        "accountPending": "— · {type}"
       },
       "actions": {
         "view": "View",
@@ -3085,9 +3082,7 @@
         "toDate": "Appl date to",
         "memberScope": "Showing accounts for this member, including joint accounts.",
         "groupScope": "Showing accounts for this group.",
-        "clearScope": "Clear",
-        "product": "Product",
-        "productAll": "All products"
+        "clearScope": "Clear"
       },
       "form": {
         "createTitle": "Open account",
@@ -3112,11 +3107,6 @@
         "formationDate": "Formation Date",
         "scheme": "Scheme",
         "schemePlaceholder": "Select a savings scheme",
-<<<<<<< Updated upstream
-        "depositType": "Product Type",
-        "depositTypeHint": "The scheme list follows this type, and the scheme must use the same type.",
-        "savingsType": "Savings",
-=======
         "productType": "Product Type",
         "productsError": "Savings products could not be loaded.",
         "productsEmpty": "No savings products are set up yet.",
@@ -3131,7 +3121,9 @@
         "minBalanceShort": "Min {amount}",
         "customerTypeFixed": "This product is for {type} customers.",
         "customerAfterProduct": "Choose a product to set the customer type.",
->>>>>>> Stashed changes
+        "depositType": "Product Type",
+        "depositTypeHint": "The scheme list follows this type, and the scheme must use the same type.",
+        "savingsType": "Savings",
         "sb": {
           "startDate": "Start Date",
           "opening": "Opening Deposit",
@@ -3207,7 +3199,9 @@
           "nomineeLimit": "At most 4 active nominees.",
           "signatoryMember": "Choose an active member who can sign this account.",
           "signatoryFile": "File name must be 75 characters or fewer.",
-          "signatoryLimit": "At most 10 signatories."
+          "signatoryLimit": "At most 10 signatories.",
+          "depositType": "Deposit type must be Savings. Choose a savings scheme.",
+          "depositTypeRequired": "Select a deposit type."
         },
         "stepNominees": "Nominees",
         "stepSignatories": "Signatories",
@@ -3279,7 +3273,9 @@
         "collapse": "Collapse",
         "expand": "Expand",
         "collapseSection": "Collapse {section}",
-        "expandSection": "Expand {section}"
+        "expandSection": "Expand {section}",
+        "stepScheme": "Scheme",
+        "editHolderName": "Edit holder name"
       },
       "view": {
         "title": "Account",
@@ -3287,9 +3283,9 @@
         "retry": "Try again",
         "backToList": "Back to accounts",
         "summary": "Account summary",
-        "accountNo": "Account no",
+        "accountNo": "Account No: {accountNo}",
         "status": "Status",
-        "balance": "Balance",
+        "balance": "Current balance",
         "available": "Available balance",
         "openingPending": "The opening deposit is pending approval. The balance updates once it is approved.",
         "voucherNote": "Voucher: {note}",
@@ -3319,26 +3315,56 @@
         "cbsAcNo": "CBS account no",
         "createdBy": "Created by",
         "closeReason": "Closing",
-<<<<<<< Updated upstream
-        "nomineesEmpty": "{count} nominee records are linked to this account.",
-        "signatoriesEmpty": "{count} signatory records are linked to this account.",
-        "transactionsEmpty": "Transactions will appear here.",
-        "members": "Members ({count})",
+        "membersTitle": "Group members",
+        "membersHint": "Each active group member has a savings account under this group account.",
         "syncMembers": "Sync members",
+        "memberLeft": "Left the group",
+        "membersEmptyTitle": "No members linked",
+        "membersEmpty": "No member rows on this group account.",
+        "memberColumns": {
+          "member": "Member",
+          "role": "Role",
+          "openDate": "Opened",
+          "balance": "Balance",
+          "status": "Status"
+        },
+        "nomineesTitle": "Nominees",
+        "nomineesEmptyTitle": "No nominees",
+        "nomineesEmpty": "{count} nominee records are linked to this account.",
+        "nomineeColumns": {
+          "name": "Name",
+          "relation": "Relation",
+          "age": "Age",
+          "share": "Share"
+        },
+        "signatoriesTitle": "Signatories",
+        "signatoriesEmptyTitle": "No signatories",
+        "signatoriesEmpty": "{count} signatory records are linked to this account.",
+        "signatoryColumns": {
+          "name": "Name",
+          "role": "Role"
+        },
+        "transactionsTitle": "Recent transactions",
+        "transactionsShowing": "Showing {shown} of {total}",
+        "viewAll": "View all",
+        "transactionsEmptyTitle": "No transactions yet",
+        "transactionsEmpty": "Transactions will appear here.",
+        "transactionColumns": {
+          "transNo": "Transaction",
+          "type": "Type",
+          "amount": "Amount",
+          "balanceAfter": "Balance after",
+          "voucher": "Voucher",
+          "status": "Status"
+        },
         "syncing": "Syncing…",
         "viewAllTransactions": "View all transactions",
-        "product": "Product",
-        "balance": "Current balance",
-        "available": "Available balance",
         "fullAccount": "Account number",
-        "accountNo": "Account No: {accountNo}",
-        "mobile": "Mobile",
         "share": "Share",
         "role": "Role",
         "narration": "Narration",
         "voucher": "Voucher",
         "loading": "Loading account details…",
-        "membersEmpty": "No member rows on this group account.",
         "yes": "Yes",
         "no": "No",
         "currentMember": "Current",
@@ -3354,50 +3380,12 @@
           "signatories": "Signatories",
           "transactions": "Recent transactions",
           "closing": "Closing"
-        }
-=======
-        "membersTitle": "Group members",
-        "membersHint": "Each active group member has a savings account under this group account.",
-        "syncMembers": "Sync members",
-        "memberLeft": "Left the group",
-        "membersEmptyTitle": "No members linked",
-        "membersEmpty": "Sync members to link the group's active members.",
-        "memberColumns": {
-          "member": "Member",
-          "role": "Role",
-          "openDate": "Opened",
-          "balance": "Balance",
-          "status": "Status"
         },
-        "nomineesTitle": "Nominees",
-        "nomineesEmptyTitle": "No nominees",
-        "nomineesEmpty": "No nominee is registered for this account.",
-        "nomineeColumns": {
-          "name": "Name",
-          "relation": "Relation",
-          "age": "Age",
-          "share": "Share"
-        },
-        "signatoriesTitle": "Signatories",
-        "signatoriesEmptyTitle": "No signatories",
-        "signatoriesEmpty": "No signatory is registered for this account.",
-        "signatoryColumns": {
-          "name": "Name",
-          "role": "Role"
-        },
-        "transactionsTitle": "Recent transactions",
-        "transactionsShowing": "Showing {shown} of {total}",
-        "viewAll": "View all",
-        "transactionsEmptyTitle": "No transactions yet",
-        "transactionsEmpty": "Deposits and withdrawals will appear here.",
-        "transactionColumns": {
-          "transNo": "Transaction",
-          "type": "Type",
-          "amount": "Amount",
-          "balanceAfter": "Balance after",
-          "voucher": "Voucher",
-          "status": "Status"
-        }
+        "subtitle": "{applNo} · A/c {accountNo}",
+        "noAccountYet": "Account number is created with the savings detail.",
+        "type": "Type",
+        "nomineesNone": "No nominee is registered for this account.",
+        "signatoriesNone": "No signatory is registered for this account."
       },
       "toggleDialog": {
         "activateTitle": "Activate account?",
@@ -3406,7 +3394,6 @@
         "deactivateHelp": "The account becomes inoperative until it is activated again.",
         "itemType": "Account",
         "itemName": "{holder} · {accountNo}"
->>>>>>> Stashed changes
       },
       "statusDialog": {
         "title": "Change status",

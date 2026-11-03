@@ -3043,7 +3043,12 @@
         "holderMeta": "{ref} · {customerType}",
         "groupMeta": "{ref} · {customerType} · {count, plural, one {# সদস্য} other {# সদস্য}}",
         "schemeMeta": "{code} · {roi}",
-        "joint": "যৌথ ধারক"
+        "joint": "যৌথ ধারক",
+        "applNo": "আবেদন নং / হিসাব",
+        "scheme": "স্কিম",
+        "mode": "পদ্ধতি",
+        "accountLine": "হিসাব {number} · {type}",
+        "accountPending": "— · {type}"
       },
       "actions": {
         "view": "দেখুন",
@@ -3060,8 +3065,8 @@
         "branch": "শাখা",
         "branchAll": "সব শাখা",
         "branchFixed": "আপনার শাখা",
-        "product": "প্রোডাক্ট",
-        "productAll": "সব প্রোডাক্ট",
+        "product": "পণ্য",
+        "productAll": "সমস্ত পণ্য",
         "scheme": "স্কিম",
         "schemeAll": "সব স্কিম",
         "schemeOption": "{code} · {name}",
@@ -3077,9 +3082,7 @@
         "toDate": "আবেদনের তারিখ পর্যন্ত",
         "memberScope": "এই সদস্যের হিসাব দেখানো হচ্ছে, যৌথ হিসাবসহ।",
         "groupScope": "এই দলের হিসাব দেখানো হচ্ছে।",
-        "clearScope": "মুছুন",
-        "product": "পণ্য",
-        "productAll": "সমস্ত পণ্য"
+        "clearScope": "মুছুন"
       },
       "form": {
         "createTitle": "হিসাব খুলুন",
@@ -3104,11 +3107,6 @@
         "formationDate": "গঠনের তারিখ",
         "scheme": "স্কিম",
         "schemePlaceholder": "একটি সঞ্চয় স্কিম বেছে নিন",
-<<<<<<< Updated upstream
-        "depositType": "পণ্যের ধরন",
-        "depositTypeHint": "স্কিম তালিকা এই ধরন অনুসারে আসে, এবং স্কিম একই ধরনের হতে হবে।",
-        "savingsType": "সঞ্চয়",
-=======
         "productType": "প্রোডাক্টের ধরন",
         "productsError": "সঞ্চয় প্রোডাক্ট লোড করা যায়নি।",
         "productsEmpty": "এখনও কোনো সঞ্চয় প্রোডাক্ট সেট আপ করা হয়নি।",
@@ -3123,7 +3121,9 @@
         "minBalanceShort": "ন্যূনতম {amount}",
         "customerTypeFixed": "এই প্রোডাক্টটি {type} গ্রাহকদের জন্য।",
         "customerAfterProduct": "গ্রাহকের ধরন ঠিক করতে একটি প্রোডাক্ট বেছে নিন।",
->>>>>>> Stashed changes
+        "depositType": "পণ্যের ধরন",
+        "depositTypeHint": "স্কিম তালিকা এই ধরন অনুসারে আসে, এবং স্কিম একই ধরনের হতে হবে।",
+        "savingsType": "সঞ্চয়",
         "sb": {
           "startDate": "শুরুর তারিখ",
           "opening": "প্রারম্ভিক জমা",
@@ -3198,7 +3198,9 @@
           "nomineeLimit": "সক্রিয় নমিনি সর্বোচ্চ ৪ জন।",
           "signatoryMember": "এই হিসাবে স্বাক্ষর করতে পারেন এমন একজন সক্রিয় সদস্য বেছে নিন।",
           "signatoryFile": "ফাইলের নাম ৭৫ অক্ষরের মধ্যে হতে হবে।",
-          "signatoryLimit": "স্বাক্ষরকারী সর্বোচ্চ ১০ জন।"
+          "signatoryLimit": "স্বাক্ষরকারী সর্বোচ্চ ১০ জন।",
+          "depositType": "জমার ধরন সঞ্চয় হতে হবে। একটি সঞ্চয় স্কিম বেছে নিন।",
+          "depositTypeRequired": "জমার ধরন বেছে নিন।"
         },
         "stepNominees": "নমিনি",
         "stepSignatories": "স্বাক্ষরকারী",
@@ -3271,7 +3273,9 @@
         "expand": "প্রসারিত করুন",
         "collapseSection": "{section} সংকুচিত করুন",
         "expandSection": "{section} প্রসারিত করুন",
-        "branchPlaceholder": "শাখা নির্বাচন করুন"
+        "branchPlaceholder": "শাখা নির্বাচন করুন",
+        "stepScheme": "স্কিম",
+        "editHolderName": "ধারকের নাম সম্পাদনা"
       },
       "view": {
         "title": "হিসাব",
@@ -3279,10 +3283,10 @@
         "retry": "আবার চেষ্টা করুন",
         "backToList": "অ্যাকাউন্টে ফিরে যান",
         "summary": "অ্যাকাউন্টের সারসংক্ষেপ",
-        "accountNo": "অ্যাকাউন্ট নং",
+        "accountNo": "হিসাব নং: {accountNo}",
         "status": "স্ট্যাটাস",
-        "balance": "ব্যালান্স",
-        "available": "উপলব্ধ ব্যালান্স",
+        "balance": "বর্তমান ব্যালেন্স",
+        "available": "উপলব্ধ ব্যালেন্স",
         "openingPending": "প্রারম্ভিক জমা অনুমোদনের অপেক্ষায়। অনুমোদনের পর ব্যালান্স আপডেট হবে।",
         "voucherNote": "ভাউচার: {note}",
         "overview": "সারাংশ",
@@ -3292,7 +3296,7 @@
         "transactions": "লেনদেন ({count})",
         "nomineeWarning": "নমিনি নথিভুক্ত বলা হয়েছে, কিন্তু কোনো নমিনি যোগ হয়নি।",
         "manage": "পরিচালনা করুন",
-        "product": "প্রোডাক্ট",
+        "product": "পণ্য",
         "scheme": "স্কিম",
         "roi": "সুদের হার",
         "category": "শ্রেণি",
@@ -3311,26 +3315,56 @@
         "cbsAcNo": "CBS অ্যাকাউন্ট নং",
         "createdBy": "তৈরি করেছেন",
         "closeReason": "বন্ধ",
-<<<<<<< Updated upstream
-        "nomineesEmpty": "এই হিসাবে {count}টি নমিনি রেকর্ড যুক্ত।",
-        "signatoriesEmpty": "এই হিসাবে {count}টি স্বাক্ষরকারীর রেকর্ড যুক্ত।",
-        "transactionsEmpty": "লেনদেন এখানে দেখা যাবে।",
-        "members": "সদস্য ({count})",
+        "membersTitle": "গ্রুপের সদস্য",
+        "membersHint": "প্রতিটি সক্রিয় গ্রুপ সদস্যের এই গ্রুপ অ্যাকাউন্টের অধীনে একটি সঞ্চয় অ্যাকাউন্ট থাকে।",
         "syncMembers": "সদস্য সিঙ্ক করুন",
+        "memberLeft": "গ্রুপ ছেড়েছেন",
+        "membersEmptyTitle": "কোনো সদস্য যুক্ত নেই",
+        "membersEmpty": "এই গ্রুপ হিসাবে কোনো সদস্য সারি নেই।",
+        "memberColumns": {
+          "member": "সদস্য",
+          "role": "ভূমিকা",
+          "openDate": "খোলার তারিখ",
+          "balance": "ব্যালান্স",
+          "status": "স্ট্যাটাস"
+        },
+        "nomineesTitle": "নমিনি",
+        "nomineesEmptyTitle": "কোনো নমিনি নেই",
+        "nomineesEmpty": "এই হিসাবে {count}টি নমিনি রেকর্ড যুক্ত।",
+        "nomineeColumns": {
+          "name": "নাম",
+          "relation": "সম্পর্ক",
+          "age": "বয়স",
+          "share": "অংশ"
+        },
+        "signatoriesTitle": "স্বাক্ষরকারী",
+        "signatoriesEmptyTitle": "কোনো স্বাক্ষরকারী নেই",
+        "signatoriesEmpty": "এই হিসাবে {count}টি স্বাক্ষরকারীর রেকর্ড যুক্ত।",
+        "signatoryColumns": {
+          "name": "নাম",
+          "role": "ভূমিকা"
+        },
+        "transactionsTitle": "সাম্প্রতিক লেনদেন",
+        "transactionsShowing": "{total}টির মধ্যে {shown}টি দেখানো হচ্ছে",
+        "viewAll": "সব দেখুন",
+        "transactionsEmptyTitle": "এখনও কোনো লেনদেন নেই",
+        "transactionsEmpty": "লেনদেন এখানে দেখা যাবে।",
+        "transactionColumns": {
+          "transNo": "লেনদেন",
+          "type": "ধরন",
+          "amount": "পরিমাণ",
+          "balanceAfter": "পরবর্তী ব্যালান্স",
+          "voucher": "ভাউচার",
+          "status": "স্ট্যাটাস"
+        },
         "syncing": "সিঙ্ক হচ্ছে…",
         "viewAllTransactions": "সমস্ত লেনদেন দেখুন",
-        "product": "পণ্য",
-        "balance": "বর্তমান ব্যালেন্স",
-        "available": "উপলব্ধ ব্যালেন্স",
         "fullAccount": "হিসাব নম্বর",
-        "accountNo": "হিসাব নং: {accountNo}",
-        "mobile": "মোবাইল",
         "share": "অংশ",
         "role": "ভূমিকা",
         "narration": "বিবরণ",
         "voucher": "ভাউচার",
         "loading": "হিসাবের বিবরণ লোড হচ্ছে…",
-        "membersEmpty": "এই গ্রুপ হিসাবে কোনো সদস্য সারি নেই।",
         "yes": "হ্যাঁ",
         "no": "না",
         "currentMember": "বর্তমান",
@@ -3346,50 +3380,12 @@
           "signatories": "স্বাক্ষরকারী",
           "transactions": "সাম্প্রতিক লেনদেন",
           "closing": "বন্ধ"
-        }
-=======
-        "membersTitle": "গ্রুপের সদস্য",
-        "membersHint": "প্রতিটি সক্রিয় গ্রুপ সদস্যের এই গ্রুপ অ্যাকাউন্টের অধীনে একটি সঞ্চয় অ্যাকাউন্ট থাকে।",
-        "syncMembers": "সদস্য সিঙ্ক করুন",
-        "memberLeft": "গ্রুপ ছেড়েছেন",
-        "membersEmptyTitle": "কোনো সদস্য যুক্ত নেই",
-        "membersEmpty": "গ্রুপের সক্রিয় সদস্যদের যুক্ত করতে সদস্য সিঙ্ক করুন।",
-        "memberColumns": {
-          "member": "সদস্য",
-          "role": "ভূমিকা",
-          "openDate": "খোলার তারিখ",
-          "balance": "ব্যালান্স",
-          "status": "স্ট্যাটাস"
         },
-        "nomineesTitle": "নমিনি",
-        "nomineesEmptyTitle": "কোনো নমিনি নেই",
-        "nomineesEmpty": "এই অ্যাকাউন্টে কোনো নমিনি নিবন্ধিত নেই।",
-        "nomineeColumns": {
-          "name": "নাম",
-          "relation": "সম্পর্ক",
-          "age": "বয়স",
-          "share": "অংশ"
-        },
-        "signatoriesTitle": "স্বাক্ষরকারী",
-        "signatoriesEmptyTitle": "কোনো স্বাক্ষরকারী নেই",
-        "signatoriesEmpty": "এই অ্যাকাউন্টে কোনো স্বাক্ষরকারী নিবন্ধিত নেই।",
-        "signatoryColumns": {
-          "name": "নাম",
-          "role": "ভূমিকা"
-        },
-        "transactionsTitle": "সাম্প্রতিক লেনদেন",
-        "transactionsShowing": "{total}টির মধ্যে {shown}টি দেখানো হচ্ছে",
-        "viewAll": "সব দেখুন",
-        "transactionsEmptyTitle": "এখনও কোনো লেনদেন নেই",
-        "transactionsEmpty": "জমা ও উত্তোলন এখানে দেখা যাবে।",
-        "transactionColumns": {
-          "transNo": "লেনদেন",
-          "type": "ধরন",
-          "amount": "পরিমাণ",
-          "balanceAfter": "পরবর্তী ব্যালান্স",
-          "voucher": "ভাউচার",
-          "status": "স্ট্যাটাস"
-        }
+        "subtitle": "{applNo} · হিসাব {accountNo}",
+        "noAccountYet": "হিসাব নম্বর সঞ্চয় বিবরণের সঙ্গে তৈরি হয়।",
+        "type": "ধরন",
+        "nomineesNone": "এই অ্যাকাউন্টে কোনো নমিনি নিবন্ধিত নেই।",
+        "signatoriesNone": "এই অ্যাকাউন্টে কোনো স্বাক্ষরকারী নিবন্ধিত নেই।"
       },
       "toggleDialog": {
         "activateTitle": "অ্যাকাউন্ট সক্রিয় করবেন?",
@@ -3398,7 +3394,6 @@
         "deactivateHelp": "আবার সক্রিয় না করা পর্যন্ত অ্যাকাউন্টটি নিষ্ক্রিয় থাকবে।",
         "itemType": "অ্যাকাউন্ট",
         "itemName": "{holder} · {accountNo}"
->>>>>>> Stashed changes
       },
       "statusDialog": {
         "title": "অবস্থা বদলান",

@@ -50,12 +50,12 @@ export default async function Page({ searchParams }: PageProps) {
               message:
                 createdToneRaw === "error"
                   ? created
-                  : t("toast.created", { applNo: created }),
+                  : t("toast.created", { accountNo: created }),
               tone: createdToneRaw === "error" ? "error" : "success",
             }
           : updated
             ? {
-                message: t("toast.updated", { applNo: updated }),
+                message: t("toast.updated", { accountNo: updated }),
                 tone: "success",
               }
             : null

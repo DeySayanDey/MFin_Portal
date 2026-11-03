@@ -22,16 +22,10 @@ import {
 } from "./DepositAccountNomineeStep";
 import { DepositAccountSignatoryStep } from "./DepositAccountSignatoryStep";
 import { DepositAccountSummaryStep } from "./DepositAccountSummaryStep";
-<<<<<<< Updated upstream
-import { fetchDepositSchemeSetups } from "@/features/master/deposit-schemes";
 import { fetchMemberNominees, isMemberClientError } from "@/features/onboarding/member-registration/services/member-client";
 import { fetchStaffList } from "@/features/master/staff/services/staff-client";
 import { fetchBranchList } from "@/features/master/branch/services/branch-client";
 import type { Branch } from "@/features/master/branch/types/branch.types";
-import type { DepositSchemeSetup } from "@/features/master/deposit-schemes";
-=======
-import { fetchStaffList } from "@/features/master/staff/services/staff-client";
->>>>>>> Stashed changes
 import {
   CUST_TYPE_GROUP,
   CUST_TYPE_INDIVIDUAL,
@@ -548,16 +542,12 @@ function DepositAccountFormBody({
   const [statuses, setStatuses] = useState<ApplOption[]>([]);
   const [opModes, setOpModes] = useState<ApplOption[]>([]);
   const [categories, setCategories] = useState<ApplOption[]>([]);
-<<<<<<< Updated upstream
   const [branches, setBranches] = useState<Branch[]>([]);
-=======
   const [paymentModes, setPaymentModes] = useState<ApplOption[]>([]);
->>>>>>> Stashed changes
   const [officers, setOfficers] = useState<
     { value: string; label: string }[]
   >([]);
 
-<<<<<<< Updated upstream
   const effectiveBranchId = form.branchId
     ? Number(form.branchId)
     : (form.customer?.branchId ?? (account?.branchId ?? null));
@@ -603,11 +593,8 @@ function DepositAccountFormBody({
     form.customer?.branchName,
   ]);
 
-  const locked = mode === "edit" && accountFieldsLocked(account);
-=======
   const locked = mode === "edit" && accountFieldsLocked(account, transactionCount);
   const sbLocked = mode === "edit" && savingsFieldsLocked(account, transactionCount);
->>>>>>> Stashed changes
   const joints = jointVisibility(form.custTypeCd, Number(form.opModeCd) || 0);
   const prodTypeCd = form.prodTypeCd ? Number(form.prodTypeCd) : null;
   const requiredCustType = custTypeForProduct(prodTypeCd);
@@ -704,53 +691,37 @@ function DepositAccountFormBody({
   useEffect(() => {
     let cancelled = false;
     async function load() {
-<<<<<<< Updated upstream
       const [
-        types,
         customerTypes,
         statusOptions,
         modes,
         specials,
         relationOptions,
+        payModes,
         branchResult,
       ] = await Promise.all([
-        fetchApplOptions(OPT_DEPOSIT_TYPE).catch((): ApplOption[] => []),
         fetchApplOptions(OPT_CUST_TYPE).catch((): ApplOption[] => []),
         fetchApplOptions(OPT_STATUS).catch((): ApplOption[] => []),
         fetchApplOptions(OPT_OP_MODE).catch((): ApplOption[] => []),
         fetchApplOptions(OPT_SPECIAL).catch((): ApplOption[] => []),
         fetchApplOptions(OPT_RELATION).catch((): ApplOption[] => []),
+        fetchApplOptions(OPT_PAYMENT_MODE).catch((): ApplOption[] => []),
         fetchBranchList({ page: 1, perPage: 200, isActive: 1 }).catch((): null => null),
       ]);
-=======
-      const [customerTypes, statusOptions, modes, specials, relationOptions, payModes] =
-        await Promise.all([
-          fetchApplOptions(OPT_CUST_TYPE).catch(() => []),
-          fetchApplOptions(OPT_STATUS).catch(() => []),
-          fetchApplOptions(OPT_OP_MODE).catch(() => []),
-          fetchApplOptions(OPT_SPECIAL).catch(() => []),
-          fetchApplOptions(OPT_RELATION).catch(() => []),
-          fetchApplOptions(OPT_PAYMENT_MODE).catch(() => []),
-        ]);
->>>>>>> Stashed changes
       if (cancelled) return;
       setCustTypes(customerTypes);
       setStatuses(statusOptions);
       setOpModes(modes);
       setCategories(specials);
-<<<<<<< Updated upstream
       setRelations(
         (relationOptions ?? []).filter(
           (option: ApplOption) => option.optCode !== RELATION_SELF,
         ),
       );
+      setPaymentModes(payModes);
       if (branchResult?.items) {
         setBranches(branchResult.items);
       }
-=======
-      setRelations(relationOptions.filter((option) => option.optCode !== RELATION_SELF));
-      setPaymentModes(payModes);
->>>>>>> Stashed changes
     }
     void load();
     return () => {
@@ -1106,15 +1077,11 @@ function DepositAccountFormBody({
         next[fieldKey] = signatoryError(issue.field);
       }
     }
-<<<<<<< Updated upstream
     if (
-      step === 4 &&
+      step === 6 &&
       form.custTypeCd === CUST_TYPE_INDIVIDUAL &&
       listedNominees.length === 0
     ) {
-=======
-    if (step === 6 && form.custTypeCd === CUST_TYPE_INDIVIDUAL) {
->>>>>>> Stashed changes
       const holderIds = [form.customer?.id, form.joint1?.id, form.joint2?.id].filter(
         (id): id is number => id != null,
       );
@@ -1756,13 +1723,6 @@ function DepositAccountFormBody({
               patch({ holderName, holderNameManual: holderName.trim() !== "" })
             }
           />
-          {form.custTypeCd === CUST_TYPE_INDIVIDUAL ? (
-            <CheckboxField
-              label={t("form.nominee")}
-              checked={form.nomRegd}
-              onChange={(nomRegd) => patch({ nomRegd })}
-            />
-          ) : null}
         </div>
         </FormSection>
         </div>
@@ -1884,7 +1844,6 @@ function DepositAccountFormBody({
           id="deposit-account-section-6"
           title={t("form.stepNominees")}
         >
-<<<<<<< Updated upstream
         {form.custTypeCd === CUST_TYPE_INDIVIDUAL ? (
           <CheckboxField
             label={t("form.nominee")}
@@ -1911,8 +1870,6 @@ function DepositAccountFormBody({
             error={nomineesListError}
           />
         ) : (
-=======
->>>>>>> Stashed changes
         <DepositAccountNomineeStep
           drafts={nominees}
           holderIds={[form.customer?.id, form.joint1?.id, form.joint2?.id].filter(

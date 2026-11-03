@@ -227,7 +227,7 @@ export function DepositAccountDetailPage({ accountId, notice }: DepositAccountDe
             className="grid gap-4 rounded-2xl border border-border bg-surface p-4 sm:grid-cols-2 lg:grid-cols-4"
           >
             <div className="min-w-0">
-              <p className="text-xs font-semibold text-slate-600">{t("view.accountNo")}</p>
+              <p className="text-xs font-semibold text-slate-600">{t("view.fullAccount")}</p>
               <p className="mt-0.5 break-words font-semibold text-slate-900">
                 {account.fullAccountNo || t("columns.notOpened")}
               </p>

@@ -3043,7 +3043,12 @@
         "holderMeta": "{ref} · {customerType}",
         "groupMeta": "{ref} · {customerType} · {count, plural, one {# सदस्य} other {# सदस्य}}",
         "schemeMeta": "{code} · {roi}",
-        "joint": "संयुक्त धारक"
+        "joint": "संयुक्त धारक",
+        "applNo": "आवेदन सं. / खाता",
+        "scheme": "योजना",
+        "mode": "तरीका",
+        "accountLine": "खाता {number} · {type}",
+        "accountPending": "— · {type}"
       },
       "actions": {
         "view": "देखें",
@@ -3060,8 +3065,8 @@
         "branch": "शाखा",
         "branchAll": "सभी शाखाएँ",
         "branchFixed": "आपकी शाखा",
-        "product": "प्रोडक्ट",
-        "productAll": "सभी प्रोडक्ट",
+        "product": "उत्पाद",
+        "productAll": "सभी उत्पाद",
         "scheme": "योजना",
         "schemeAll": "सभी योजनाएँ",
         "schemeOption": "{code} · {name}",
@@ -3077,9 +3082,7 @@
         "toDate": "आवेदन तिथि तक",
         "memberScope": "इस सदस्य के खाते दिखाए जा रहे हैं, संयुक्त खातों सहित।",
         "groupScope": "इस समूह के खाते दिखाए जा रहे हैं।",
-        "clearScope": "हटाएँ",
-        "product": "उत्पाद",
-        "productAll": "सभी उत्पाद"
+        "clearScope": "हटाएँ"
       },
       "form": {
         "createTitle": "खाता खोलें",
@@ -3104,11 +3107,6 @@
         "formationDate": "गठन तिथि",
         "scheme": "योजना",
         "schemePlaceholder": "एक बचत योजना चुनें",
-<<<<<<< Updated upstream
-        "depositType": "उत्पाद प्रकार",
-        "depositTypeHint": "योजना सूची इस प्रकार के अनुसार आती है, और योजना उसी प्रकार की होनी चाहिए।",
-        "savingsType": "बचत",
-=======
         "productType": "प्रोडक्ट प्रकार",
         "productsError": "बचत प्रोडक्ट लोड नहीं हो सके।",
         "productsEmpty": "अभी कोई बचत प्रोडक्ट सेट अप नहीं है।",
@@ -3123,7 +3121,9 @@
         "minBalanceShort": "न्यूनतम {amount}",
         "customerTypeFixed": "यह प्रोडक्ट {type} ग्राहकों के लिए है।",
         "customerAfterProduct": "ग्राहक प्रकार तय करने के लिए एक प्रोडक्ट चुनें।",
->>>>>>> Stashed changes
+        "depositType": "उत्पाद प्रकार",
+        "depositTypeHint": "योजना सूची इस प्रकार के अनुसार आती है, और योजना उसी प्रकार की होनी चाहिए।",
+        "savingsType": "बचत",
         "sb": {
           "startDate": "आरंभ तिथि",
           "opening": "प्रारंभिक जमा",
@@ -3198,7 +3198,9 @@
           "nomineeLimit": "अधिकतम 4 सक्रिय नामांकित।",
           "signatoryMember": "इस खाते पर हस्ताक्षर कर सकने वाला सक्रिय सदस्य चुनें।",
           "signatoryFile": "फ़ाइल नाम 75 अक्षरों तक हो।",
-          "signatoryLimit": "अधिकतम 10 हस्ताक्षरकर्ता।"
+          "signatoryLimit": "अधिकतम 10 हस्ताक्षरकर्ता।",
+          "depositType": "जमा प्रकार बचत होना चाहिए। एक बचत योजना चुनें।",
+          "depositTypeRequired": "जमा प्रकार चुनें।"
         },
         "stepNominees": "नामांकित",
         "stepSignatories": "हस्ताक्षरकर्ता",
@@ -3271,7 +3273,9 @@
         "expand": "फैलाएँ",
         "collapseSection": "{section} समेटें",
         "expandSection": "{section} फैलाएँ",
-        "branchPlaceholder": "शाखा चुनें"
+        "branchPlaceholder": "शाखा चुनें",
+        "stepScheme": "योजना",
+        "editHolderName": "धारक का नाम संपादित करें"
       },
       "view": {
         "title": "खाता",
@@ -3279,9 +3283,9 @@
         "retry": "फिर से प्रयास करें",
         "backToList": "खातों पर वापस जाएँ",
         "summary": "खाता सारांश",
-        "accountNo": "खाता सं.",
+        "accountNo": "खाता सं.: {accountNo}",
         "status": "स्थिति",
-        "balance": "शेष",
+        "balance": "वर्तमान शेष",
         "available": "उपलब्ध शेष",
         "openingPending": "प्रारंभिक जमा स्वीकृति के लिए लंबित है। स्वीकृति के बाद शेष अपडेट होगा।",
         "voucherNote": "वाउचर: {note}",
@@ -3292,7 +3296,7 @@
         "transactions": "लेनदेन ({count})",
         "nomineeWarning": "नामांकित पंजीकृत चिह्नित है, पर कोई नामांकित नहीं जोड़ा गया।",
         "manage": "प्रबंधित करें",
-        "product": "प्रोडक्ट",
+        "product": "उत्पाद",
         "scheme": "योजना",
         "roi": "ब्याज दर",
         "category": "श्रेणी",
@@ -3311,26 +3315,56 @@
         "cbsAcNo": "CBS खाता सं.",
         "createdBy": "बनाने वाले",
         "closeReason": "बंद होना",
-<<<<<<< Updated upstream
-        "nomineesEmpty": "इस खाते से {count} नामांकित रिकॉर्ड जुड़े हैं।",
-        "signatoriesEmpty": "इस खाते से {count} हस्ताक्षरकर्ता रिकॉर्ड जुड़े हैं।",
-        "transactionsEmpty": "लेनदेन यहाँ दिखेंगे।",
-        "members": "सदस्य ({count})",
+        "membersTitle": "समूह सदस्य",
+        "membersHint": "हर सक्रिय समूह सदस्य का इस समूह खाते के अंतर्गत एक बचत खाता होता है।",
         "syncMembers": "सदस्य सिंक करें",
+        "memberLeft": "समूह छोड़ दिया",
+        "membersEmptyTitle": "कोई सदस्य जुड़ा नहीं",
+        "membersEmpty": "इस समूह खाते पर कोई सदस्य पंक्ति नहीं है।",
+        "memberColumns": {
+          "member": "सदस्य",
+          "role": "भूमिका",
+          "openDate": "खोलने की तिथि",
+          "balance": "शेष",
+          "status": "स्थिति"
+        },
+        "nomineesTitle": "नामांकित",
+        "nomineesEmptyTitle": "कोई नामांकित नहीं",
+        "nomineesEmpty": "इस खाते से {count} नामांकित रिकॉर्ड जुड़े हैं।",
+        "nomineeColumns": {
+          "name": "नाम",
+          "relation": "संबंध",
+          "age": "आयु",
+          "share": "हिस्सा"
+        },
+        "signatoriesTitle": "हस्ताक्षरकर्ता",
+        "signatoriesEmptyTitle": "कोई हस्ताक्षरकर्ता नहीं",
+        "signatoriesEmpty": "इस खाते से {count} हस्ताक्षरकर्ता रिकॉर्ड जुड़े हैं।",
+        "signatoryColumns": {
+          "name": "नाम",
+          "role": "भूमिका"
+        },
+        "transactionsTitle": "हाल के लेनदेन",
+        "transactionsShowing": "{total} में से {shown} दिखाए जा रहे हैं",
+        "viewAll": "सभी देखें",
+        "transactionsEmptyTitle": "अभी कोई लेनदेन नहीं",
+        "transactionsEmpty": "लेनदेन यहाँ दिखेंगे।",
+        "transactionColumns": {
+          "transNo": "लेनदेन",
+          "type": "प्रकार",
+          "amount": "राशि",
+          "balanceAfter": "बाद का शेष",
+          "voucher": "वाउचर",
+          "status": "स्थिति"
+        },
         "syncing": "सिंक हो रहा है…",
         "viewAllTransactions": "सभी लेनदेन देखें",
-        "product": "उत्पाद",
-        "balance": "वर्तमान शेष",
-        "available": "उपलब्ध शेष",
         "fullAccount": "खाता संख्या",
-        "accountNo": "खाता सं.: {accountNo}",
-        "mobile": "मोबाइल",
         "share": "हिस्सा",
         "role": "भूमिका",
         "narration": "विवरण",
         "voucher": "वाउचर",
         "loading": "खाता विवरण लोड हो रहा है…",
-        "membersEmpty": "इस समूह खाते पर कोई सदस्य पंक्ति नहीं है।",
         "yes": "हाँ",
         "no": "नहीं",
         "currentMember": "वर्तमान",
@@ -3346,50 +3380,12 @@
           "signatories": "हस्ताक्षरकर्ता",
           "transactions": "हाल के लेनदेन",
           "closing": "बंद होना"
-        }
-=======
-        "membersTitle": "समूह सदस्य",
-        "membersHint": "हर सक्रिय समूह सदस्य का इस समूह खाते के अंतर्गत एक बचत खाता होता है।",
-        "syncMembers": "सदस्य सिंक करें",
-        "memberLeft": "समूह छोड़ दिया",
-        "membersEmptyTitle": "कोई सदस्य जुड़ा नहीं",
-        "membersEmpty": "समूह के सक्रिय सदस्यों को जोड़ने के लिए सदस्य सिंक करें।",
-        "memberColumns": {
-          "member": "सदस्य",
-          "role": "भूमिका",
-          "openDate": "खोलने की तिथि",
-          "balance": "शेष",
-          "status": "स्थिति"
         },
-        "nomineesTitle": "नामांकित",
-        "nomineesEmptyTitle": "कोई नामांकित नहीं",
-        "nomineesEmpty": "इस खाते के लिए कोई नामांकित पंजीकृत नहीं है।",
-        "nomineeColumns": {
-          "name": "नाम",
-          "relation": "संबंध",
-          "age": "आयु",
-          "share": "हिस्सा"
-        },
-        "signatoriesTitle": "हस्ताक्षरकर्ता",
-        "signatoriesEmptyTitle": "कोई हस्ताक्षरकर्ता नहीं",
-        "signatoriesEmpty": "इस खाते के लिए कोई हस्ताक्षरकर्ता पंजीकृत नहीं है।",
-        "signatoryColumns": {
-          "name": "नाम",
-          "role": "भूमिका"
-        },
-        "transactionsTitle": "हाल के लेनदेन",
-        "transactionsShowing": "{total} में से {shown} दिखाए जा रहे हैं",
-        "viewAll": "सभी देखें",
-        "transactionsEmptyTitle": "अभी कोई लेनदेन नहीं",
-        "transactionsEmpty": "जमा और निकासी यहाँ दिखेंगी।",
-        "transactionColumns": {
-          "transNo": "लेनदेन",
-          "type": "प्रकार",
-          "amount": "राशि",
-          "balanceAfter": "बाद का शेष",
-          "voucher": "वाउचर",
-          "status": "स्थिति"
-        }
+        "subtitle": "{applNo} · खाता {accountNo}",
+        "noAccountYet": "खाता संख्या बचत विवरण के साथ बनती है।",
+        "type": "प्रकार",
+        "nomineesNone": "इस खाते के लिए कोई नामांकित पंजीकृत नहीं है।",
+        "signatoriesNone": "इस खाते के लिए कोई हस्ताक्षरकर्ता पंजीकृत नहीं है।"
       },
       "toggleDialog": {
         "activateTitle": "खाता सक्रिय करें?",
@@ -3398,7 +3394,6 @@
         "deactivateHelp": "दोबारा सक्रिय होने तक खाता निष्क्रिय रहेगा।",
         "itemType": "खाता",
         "itemName": "{holder} · {accountNo}"
->>>>>>> Stashed changes
       },
       "statusDialog": {
         "title": "स्थिति बदलें",

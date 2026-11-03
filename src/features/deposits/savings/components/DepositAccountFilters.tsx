@@ -9,6 +9,7 @@ import { DateField, SelectField } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { fetchApplOptions, type ApplOption } from "@/features/master/appl-options";
 import { fetchBranchList } from "@/features/master/branch/services/branch-client";
+import type { BranchListResult } from "@/features/master/branch/types/branch.types";
 import {
   OPT_CUST_TYPE,
   OPT_STATUS,
@@ -51,8 +52,12 @@ export function DepositAccountFilters({
   useEffect(() => {
     let cancelled = false;
     async function load() {
-      const [productResult, branchResult, statusOptions, customerOptions] =
-        await Promise.all([
+      const [productResult, branchResult, statusOptions, customerOptions]: [
+        DepositProductType[],
+        BranchListResult | null,
+        ApplOption[],
+        ApplOption[],
+      ] = await Promise.all([
           fetchDepositProducts({
             depositTypeCd,
             isActive: -1,

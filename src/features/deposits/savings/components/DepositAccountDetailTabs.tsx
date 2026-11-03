@@ -14,12 +14,12 @@ import {
   STATUS_POSTED,
   STATUS_REJECTED,
 } from "@/features/deposits/savings-transaction/savings-transaction.constants";
-import type { SavingsTransaction } from "@/features/deposits/savings-transaction/types/savings-transaction.types";
 import { CUST_TYPE_GROUP } from "../deposit-account.constants";
 import { depositStatusTone, parseYmd } from "../deposit-account.rules";
 import type {
   DepositAccountDetail,
   DepositAccountMember,
+  DepositAccountTransaction,
   DepositNominee,
   DepositSignatory,
 } from "../types/deposit-account.types";
@@ -208,7 +208,7 @@ export function DepositAccountDetailTabs({
     },
   ];
 
-  const transactionColumns: DataTableColumn<SavingsTransaction>[] = [
+  const transactionColumns: DataTableColumn<DepositAccountTransaction>[] = [
     {
       id: "transNo",
       header: t("view.transactionColumns.transNo"),
@@ -353,7 +353,7 @@ export function DepositAccountDetailTabs({
           columns={nomineeColumns}
           getRowKey={(row) => String(row.nomineeId)}
           emptyTitle={t("view.nomineesEmptyTitle")}
-          emptyMessage={isGroup ? t("form.nominees.groupNotice") : t("view.nomineesEmpty")}
+          emptyMessage={isGroup ? t("form.nominees.groupNotice") : t("view.nomineesNone")}
           caption={t("view.nomineesTitle")}
         />
       ) : null}
@@ -366,7 +366,7 @@ export function DepositAccountDetailTabs({
           columns={signatoryColumns}
           getRowKey={(row) => String(row.signatoryId)}
           emptyTitle={t("view.signatoriesEmptyTitle")}
-          emptyMessage={t("view.signatoriesEmpty")}
+          emptyMessage={t("view.signatoriesNone")}
           caption={t("view.signatoriesTitle")}
         />
       ) : null}
