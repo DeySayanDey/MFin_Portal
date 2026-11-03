@@ -1,5 +1,6 @@
 import type { BadgeTone } from "@/components/ui/Badge";
 import { STATUS_PENDING as TRANSACTION_STATUS_PENDING } from "@/features/deposits/savings-transaction/savings-transaction.constants";
+import { recordCode, recordPath } from "@/lib/navigation/record-code";
 import {
   CUST_TYPE_GROUP,
   CUST_TYPE_INDIVIDUAL,
@@ -11,6 +12,7 @@ import {
   PROD_TYPE_GROUP,
   PROD_TYPE_INDIVIDUAL,
   SPECIAL_SENIOR,
+  TERM_DEPOSIT_TYPE,
 } from "./deposit-account.constants";
 import type {
   DepositAccount,
@@ -40,7 +42,14 @@ export type DepositAccountField =
   | "sbCbsAcNo"
   | "sbRoi"
   | "sbOpening"
-  | "sbRemarks";
+  | "sbRemarks"
+  | "tdStartDate"
+  | "tdRefAcNo"
+  | "tdPeriod"
+  | "tdInstAmount"
+  | "tdInstNo"
+  | "tdMatuInsCd"
+  | "tdSbCreditAcId";
 
 export function todayYmd(now = new Date()): string {
   const year = now.getFullYear();
@@ -115,6 +124,21 @@ export function isSpecialAllowed(
   return true;
 }
 
+type AccountRef = Pick<DepositAccount, "accountId" | "fullAccountNo" | "applNo">;
+
+/** Code used in page URLs: account number, or application number before opening. */
+export function depositAccountCode(account: AccountRef): string {
+  return recordCode(account.fullAccountNo || account.applNo, account.accountId);
+}
+
+export function depositAccountHref(account: AccountRef, page: "view" | "edit" = "view"): string {
+  return recordPath("/deposits/savings", depositAccountCode(account), page === "edit" ? "/edit" : "");
+}
+
+export function savingsTransactionHref(account: AccountRef): string {
+  return `/deposits/savings-transaction?${new URLSearchParams({ account: depositAccountCode(account) })}`;
+}
+
 /** Detail page URL carrying the save notice and the opening deposit outcome. */
 export function accountDetailHref(
   result: DepositAccountSaveResult,
@@ -122,10 +146,14 @@ export function accountDetailHref(
 ): string {
   const params = new URLSearchParams();
   params.set(notice, result.account.fullAccountNo || result.account.applNo);
+  if (result.account.depositTypeCd === TERM_DEPOSIT_TYPE) {
+    params.set("account_id", String(result.account.accountId));
+    return `/deposits/fd?${params.toString()}`;
+  }
   const opening = result.openingTransaction;
   if (opening?.statusCd === TRANSACTION_STATUS_PENDING) params.set("opening", "pending");
   if (opening?.voucherNote) params.set("voucherNote", opening.voucherNote);
-  return `/deposits/savings/${result.account.accountId}?${params.toString()}`;
+  return `${depositAccountHref(result.account)}?${params.toString()}`;
 }
 
 export function depositStatusTone(statusCd: number): BadgeTone {
@@ -182,6 +210,13 @@ export function mapApiMessageToField(message: string): DepositAccountField | "to
     return "nominees";
   }
   if (text.includes("signatory")) return "signatories";
+  if (text.includes("td start date")) return "tdStartDate";
+  if (text.includes("deposit period") || text.includes("period must")) return "tdPeriod";
+  if (text.includes("deposit amount")) return "tdInstAmount";
+  if (text.includes("installment")) return "tdInstNo";
+  if (text.includes("maturity instruction")) return "tdMatuInsCd";
+  if (text.includes("sb credit")) return "tdSbCreditAcId";
+  if (text.includes("td rate") || text.includes("tds deduct")) return "toast";
   if (
     text.includes("balance must be zero") ||
     text.includes("freezed") ||
@@ -244,6 +279,7 @@ type FormSnapshot = {
   branchId: number | null;
   statusCd: number;
   sb?: DepositAccountCreateInput["sb"];
+  td?: DepositAccountCreateInput["td"];
 };
 
 export function toCreateInput(form: FormSnapshot): DepositAccountCreateInput {
@@ -266,6 +302,7 @@ export function toCreateInput(form: FormSnapshot): DepositAccountCreateInput {
     branchId: form.branchId,
     statusCd: form.statusCd === 7 ? 7 : 1,
     sb: form.sb,
+    td: form.td,
   };
 }
 

@@ -5,8 +5,8 @@
 
 import { sanitizeMenuRoute } from "@/features/navigation/utils/safe-menu-route";
 
-/** Canonical Executive Dashboard (app home). */
-export const EXECUTIVE_DASHBOARD_ROUTE = "/";
+/** Canonical Executive Dashboard. */
+export const EXECUTIVE_DASHBOARD_ROUTE = "/dashboard";
 
 /** Canonical Audit & Security page (matches MenuTree). */
 export const AUDIT_SECURITY_ROUTE = "/security/audit-logs";

@@ -32,10 +32,12 @@ import { DepositAccountForm } from "./DepositAccountForm";
 
 type DepositAccountEditPageProps = {
   accountId: number;
+  detailHref: string;
 };
 
 export function DepositAccountEditPage({
   accountId,
+  detailHref,
 }: DepositAccountEditPageProps) {
   const t = useTranslations("deposits.savings");
   const tUi = useTranslations("ui");
@@ -49,7 +51,6 @@ export function DepositAccountEditPage({
   const [formError, setFormError] = useState<string | null>(null);
   const [savedResult, setSavedResult] = useState<DepositAccountSaveResult | null>(null);
   const [actionError, setActionError] = useToastText();
-  const detailHref = `/deposits/savings/${accountId}`;
 
   useEffect(() => {
     let cancelled = false;

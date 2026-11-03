@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { RefreshCw } from "lucide-react";
-import { Alert } from "@/components/ui/Alert";
+import { PageToast } from "@/components/ui/PageToast";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { fetchApplOptions, type ApplOption } from "@/features/master/appl-options";
@@ -81,7 +81,7 @@ export function DepositAccountStatusModal({
     >
       <fieldset className="flex flex-col gap-3">
         <legend className="sr-only">{t("statusDialog.title")}</legend>
-        {errorMessage ? <Alert tone="error">{errorMessage}</Alert> : null}
+        <PageToast message={errorMessage ?? null} tone="error" />
         {options.map((option) => {
           const helpKey = HELP_KEYS[option.optCode as keyof typeof HELP_KEYS];
           return (

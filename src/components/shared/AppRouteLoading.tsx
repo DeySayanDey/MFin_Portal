@@ -70,7 +70,7 @@ export function AppRouteLoading() {
   let content = (
     <PageListSkeleton tabs={tabs?.count ?? 0} activeTab={tabs?.active ?? 0} />
   );
-  if (pathname === "/" || pathname === "") {
+  if (pathname === "/" || pathname === "" || pathname === "/dashboard") {
     content = <DashboardSkeleton />;
   } else if (FORM_ROUTES.has(pathname)) {
     content = <PageFormSkeleton />;

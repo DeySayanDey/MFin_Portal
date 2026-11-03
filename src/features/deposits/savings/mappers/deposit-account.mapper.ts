@@ -181,6 +181,7 @@ export function mapDepositAccountCreateToDto(
     const sb = mapSbToDto(input.sb);
     if (Object.keys(sb).length > 0) payload.sb = sb;
   }
+  if (input.td) payload.td = mapTdToDto(input.td);
   return payload;
 }
 
@@ -227,6 +228,22 @@ function mapSbToDto(input: NonNullable<DepositAccountCreateInput["sb"]>) {
   if (input.openingDeposit != null) row.opening_deposit = input.openingDeposit;
   if (input.paymentModeCd != null) row.payment_mode_cd = input.paymentModeCd;
   if (input.remarks) row.remarks = input.remarks;
+  return row;
+}
+
+function mapTdToDto(input: NonNullable<DepositAccountCreateInput["td"]>) {
+  const row: Record<string, unknown> = {
+    period_yy: input.periodYy,
+    period_mm: input.periodMm,
+    period_dd: input.periodDd,
+    inst_amount: input.instAmount,
+    tds_deduct: input.tdsDeduct ? 1 : 0,
+  };
+  if (input.startDate) row.start_date = input.startDate;
+  if (input.refAcNo) row.ref_ac_no = input.refAcNo;
+  if (input.instNo != null) row.inst_no = input.instNo;
+  if (input.matuInsCd != null) row.matu_ins_cd = input.matuInsCd;
+  if (input.sbCreditAcId != null) row.sbcredit_ac_id = input.sbCreditAcId;
   return row;
 }
 

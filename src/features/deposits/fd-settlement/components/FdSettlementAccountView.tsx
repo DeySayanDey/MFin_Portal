@@ -1,74 +1,135 @@
 "use client";
 
-import { useSyncExternalStore, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { LoadingState } from "@/components/shared/LoadingState";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
-import { TextAreaField } from "@/components/ui/Form";
-import { Modal } from "@/components/ui/Modal";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { showToast } from "@/components/ui/toast";
 import { useRouter } from "@/i18n/navigation";
-import { parseYmd } from "@/features/deposits/savings/deposit-account.rules";
-import { SAMPLE_DEPOSITS } from "../data/fd-settlement.sample";
 import {
-  getServerSettlementRequests,
-  getSettlementRequests,
-  patchSettlementRequest,
-  saveSettlementRequest,
-  subscribeSettlementRequests,
-} from "../data/fd-settlement.store";
-import { SettlementWorkspace } from "./SettlementWorkspace";
+  fetchSettlementAccount,
+  isFdSettlementClientError,
+  runSettlementAction,
+  saveSettlement,
+} from "../services/fd-settlement-client";
+import type {
+  SettlementAccountDetail,
+  SettlementActionInput,
+  SettlementRequest,
+} from "../types/fd-settlement.types";
+import { SettlementDetailView } from "./SettlementDetailView";
+import { RejectSettlementModal, SettlementReceiptModal } from "./SettlementModals";
+import { SettlementWorkspace, type SettlementSaveRequest } from "./SettlementWorkspace";
 
 type FdSettlementAccountViewProps = {
-  accountId: string;
+  accountId: number;
 };
+
+function isEditable(request: SettlementRequest | null): boolean {
+  return request == null || request.status === "draft" || request.status === "rejected";
+}
 
 export function FdSettlementAccountView({ accountId }: FdSettlementAccountViewProps) {
   const t = useTranslations("deposits.fdSettlement");
-  const format = useFormatter();
   const router = useRouter();
-  const requests = useSyncExternalStore(
-    subscribeSettlementRequests,
-    getSettlementRequests,
-    getServerSettlementRequests,
-  );
+  const [detail, setDetail] = useState<SettlementAccountDetail | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<{ status: number; message: string } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [actionError, setActionError] = useToastText();
   const [successMessage, setSuccessMessage] = useToastText();
   const [rejectOpen, setRejectOpen] = useState(false);
-  const [rejectReason, setRejectReason] = useState("");
-  const [rejectError, setRejectError] = useState<string | null>(null);
-  const [receiptOpen, setReceiptOpen] = useState(false);
+  const [receipt, setReceipt] = useState<SettlementRequest | null>(null);
 
-  const account = SAMPLE_DEPOSITS.find((row) => row.id === accountId) ?? null;
-  const openRequest = requests.find((row) => row.accountId === accountId && row.status !== "settled") ?? null;
-  const settledRequest = requests.find((row) => row.accountId === accountId && row.status === "settled") ?? null;
+  const load = useCallback(async () => {
+    setLoading(true);
+    setLoadError(null);
+    try {
+      setDetail(await fetchSettlementAccount(accountId));
+    } catch (error) {
+      setDetail(null);
+      setLoadError(
+        isFdSettlementClientError(error)
+          ? { status: error.status, message: error.message }
+          : { status: 500, message: t("notices.loadFailed") },
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [accountId, t]);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
 
   function leave() {
     router.push("/deposits/fd-settlement");
   }
 
-  const money = (value: number | null) =>
-    value == null
-      ? t("dash")
-      : format.number(value, {
-          style: "currency",
-          currency: "INR",
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
+  const account = detail?.account ?? null;
+  const openRequest = detail?.openRequest ?? null;
+  const settledRequest = detail?.settledRequest ?? null;
 
-  const dateLabel = (value: string) => {
-    const parsed = parseYmd(value);
-    return parsed
-      ? format.dateTime(parsed, { month: "short", day: "numeric", year: "numeric" })
-      : t("dash");
-  };
+  async function save({ draft, quote, document, submit }: SettlementSaveRequest) {
+    if (!account || !draft.settlementType || !draft.reason) return;
+    const result = await saveSettlement(
+      {
+        settlementId: openRequest?.id,
+        accountId: account.id,
+        submit,
+        settlementType: draft.settlementType,
+        settlementDate: draft.settlementDate,
+        reason: draft.reason,
+        remarks: draft.remarks.trim(),
+        paymentMode: draft.paymentMode || undefined,
+        sbAccountId: draft.paymentMode === "savings" ? account.linkedAccount?.accountId : undefined,
+        beneficiaryAccount: draft.beneficiaryAccount.trim(),
+        beneficiaryName: draft.beneficiaryName.trim(),
+        ifsc: draft.ifsc.trim(),
+        chequeRef: draft.chequeRef.trim(),
+        netPayable: quote?.netPayable,
+        quoteId: quote?.quoteId || undefined,
+      },
+      document,
+    );
+    if (submit) {
+      showToast(t("notices.submitted"));
+      router.push("/deposits/fd-settlement?tab=pending");
+      return;
+    }
+    setDetail((current) => (current ? { ...current, openRequest: result.item } : current));
+    setSuccessMessage(t("notices.draftSaved"));
+  }
+
+  async function act(input: SettlementActionInput, notice: string) {
+    setBusy(true);
+    setActionError(null);
+    try {
+      const result = await runSettlementAction(input);
+      setRejectOpen(false);
+      setSuccessMessage(notice);
+      await load();
+      if (input.action === "post") setReceipt(result.item);
+    } catch (error) {
+      setActionError(isFdSettlementClientError(error) ? error.message : t("notices.actionFailed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const workspaceKey = isEditable(openRequest)
+    ? "edit"
+    : `locked-${openRequest?.id}-${openRequest?.status}`;
 
   return (
     <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
       <PageToast message={successMessage} />
+      <PageToast message={actionError} tone="error" />
       <div className="flex min-w-0 items-start gap-2">
         <Button variant="ghost" icon={ArrowLeft} tooltip={t("actions.back")} aria-label={t("actions.back")} onClick={leave} />
         <PageHeader
@@ -78,126 +139,59 @@ export function FdSettlementAccountView({ accountId }: FdSettlementAccountViewPr
         />
       </div>
 
-      {!account ? <Alert tone="error">{t("accountMissing")}</Alert> : null}
+      {loading && !detail ? <LoadingState /> : null}
+
+      {!loading && loadError ? (
+        loadError.status === 404 || loadError.status === 403 ? (
+          <Alert tone="error">{t("accountMissing")}</Alert>
+        ) : (
+          <ErrorState message={loadError.message} onRetry={() => void load()} />
+        )
+      ) : null}
 
       {account && !account.eligible ? (
-        <div className="flex flex-col items-start gap-3">
-          <Alert tone="error">{t(`restrictions.${account.restriction ?? "settled"}`)}</Alert>
-          {settledRequest ? (
-            <Button type="button" variant="secondary" onClick={() => setReceiptOpen(true)}>
-              {t("actions.receipt")}
-            </Button>
-          ) : null}
-        </div>
+        <SettlementDetailView
+          account={account}
+          request={settledRequest ?? openRequest}
+          onBack={leave}
+          onReceipt={setReceipt}
+        />
       ) : null}
 
       {account && account.eligible ? (
         <SettlementWorkspace
+          key={workspaceKey}
           account={account}
           request={openRequest}
+          busy={busy}
           onBack={leave}
-          onSaveDraft={(draft) => {
-            saveSettlementRequest(account, draft, "draft");
-            setSuccessMessage(t("notices.draftSaved"));
-          }}
-          onSubmit={(draft) => {
-            saveSettlementRequest(account, draft, "pending");
-            showToast(t("notices.submitted"));
-            router.push("/deposits/fd-settlement?tab=pending");
-          }}
+          onSave={save}
           onApprove={() => {
-            if (!openRequest) return;
-            patchSettlementRequest(openRequest.id, "approved");
-            setSuccessMessage(t("notices.approved"));
+            if (openRequest) void act({ action: "approve", settlementId: openRequest.id }, t("notices.approved"));
           }}
           onReject={() => {
+            setActionError(null);
             setRejectOpen(true);
-            setRejectReason("");
-            setRejectError(null);
           }}
           onPost={() => {
-            if (!openRequest) return;
-            patchSettlementRequest(openRequest.id, "settled", { receiptRef: `RCP-${openRequest.id}` });
-            setSuccessMessage(t("notices.posted"));
-            setReceiptOpen(true);
+            if (openRequest) void act({ action: "post", settlementId: openRequest.id }, t("notices.posted"));
           }}
-          onReceipt={() => setReceiptOpen(true)}
+          onReceipt={() => setReceipt(settledRequest ?? openRequest)}
         />
       ) : null}
 
-      <Modal
+      <RejectSettlementModal
         open={rejectOpen && openRequest != null}
+        busy={busy}
         onClose={() => setRejectOpen(false)}
-        title={t("reject.title")}
-        size="sm"
-        confirmOnClose={false}
-        confirmOnSave={false}
-        footer={
-          <>
-            <Button type="button" variant="secondary" onClick={() => setRejectOpen(false)}>
-              {t("actions.back")}
-            </Button>
-            <Button
-              type="button"
-              variant="danger"
-              onClick={() => {
-                if (!rejectReason.trim() || !openRequest) {
-                  setRejectError(t("validation.rejectReason"));
-                  return;
-                }
-                patchSettlementRequest(openRequest.id, "rejected", { rejectionReason: rejectReason.trim() });
-                setRejectOpen(false);
-                setSuccessMessage(t("notices.rejected"));
-              }}
-            >
-              {t("actions.reject")}
-            </Button>
-          </>
-        }
-      >
-        {rejectError ? <Alert tone="error" className="mb-3">{rejectError}</Alert> : null}
-        <TextAreaField label={t("reject.reason")} value={rejectReason} required onChange={setRejectReason} />
-      </Modal>
+        onConfirm={(reason) => {
+          if (openRequest) {
+            void act({ action: "reject", settlementId: openRequest.id, reason }, t("notices.rejected"));
+          }
+        }}
+      />
 
-      <Modal
-        open={receiptOpen && (openRequest != null || settledRequest != null)}
-        onClose={() => setReceiptOpen(false)}
-        title={t("receipt.title")}
-        subtitle={t("receipt.printed")}
-        size="md"
-        confirmOnClose={false}
-        confirmOnSave={false}
-        footer={
-          <Button type="button" variant="secondary" onClick={() => setReceiptOpen(false)}>
-            {t("actions.back")}
-          </Button>
-        }
-      >
-        {account && (settledRequest || openRequest) ? (
-          <div className="flex flex-col gap-2 text-sm">
-            <div className="flex justify-between gap-3">
-              <span className="text-muted">{t("receipt.reference")}</span>
-              <span className="font-medium">{(settledRequest ?? openRequest)?.receiptRef || t("dash")}</span>
-            </div>
-            <div className="flex justify-between gap-3">
-              <span className="text-muted">{t("review.account")}</span>
-              <span className="font-medium">{account.accountNumber}</span>
-            </div>
-            <div className="flex justify-between gap-3">
-              <span className="text-muted">{t("review.customer")}</span>
-              <span className="font-medium">{account.customerName}</span>
-            </div>
-            <div className="flex justify-between gap-3">
-              <span className="text-muted">{t("review.date")}</span>
-              <span className="font-medium">{dateLabel((settledRequest ?? openRequest)?.settlementDate ?? "")}</span>
-            </div>
-            <div className="flex justify-between gap-3">
-              <span className="text-muted">{t("workspace.lines.net")}</span>
-              <span className="font-semibold">{money((settledRequest ?? openRequest)?.netPayable ?? null)}</span>
-            </div>
-          </div>
-        ) : null}
-      </Modal>
+      <SettlementReceiptModal request={receipt} onClose={() => setReceipt(null)} />
     </div>
   );
 }

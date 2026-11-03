@@ -15,6 +15,7 @@ import { FilterPanel } from "@/components/shared/FilterPanel";
 import { DataTable, type DataTableColumn } from "@/components/shared/DataTable";
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { Alert } from "@/components/ui/Alert";
+import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Checkbox } from "@/components/ui/Checkbox";
@@ -224,7 +225,7 @@ const closureOptions = [MEMBER_CLOSED, MEMBER_DEATH].map((code) => ({
 }));
 
 export function MembershipClosureView() {
-  const [notice, setNotice] = useState<string | null>(null);
+  const [notice, setNotice] = useToastText();
   const [keyword, setKeyword] = useState("");
   const [memberId, setMemberId] = useState(String(MEMBERS[0].memberId));
   const [members, setMembers] = useState(MEMBERS);
@@ -357,7 +358,7 @@ export function MembershipClosureView() {
         title="Membership Closure"
         description="Check a member's open items and close the membership or record a death"
       />
-      {notice ? <Alert tone="success">{notice}</Alert> : null}
+      <PageToast message={notice} />
 
       <section className="rounded-[var(--radius-card)] border border-border bg-surface p-4 shadow-[var(--shadow-card)]">
         <h2 className="mb-4 text-base font-semibold text-slate-900">Find member</h2>

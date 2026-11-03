@@ -8,6 +8,7 @@ import { StickyNotePlus } from "lucide-react";
 import { BiSolidCoinStack } from "react-icons/bi";
 import { BsBarChartLineFill } from "react-icons/bs";
 import { FaUserFriends } from "react-icons/fa";
+import { BrandLogo } from "@/components/shared/BrandLogo";
 import { Select } from "@/components/ui/Select";
 import { isAppLocale } from "@/i18n/routing";
 
@@ -29,8 +30,6 @@ function BrandMark({
   compact?: boolean;
   align?: "start" | "center";
 }) {
-  const t = useTranslations("auth");
-
   return (
     <Link
       href="/login"
@@ -38,16 +37,9 @@ function BrandMark({
         align === "start" ? "justify-start" : "justify-center"
       }`}
     >
-      <Image
-        src="/PrioSuiteLogo.png"
-        alt={t("brandName")}
-        width={compact ? 280 : 460}
-        height={compact ? 78 : 128}
+      <BrandLogo
         priority
-        unoptimized
-        className={`h-auto object-contain ${
-          compact ? "w-[min(100%,280px)]" : "w-[min(100%,460px)]"
-        }`}
+        className={compact ? "w-[min(100%,280px)]" : "w-[min(100%,460px)]"}
       />
     </Link>
   );

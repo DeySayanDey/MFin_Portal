@@ -8,6 +8,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Alert } from "@/components/ui/Alert";
+import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Badge } from "@/components/ui/Badge";
 import {
   fetchRoleMenu,
@@ -192,6 +193,7 @@ export function RoleMenuPermissionsModal({
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [saveError, setSaveError] = useToastText();
   const [search, setSearch] = useState("");
   const [matrix, setMatrix] = useState<RoleMenuMatrix | null>(null);
   const [draft, setDraft] = useState<RoleMenuItem[]>([]);
@@ -378,7 +380,7 @@ export function RoleMenuPermissionsModal({
         router.refresh();
         return;
       }
-      setErrorMessage(
+      setSaveError(
         isRoleMenuClientError(err) ? err.message : tErrors("generic"),
       );
     } finally {
@@ -430,6 +432,7 @@ export function RoleMenuPermissionsModal({
       }
     >
       <div className="space-y-4">
+        <PageToast message={saveError} tone="error" />
         {errorMessage ? <Alert tone="error">{errorMessage}</Alert> : null}
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

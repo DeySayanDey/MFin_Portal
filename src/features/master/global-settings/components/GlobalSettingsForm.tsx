@@ -4,7 +4,6 @@ import { useState, type FormEvent, type ReactNode } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { RotateCcw, Save } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Alert } from "@/components/ui/Alert";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Card } from "@/components/ui/Card";
 import { CheckboxField, SelectField, TextField } from "@/components/ui/Form";
@@ -113,7 +112,7 @@ export function GlobalSettingsForm() {
   const [form, setForm] = useState<FormState>(SAMPLE_SETTINGS);
   const [updatedAt, setUpdatedAt] = useState<Date>(SAMPLE_UPDATED_AT);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useToastText();
   const [successMessage, setSuccessMessage] = useToastText();
 
   const dirty = JSON.stringify(form) !== JSON.stringify(saved);
@@ -167,7 +166,7 @@ export function GlobalSettingsForm() {
 
       <Card title={t("title")} description={t("description")}>
         <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
-          {formError ? <Alert tone="error">{formError}</Alert> : null}
+          <PageToast message={formError} tone="error" />
 
           <form id="global-settings-form" onSubmit={handleSubmit} noValidate>
             <div className="flex min-w-0 flex-col gap-4 sm:gap-5">

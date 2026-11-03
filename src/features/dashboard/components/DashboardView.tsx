@@ -1,478 +1,460 @@
-import { Link } from "@/i18n/navigation";
+"use client";
+
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import {
   ArrowUpRight,
   BadgeCheck,
   CircleDollarSign,
+  ClipboardList,
+  FileSpreadsheet,
   HeartPulse,
+  Layers,
+  MapPinned,
   Percent,
+  RotateCcw,
+  Search,
   TrendingUp,
+  UserRoundPlus,
   Users,
 } from "lucide-react";
-import { workflowLinks, toneClasses } from "@/lib/nav";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { DataTable, type DataTableColumn } from "@/components/shared/DataTable";
+import { PageHeader } from "@/components/shared/PageHeader";
 import { DashboardSkeleton } from "@/components/shared/skeletons/DashboardSkeleton";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { DateField, SelectField, TextField } from "@/components/ui/Form";
+import { fetchBranchList } from "@/features/master/branch/services/branch-client";
+import { todayYmd } from "@/features/deposits/savings/deposit-account.rules";
+import { toneClasses } from "@/lib/nav";
+import { defaultDashboardRange } from "../dashboard.rules";
+import { fetchDashboard, isDashboardClientError } from "../services/dashboard-client";
+import type {
+  DashboardAgent,
+  DashboardBranch,
+  DashboardLoan,
+  DashboardSnapshot,
+} from "../types/dashboard.types";
+import { useDashboardFormat } from "./useDashboardFormat";
 
-const metrics = [
-  {
-    label: "Gross Loan Portfolio",
-    value: "₹33,814.66",
-    hint: "100% Qualifying",
-    accent: "bg-brand",
-    icon: CircleDollarSign,
-    iconTone: "text-brand bg-brand-soft",
-  },
-  {
-    label: "MTD Disbursed",
-    value: "₹15,400",
-    hint: "Healthy Asset",
-    accent: "bg-accent-blue",
-    icon: TrendingUp,
-    iconTone: "text-accent-blue bg-accent-blue-soft",
-  },
-  {
-    label: "PAR 90 / NPA",
-    value: "0.00%",
-    hint: "Within RBI band",
-    accent: "bg-accent-amber",
-    icon: Percent,
-    iconTone: "text-amber-700 bg-accent-amber-soft",
-  },
-  {
-    label: "Active Kendras",
-    value: "1",
-    hint: "JLG coverage live",
-    accent: "bg-accent-violet",
-    icon: Users,
-    iconTone: "text-accent-violet bg-accent-violet-soft",
-  },
-];
+const ALL = "all";
 
-const agents = [
-  {
-    name: "Priya Sen",
-    kendras: "#01, #02",
-    target: "₹12,000",
-    collected: "₹11,450",
-    wallet: "₹3,200",
-    status: "In Field",
-    statusTone: "bg-brand-soft text-brand-ink",
-  },
-  {
-    name: "Amit Das",
-    kendras: "#03, #04",
-    target: "₹10,500",
-    collected: "₹9,800",
-    wallet: "₹2,150",
-    status: "In Field",
-    statusTone: "bg-brand-soft text-brand-ink",
-  },
-  {
-    name: "Rina Ghosh",
-    kendras: "#05",
-    target: "₹8,000",
-    collected: "₹7,640",
-    wallet: "₹1,890",
-    status: "Returning to Vault",
-    statusTone: "bg-accent-amber-soft text-amber-800",
-  },
-];
+const workflows = [
+  { id: "onboard", href: "/onboarding/member-registration", icon: UserRoundPlus, tone: "blue" as const },
+  { id: "los", href: "/los/applications", icon: FileSpreadsheet, tone: "green" as const },
+  { id: "lms", href: "/lms/disbursement", icon: ClipboardList, tone: "amber" as const },
+  { id: "collection", href: "/lms/collections", icon: MapPinned, tone: "violet" as const },
+] as const;
 
-const branches = [
-  {
-    name: "Sonarpur",
-    loanBook: "₹28,000",
-    collection: "₹8,400",
-    vault: "₹12,200",
-    recovery: "99.2%",
-  },
-  {
-    name: "Barasat",
-    loanBook: "₹24,000",
-    collection: "₹7,100",
-    vault: "₹9,850",
-    recovery: "98.6%",
-  },
-  {
-    name: "Halisahar",
-    loanBook: "₹19,000",
-    collection: "₹5,900",
-    vault: "₹6,400",
-    recovery: "97.9%",
-  },
-];
+type Filters = { fromDate: string; toDate: string; branchId: string };
 
-export function DashboardView({
-  loading = false,
-}: {
-  loading?: boolean;
-} = {}) {
-  if (loading) {
-    return <DashboardSkeleton />;
+type DashboardViewProps = {
+  canPickBranch: boolean;
+};
+
+export function DashboardView({ canPickBranch }: DashboardViewProps) {
+  const { t, money, integer, percent, date } = useDashboardFormat();
+  const tCommon = useTranslations("common");
+  const [today] = useState(() => todayYmd());
+  const [defaults] = useState(() => defaultDashboardRange());
+  const [filters, setFilters] = useState<Filters>({
+    fromDate: defaults.fromDate,
+    toDate: defaults.toDate,
+    branchId: ALL,
+  });
+  const [applied, setApplied] = useState<Filters>({
+    fromDate: defaults.fromDate,
+    toDate: defaults.toDate,
+    branchId: ALL,
+  });
+  const [reloadKey, setReloadKey] = useState(0);
+  const [snapshot, setSnapshot] = useState<DashboardSnapshot | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [loanQuery, setLoanQuery] = useState("");
+  const [branches, setBranches] = useState<Array<{ value: string; label: string }>>([]);
+
+  useEffect(() => {
+    if (!canPickBranch) return;
+    let cancelled = false;
+    fetchBranchList({ page: 1, perPage: 200, isActive: 1 })
+      .then((result) => {
+        if (!cancelled) {
+          setBranches(result.items.map((branch) => ({ value: String(branch.branchId), label: branch.branchName })));
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setBranches([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [canPickBranch]);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+    fetchDashboard(
+      {
+        fromDate: applied.fromDate,
+        toDate: applied.toDate,
+        branchId: applied.branchId === ALL ? undefined : Number(applied.branchId),
+      },
+      reloadKey,
+    )
+      .then((result) => {
+        if (!cancelled) setSnapshot(result);
+      })
+      .catch((reason: unknown) => {
+        if (cancelled) return;
+        setSnapshot(null);
+        setError(isDashboardClientError(reason) ? reason.message : t("loadFailed"));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [applied, reloadKey, t]);
+
+  const kpis = snapshot?.kpis;
+  const funds = snapshot?.funds;
+  const agents = snapshot?.agents ?? [];
+  const branchRows = snapshot?.branches ?? [];
+  const loans = snapshot?.loans ?? [];
+
+  const filteredLoans = useMemo(() => {
+    const needle = loanQuery.trim().toLowerCase();
+    if (!needle) return loans;
+    return loans.filter((row) =>
+      [row.loanAccountNo, row.borrower, row.groupName, row.statusDesc].join(" ").toLowerCase().includes(needle),
+    );
+  }, [loanQuery, loans]);
+
+  function apply(event: FormEvent) {
+    event.preventDefault();
+    if (!filters.fromDate || !filters.toDate || filters.fromDate > filters.toDate) return;
+    setApplied({ ...filters });
+    setReloadKey((key) => key + 1);
   }
+
+  function reset() {
+    const next = { fromDate: defaults.fromDate, toDate: defaults.toDate, branchId: ALL };
+    setFilters(next);
+    setApplied(next);
+    setLoanQuery("");
+    setReloadKey((key) => key + 1);
+  }
+
+  const metricCards = [
+    {
+      id: "glp",
+      value: money(kpis?.glp ?? 0),
+      hint: t("kpis.glpHint", { savings: money(kpis?.savingsBalance ?? 0) }),
+      accent: "bg-brand",
+      icon: CircleDollarSign,
+      iconTone: "text-brand bg-brand-soft",
+    },
+    {
+      id: "disbursed",
+      value: money(kpis?.disbursed ?? 0),
+      hint: t("kpis.disbursedHint", { collection: money(kpis?.collection ?? 0) }),
+      accent: "bg-accent-blue",
+      icon: TrendingUp,
+      iconTone: "text-accent-blue bg-accent-blue-soft",
+    },
+    {
+      id: "par",
+      value: percent(kpis?.par90Percent ?? 0),
+      hint: t("kpis.parHint", { npa: percent(kpis?.npaPercent ?? 0) }),
+      accent: "bg-accent-amber",
+      icon: Percent,
+      iconTone: "text-amber-700 bg-accent-amber-soft",
+    },
+    {
+      id: "groups",
+      value: integer(kpis?.activeGroups ?? 0),
+      hint: t("kpis.groupsHint", {
+        members: integer(kpis?.activeMembers ?? 0),
+        pending: integer(kpis?.pendingApplications ?? 0),
+      }),
+      accent: "bg-accent-violet",
+      icon: Users,
+      iconTone: "text-accent-violet bg-accent-violet-soft",
+    },
+  ] as const;
+
+  const agentColumns: DataTableColumn<DashboardAgent>[] = [
+    { id: "name", header: t("agents.columns.name"), cell: (row) => row.staffName || t("dash") },
+    {
+      id: "groups",
+      header: t("agents.columns.groups"),
+      cell: (row) => t("agents.groupCount", { count: row.groupCount }),
+    },
+    { id: "target", header: t("agents.columns.target"), align: "end", cell: (row) => money(row.target) },
+    { id: "collected", header: t("agents.columns.collected"), align: "end", cell: (row) => money(row.collected) },
+    { id: "wallet", header: t("agents.columns.wallet"), align: "end", cell: (row) => money(row.wallet) },
+    {
+      id: "status",
+      header: t("agents.columns.status"),
+      cell: (row) => (
+        <Badge tone={row.inField ? "info" : "success"} caps={false}>
+          {row.inField ? t("agents.inField") : t("agents.cleared")}
+        </Badge>
+      ),
+    },
+  ];
+
+  const branchColumns: DataTableColumn<DashboardBranch>[] = [
+    { id: "name", header: t("branches.columns.name"), cell: (row) => row.branchName || t("dash") },
+    { id: "loanBook", header: t("branches.columns.loanBook"), align: "end", cell: (row) => money(row.loanBook) },
+    { id: "collection", header: t("branches.columns.collection"), align: "end", cell: (row) => money(row.collection) },
+    { id: "vault", header: t("branches.columns.vault"), align: "end", cell: (row) => money(row.vault) },
+    {
+      id: "recovery",
+      header: t("branches.columns.recovery"),
+      cell: (row) => (
+        <Badge tone="success" caps={false}>
+          {row.recoveryPercent == null ? t("dash") : percent(row.recoveryPercent)}
+        </Badge>
+      ),
+    },
+  ];
+
+  const loanColumns: DataTableColumn<DashboardLoan>[] = [
+    {
+      id: "account",
+      header: t("loans.columns.account"),
+      cell: (row) => row.loanAccountNo || t("dash"),
+    },
+    { id: "borrower", header: t("loans.columns.borrower"), cell: (row) => row.borrower || t("dash") },
+    { id: "group", header: t("loans.columns.group"), cell: (row) => row.groupName || t("dash") },
+    { id: "disbursed", header: t("loans.columns.disbursed"), align: "end", cell: (row) => money(row.disbursed) },
+    { id: "paid", header: t("loans.columns.paid"), align: "end", cell: (row) => money(row.principalPaid) },
+    { id: "outstanding", header: t("loans.columns.outstanding"), align: "end", cell: (row) => money(row.outstanding) },
+    { id: "dpd", header: t("loans.columns.dpd"), align: "end", cell: (row) => integer(row.dpd) },
+    {
+      id: "status",
+      header: t("loans.columns.status"),
+      cell: (row) => (
+        <Badge tone={row.dpd > 0 ? "warning" : "success"} caps={false}>
+          {row.statusDesc || t("dash")}
+        </Badge>
+      ),
+    },
+  ];
+
+  const dateError = filters.fromDate && filters.toDate && filters.fromDate > filters.toDate ? t("filters.rangeError") : undefined;
 
   return (
     <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
-      <section className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-4 lg:gap-4">
-        {metrics.map((metric) => (
-          <article
-            key={metric.label}
-            className="relative overflow-hidden rounded-2xl border border-border bg-surface p-3.5 shadow-[var(--shadow-card)] sm:p-4"
-          >
-            <span
-              className={`absolute inset-y-0 left-0 w-1 ${metric.accent}`}
-              aria-hidden
+      <PageHeader title={t("title")} description={t("description")} />
+
+      <form
+        onSubmit={apply}
+        className="rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] sm:p-5"
+      >
+        <div className="mb-3 flex items-center gap-2">
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-brand-soft text-brand">
+            <Layers className="h-4 w-4" aria-hidden />
+          </span>
+          <h2 className="text-sm font-semibold text-foreground">{t("filters.title")}</h2>
+        </div>
+        <div className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${canPickBranch ? "xl:grid-cols-4" : "xl:grid-cols-3"}`}>
+          <DateField
+            label={t("filters.from")}
+            value={filters.fromDate}
+            max={filters.toDate || today}
+            required
+            onChange={(value) => setFilters((current) => ({ ...current, fromDate: value }))}
+          />
+          <DateField
+            label={t("filters.to")}
+            value={filters.toDate}
+            min={filters.fromDate}
+            max={today}
+            required
+            error={dateError}
+            onChange={(value) => setFilters((current) => ({ ...current, toDate: value }))}
+          />
+          {canPickBranch ? (
+            <SelectField
+              label={t("filters.branch")}
+              value={filters.branchId}
+              onChange={(value) => setFilters((current) => ({ ...current, branchId: value }))}
+              options={[{ value: ALL, label: t("filters.allBranches") }, ...branches]}
+              searchable
             />
-            <div className="flex items-start justify-between gap-3 pl-2">
-              <div className="min-w-0">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-soft sm:text-[11px]">
-                  {metric.label}
-                </p>
-                <p className="mt-1.5 text-xl font-semibold tracking-tight text-slate-900 sm:mt-2 sm:text-2xl">
-                  {metric.value}
-                </p>
-                <p className="mt-2 inline-flex max-w-full items-center gap-1 rounded-full bg-surface-muted px-2.5 py-1 text-[11px] font-medium text-slate-600">
-                  <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-brand" />
-                  <span className="truncate">{metric.hint}</span>
-                </p>
-              </div>
-              <span
-                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl sm:h-10 sm:w-10 ${metric.iconTone}`}
-              >
-                <metric.icon className="h-4 w-4" />
-              </span>
-            </div>
-          </article>
-        ))}
-      </section>
-
-      <section className="rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] sm:p-5">
-        <div className="mb-4">
-          <h2 className="text-base font-semibold text-slate-900">
-            Core Microfinance Workflows
-          </h2>
-          <p className="mt-1 text-sm text-muted">
-            KYC, origination, servicing, and field collection in one pass.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 xl:grid-cols-4">
-          {workflowLinks.map((item) => {
-            const tones = toneClasses[item.tone];
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="group flex flex-row items-center gap-3 rounded-2xl border border-border bg-surface-muted/60 px-4 py-4 text-left transition hover:border-brand/30 hover:bg-surface hover:shadow-[var(--shadow-card)] min-[480px]:flex-col min-[480px]:py-6 min-[480px]:text-center"
-              >
-                <span
-                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl sm:h-14 sm:w-14 ${tones.icon} transition group-hover:scale-105`}
-                >
-                  <item.icon className="h-5 w-5 sm:h-6 sm:w-6" />
-                </span>
-                <span className="text-sm font-semibold text-slate-800">
-                  {item.label}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(260px,320px)_1fr]">
-        <article className="rounded-2xl bg-brand-dark p-4 text-white shadow-[var(--shadow-card)] sm:p-5">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-300">
-            Total Liquid Funds
-          </p>
-          <p className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
-            ₹78,352.63
-          </p>
-          <ul className="mt-5 space-y-3 text-sm text-slate-300">
-            <li className="flex items-center justify-between gap-3">
-              <span className="inline-flex min-w-0 items-center gap-2">
-                <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400" />
-                <span className="truncate">Cash in Hand (Vaults)</span>
-              </span>
-              <span className="shrink-0 font-medium text-white">₹28,450.00</span>
-            </li>
-            <li className="flex items-center justify-between gap-3">
-              <span className="inline-flex min-w-0 items-center gap-2">
-                <span className="h-2 w-2 shrink-0 rounded-full bg-sky-400" />
-                <span className="truncate">Bank Balances</span>
-              </span>
-              <span className="shrink-0 font-medium text-white">₹49,902.63</span>
-            </li>
-          </ul>
-          <Link
-            href="/accounting"
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500/15 px-3 py-2.5 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-500/25"
-          >
-            Open Full General Ledger
-            <ArrowUpRight className="h-4 w-4" />
-          </Link>
-        </article>
-
-        <article className="min-w-0 rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] sm:p-5">
-          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-            <div className="min-w-0">
-              <h2 className="text-base font-semibold text-slate-900">
-                Field Collection Agent Performance
-              </h2>
-              <p className="mt-1 text-sm text-muted">
-                Live wallets before branch vault hand-in
-              </p>
-            </div>
-            <span className="w-fit rounded-full bg-accent-blue-soft px-3 py-1 text-xs font-semibold text-blue-700">
-              3 Field Agents Active
-            </span>
+          ) : null}
+          <div className="flex items-end gap-2">
+            <Button type="submit" icon={Search} loading={loading} disabled={Boolean(dateError)} className="flex-1">
+              {t("filters.apply")}
+            </Button>
+            <Button type="button" variant="secondary" icon={RotateCcw} onClick={reset} className="flex-1">
+              {tCommon("reset")}
+            </Button>
           </div>
+        </div>
+      </form>
 
-          <div className="space-y-3 md:hidden">
-            {agents.map((agent) => (
-              <div
-                key={agent.name}
-                className="rounded-2xl border border-border bg-surface-muted/50 p-3.5"
+      {loading && !snapshot ? (
+        <DashboardSkeleton />
+      ) : error && !snapshot ? (
+        <section className="rounded-2xl border border-border bg-surface p-8 text-center shadow-[var(--shadow-card)]">
+          <p className="text-sm font-semibold text-foreground">{t("loadFailed")}</p>
+          <p className="mt-1 text-sm text-muted">{error}</p>
+          <Button type="button" className="mt-4" onClick={() => setReloadKey((key) => key + 1)}>
+            {tCommon("retry")}
+          </Button>
+        </section>
+      ) : (
+        <>
+          <section className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-4 lg:gap-4">
+            {metricCards.map((metric) => (
+              <article
+                key={metric.id}
+                className="relative overflow-hidden rounded-2xl border border-border bg-surface p-3.5 shadow-[var(--shadow-card)] sm:p-4"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="font-semibold text-slate-900">{agent.name}</p>
-                    <p className="mt-0.5 text-xs text-muted">
-                      Kendras {agent.kendras}
+                <span className={`absolute inset-y-0 left-0 w-1 ${metric.accent}`} aria-hidden />
+                <div className="flex items-start justify-between gap-3 ps-2">
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-soft sm:text-[11px]">
+                      {t(`kpis.${metric.id}`)}
+                    </p>
+                    <p className="mt-1.5 text-xl font-semibold tracking-tight text-slate-900 sm:mt-2 sm:text-2xl">
+                      {metric.value}
+                    </p>
+                    <p className="mt-2 inline-flex max-w-full items-center gap-1 rounded-full bg-surface-muted px-2.5 py-1 text-[11px] font-medium text-slate-600">
+                      <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-brand" />
+                      <span className="truncate">{metric.hint}</span>
                     </p>
                   </div>
                   <span
-                    className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${agent.statusTone}`}
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl sm:h-10 sm:w-10 ${metric.iconTone}`}
                   >
-                    {agent.status}
+                    <metric.icon className="h-4 w-4" aria-hidden />
                   </span>
                 </div>
-                <dl className="mt-3 grid grid-cols-3 gap-2 text-center">
-                  <div className="rounded-xl bg-white px-2 py-2">
-                    <dt className="text-[10px] uppercase tracking-wide text-muted-soft">
-                      Target
-                    </dt>
-                    <dd className="mt-1 font-mono text-xs font-medium text-slate-800">
-                      {agent.target}
-                    </dd>
-                  </div>
-                  <div className="rounded-xl bg-white px-2 py-2">
-                    <dt className="text-[10px] uppercase tracking-wide text-muted-soft">
-                      Collected
-                    </dt>
-                    <dd className="mt-1 font-mono text-xs font-medium text-slate-800">
-                      {agent.collected}
-                    </dd>
-                  </div>
-                  <div className="rounded-xl bg-white px-2 py-2">
-                    <dt className="text-[10px] uppercase tracking-wide text-muted-soft">
-                      Wallet
-                    </dt>
-                    <dd className="mt-1 font-mono text-xs font-medium text-slate-800">
-                      {agent.wallet}
-                    </dd>
-                  </div>
-                </dl>
-              </div>
+              </article>
             ))}
-          </div>
+          </section>
 
-          <div className="table-scroll hidden md:block">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-border text-[11px] uppercase tracking-[0.12em] text-muted-soft">
-                  <th className="pb-3 pr-3 font-semibold">Agent Name</th>
-                  <th className="pb-3 pr-3 font-semibold">Kendras</th>
-                  <th className="pb-3 pr-3 font-semibold">Today Target</th>
-                  <th className="pb-3 pr-3 font-semibold">Collected</th>
-                  <th className="pb-3 pr-3 font-semibold">Live Wallet</th>
-                  <th className="pb-3 font-semibold">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {agents.map((agent) => (
-                  <tr
-                    key={agent.name}
-                    className="border-b border-border/70 last:border-0"
+          <section className="rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] sm:p-5">
+            <div className="mb-4">
+              <h2 className="text-base font-semibold text-slate-900">{t("workflows.title")}</h2>
+              <p className="mt-1 text-sm text-muted">{t("workflows.description")}</p>
+            </div>
+            <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 xl:grid-cols-4">
+              {workflows.map((item) => {
+                const tones = toneClasses[item.tone];
+                return (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    className="group flex flex-row items-center gap-3 rounded-2xl border border-border bg-surface-muted/60 px-4 py-4 text-left transition hover:border-brand/30 hover:bg-surface hover:shadow-[var(--shadow-card)] min-[480px]:flex-col min-[480px]:py-6 min-[480px]:text-center"
                   >
-                    <td className="py-3.5 pr-3 font-medium text-slate-900">
-                      {agent.name}
-                    </td>
-                    <td className="py-3.5 pr-3 text-muted">{agent.kendras}</td>
-                    <td className="py-3.5 pr-3 font-mono text-[13px] text-slate-700">
-                      {agent.target}
-                    </td>
-                    <td className="py-3.5 pr-3 font-mono text-[13px] text-slate-700">
-                      {agent.collected}
-                    </td>
-                    <td className="py-3.5 pr-3 font-mono text-[13px] text-slate-700">
-                      {agent.wallet}
-                    </td>
-                    <td className="py-3.5">
-                      <span
-                        className={`rounded-full px-2.5 py-1 text-[11px] font-semibold whitespace-nowrap ${agent.statusTone}`}
-                      >
-                        {agent.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </article>
-      </section>
-
-      <section className="min-w-0 rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] sm:p-5">
-        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-          <div className="min-w-0">
-            <h2 className="text-base font-semibold text-slate-900">
-              Multi-Branch Operations & Liquidity Matrix
-            </h2>
-            <p className="mt-1 text-sm text-muted">
-              Consolidated loan volumes, daily collections, and vault balances
-            </p>
-          </div>
-          <span className="w-fit rounded-full bg-surface-muted px-3 py-1 text-xs font-semibold text-slate-600">
-            3 Active Branches
-          </span>
-        </div>
-
-        <div className="space-y-3 md:hidden">
-          {branches.map((branch) => (
-            <div
-              key={branch.name}
-              className="rounded-2xl border border-border bg-surface-muted/50 p-3.5"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <p className="font-semibold text-slate-900">{branch.name}</p>
-                <span className="rounded-full border border-brand/30 bg-brand-soft px-2.5 py-1 text-[11px] font-semibold text-brand-ink">
-                  {branch.recovery}
-                </span>
-              </div>
-              <dl className="mt-3 grid grid-cols-3 gap-2 text-center">
-                <div className="rounded-xl bg-white px-2 py-2">
-                  <dt className="text-[10px] uppercase tracking-wide text-muted-soft">
-                    Loan Book
-                  </dt>
-                  <dd className="mt-1 font-mono text-xs font-medium text-slate-800">
-                    {branch.loanBook}
-                  </dd>
-                </div>
-                <div className="rounded-xl bg-white px-2 py-2">
-                  <dt className="text-[10px] uppercase tracking-wide text-muted-soft">
-                    Collection
-                  </dt>
-                  <dd className="mt-1 font-mono text-xs font-medium text-slate-800">
-                    {branch.collection}
-                  </dd>
-                </div>
-                <div className="rounded-xl bg-white px-2 py-2">
-                  <dt className="text-[10px] uppercase tracking-wide text-muted-soft">
-                    Vault
-                  </dt>
-                  <dd className="mt-1 font-mono text-xs font-medium text-slate-800">
-                    {branch.vault}
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          ))}
-        </div>
-
-        <div className="table-scroll hidden md:block">
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b border-border text-[11px] uppercase tracking-[0.12em] text-muted-soft">
-                <th className="pb-3 pr-3 font-semibold">Branch Name</th>
-                <th className="pb-3 pr-3 font-semibold">Active Loan Book</th>
-                <th className="pb-3 pr-3 font-semibold">Today&apos;s Collection</th>
-                <th className="pb-3 pr-3 font-semibold">Branch Vault Cash</th>
-                <th className="pb-3 font-semibold">Recovery %</th>
-              </tr>
-            </thead>
-            <tbody>
-              {branches.map((branch) => (
-                <tr
-                  key={branch.name}
-                  className="border-b border-border/70 last:border-0"
-                >
-                  <td className="py-3.5 pr-3 font-medium text-slate-900">
-                    {branch.name}
-                  </td>
-                  <td className="py-3.5 pr-3 font-mono text-[13px] text-slate-700">
-                    {branch.loanBook}
-                  </td>
-                  <td className="py-3.5 pr-3 font-mono text-[13px] text-slate-700">
-                    {branch.collection}
-                  </td>
-                  <td className="py-3.5 pr-3 font-mono text-[13px] text-slate-700">
-                    {branch.vault}
-                  </td>
-                  <td className="py-3.5">
-                    <span className="rounded-full border border-brand/30 bg-brand-soft px-2.5 py-1 text-[11px] font-semibold text-brand-ink">
-                      {branch.recovery}
+                    <span
+                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl sm:h-14 sm:w-14 ${tones.icon} transition group-hover:scale-105`}
+                    >
+                      <item.icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden />
                     </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section className="min-w-0 rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] sm:p-5">
-        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-          <div className="flex min-w-0 items-start gap-3">
-            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-blue-soft text-accent-blue">
-              <HeartPulse className="h-4 w-4" />
-            </span>
-            <div className="min-w-0">
-              <h2 className="text-base font-semibold text-slate-900">
-                Live Loan Portfolio Status
-              </h2>
-              <p className="mt-1 text-sm text-muted">
-                Active accounts, outstanding balances, and installment progress
-              </p>
+                    <span className="text-sm font-semibold text-slate-800">{t(`workflows.${item.id}`)}</span>
+                  </Link>
+                );
+              })}
             </div>
-          </div>
-          <input
-            type="search"
-            placeholder="Filter records..."
-            className="w-full rounded-xl border border-border bg-surface-muted px-3 py-2 text-sm outline-none placeholder:text-muted-soft focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/10 sm:max-w-xs sm:w-64"
+          </section>
+
+          <section className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(260px,320px)_1fr]">
+            <article className="rounded-2xl bg-brand-dark p-4 text-white shadow-[var(--shadow-card)] sm:p-5">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-300">{t("funds.title")}</p>
+              <p className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">{money(funds?.total ?? 0)}</p>
+              <ul className="mt-5 space-y-3 text-sm text-slate-300">
+                <li className="flex items-center justify-between gap-3">
+                  <span className="inline-flex min-w-0 items-center gap-2">
+                    <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400" />
+                    <span className="truncate">{t("funds.cash")}</span>
+                  </span>
+                  <span className="shrink-0 font-medium text-white">{money(funds?.cash ?? 0)}</span>
+                </li>
+                <li className="flex items-center justify-between gap-3">
+                  <span className="inline-flex min-w-0 items-center gap-2">
+                    <span className="h-2 w-2 shrink-0 rounded-full bg-sky-400" />
+                    <span className="truncate">{t("funds.bank")}</span>
+                  </span>
+                  <span className="shrink-0 font-medium text-white">{money(funds?.bank ?? 0)}</span>
+                </li>
+              </ul>
+              <Link
+                href="/master/account-ledgers"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500/15 px-3 py-2.5 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-500/25"
+              >
+                {t("funds.openLedger")}
+                <ArrowUpRight className="h-4 w-4" aria-hidden />
+              </Link>
+            </article>
+
+            <DataTable
+              title={t("agents.title")}
+              description={t("agents.description", { from: date(applied.fromDate), to: date(applied.toDate) })}
+              actions={
+                <span className="rounded-full bg-accent-blue-soft px-3 py-1 text-xs font-semibold text-blue-700">
+                  {t("agents.activeCount", { count: agents.filter((row) => row.inField).length })}
+                </span>
+              }
+              data={agents}
+              columns={agentColumns}
+              getRowKey={(row) => String(row.staffId)}
+              emptyTitle={t("agents.emptyTitle")}
+              emptyMessage={t("agents.emptyMessage")}
+              minWidth="720px"
+            />
+          </section>
+
+          <DataTable
+            title={t("branches.title")}
+            description={t("branches.description")}
+            actions={
+              <span className="rounded-full bg-surface-muted px-3 py-1 text-xs font-semibold text-slate-600">
+                {t("branches.count", { count: branchRows.length })}
+              </span>
+            }
+            data={branchRows}
+            columns={branchColumns}
+            getRowKey={(row) => String(row.branchId)}
+            emptyTitle={t("branches.emptyTitle")}
+            emptyMessage={t("branches.emptyMessage")}
+            minWidth="720px"
           />
-        </div>
-        <div className="table-scroll">
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b border-border text-[11px] uppercase tracking-[0.12em] text-muted-soft">
-                <th className="pb-3 pr-3 font-semibold whitespace-nowrap">
-                  Account No
-                </th>
-                <th className="pb-3 pr-3 font-semibold">Borrower</th>
-                <th className="pb-3 pr-3 font-semibold whitespace-nowrap">
-                  Kendra & JLG
-                </th>
-                <th className="pb-3 pr-3 font-semibold">Disbursed</th>
-                <th className="pb-3 pr-3 font-semibold whitespace-nowrap">
-                  Principal Paid
-                </th>
-                <th className="pb-3 pr-3 font-semibold whitespace-nowrap">
-                  Outstanding GLP
-                </th>
-                <th className="pb-3 pr-3 font-semibold">DPD</th>
-                <th className="pb-3 font-semibold">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td
-                  colSpan={8}
-                  className="py-12 text-center text-sm text-muted-soft sm:py-16"
-                >
-                  No records found.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+
+          <DataTable
+            title={
+              <span className="inline-flex items-center gap-2">
+                <HeartPulse className="h-4 w-4 text-accent-blue" aria-hidden />
+                {t("loans.title")}
+              </span>
+            }
+            description={t("loans.description")}
+            toolbar={
+              <TextField
+                label={t("loans.search")}
+                value={loanQuery}
+                onChange={setLoanQuery}
+                placeholder={t("loans.searchPlaceholder")}
+              />
+            }
+            data={filteredLoans}
+            columns={loanColumns}
+            getRowKey={(row) => String(row.loanAccountId)}
+            emptyTitle={t("loans.emptyTitle")}
+            emptyMessage={t("loans.emptyMessage")}
+            minWidth="960px"
+          />
+        </>
+      )}
     </div>
   );
 }

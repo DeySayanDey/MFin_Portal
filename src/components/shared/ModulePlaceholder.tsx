@@ -16,7 +16,7 @@ export function ModulePlaceholder({ title, description }: PlaceholderProps) {
       </h1>
       <p className="text-sm leading-6 text-muted">{description}</p>
       <Link
-        href="/"
+        href="/dashboard"
         className="btn btn-primary"
       >
         Back to Executive Dashboard

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, UserPlus } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Alert } from "@/components/ui/Alert";
 import { Badge } from "@/components/ui/Badge";
@@ -78,7 +78,10 @@ export function DepositAccountNomineeStep({
     <div className="flex flex-col gap-4">
       {errors.nominees ? <Alert tone="error">{errors.nominees}</Alert> : null}
       {drafts.length === 0 ? (
-        <p className="text-sm text-muted">{t("form.nominees.empty")}</p>
+        <p className="flex items-start gap-2 text-sm text-muted">
+          <UserPlus className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden />
+          <span>{t("form.nominees.empty")}</span>
+        </p>
       ) : null}
       {drafts.map((draft, index) => (
         <NomineeBlock

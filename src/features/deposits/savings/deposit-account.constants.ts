@@ -19,9 +19,14 @@ export const SPECIAL_NORMAL = 1;
 export const SPECIAL_SENIOR = 2;
 export const SPECIAL_OTHERS = 6;
 export const PAYMENT_MODE_CASH = 1;
+export const TD_PROD_DAILY = 1;
+export const TD_PROD_RECURRING = 2;
+export const MATU_INS_RENEW_PAY_INTEREST = 1;
+export const MATU_INS_PAY_TO_SB = 4;
 
 export const OPT_OP_MODE = 9;
 export const OPT_SPECIAL = 11;
+export const OPT_MATURITY_INSTRUCTION = 13;
 export const OPT_STATUS = 14;
 export const OPT_CUST_TYPE = 34;
 export const OPT_PAYMENT_MODE = 41;

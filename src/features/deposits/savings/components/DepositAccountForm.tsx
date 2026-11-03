@@ -5,6 +5,7 @@ import { ArrowRight, ChevronDown, ChevronUp, Save } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Modal } from "@/components/ui/Modal";
 import { Alert } from "@/components/ui/Alert";
+import { PageToast } from "@/components/ui/PageToast";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import {
@@ -30,6 +31,7 @@ import {
   CUST_TYPE_GROUP,
   CUST_TYPE_INDIVIDUAL,
   OPT_CUST_TYPE,
+  OPT_MATURITY_INSTRUCTION,
   OPT_OP_MODE,
   OPT_PAYMENT_MODE,
   OPT_STATUS,
@@ -41,7 +43,18 @@ import {
   SPECIAL_SENIOR,
   STATUS_ACTIVE,
   STATUS_KYC_PENDING,
+  TERM_DEPOSIT_TYPE,
 } from "../deposit-account.constants";
+import {
+  emptyTermDraft,
+  needsSbCredit,
+  takesInstallments,
+  termIssues,
+  toTermInput,
+  type TermDraft,
+  type TermIssue,
+} from "../term-draft";
+import { DepositAccountTermDetails } from "./DepositAccountTermDetails";
 import {
   accountFieldsLocked,
   ageOn,
@@ -68,6 +81,7 @@ import {
   type NomineeDraft,
 } from "../nominee-draft";
 import {
+  fetchDepositAccounts,
   fetchDepositNominees,
   fetchDepositProducts,
   fetchDepositSignatories,
@@ -102,6 +116,7 @@ type DepositAccountFormProps = {
   errorMessage?: string | null;
   /** Dialog keeps the stepper. Page shows every block as a section. */
   layout?: "dialog" | "page";
+  depositTypeCd?: number;
   onClose: () => void;
   onSubmit: (
     input: DepositAccountCreateInput | DepositAccountEditInput,
@@ -330,6 +345,7 @@ type FormState = {
   sbOpening: string;
   sbPaymentModeCd: string;
   sbRemarks: string;
+  term: TermDraft;
 };
 
 function customerFromAccount(
@@ -404,6 +420,7 @@ function emptyState(): FormState {
     sbOpening: "",
     sbPaymentModeCd: String(PAYMENT_MODE_CASH),
     sbRemarks: "",
+    term: emptyTermDraft(),
   };
 }
 
@@ -446,10 +463,15 @@ function stateFromAccount(account: DepositAccount): FormState {
   };
 }
 
+const TERM_FIELD_FOR_SB: Record<string, string> = {
+  sbStartDate: "tdStartDate",
+  sbRefAcNo: "tdRefAcNo",
+};
+
 function stepForField(field: string): Step {
   if (field === "prodTypeCd" || field === "schemeId") return 1;
   if (field === "custIdPrimary") return 2;
-  if (field.startsWith("sb")) return 4;
+  if (field.startsWith("sb") || field.startsWith("td")) return 4;
   if (
     field === "applDate" ||
     field === "applNo" ||
@@ -471,6 +493,7 @@ export function DepositAccountForm({
   saving,
   errorMessage,
   layout = "dialog",
+  depositTypeCd = SAVINGS_DEPOSIT_TYPE,
   onClose,
   onSubmit,
 }: DepositAccountFormProps) {
@@ -480,6 +503,7 @@ export function DepositAccountForm({
     <DepositAccountFormBody
       key={formKey}
       layout={layout}
+      depositTypeCd={depositTypeCd}
       mode={mode}
       account={account}
       transactionCount={transactionCount}
@@ -507,6 +531,7 @@ export function DepositAccountForm({
 
 function DepositAccountFormBody({
   layout = "dialog",
+  depositTypeCd = SAVINGS_DEPOSIT_TYPE,
   mode,
   account,
   transactionCount = 0,
@@ -517,7 +542,9 @@ function DepositAccountFormBody({
 }: Omit<DepositAccountFormProps, "open">) {
   const t = useTranslations("deposits.savings");
   const tUi = useTranslations("ui");
+  const tCommon = useTranslations("common");
   const format = useFormatter();
+  const isTerm = depositTypeCd === TERM_DEPOSIT_TYPE;
   const [form, setForm] = useState<FormState>(() =>
     account ? stateFromAccount(account) : emptyState(),
   );
@@ -544,6 +571,11 @@ function DepositAccountFormBody({
   const [categories, setCategories] = useState<ApplOption[]>([]);
   const [branches, setBranches] = useState<Branch[]>([]);
   const [paymentModes, setPaymentModes] = useState<ApplOption[]>([]);
+  const [maturityOptions, setMaturityOptions] = useState<ApplOption[]>([]);
+  const [sbAccountOptions, setSbAccountOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [sbAccountsLoading, setSbAccountsLoading] = useState(false);
   const [officers, setOfficers] = useState<
     { value: string; label: string }[]
   >([]);
@@ -597,7 +629,7 @@ function DepositAccountFormBody({
   const sbLocked = mode === "edit" && savingsFieldsLocked(account, transactionCount);
   const joints = jointVisibility(form.custTypeCd, Number(form.opModeCd) || 0);
   const prodTypeCd = form.prodTypeCd ? Number(form.prodTypeCd) : null;
-  const requiredCustType = custTypeForProduct(prodTypeCd);
+  const requiredCustType = isTerm ? null : custTypeForProduct(prodTypeCd);
   const selectedProduct =
     products.find((product) => product.prodTypeCd === prodTypeCd) ?? null;
   const schemes = selectedProduct?.schemes ?? [];
@@ -684,9 +716,10 @@ function DepositAccountFormBody({
       setForm((current) => ({ ...current, step: 7 }));
       return;
     }
-    setFieldErrors((current) => ({ ...current, [field]: errorMessage }));
-    setForm((current) => ({ ...current, step: stepForField(field) }));
-  }, [errorMessage]);
+    const target = isTerm ? (TERM_FIELD_FOR_SB[field] ?? field) : field;
+    setFieldErrors((current) => ({ ...current, [target]: errorMessage }));
+    setForm((current) => ({ ...current, step: stepForField(target) }));
+  }, [errorMessage, isTerm]);
 
   useEffect(() => {
     let cancelled = false;
@@ -733,7 +766,7 @@ function DepositAccountFormBody({
     let cancelled = false;
     setProductsLoading(true);
     setProductsError(false);
-    fetchDepositProducts({ depositTypeCd: SAVINGS_DEPOSIT_TYPE, isActive: 1 })
+    fetchDepositProducts({ depositTypeCd, isActive: 1 })
       .then((items) => {
         if (!cancelled) setProducts(items);
       })
@@ -746,7 +779,71 @@ function DepositAccountFormBody({
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [depositTypeCd]);
+
+  useEffect(() => {
+    if (!isTerm) return;
+    let cancelled = false;
+    fetchApplOptions(OPT_MATURITY_INSTRUCTION)
+      .then((items) => {
+        if (!cancelled) setMaturityOptions(items);
+      })
+      .catch(() => {
+        if (!cancelled) setMaturityOptions([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isTerm]);
+
+  const sbCreditWanted = isTerm && needsSbCredit(form.term.matuInsCd);
+  const customerId = form.customer?.id ?? null;
+  useEffect(() => {
+    if (!sbCreditWanted || customerId == null) {
+      setSbAccountOptions([]);
+      setSbAccountsLoading(false);
+      return;
+    }
+    let cancelled = false;
+    setSbAccountsLoading(true);
+    const group = form.custTypeCd === CUST_TYPE_GROUP;
+    fetchDepositAccounts({
+      depositTypeCd: SAVINGS_DEPOSIT_TYPE,
+      custTypeCd: form.custTypeCd,
+      memberId: group ? undefined : customerId,
+      groupId: group ? customerId : undefined,
+      isClosed: false,
+      perPage: 100,
+    })
+      .then((result) => {
+        if (cancelled) return;
+        setSbAccountOptions(
+          result.items
+            .filter(
+              (item) =>
+                item.custIdPrimary === customerId &&
+                item.custTypeCd === form.custTypeCd &&
+                !item.isClosed,
+            )
+            .map((item) => ({
+              value: String(item.accountId),
+              label: t("form.term.sbCreditOption", {
+                account: item.fullAccountNo || item.applNo,
+                scheme: item.schemeName || item.schemeCode,
+              }),
+            })),
+        );
+      })
+      .catch(() => {
+        if (!cancelled) setSbAccountOptions([]);
+      })
+      .finally(() => {
+        if (!cancelled) setSbAccountsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [customerId, form.custTypeCd, sbCreditWanted, t]);
 
   useEffect(() => {
     if (effectiveBranchId == null) {
@@ -908,23 +1005,32 @@ function DepositAccountFormBody({
     };
   }, [account?.accountId, mode, t]);
 
+  const detailsStepLabel = isTerm ? t("form.term.stepTerm") : t("form.stepSavings");
   const steps = useMemo(
     () =>
       [
         { id: 1 as const, label: t("form.stepProduct") },
         { id: 2 as const, label: t("form.stepCustomer") },
         { id: 3 as const, label: t("form.stepHolders") },
-        { id: 4 as const, label: t("form.stepSavings") },
+        { id: 4 as const, label: detailsStepLabel },
         { id: 5 as const, label: t("form.stepApplication") },
         { id: 6 as const, label: t("form.stepNominees") },
         { id: 7 as const, label: t("form.stepSignatories") },
         { id: 8 as const, label: t("form.stepSummary") },
       ],
-    [t],
+    [detailsStepLabel, t],
   );
 
   function patch(partial: Partial<FormState>) {
     setForm((current) => ({ ...current, ...partial }));
+  }
+
+  function patchTerm(partial: Partial<TermDraft>) {
+    setForm((current) => ({ ...current, term: { ...current.term, ...partial } }));
+  }
+
+  function termError(issue: TermIssue): string {
+    return t(`form.term.errors.${issue}`);
   }
 
   function selectCustomer(customer: DepositCustomer | null) {
@@ -953,7 +1059,7 @@ function DepositAccountFormBody({
   }
 
   function selectProduct(product: DepositProductType) {
-    const nextCustType = custTypeForProduct(product.prodTypeCd);
+    const nextCustType = isTerm ? null : custTypeForProduct(product.prodTypeCd);
     patch({
       prodTypeCd: String(product.prodTypeCd),
       schemeId: "",
@@ -1021,7 +1127,13 @@ function DepositAccountFormBody({
         next.custIdPrimary = t("form.errors.customerType");
       }
     }
-    if (step === 4) {
+    if (step === 4 && isTerm) {
+      const issues = termIssues(form.term, form.applDate, prodTypeCd);
+      for (const [field, issue] of Object.entries(issues)) {
+        if (issue) next[field] = termError(issue);
+      }
+    }
+    if (step === 4 && !isTerm) {
       const start = form.sbStartTouched ? form.sbStartDate : form.applDate;
       if (!start || start < form.applDate || start > todayYmd()) {
         next.sbStartDate = t("form.errors.sbStart");
@@ -1189,7 +1301,8 @@ function DepositAccountFormBody({
       foId: form.foId ? Number(form.foId) : null,
       branchId: effectiveBranchId,
       statusCd: Number(form.statusCd) === STATUS_KYC_PENDING ? 7 : 1,
-      sb: savingsDetails,
+      sb: isTerm ? undefined : savingsDetails,
+      td: isTerm ? toTermInput(form.term, prodTypeCd) : undefined,
     };
     const nomineePayload =
       form.custTypeCd === CUST_TYPE_INDIVIDUAL && listedNominees.length === 0
@@ -1215,6 +1328,73 @@ function DepositAccountFormBody({
     officers.find((officer) => officer.value === form.foId)?.label ||
     form.customer?.foName ||
     t("dash");
+  const termAmount = Number(form.term.instAmount);
+  const termSummary = {
+    title: t("form.term.stepTerm"),
+    rows: [
+      {
+        label: t("form.term.roi"),
+        value:
+          selectedScheme?.roiPercent != null
+            ? t("roiPercent", {
+                value: format.number(selectedScheme.roiPercent, {
+                  maximumFractionDigits: 2,
+                }),
+              })
+            : t("form.term.roiPlaceholder"),
+      },
+      {
+        label: t("form.term.period"),
+        value: t("form.term.periodValue", {
+          years: Number(form.term.periodYy) || 0,
+          months: Number(form.term.periodMm) || 0,
+          days: Number(form.term.periodDd) || 0,
+        }),
+      },
+      {
+        label: takesInstallments(prodTypeCd)
+          ? t("form.term.installmentAmount")
+          : t("form.term.depositAmount"),
+        value:
+          Number.isFinite(termAmount) && termAmount > 0
+            ? format.number(termAmount, {
+                style: "currency",
+                currency: "INR",
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })
+            : t("dash"),
+      },
+      ...(takesInstallments(prodTypeCd)
+        ? [
+            {
+              label: t("form.term.instNo"),
+              value: form.term.instNo.trim() || t("form.term.instNoPlaceholder"),
+            },
+          ]
+        : []),
+      {
+        label: t("form.term.maturityInstruction"),
+        value:
+          maturityOptions.find((option) => String(option.optCode) === form.term.matuInsCd)
+            ?.optDescription || t("dash"),
+      },
+      ...(needsSbCredit(form.term.matuInsCd)
+        ? [
+            {
+              label: t("form.term.sbCredit"),
+              value:
+                sbAccountOptions.find((option) => option.value === form.term.sbCreditAcId)
+                  ?.label || t("dash"),
+            },
+          ]
+        : []),
+      {
+        label: t("form.term.tdsDeduct"),
+        value: form.term.tdsDeduct ? tCommon("yes") : tCommon("no"),
+      },
+    ],
+  };
   const openingAmount = Number(form.sbOpening);
   const paymentModeLabel =
     paymentModes.find((option) => String(option.optCode) === form.sbPaymentModeCd)
@@ -1281,7 +1461,7 @@ function DepositAccountFormBody({
           : []),
       ],
     },
-    {
+    isTerm ? termSummary : {
       title: t("form.stepSavings"),
       rows: [
         ...(mode === "edit"
@@ -1427,7 +1607,7 @@ function DepositAccountFormBody({
       </ol>
       ) : null}
 
-      {errorMessage ? <Alert tone="error">{errorMessage}</Alert> : null}
+      <PageToast message={errorMessage ?? null} tone="error" />
 
       {show(1) ? (
         <FormSection
@@ -1445,9 +1625,13 @@ function DepositAccountFormBody({
             {productsLoading ? (
               <p className="text-sm text-muted">{tUi("loading")}</p>
             ) : productsError ? (
-              <Alert tone="error">{t("form.productsError")}</Alert>
+              <Alert tone="error">
+                {isTerm ? t("form.term.productsError") : t("form.productsError")}
+              </Alert>
             ) : products.length === 0 ? (
-              <p className="text-sm text-muted">{t("form.productsEmpty")}</p>
+              <p className="text-sm text-muted">
+                {isTerm ? t("form.term.productsEmpty") : t("form.productsEmpty")}
+              </p>
             ) : (
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 {products.map((product) => {
@@ -1495,7 +1679,9 @@ function DepositAccountFormBody({
             disabled={locked || !form.prodTypeCd}
             value={form.schemeId}
             error={fieldErrors.schemeId}
-            placeholder={t("form.schemePlaceholder")}
+            placeholder={
+              isTerm ? t("form.term.schemePlaceholder") : t("form.schemePlaceholder")
+            }
             searchPlaceholder={tUi("selectSearch")}
             emptyMessage={tUi("selectEmpty")}
             hint={form.prodTypeCd ? undefined : t("form.schemeHint")}
@@ -1732,17 +1918,31 @@ function DepositAccountFormBody({
         <FormSection
           layout={layout}
           id="deposit-account-section-4"
-          title={t("form.stepSavings")}
+          title={detailsStepLabel}
         >
-          <SavingsDetails
-            form={form}
-            locked={sbLocked}
-            showAccountNo={mode === "edit"}
-            scheme={selectedScheme}
-            paymentModes={paymentModes}
-            errors={fieldErrors}
-            onChange={patch}
-          />
+          {isTerm ? (
+            <DepositAccountTermDetails
+              draft={form.term}
+              prodTypeCd={prodTypeCd}
+              applDate={form.applDate}
+              schemeRoi={selectedScheme?.roiPercent ?? null}
+              maturityOptions={maturityOptions}
+              sbAccountOptions={sbAccountOptions}
+              sbAccountsLoading={sbAccountsLoading}
+              errors={fieldErrors}
+              onChange={patchTerm}
+            />
+          ) : (
+            <SavingsDetails
+              form={form}
+              locked={sbLocked}
+              showAccountNo={mode === "edit"}
+              scheme={selectedScheme}
+              paymentModes={paymentModes}
+              errors={fieldErrors}
+              onChange={patch}
+            />
+          )}
         </FormSection>
       ) : null}
 

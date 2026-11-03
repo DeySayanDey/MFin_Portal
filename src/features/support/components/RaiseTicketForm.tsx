@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { ImagePlus, Send, X } from "lucide-react";
-import { Alert } from "@/components/ui/Alert";
+import { PageToast } from "@/components/ui/PageToast";
 import { Button } from "@/components/ui/Button";
 import { SelectField, TextAreaField, TextField } from "@/components/ui/Form";
 import { Modal } from "@/components/ui/Modal";
@@ -224,7 +224,7 @@ export function RaiseTicketForm({
       }
     >
       <form id={FORM_ID} className="grid grid-cols-1 gap-4" onSubmit={handleSubmit}>
-        {errorMessage ? <Alert tone="error">{errorMessage}</Alert> : null}
+        <PageToast message={errorMessage ?? null} tone="error" />
         <TextField
           label={t("fields.subject")}
           value={subject}

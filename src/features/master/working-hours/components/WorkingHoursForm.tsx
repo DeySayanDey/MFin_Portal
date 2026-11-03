@@ -61,7 +61,7 @@ export function WorkingHoursForm() {
   const [form, setForm] = useState<FormState | null>(null);
   const [saving, setSaving] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useToastText();
   const [successMessage, setSuccessMessage] = useToastText();
 
   useEffect(() => {
@@ -240,7 +240,7 @@ export function WorkingHoursForm() {
     <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
       <PageToast message={successMessage} />
 
-      {formError ? <Alert tone="error">{formError}</Alert> : null}
+      <PageToast message={formError} tone="error" />
 
       {loadState.status === "ready" && loadState.workingHours == null ? (
         <Alert tone="info">{t("notConfiguredHint")}</Alert>

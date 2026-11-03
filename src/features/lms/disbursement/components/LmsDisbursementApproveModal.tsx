@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CheckCircle2, ShieldAlert, XCircle } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { Alert } from "@/components/ui/Alert";
+import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
@@ -35,7 +35,7 @@ export function LmsDisbursementApproveModal({
 
   const [remarks, setRemarks] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useToastText();
 
   if (!disbursement) return null;
 
@@ -112,7 +112,7 @@ export function LmsDisbursementApproveModal({
       }
     >
       <div className="space-y-4">
-        {error && <Alert tone="error">{error}</Alert>}
+        <PageToast message={error} tone="error" />
 
         {/* PENDING SUMMARY CARD */}
         <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-4 space-y-3">

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Save } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import { PageToast } from "@/components/ui/PageToast";
 import { SelectField, TextField } from "@/components/ui/Form";
 import { codeSeriesUpdateInputSchema } from "@/features/master/code-series/schemas/code-series.schema";
 import type {
@@ -89,14 +90,7 @@ function CodeSeriesFormBody({
       onSubmit={(event) => void handleSubmit(event)}
       className="space-y-4"
     >
-      {errorMessage ? (
-        <p
-          role="alert"
-          className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700"
-        >
-          {errorMessage}
-        </p>
-      ) : null}
+      <PageToast message={errorMessage ?? null} tone="error" />
 
       <div className="grid gap-3 sm:grid-cols-2">
         <TextField

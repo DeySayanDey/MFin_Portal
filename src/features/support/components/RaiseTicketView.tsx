@@ -98,7 +98,7 @@ export function RaiseTicketView() {
   const [formOpen, setFormOpen] = useState(false);
   const [formSession, setFormSession] = useState(0);
   const [saving, setSaving] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useToastText();
   const [successMessage, setSuccessMessage] = useToastText();
 
   const [detailOpen, setDetailOpen] = useState(false);

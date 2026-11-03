@@ -1,5 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { DepositAccountDetailPage } from "@/features/deposits/savings/components/DepositAccountDetailPage";
+import { resolveDepositAccountRef } from "@/features/deposits/savings/services/deposit-account.service";
+import { recordPath } from "@/lib/navigation/record-code";
+import { resolveRecordPage } from "@/lib/navigation/record-page";
 
 export async function generateMetadata() {
   const t = await getTranslations("deposits.savings");
@@ -23,12 +26,17 @@ function readParam(
 }
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const { accountId } = await params;
+  const { accountId: code } = await params;
   const query = await searchParams;
-  const id = Number(accountId);
+  const id = await resolveRecordPage({
+    code,
+    resolve: resolveDepositAccountRef,
+    href: (value) => recordPath("/deposits/savings", value),
+    keep: query,
+  });
   return (
     <DepositAccountDetailPage
-      accountId={Number.isInteger(id) && id > 0 ? id : 0}
+      accountId={id ?? 0}
       notice={{
         created: readParam(query, "created"),
         updated: readParam(query, "updated"),

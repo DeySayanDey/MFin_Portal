@@ -1,6 +1,8 @@
 {
   "common": {
-    "appName": "eZi-Micro Core Banking",
+    "appName": "PrioSuite LTE",
+    "footerCopyright": "© {year} PrioSuite LTE · Microfinance Management Solution",
+    "footerCredit": "Design & Developed By <link>Priority Solutions</link>",
     "loading": "Loading…",
     "save": "Save",
     "cancel": "Cancel",
@@ -319,8 +321,8 @@
     "localeHi": "Hindi",
     "localeBn": "Bengali",
     "localeOr": "Odia",
-    "metaSignInTitle": "Sign In · eZi-Micro Core Banking",
-    "metaSignInDescription": "Secure staff login to eZi-Micro MFIN Core Banking Portal",
+    "metaSignInTitle": "Sign In · PrioSuite LTE",
+    "metaSignInDescription": "Secure staff login to PrioSuite LTE Microfinance Management Solution",
     "forgotHint": "Enter your registered employee email or employee ID. Password reset will be available once the API is connected.",
     "forgotPendingApi": "Forgot-password API is not available yet. This page checks the form only.",
     "forgotIdentifier": "Employee email / employee ID",
@@ -1664,6 +1666,10 @@
         "effectToAfterFrom": "Effective Upto date must be on or after Effective From date",
         "activeChargeOverlapWarningTitle": "Active Charge Already Exists",
         "activeChargeOverlap": "An active charge already exists for this scheme and charge type during {from} → {to}. Please deactivate the previous charge before creating a new one."
+      },
+      "tabHints": {
+        "setup": "Deposit products, rates and tenures",
+        "charges": "Fees and charges applied to deposit schemes"
       }
     },
     "depositInterest": {
@@ -1805,7 +1811,11 @@
       },
       "refundable": "Refundable",
       "nonRefundable": "Non-refundable",
-      "refundableHint": "Refundable charges (e.g. security deposit) are returned to the borrower at loan closure."
+      "refundableHint": "Refundable charges (e.g. security deposit) are returned to the borrower at loan closure.",
+      "tabHints": {
+        "deposit": "Charge heads for deposit accounts",
+        "loan": "Charge heads for loan accounts"
+      }
     },
     "loanSchemes": {
       "title": "Loan Schemes",
@@ -1963,6 +1973,10 @@
           "schemeId": "Select a loan scheme.",
           "chargeIds": "Select at least one active charge."
         }
+      },
+      "tabHints": {
+        "setup": "Loan products, rates and limits",
+        "charges": "Fees and charges applied to loan schemes"
       }
     },
     "loanRoiSlabs": {
@@ -2915,6 +2929,214 @@
     },
     "memberAdmissionFee": {
       "voucherNo": "Admission Fee Voucher"
+    },
+    "member360": {
+      "metaTitle": "Member 360 Enquiry",
+      "metaDescription": "Search a member and see their profile, KYC, groups, shares, deposits, loans and recent activity in one place",
+      "title": "Member 360 Enquiry",
+      "description": "Search a member to see everything linked to them and jump straight to the related screen.",
+      "refresh": "Refresh",
+      "loadFailed": "Member details could not be loaded",
+      "dash": "—",
+      "open": "Open",
+      "active": "Active",
+      "status": "Status",
+      "actions": "Actions",
+      "search": {
+        "label": "Search member",
+        "placeholder": "Search by member name, code, mobile or reference code",
+        "clear": "Clear search",
+        "hint": "Type at least {count} characters to search",
+        "failed": "Members could not be searched",
+        "noResults": "No member matches “{keyword}”",
+        "resultMeta": "{code} · {mobile} · {branch}"
+      },
+      "idle": {
+        "title": "Search a member to begin",
+        "message": "Pick a member from the search to see their full profile, accounts, loans and activity."
+      },
+      "notFound": {
+        "title": "Member not found",
+        "message": "No member with code {code} is available in your branch."
+      },
+      "forbidden": {
+        "title": "Not allowed",
+        "message": "This member belongs to another branch, so you can't view their details."
+      },
+      "tabs": {
+        "label": "Member sections",
+        "overview": "Overview",
+        "deposits": "Deposits ({count})",
+        "loans": "Loans ({count})",
+        "activity": "Activity ({count})"
+      },
+      "tabHints": {
+        "overview": "Profile, KYC, groups, nominees and shares",
+        "deposits": "Savings and term deposit accounts",
+        "loans": "Loan accounts, dues and applications",
+        "activity": "Latest transactions across products"
+      },
+      "kycBadge": {
+        "verified": "KYC verified",
+        "pending": "KYC pending",
+        "rejected": "KYC rejected",
+        "missing": "No KYC"
+      },
+      "kycStatus": {
+        "0": "Pending",
+        "1": "Verified",
+        "2": "Rejected",
+        "expired": "Expired"
+      },
+      "hero": {
+        "codes": "Member code {code} · Ref {ref}",
+        "mobile": "Mobile",
+        "branch": "Branch",
+        "center": "Center",
+        "joined": "Joined on"
+      },
+      "links": {
+        "label": "Quick access",
+        "registration": "Member profile",
+        "kyc": "KYC documents",
+        "groups": "Group mapping",
+        "shares": "Share subscription",
+        "ledger": "Member ledger",
+        "openSavings": "Open savings",
+        "openTerm": "Open fixed deposit",
+        "loanApplications": "Loan applications",
+        "disbursement": "Disbursement",
+        "collections": "Collections",
+        "closure": "Membership closure"
+      },
+      "stats": {
+        "savings": "Savings balance",
+        "term": "Term deposits",
+        "outstanding": "Loan outstanding",
+        "overdue": "Overdue",
+        "shares": "Share capital",
+        "openAccounts": "{count, plural, =0 {No open accounts} one {# open account} other {# open accounts}}",
+        "activeLoans": "{count, plural, =0 {No active loans} one {# active loan} other {# active loans}}",
+        "overdueHint": "Needs collection follow-up",
+        "noOverdue": "No dues pending",
+        "shareCount": "{count, plural, =0 {No shares} one {# share} other {# shares}}"
+      },
+      "alerts": {
+        "label": "Attention",
+        "none": "Nothing needs attention for this member.",
+        "inactive": "Membership is not active ({status}).",
+        "kycMissing": "No KYC document is on record.",
+        "kycPending": "{count, plural, one {# KYC document is} other {# KYC documents are}} waiting for verification.",
+        "kycRejected": "{count, plural, one {# KYC document was} other {# KYC documents were}} rejected.",
+        "kycExpired": "{count, plural, one {# KYC document has} other {# KYC documents have}} expired.",
+        "overdue": "{count, plural, one {# loan is} other {# loans are}} overdue by {amount} in total.",
+        "npa": "{count, plural, one {# loan is} other {# loans are}} marked NPA.",
+        "maturing": "{count, plural, one {# term deposit matures} other {# term deposits mature}} in the next {days} days."
+      },
+      "overview": {
+        "personal": "Personal details",
+        "father": "Father's name",
+        "spouse": "Spouse's name",
+        "gender": "Gender",
+        "dob": "Date of birth",
+        "dobWithAge": "{date} ({age} yrs)",
+        "altMobile": "Alternate mobile",
+        "email": "Email",
+        "pan": "PAN",
+        "occupation": "Occupation",
+        "income": "Monthly income",
+        "fieldOfficer": "Field officer",
+        "address": "Address",
+        "kyc": "KYC documents",
+        "noKyc": "No KYC documents yet.",
+        "kycNoExpiry": "{number} · valid till {date}",
+        "groups": "Groups",
+        "noGroups": "Not part of any group.",
+        "groupName": "{name} ({code})",
+        "groupMeta": "{role} · joined {date}",
+        "exited": "Exited {date}",
+        "nominees": "Nominees",
+        "noNominees": "No nominee added.",
+        "nomineeShare": "{relation} · {percent}%",
+        "shares": "Shares",
+        "totalShares": "Shares held",
+        "faceValue": "Face value",
+        "shareAmount": "Share amount",
+        "paidAmount": "Paid amount",
+        "pendingShares": "Shares awaiting approval",
+        "lastSubscription": "Last subscription"
+      },
+      "role": {
+        "label": "Role",
+        "primary": "Primary holder",
+        "joint": "Joint holder",
+        "group": "Group member"
+      },
+      "deposits": {
+        "title": "Deposit accounts",
+        "description": "Savings and term deposits where this member is a holder",
+        "account": "Account",
+        "type": "Type",
+        "savings": "Savings",
+        "term": "Term deposit",
+        "opened": "Opened",
+        "balance": "Balance",
+        "maturity": "Maturity",
+        "emptyTitle": "No deposit accounts",
+        "emptyMessage": "This member has no savings or term deposit accounts.",
+        "links": {
+          "view": "View",
+          "transactions": "Transactions",
+          "settle": "Settle"
+        }
+      },
+      "loans": {
+        "title": "Loan accounts",
+        "description": "Loans where this member is a borrower, co-borrower or group member",
+        "account": "Loan account",
+        "loanDate": "Loan date",
+        "amount": "Loan amount",
+        "outstanding": "Outstanding",
+        "overdue": "Overdue",
+        "overdueDays": "{count, plural, one {# day late} other {# days late}}",
+        "nextDue": "Next due",
+        "npa": "NPA",
+        "emptyTitle": "No loan accounts",
+        "emptyMessage": "This member has no loan accounts.",
+        "links": {
+          "collect": "Collect",
+          "disbursement": "Disbursement"
+        }
+      },
+      "applications": {
+        "title": "Loan applications",
+        "description": "Applications that haven't become loan accounts yet",
+        "number": "Application no.",
+        "date": "Applied on",
+        "scheme": "Scheme",
+        "amount": "Amount",
+        "openList": "All applications",
+        "emptyTitle": "No pending applications",
+        "emptyMessage": "This member has no open loan applications."
+      },
+      "activity": {
+        "title": "Recent activity",
+        "description": "Latest 20 transactions across savings, term deposits, loans and shares",
+        "date": "Date",
+        "module": "Product",
+        "reference": "Reference",
+        "details": "Details",
+        "credit": "Credit",
+        "debit": "Debit",
+        "emptyTitle": "No recent activity",
+        "emptyMessage": "No transactions have been recorded for this member yet.",
+        "modules": {
+          "savings": "Savings",
+          "term": "Term deposit",
+          "loan": "Loan",
+          "share": "Shares"
+        }
+      }
     }
   },
   "deposits": {
@@ -2942,6 +3164,7 @@
       "search": {
         "label": "Account",
         "placeholder": "Search account or holder",
+        "clear": "Clear account search",
         "hint": "Search for a member to open the ledger.",
         "searching": "Searching…",
         "empty": "No members found.",
@@ -2974,6 +3197,23 @@
         "debit": "Debit",
         "balance": "Balance",
         "status": "Status"
+      },
+      "print": {
+        "previewButton": "Preview & print",
+        "title": "Deposit account statement",
+        "account": "Account",
+        "holder": "Account holder",
+        "scheme": "Scheme",
+        "currentBalance": "Current balance",
+        "period": "Statement period",
+        "dateRange": "{from} to {to}",
+        "allDates": "All dates",
+        "transactions": "Transactions",
+        "transactionCount": "{count, plural, one {# transaction} other {# transactions}}"
+      },
+      "tabHints": {
+        "savings": "Savings accounts of this member",
+        "term": "Fixed and recurring deposits of this member"
       }
     },
     "specimenUpdate": {
@@ -3015,7 +3255,11 @@
       "imageRequired": "Choose a signature, a photo, or both.",
       "memberRequired": "Select a signatory.",
       "loadSignatoriesError": "Signatories could not be loaded.",
-      "saveError": "Specimen could not be saved."
+      "saveError": "Specimen could not be saved.",
+      "tabHints": {
+        "signatories": "Upload signature and photo specimens",
+        "kyc": "Update member KYC documents"
+      }
     },
     "savings": {
       "title": "Savings accounts",
@@ -3142,6 +3386,49 @@
           "openingHint": "An opening deposit is posted as a pending transaction and needs approval.",
           "minBalance": "The scheme minimum balance is {amount}.",
           "locked": "Start date, account number, and opening deposit stay locked while the balance is not zero or the account has transactions."
+        },
+        "term": {
+          "createTitle": "Open term deposit",
+          "stepHint": "Product and scheme, customer, holders, term details, application, nominees, signatories, then a summary",
+          "stepTerm": "Term Details",
+          "schemePlaceholder": "Select a term deposit scheme",
+          "productsError": "Term deposit products could not be loaded.",
+          "productsEmpty": "No term deposit products are set up yet.",
+          "startDate": "Start Date",
+          "roi": "Interest Rate (%)",
+          "roiPlaceholder": "Scheme slab rate",
+          "roiHint": "The final rate follows the scheme slab for the chosen period.",
+          "period": "Deposit Period",
+          "years": "Years",
+          "months": "Months",
+          "days": "Days",
+          "periodHint": "Up to 50 years, 120 months and 120 days.",
+          "periodWholeMonthsHint": "Recurring deposits run in whole months.",
+          "periodValue": "{years} y · {months} m · {days} d",
+          "depositAmount": "Deposit Amount",
+          "installmentAmount": "Installment Amount",
+          "instNo": "Number of Installments",
+          "instNoPlaceholder": "Full period",
+          "instNoMax": "Up to {max} for this period.",
+          "instNoDailyHint": "Leave blank to use every day of the period.",
+          "maturityInstruction": "Maturity Instruction",
+          "maturityPlaceholder": "Select an instruction",
+          "sbCredit": "Savings Account for Credit",
+          "sbCreditPlaceholder": "Select a savings account",
+          "sbCreditEmpty": "This customer has no open savings account.",
+          "sbCreditOption": "{account} · {scheme}",
+          "refAcNo": "Reference Account No",
+          "tdsDeduct": "Deduct TDS",
+          "errors": {
+            "start": "Start date cannot be before the application date or in the future.",
+            "ref": "Reference account number must be 15 characters or fewer.",
+            "periodRange": "Period must be 0–50 years, 0–120 months and 0–120 days.",
+            "periodRequired": "Enter a deposit period.",
+            "periodWholeMonths": "A recurring deposit period must be in whole months.",
+            "amount": "Enter an amount greater than 0 and within the allowed limit.",
+            "instNo": "Enter a number of installments that fits the period.",
+            "sbCredit": "Choose the savings account to credit at maturity."
+          }
         },
         "operationMode": "Operation Mode",
         "joint1": "Joint Holder 1",
@@ -3385,7 +3672,14 @@
         "noAccountYet": "Account number is created with the savings detail.",
         "type": "Type",
         "nomineesNone": "No nominee is registered for this account.",
-        "signatoriesNone": "No signatory is registered for this account."
+        "signatoriesNone": "No signatory is registered for this account.",
+        "tabHints": {
+          "overview": "Account, scheme and balance details",
+          "members": "Members linked to this group account",
+          "nominees": "People who receive the balance on a claim",
+          "signatories": "Authorised operators of the account",
+          "transactions": "Deposits, withdrawals and adjustments"
+        }
       },
       "toggleDialog": {
         "activateTitle": "Activate account?",
@@ -3428,6 +3722,7 @@
     },
     "term": {
       "metaTitle": "Term deposits",
+      "openAccount": "Open term deposit",
       "metaDescription": "Fixed, recurring and other term deposit accounts",
       "description": "Term deposit accounts, amount and maturity",
       "dash": "—",
@@ -3571,19 +3866,15 @@
         "settledMessage": "Posted settlements appear here."
       },
       "workspace": {
-        "accountLine": "Account {account}",
         "customer": "Customer information",
         "deposit": "Deposit information",
         "request": "Settlement request",
         "calculation": "Settlement calculation",
         "payout": "Payment / transfer",
         "documents": "Documents and declaration",
-        "name": "Name",
         "customerId": "Customer ID",
-        "kyc": "KYC",
         "holding": "Holding",
         "branch": "Branch",
-        "scheme": "Scheme",
         "principal": "Principal",
         "rate": "Rate",
         "rateValue": "{rate}% p.a.",
@@ -3640,7 +3931,18 @@
         "checklist": {
           "maturity": "Attach the settlement form when it is available.",
           "premature": "Attach the customer request when it is available."
-        }
+        },
+        "uploadPrompt": "<browse>Click to upload</browse> or drag and drop",
+        "uploadHint": "PDF, JPG or PNG, up to 2 MB",
+        "fileSize": "{size, number, integer} KB",
+        "replaceFile": "Replace",
+        "removeFile": "Remove file",
+        "removeFileNamed": "Remove {name}",
+        "kycStatus": "KYC: {status}",
+        "attachedDocument": "Supporting document",
+        "noDocument": "No document attached",
+        "noDocumentHint": "The maker submitted this request without a supporting document.",
+        "declarationConfirmed": "The maker confirmed the details are verified"
       },
       "mis": {
         "title": "Monthly interest details",
@@ -3664,7 +3966,15 @@
       "receipt": {
         "title": "Settlement receipt",
         "reference": "Reference",
-        "printed": "This receipt is for a settled request."
+        "printed": "This receipt is for a settled request.",
+        "print": "Print",
+        "branch": "Branch: {branch}",
+        "printedOn": "Printed on {date}",
+        "breakdown": "Amount breakdown",
+        "signatures": {
+          "customer": "Customer signature",
+          "officer": "Authorised signatory"
+        }
       },
       "requestStatuses": {
         "draft": "Draft",
@@ -3680,7 +3990,11 @@
         "rejected": "Settlement rejected.",
         "posted": "Settlement posted.",
         "unsavedTitle": "Leave this settlement?",
-        "unsavedMessage": "The quote and unsaved entries will be cleared."
+        "unsavedMessage": "The quote and unsaved entries will be cleared.",
+        "loadFailed": "Settlement data could not be loaded. Try again.",
+        "actionFailed": "The settlement could not be updated. Try again.",
+        "saveFailed": "The settlement could not be saved. Try again.",
+        "calculateFailed": "The settlement amount could not be calculated. Try again."
       },
       "validation": {
         "type": "Choose a settlement type.",
@@ -3700,6 +4014,15 @@
       "reject": {
         "title": "Reject settlement",
         "reason": "Reason"
+      },
+      "detail": {
+        "title": "Settlement details",
+        "empty": "No settlement has been recorded for this account."
+      },
+      "tabHints": {
+        "search": "Find a deposit account to start a settlement",
+        "pending": "Requests waiting for checker approval",
+        "settled": "Closed deposits and their receipts"
       }
     },
     "savingsTransaction": {
@@ -3709,7 +4032,7 @@
       "clearScope": "Show all",
       "filters": {
         "search": "Search",
-        "searchPlaceholder": "Transaction no, account, holder",
+        "searchPlaceholder": "Transaction no, account, member name or code",
         "type": "Type",
         "mode": "Mode",
         "status": "Status",
@@ -3733,12 +4056,15 @@
         "2": "Withdrawal"
       },
       "table": {
+        "title": "Transaction history",
+        "description": "Deposits and withdrawals with member, amount and status",
         "transNo": "Transaction Id",
+        "member": "Member Name",
         "account": "Account",
         "type": "Type",
         "mode": "Mode",
         "amount": "Amount",
-        "balance": "Balance after",
+        "balance": "Current balance",
         "status": "Status",
         "date": "Date",
         "actions": "Actions",
@@ -3825,6 +4151,228 @@
         "next": "Next",
         "close": "Close",
         "loadError": "Accounts could not be loaded"
+      },
+      "print": {
+        "button": "Print",
+        "preparing": "Preparing…",
+        "failed": "The report could not be prepared. Try again.",
+        "title": "Savings transaction report",
+        "branch": "Branch: {branch} ({code})",
+        "branchOnly": "Branch: {branch}",
+        "generatedOn": "Generated on {date}",
+        "printedBy": "Printed by: {name}",
+        "serial": "S.No",
+        "truncated": "Only the first {count, number} transactions are included. Narrow the filters to print the rest.",
+        "endOfReport": "End of report",
+        "pageOf": "Page {page} of {pages}",
+        "signatures": {
+          "preparedBy": "Prepared by",
+          "checkedBy": "Checked by",
+          "authorisedBy": "Authorised signatory"
+        },
+        "previewTitle": "Print preview",
+        "previewSubtitle": "Check the report, then print it or save it as PDF."
+      }
+    },
+    "interestPosting": {
+      "metaTitle": "Savings Interest Posting",
+      "metaDescription": "Calculate savings interest for one account or in bulk, adjust it, and post it to the accounts",
+      "title": "Savings Interest Posting",
+      "description": "Calculate interest up to a date, review or adjust each amount, then post it to the savings accounts.",
+      "dash": "—",
+      "loadFailed": "Interest could not be calculated",
+      "postFailed": "Interest could not be posted",
+      "posted": "{count, plural, one {Interest of {total} posted to # account} other {Interest of {total} posted to # accounts}}. Batch {batch}.",
+      "period": {
+        "title": "Interest period",
+        "asOn": "Interest up to",
+        "asOnHint": "Interest runs from the day after the last posting up to this date",
+        "postingDate": "Posting date",
+        "postingHint": "Date the interest is credited to the accounts"
+      },
+      "tabs": {
+        "label": "Posting type",
+        "single": "Single",
+        "bulk": "Bulk"
+      },
+      "tabHints": {
+        "single": "Search one savings account and post its interest",
+        "bulk": "Load many savings accounts and post them together"
+      },
+      "columns": {
+        "account": "Account",
+        "scheme": "Scheme",
+        "rateMethod": "{rate} · {method}",
+        "balance": "Balance",
+        "period": "Period",
+        "periodRange": "{from} – {to}",
+        "days": "{count, plural, one {# day} other {# days}}",
+        "upToDate": "Posted up to {date}",
+        "product": "Product",
+        "calculated": "Calculated",
+        "interest": "Interest to post",
+        "interestFor": "Interest to post for {account}",
+        "resetAmount": "Use calculated amount",
+        "notDue": "Not due yet"
+      },
+      "summary": {
+        "accounts": "Accounts",
+        "calculated": "Calculated interest",
+        "posting": "Interest to post",
+        "edited": "Changed amounts",
+        "accountCount": "{count, plural, one {# account} other {# accounts}}",
+        "editedCount": "{count, plural, =0 {None} one {# account} other {# accounts}}",
+        "remarks": "Remarks",
+        "remarksPlaceholder": "Reason or note for this posting",
+        "remarksRequired": "Add a reason because some amounts were changed",
+        "remarksHint": "Required only when you change a calculated amount",
+        "post": "Post interest",
+        "invalidAmounts": "{count, plural, one {# amount is} other {# amounts are}} not valid. Use numbers with up to 2 decimals."
+      },
+      "confirm": {
+        "title": "Post interest?",
+        "description": "{count, plural, one {Interest of {total} will be credited to # account} other {Interest of {total} will be credited to # accounts}} for the period up to {asOn}, dated {posting}. This can't be undone from this screen.",
+        "button": "Post interest"
+      },
+      "single": {
+        "account": "Account",
+        "holder": "Account holder",
+        "scheme": "Scheme",
+        "balance": "Current balance",
+        "emptyTitle": "No account selected",
+        "emptyMessage": "Search by member, account number or mobile and choose a savings account.",
+        "choose": "Search account",
+        "change": "Change account",
+        "clear": "Clear",
+        "savingsOnly": "Choose a savings account. Term deposit interest is handled separately.",
+        "upToDate": "Interest is already posted up to {date}. Nothing is due up to {asOn}.",
+        "tableTitle": "Interest calculation",
+        "tableDescription": "Interest worked out up to {asOn}. You can change the amount before posting.",
+        "noInterestTitle": "No interest to post",
+        "noInterestMessage": "This account has no interest due for the selected period.",
+        "notDue": "No interest is due up to {asOn} yet. Monthly product schemes are paid for complete months only."
+      },
+      "bulk": {
+        "scheme": "Scheme",
+        "allSchemes": "All savings schemes",
+        "branch": "Branch",
+        "allBranches": "All branches",
+        "keyword": "Search",
+        "keywordPlaceholder": "Account number, holder name or member code",
+        "load": "Load accounts",
+        "capped": "Showing the first {shown} of {total} accounts. Post these, then load again, or narrow the filters.",
+        "tableTitle": "Accounts due for interest",
+        "tableDescription": "Interest up to {asOn} · {selected} of {count} selected",
+        "clearSelection": "Clear selection",
+        "selectAll": "Select all ({count})",
+        "emptyTitle": "No accounts due",
+        "emptyMessage": "No savings account matching these filters has interest due up to {asOn}.",
+        "idleTitle": "Load accounts to begin",
+        "idleMessage": "Choose a scheme or search, then load the accounts that have interest due."
+      }
+    },
+    "chargePosting": {
+      "metaTitle": "Deposit Charges",
+      "metaDescription": "Deduct scheme charges from savings accounts",
+      "title": "Deposit Charges",
+      "description": "Work out the charges set on each account's scheme, review or adjust them, then deduct them from the savings accounts.",
+      "dash": "—",
+      "loadFailed": "Charges could not be loaded. Try again.",
+      "postFailed": "Charges could not be deducted. Try again.",
+      "posted": "{count, plural, one {# charge} other {# charges}} deducted · {total} · Batch {batch}",
+      "date": {
+        "title": "Charge date",
+        "chargeDate": "Charge date",
+        "chargeDateHint": "Date the charges are debited from the accounts"
+      },
+      "tabs": {
+        "label": "Charge mode",
+        "single": "Single",
+        "bulk": "Bulk"
+      },
+      "tabHints": {
+        "single": "Pick one savings account and deduct its scheme charges",
+        "bulk": "Pick a charge and deduct it from many savings accounts together"
+      },
+      "basis": {
+        "fixed": "Fixed {amount}",
+        "percent": "{rate} of balance",
+        "percentMax": "{rate} of balance, up to {max}",
+        "manual": "No amount set up — enter it"
+      },
+      "columns": {
+        "account": "Account",
+        "available": "Available",
+        "charge": "Charge",
+        "frequency": "Charged",
+        "chargedThisPeriod": "Already charged this period",
+        "lastCharged": "Last charged {date}",
+        "neverCharged": "Not charged yet",
+        "calculated": "Calculated",
+        "amount": "Charge amount",
+        "amountFor": "Charge amount for {charge} on {account}",
+        "resetAmount": "Use the calculated amount",
+        "tax": "Tax",
+        "taxRate": "{rate} tax",
+        "total": "Total",
+        "short": "Not enough balance"
+      },
+      "summary": {
+        "charges": "Charges",
+        "chargeTotal": "Charge amount",
+        "taxTotal": "Tax",
+        "total": "Total to deduct",
+        "chargeCount": "{count, plural, =0 {None} one {# charge} other {# charges}}",
+        "remarks": "Remarks",
+        "remarksPlaceholder": "Reason or note for these charges",
+        "remarksRequired": "Add a reason for the changed amount or repeat charge",
+        "remarksHint": "Required when you change an amount or charge again in the same period",
+        "post": "Deduct charges",
+        "invalidAmounts": "Enter an amount above 0 for {count, plural, one {# charge} other {# charges}}",
+        "shortAccounts": "{count, plural, one {# account doesn't} other {# accounts don't}} have enough balance",
+        "alreadyCharged": "{count, plural, one {# selected charge was} other {# selected charges were}} already deducted this period"
+      },
+      "confirm": {
+        "title": "Deduct charges?",
+        "description": "{count, plural, one {# charge} other {# charges}} on {accounts, plural, one {# account} other {# accounts}} will be debited on {date}: {total} including {tax} tax.",
+        "button": "Deduct"
+      },
+      "single": {
+        "account": "Account",
+        "holder": "Holder",
+        "scheme": "Scheme",
+        "available": "Available balance",
+        "emptyTitle": "No account selected",
+        "emptyMessage": "Search by member, account number or mobile and choose a savings account.",
+        "choose": "Search account",
+        "change": "Change",
+        "clear": "Clear",
+        "savingsOnly": "Charges can only be deducted from savings accounts.",
+        "tableTitle": "Scheme charges",
+        "tableDescription": "Charges set on {scheme}, worked out on {date}. Tick the ones to deduct and change amounts if needed.",
+        "noChargesTitle": "No charges on this scheme",
+        "noChargesMessage": "Attach charges to the scheme in Deposit Schemes to deduct them here."
+      },
+      "bulk": {
+        "charge": "Charge",
+        "chargePlaceholder": "Select a charge",
+        "chargeRequired": "Select a charge first",
+        "scheme": "Scheme",
+        "allSchemes": "All schemes with this charge",
+        "branch": "Branch",
+        "allBranches": "All branches",
+        "keyword": "Search",
+        "keywordPlaceholder": "Account no., member or name",
+        "load": "Load accounts",
+        "capped": "Showing the first {shown} of {total} accounts. Deduct these, then load again or narrow the filters.",
+        "tableTitle": "Accounts to charge",
+        "tableDescription": "{charge} on {date} · {selected} of {count} selected",
+        "clearSelection": "Clear selection",
+        "selectAll": "Select all ({count})",
+        "emptyTitle": "No accounts for this charge",
+        "emptyMessage": "No open savings account has this charge on its scheme with these filters.",
+        "idleTitle": "Choose a charge to start",
+        "idleMessage": "Pick a charge, add filters if needed, and load the accounts whose scheme carries it."
       }
     }
   },
@@ -3842,6 +4390,13 @@
       "loadError": "Applications could not be loaded",
       "emptyTitle": "No applications",
       "emptyMessage": "Change the filters or create an application.",
+      "actions": {
+          "viewDetails": "View application details",
+          "viewTimeline": "View application timeline",
+          "viewEligibility": "View eligibility and FOIR",
+          "edit": "Edit application",
+          "changeStatus": "Change application status"
+        },
       "filters": {
         "search": "Search",
         "searchPlaceholder": "Account, application, borrower, scheme",
@@ -3858,8 +4413,32 @@
         "borrower": "Borrower",
         "scheme": "Scheme",
         "requested": "Requested",
+        "loanAccountNo": "Loan account no.",
         "status": "Status",
         "actions": "Actions"
+      },
+      "owner": "Owner: {name}",
+      "applStatus": {
+        "submitted": "Submitted",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "resubmission": "Resubmission"
+      },
+      "status": {
+        "title": "Update status — Application #{number}",
+        "summary": "Borrower: {borrower} · Current status: {status}",
+        "newStatus": "New application status",
+        "remarks": "Remarks (required for rejection or resubmission)",
+        "remarksPlaceholder": "State the reason clearly…",
+        "remarksRequired": "Remarks are required when rejecting or sending back for resubmission.",
+        "confirm": "Confirm status",
+        "updating": "Updating…",
+        "updateFailed": "Status could not be updated.",
+        "options": {
+          "reject": "Reject application",
+          "resubmission": "Send back for resubmission",
+          "resubmit": "Resubmit"
+        }
       },
       "statuses": {
         "draft": "Draft",
@@ -3867,7 +4446,8 @@
         "field_verification": "Field verification",
         "approval": "Approval",
         "sanctioned": "Sanctioned",
-        "disbursed": "Disbursed"
+        "disbursed": "Disbursed",
+        "rejected": "Rejected"
       },
       "risk": {
         "low": "Low risk",
@@ -4148,6 +4728,97 @@
           "outstanding": "Outstanding"
         }
       }
+    }
+  },
+  "dashboard": {
+    "metaTitle": "Executive Dashboard",
+    "metaDescription": "Portfolio, collections, and branch activity for the selected period",
+    "title": "Executive Dashboard",
+    "description": "Review loans, collections, and liquidity for a date range and branch.",
+    "dash": "—",
+    "loadFailed": "Dashboard could not be loaded. Try again.",
+    "filters": {
+      "title": "Period and branch",
+      "from": "From",
+      "to": "To",
+      "branch": "Branch",
+      "allBranches": "All branches",
+      "apply": "Apply",
+      "rangeError": "From date can't be after to date"
+    },
+    "kpis": {
+      "glp": "Gross loan portfolio",
+      "glpHint": "Savings book {savings}",
+      "disbursed": "Disbursed in period",
+      "disbursedHint": "Collected {collection}",
+      "par": "PAR 90 / NPA",
+      "parHint": "NPA {npa}",
+      "groups": "Active groups",
+      "groupsHint": "{members} members · {pending} applications pending"
+    },
+    "workflows": {
+      "title": "Core microfinance workflows",
+      "description": "Open onboarding, origination, servicing, and collection.",
+      "onboard": "Onboard member & KYC",
+      "los": "Loan origination (LOS)",
+      "lms": "Loan management (LMS)",
+      "collection": "Loan collections"
+    },
+    "funds": {
+      "title": "Total liquid funds",
+      "cash": "Cash in hand",
+      "bank": "Bank balances",
+      "openLedger": "Open account ledgers"
+    },
+    "agents": {
+      "title": "Field officer collections",
+      "description": "Demand, collections, and unvouchered wallets from {from} to {to}",
+      "activeCount": "{count, plural, =0 {No officers in field} one {# officer in field} other {# officers in field}}",
+      "columns": {
+        "name": "Officer",
+        "groups": "Groups",
+        "target": "Demand",
+        "collected": "Collected",
+        "wallet": "Open wallet",
+        "status": "Status"
+      },
+      "groupCount": "{count, plural, =0 {None} one {# group} other {# groups}}",
+      "inField": "In field",
+      "cleared": "Handed in",
+      "emptyTitle": "No field collections",
+      "emptyMessage": "No officer collections in this period and branch."
+    },
+    "branches": {
+      "title": "Branch operations",
+      "description": "Loan book, collections in the period, and cash on hand",
+      "count": "{count, plural, =0 {No branches} one {# branch} other {# branches}}",
+      "columns": {
+        "name": "Branch",
+        "loanBook": "Loan book",
+        "collection": "Collection",
+        "vault": "Cash in hand",
+        "recovery": "Recovery"
+      },
+      "emptyTitle": "No branch figures",
+      "emptyMessage": "No branch activity for this period."
+    },
+    "loans": {
+      "title": "Live loan portfolio",
+      "description": "Active accounts, principal paid, outstanding, and days past due",
+      "search": "Filter accounts",
+      "searchPlaceholder": "Account, borrower or group",
+      "columns": {
+        "account": "Account",
+        "borrower": "Borrower",
+        "group": "Group",
+        "disbursed": "Disbursed",
+        "paid": "Principal paid",
+        "outstanding": "Outstanding",
+        "dpd": "DPD",
+        "status": "Status"
+      },
+      "emptyTitle": "No loan accounts",
+      "emptyMessage": "No active loans match this period, branch or search."
     }
   }
 }

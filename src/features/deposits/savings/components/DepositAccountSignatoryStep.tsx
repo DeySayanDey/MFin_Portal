@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ImagePlus, Plus } from "lucide-react";
+import { ImagePlus, PenLine, Plus, UserCheck, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
@@ -81,10 +81,16 @@ export function DepositAccountSignatoryStep({
   return (
     <div className="flex flex-col gap-4">
       {mode === "group" ? (
-        <p className="text-sm text-muted">{t("form.signatories.groupHint")}</p>
+        <p className="flex items-start gap-2 text-sm text-muted">
+          <Users className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden />
+          <span>{t("form.signatories.groupHint")}</span>
+        </p>
       ) : null}
       {mode === "holders" ? (
-        <p className="text-sm text-muted">{t("form.signatories.holderHint")}</p>
+        <p className="flex items-start gap-2 text-sm text-muted">
+          <UserCheck className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden />
+          <span>{t("form.signatories.holderHint")}</span>
+        </p>
       ) : null}
       {authorisedEmpty ? (
         <Alert tone="warning">{t("form.signatories.authorisedEmpty")}</Alert>
@@ -92,7 +98,10 @@ export function DepositAccountSignatoryStep({
       {errors.signatories ? <Alert tone="error">{errors.signatories}</Alert> : null}
       {groupError ? <Alert tone="error">{t("form.signatories.loadMembersError")}</Alert> : null}
       {drafts.length === 0 ? (
-        <p className="text-sm text-muted">{t("form.signatories.empty")}</p>
+        <p className="flex items-start gap-2 text-sm text-muted">
+          <PenLine className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden />
+          <span>{t("form.signatories.empty")}</span>
+        </p>
       ) : null}
       {drafts.map((draft, index) => (
         <SignatoryBlock

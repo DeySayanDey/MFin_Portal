@@ -11,6 +11,7 @@ import { DepositAccountTable } from "@/features/deposits/savings/components/Depo
 import { DepositAccountViewModal } from "@/features/deposits/savings/components/DepositAccountViewModal";
 import { useDepositAccountActions } from "@/features/deposits/savings/components/useDepositAccountActions";
 import { SAVINGS_DEPOSIT_TYPE } from "@/features/deposits/savings/deposit-account.constants";
+import { depositAccountHref } from "@/features/deposits/savings/deposit-account.rules";
 import {
   DEFAULT_SAVINGS_FILTERS,
   savingsFiltersEqual,
@@ -59,6 +60,7 @@ export function DepositsSavingsView({
   variant = "savings",
 }: DepositsSavingsViewProps) {
   const t = useTranslations("deposits.savings");
+  const tTerm = useTranslations("deposits.term");
   const tErrors = useTranslations("errors");
   const router = useRouter();
   const isTerm = variant === "term";
@@ -210,18 +212,17 @@ export function DepositsSavingsView({
   }, [depositTypeCd, items, viewingId]);
 
   function openCreate() {
-    if (isTerm) return;
-    router.push("/deposits/savings/new");
+    router.push(isTerm ? "/deposits/fd/new" : "/deposits/savings/new");
   }
 
   function openEdit(item: DepositAccount) {
     if (isTerm || item.isClosed) return;
-    router.push(`/deposits/savings/${item.accountId}/edit`);
+    router.push(depositAccountHref(item, "edit"));
   }
 
   function openView(item: DepositAccount) {
     if (isTerm) setViewingId(item.accountId);
-    else router.push(`/deposits/savings/${item.accountId}`);
+    else router.push(depositAccountHref(item));
   }
 
   return (
@@ -269,11 +270,9 @@ export function DepositsSavingsView({
         onOpen={openCreate}
         variant={variant}
         headerActions={
-          isTerm ? undefined : (
-            <Button type="button" icon={Plus} onClick={openCreate}>
-              {t("openAccount")}
-            </Button>
-          )
+          <Button type="button" icon={Plus} onClick={openCreate}>
+            {isTerm ? tTerm("openAccount") : t("openAccount")}
+          </Button>
         }
       />
 

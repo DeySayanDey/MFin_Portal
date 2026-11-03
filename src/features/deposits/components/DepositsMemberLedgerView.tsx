@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { BookMarked, Landmark, PiggyBank, Search } from "lucide-react";
+import { BookMarked, Landmark, PiggyBank, Printer, Search, X } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { DataTable, type DataTableColumn } from "@/components/shared/DataTable";
 import { SectionTabs } from "@/components/shared/SectionTabs";
 import { Alert } from "@/components/ui/Alert";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import { CheckboxField, DateField, SelectField } from "@/components/ui/Form";
 import { parseYmd } from "@/features/deposits/savings/deposit-account.rules";
 import {
@@ -31,6 +32,8 @@ import {
   type TransMode,
 } from "@/features/deposits/savings-transaction/savings-transaction.constants";
 import type { SavingsTransaction } from "@/features/deposits/savings-transaction/types/savings-transaction.types";
+import { MemberLedgerPrintPreview } from "./MemberLedgerPrintPreview";
+import { useMemberLedgerPrint } from "./useMemberLedgerPrint";
 
 type LedgerTab = "savings" | "term";
 
@@ -63,8 +66,10 @@ export function DepositsMemberLedgerView() {
   const [txnError, setTxnError] = useState<string | null>(null);
   const [savingsCount, setSavingsCount] = useState(0);
   const [termCount, setTermCount] = useState(0);
+  const print = useMemberLedgerPrint();
 
   const depositTypeCd = tab === "term" ? TERM_DEPOSIT_TYPE : SAVINGS_DEPOSIT_TYPE;
+  const AccountSectionIcon = tab === "term" ? Landmark : PiggyBank;
   const account = accounts.find((row) => row.accountId === accountId) ?? null;
   const dateError = Boolean(fromDate && toDate && toDate < fromDate);
 
@@ -245,8 +250,18 @@ export function DepositsMemberLedgerView() {
 
   const tabs = useMemo(
     () => [
-      { id: "savings" as const, title: t("savingsCount", { count: savingsCount }), icon: PiggyBank },
-      { id: "term" as const, title: t("termCount", { count: termCount }), icon: Landmark },
+      {
+        id: "savings" as const,
+        title: t("savingsCount", { count: savingsCount }),
+        description: t("tabHints.savings"),
+        icon: PiggyBank,
+      },
+      {
+        id: "term" as const,
+        title: t("termCount", { count: termCount }),
+        description: t("tabHints.term"),
+        icon: Landmark,
+      },
     ],
     [savingsCount, t, termCount],
   );
@@ -259,12 +274,27 @@ export function DepositsMemberLedgerView() {
     setPage(1);
   }
 
+  function startPrint() {
+    if (!account || print.busy || txnLoading || total === 0 || dateError) return;
+    void print.start(
+      {
+        accountId: account.accountId,
+        depositTypeCd,
+        fromDate: fromDate || undefined,
+        toDate: toDate || undefined,
+        statusCd: includePending ? undefined : STATUS_POSTED,
+      },
+      { account, fromDate, toDate, sort },
+    );
+  }
+
   return (
     <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
       <SectionTabs tabs={tabs} activeId={tab} onChange={selectTab} label={t("tabsLabel")} layout="inline" />
 
       {accountsError ? <Alert tone="error">{accountsError}</Alert> : null}
       {txnError ? <Alert tone="error">{txnError}</Alert> : null}
+      {print.error ? <Alert tone="error">{print.error}</Alert> : null}
       {dateError ? <Alert tone="error">{t("dateOrder")}</Alert> : null}
 
       <div className="grid gap-4 xl:grid-cols-[320px_minmax(0,1fr)]">
@@ -278,14 +308,42 @@ export function DepositsMemberLedgerView() {
             <input
               id="member-ledger-search"
               value={keyword}
-              onChange={(event) => setKeyword(event.target.value)}
+              onChange={(event) => {
+                setKeyword(event.target.value);
+                setPage(1);
+              }}
               placeholder={t("search.placeholder")}
-              className="w-full rounded-xl border border-border bg-surface-muted py-2.5 ps-9 pe-3 text-sm outline-none focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/10"
+              className="w-full rounded-xl border border-border bg-surface-muted py-2.5 ps-9 pe-10 text-sm outline-none focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/10"
             />
+            {keyword ? (
+              <button
+                type="button"
+                aria-label={t("search.clear")}
+                title={t("search.clear")}
+                onClick={() => {
+                  setKeyword("");
+                  setPage(1);
+                }}
+                className="absolute end-1.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg text-muted transition hover:bg-white hover:text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            ) : null}
           </div>
           {accountsLoading ? <p className="mt-3 text-sm text-muted">{t("loading")}</p> : null}
           {!accountsLoading && accounts.length === 0 ? (
-            <p className="mt-3 text-sm text-muted">{t("noAccounts")}</p>
+            <div
+              role="status"
+              className="mt-3 flex items-center gap-2.5 rounded-xl border border-dashed border-border bg-surface-muted/60 px-3 py-2.5"
+            >
+              <span
+                aria-hidden="true"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand-ink"
+              >
+                <AccountSectionIcon className="h-4 w-4" />
+              </span>
+              <p className="text-sm text-muted">{t("noAccounts")}</p>
+            </div>
           ) : null}
           <ul className="mt-3 max-h-[460px] space-y-1.5 overflow-y-auto">
             {accounts.map((row) => {
@@ -384,6 +442,21 @@ export function DepositsMemberLedgerView() {
               </span>
             ) : undefined
           }
+          actions={
+            account ? (
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                icon={Printer}
+                loading={print.preparing}
+                disabled={print.busy || txnLoading || total === 0 || dateError}
+                onClick={startPrint}
+              >
+                {print.preparing ? tTxn("print.preparing") : t("print.previewButton")}
+              </Button>
+            ) : undefined
+          }
           pagination={
             account
               ? {
@@ -402,6 +475,9 @@ export function DepositsMemberLedgerView() {
         />
         </div>
       </div>
+      {print.report ? (
+        <MemberLedgerPrintPreview report={print.report} onClose={print.close} />
+      ) : null}
     </div>
   );
 }

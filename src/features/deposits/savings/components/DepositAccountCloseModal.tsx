@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Lock } from "lucide-react";
 import { Alert } from "@/components/ui/Alert";
+import { PageToast } from "@/components/ui/PageToast";
 import { Button } from "@/components/ui/Button";
 import { DateField, FormField } from "@/components/ui/Form";
 import { Modal } from "@/components/ui/Modal";
@@ -93,7 +94,7 @@ export function DepositAccountCloseModal({
       }
     >
       <form id="close-deposit-account" className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        {errorMessage ? <Alert tone="error">{errorMessage}</Alert> : null}
+        <PageToast message={errorMessage ?? null} tone="error" />
         {blockedByBalance ? <Alert tone="warning">{t("closeDialog.zeroBalance")}</Alert> : null}
         {blockedByFreeze ? <Alert tone="warning">{t("closeDialog.unfreeze")}</Alert> : null}
         <p className="text-sm text-slate-700">

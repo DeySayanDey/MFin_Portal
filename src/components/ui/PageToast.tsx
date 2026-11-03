@@ -36,6 +36,22 @@ export function useToastText(): [
   return [value, set];
 }
 
+export type ToastNotice = { tone: ToastTone; text: string } | null;
+
+/** Like useToastText for messages whose tone varies between success and error. */
+export function useToastNotice(): [ToastNotice, (notice: ToastNotice) => void] {
+  const [text, setText] = useToastText();
+  const [tone, setTone] = useState<ToastTone>("success");
+  const set = useCallback(
+    (notice: ToastNotice) => {
+      if (notice) setTone(notice.tone);
+      setText(notice?.text ?? null);
+    },
+    [setText],
+  );
+  return [text ? { tone, text } : null, set];
+}
+
 /** Turns a page message into a toast. A new value always shows, including repeats. */
 export function PageToast({ message, tone = "success" }: PageToastProps) {
   const seen = useRef<string | null>(null);

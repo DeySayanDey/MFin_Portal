@@ -47,15 +47,16 @@ export function CoaTreeView({
 
   const tabs = useMemo(
     () => [
-      { id: "categories" as const, title: tCategory("title"), icon: Layers },
-      { id: "heads" as const, title: tHead("title"), icon: Tag },
-      { id: "ledgers" as const, title: tLedger("title"), icon: BookOpen },
+      { id: "categories" as const, title: tCategory("title"), description: tCategory("description"), icon: Layers },
+      { id: "heads" as const, title: tHead("title"), description: tHead("description"), icon: Tag },
+      { id: "ledgers" as const, title: tLedger("title"), description: tLedger("description"), icon: BookOpen },
       {
         id: "subledgers" as const,
         title: tSubledger("title"),
+        description: tSubledger("description"),
         icon: GitBranch,
       },
-      { id: "branches" as const, title: tBranch("title"), icon: GitFork },
+      { id: "branches" as const, title: tBranch("title"), description: tBranch("description"), icon: GitFork },
     ],
     [tBranch, tCategory, tHead, tLedger, tSubledger],
   );

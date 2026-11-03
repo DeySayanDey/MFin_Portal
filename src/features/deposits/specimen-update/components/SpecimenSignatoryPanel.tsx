@@ -5,6 +5,7 @@ import { ImagePlus, Upload, Users } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { DataTable, type DataTableColumn } from "@/components/shared/DataTable";
 import { Alert } from "@/components/ui/Alert";
+import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { SelectField } from "@/components/ui/Form";
@@ -58,7 +59,7 @@ export function SpecimenSignatoryPanel() {
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const [reloadKey, setReloadKey] = useState(0);
   const [target, setTarget] = useState<DepositAccount | null>(null);
-  const [notice, setNotice] = useState<string | null>(null);
+  const [notice, setNotice] = useToastText();
 
   useEffect(() => {
     let cancelled = false;
@@ -195,7 +196,7 @@ export function SpecimenSignatoryPanel() {
 
   return (
     <>
-      {notice ? <Alert tone="success">{notice}</Alert> : null}
+      <PageToast message={notice} />
       <DataTable
         title={t("signatoriesTitle")}
         description={t("tableDescription")}
@@ -278,7 +279,7 @@ function SpecimenUploadDialog({
   const [photoPreview, setPhotoPreview] = useState("");
   const [signatureFile, setSignatureFile] = useState<File | null>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useToastText();
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -468,11 +469,7 @@ function SpecimenUploadDialog({
       }
     >
       {loadError ? <Alert tone="error">{loadError}</Alert> : null}
-      {formError ? (
-        <Alert tone="error" className="mt-3">
-          {formError}
-        </Alert>
-      ) : null}
+      <PageToast message={formError} tone="error" />
       <div className="mt-3 flex flex-col gap-4">
         {loading ? <p className="text-sm text-muted">{tUi("loading")}</p> : null}
         {!loading && signatories.length > 1 ? (

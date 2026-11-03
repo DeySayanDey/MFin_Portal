@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, Calculator, CheckCircle2, DollarSign, Info } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Alert } from "@/components/ui/Alert";
+import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
@@ -51,7 +52,7 @@ export function LmsDisbursementModal({ open, onClose, onSuccess }: Props) {
   const [previewError, setPreviewError] = useState<string | null>(null);
 
   const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useToastText();
 
   // Load active accounts when modal opens
   useEffect(() => {
@@ -227,7 +228,7 @@ export function LmsDisbursementModal({ open, onClose, onSuccess }: Props) {
       }
     >
       <form onSubmit={handleSubmit} className="space-y-4">
-        {submitError && <Alert tone="error">{submitError}</Alert>}
+        <PageToast message={submitError} tone="error" />
 
         {hasPendingDisbursement && (
           <Alert tone="warning">

@@ -4,7 +4,11 @@ export type SavingsTransaction = {
   accountId: number;
   applNo: string;
   holderName: string;
+  custTypeCd: number | null;
+  memberName: string;
+  memberRefCode: string;
   accountNo: number | null;
+  fullAccountNo: string;
   depositTypeCd: number;
   depositTypeDesc: string;
   schemeCode: string;
@@ -58,6 +62,21 @@ export type SavingsTransactionListResult = {
     perPage: number;
     lastPage: number;
   } | null;
+};
+
+/** Session details printed in the report header. */
+export type SavingsTransactionReportContext = {
+  orgName: string;
+  branchName: string;
+  branchCode: string;
+  printedBy: string;
+};
+
+export type SavingsTransactionReport = {
+  rows: SavingsTransaction[];
+  generatedAt: Date;
+  /** True when more rows matched than the report limit allows. */
+  truncated: boolean;
 };
 
 export type SavingsTransactionAddInput = {

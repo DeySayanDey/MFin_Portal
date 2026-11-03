@@ -1,10 +1,13 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
+import { sectionTabsGridClass } from "@/components/shared/section-tabs-grid";
 
 export type SectionTab<T extends string = string> = {
   id: T;
   title: string;
+  /** Short line under the title. */
+  description?: string;
   icon: LucideIcon;
 };
 
@@ -13,19 +16,12 @@ type SectionTabsProps<T extends string> = {
   activeId: T;
   onChange: (id: T) => void;
   label: string;
-  /** Icon above the title, or beside it on one line. */
+  /** Icon above the text, or beside it on one line. */
   layout?: "stack" | "inline";
 };
 
-function gridClass(count: number): string {
-  if (count <= 2) return "grid-cols-2 xl:grid-cols-4";
-  if (count === 3) return "grid-cols-2 sm:grid-cols-3";
-  if (count === 4) return "grid-cols-2 sm:grid-cols-2 xl:grid-cols-4";
-  return "grid-cols-2 sm:grid-cols-3 xl:grid-cols-5";
-}
-
 /**
- * Compact section switcher used on master pages with more than one panel.
+ * Section switcher for pages with more than one panel.
  * Two tabs stay card-sized on wide screens instead of stretching into bars.
  */
 export function SectionTabs<T extends string>({
@@ -33,13 +29,13 @@ export function SectionTabs<T extends string>({
   activeId,
   onChange,
   label,
-  layout = "stack",
+  layout = "inline",
 }: SectionTabsProps<T>) {
   return (
     <div
       role="tablist"
       aria-label={label}
-      className={`grid gap-2.5 ${gridClass(tabs.length)}`}
+      className={`grid gap-3 ${sectionTabsGridClass(tabs.length)}`}
     >
       {tabs.map((tab) => {
         const active = activeId === tab.id;
@@ -51,22 +47,31 @@ export function SectionTabs<T extends string>({
             role="tab"
             aria-selected={active}
             onClick={() => onChange(tab.id)}
-            className={`flex cursor-pointer rounded-2xl border px-3.5 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 ${
-              layout === "inline"
-                ? "flex-row items-center gap-2"
-                : "flex-col items-start gap-1.5"
+            className={`group relative flex min-w-0 cursor-pointer overflow-hidden rounded-2xl border px-3.5 py-3 text-start transition-[background-color,border-color,box-shadow] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-1 motion-reduce:transition-none ${
+              layout === "inline" ? "flex-row items-center gap-3" : "flex-col items-start gap-2.5"
             } ${
               active
-                ? "border-brand bg-brand text-white shadow-sm"
-                : "border-border bg-surface-muted text-foreground transition-colors duration-150 hover:border-brand/30 hover:bg-surface motion-reduce:transition-none"
+                ? "border-brand bg-brand text-white shadow-[0_8px_20px_-10px_var(--color-brand)]"
+                : "border-border bg-surface text-foreground hover:border-brand/40 hover:bg-brand-soft/40 hover:shadow-sm"
             }`}
           >
-            <Icon
-              className={`h-4 w-4 ${active ? "text-white" : "text-muted"}`}
+            <span
+              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors duration-150 motion-reduce:transition-none ${
+                active ? "bg-white/20 text-white" : "bg-brand-soft text-brand group-hover:bg-brand/15"
+              }`}
               aria-hidden
-            />
-            <span className="text-xs font-semibold leading-snug">
-              {tab.title}
+            >
+              <Icon className="h-4.5 w-4.5" />
+            </span>
+            <span className="flex min-w-0 flex-col gap-0.5">
+              <span className="text-sm font-semibold leading-snug">{tab.title}</span>
+              {tab.description ? (
+                <span
+                  className={`line-clamp-2 text-xs leading-snug ${active ? "text-white/80" : "text-muted"}`}
+                >
+                  {tab.description}
+                </span>
+              ) : null}
             </span>
           </button>
         );

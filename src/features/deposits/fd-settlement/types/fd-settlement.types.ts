@@ -21,6 +21,8 @@ export type RequestStatus =
 
 export type RestrictionCode = "lien" | "settled" | "kyc";
 
+export type AccountStatusFilter = AccountStatus | "activeMatured" | "all";
+
 export type SettlementQuote = {
   quoteId: string;
   expiresOn: string;
@@ -43,16 +45,23 @@ export type MisDetails = {
   recoverableExcess: number;
 };
 
-export type SampleDeposit = {
-  id: string;
+export type LinkedSavingsAccount = {
+  accountId: number;
+  accountNo: string;
+  name: string;
+};
+
+export type SettlementAccount = {
+  id: number;
   accountNumber: string;
   customerName: string;
   customerId: string;
   kyc: KycState;
   holding: HoldingMode;
-  branchId: string;
+  branchId: number | null;
   branchName: string;
   scheme: SchemeCode;
+  schemeName: string;
   status: AccountStatus;
   principal: number;
   ratePercent: number;
@@ -64,20 +73,22 @@ export type SampleDeposit = {
   restriction: RestrictionCode | null;
   permittedTypes: SettlementType[];
   paymentMethods: PaymentMode[];
-  linkedAccount: { masked: string; name: string } | null;
+  linkedAccount: LinkedSavingsAccount | null;
   mis: MisDetails | null;
-  quote: SettlementQuote;
 };
 
-export type SampleRequest = {
-  id: string;
-  accountId: string;
+export type SettlementRequest = {
+  id: number;
+  accountId: number;
+  accountNumber: string;
+  customerName: string;
+  branchName: string;
   status: RequestStatus;
   settlementType: SettlementType;
   settlementDate: string;
   reason: ReasonCode;
   remarks: string;
-  paymentMode: PaymentMode;
+  paymentMode: PaymentMode | "";
   beneficiaryAccount: string;
   beneficiaryName: string;
   ifsc: string;
@@ -86,7 +97,13 @@ export type SampleRequest = {
   rejectionReason: string;
   receiptRef: string;
   netPayable: number | null;
-  quoteId: string;
+  quote: SettlementQuote | null;
+};
+
+export type SettlementAccountDetail = {
+  account: SettlementAccount;
+  openRequest: SettlementRequest | null;
+  settledRequest: SettlementRequest | null;
 };
 
 export type SettlementDraft = {
@@ -102,3 +119,60 @@ export type SettlementDraft = {
   verified: boolean;
   documentName: string;
 };
+
+export type ListMeta = {
+  total: number;
+  page: number;
+  perPage: number;
+  lastPage: number;
+};
+
+export type ListResult<T> = {
+  items: T[];
+  meta: ListMeta | null;
+};
+
+export type SettlementAccountQuery = {
+  page?: number;
+  perPage?: number;
+  scheme?: SchemeCode;
+  keyword?: string;
+  branchId?: number;
+  status?: AccountStatusFilter;
+};
+
+export type SettlementRequestQuery = {
+  page?: number;
+  perPage?: number;
+  view?: "pending" | "settled";
+  branchId?: number;
+};
+
+export type SettlementCalculateInput = {
+  accountId: number;
+  settlementType: SettlementType;
+  settlementDate: string;
+};
+
+export type SettlementSaveInput = {
+  settlementId?: number;
+  accountId: number;
+  submit: boolean;
+  settlementType: SettlementType;
+  settlementDate: string;
+  reason: ReasonCode;
+  remarks?: string;
+  paymentMode?: PaymentMode;
+  sbAccountId?: number;
+  beneficiaryAccount?: string;
+  beneficiaryName?: string;
+  ifsc?: string;
+  chequeRef?: string;
+  netPayable?: number;
+  quoteId?: string;
+};
+
+export type SettlementActionInput =
+  | { action: "approve"; settlementId: number }
+  | { action: "reject"; settlementId: number; reason: string }
+  | { action: "post"; settlementId: number };

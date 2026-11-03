@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useId, useState, type FormEvent } from "react";
 import { Save } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { Alert } from "@/components/ui/Alert";
+import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Button } from "@/components/ui/Button";
 import { DateField, SelectField, TextField } from "@/components/ui/Form";
 import { Modal } from "@/components/ui/Modal";
@@ -44,7 +44,7 @@ export function ShareSubscriptionEditModal({
   const [paymentModeCd, setPaymentModeCd] = useState(String(PAYMENT_MODE_CASH));
   const [refNo, setRefNo] = useState("");
   const [remarks, setRemarks] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useToastText();
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -184,11 +184,7 @@ export function ShareSubscriptionEditModal({
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 [&>*]:min-w-0"
         onSubmit={(event) => void submit(event)}
       >
-        {error ? (
-          <Alert tone="error" className="sm:col-span-2">
-            {error}
-          </Alert>
-        ) : null}
+        <PageToast message={error} tone="error" />
         <DateField
           label={t("form.date")}
           value={subscriptionDate}

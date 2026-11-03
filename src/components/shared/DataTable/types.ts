@@ -68,7 +68,9 @@ export type DataTableProps<T> = {
   className?: string;
   /** Minimum table width for horizontal scroll (CSS length). */
   minWidth?: string;
-  /** Minimum table height (CSS length). Ensures card maintains full height when empty or few rows. */
+  /** Column sizing mode. Use `fixed` with explicit column widths to avoid uneven gaps. */
+  tableLayout?: "auto" | "fixed";
+  /** Minimum card height (CSS length) for the loading, error and empty states. With rows, the card fits its content. */
   minHeight?: string;
   /** Maximum table height for vertical scroll (CSS length). */
   maxHeight?: string;

@@ -62,6 +62,7 @@ export function DataTable<T>({
   rowActions,
   className = "",
   minWidth = "640px",
+  tableLayout = "auto",
   minHeight,
   maxHeight,
   caption,
@@ -223,10 +224,7 @@ export function DataTable<T>({
   }
 
   return (
-    <section
-      className={`relative flex flex-col justify-between ${defaultMinHeightClass} ${cardClass}`}
-      style={minHeight ? { minHeight } : undefined}
-    >
+    <section className={`relative flex flex-col justify-between ${cardClass}`}>
       {/* Background reload indicator: subtle progress bar so the table never disappears or flashes */}
       <div
         className={`relative -mx-4 -mt-2 mb-3 h-0.5 overflow-hidden bg-slate-100 sm:-mx-5 transition-opacity duration-200 ${
@@ -259,7 +257,7 @@ export function DataTable<T>({
         className="table-scroll scrollbar-thin flex-1"
         style={maxHeight ? { maxHeight, overflowY: "auto" } : undefined}
       >
-        <table className="w-full text-left text-sm" style={{ minWidth }}>
+        <table className="w-full text-left text-sm" style={{ minWidth, tableLayout }}>
           {caption ? <caption className="sr-only">{caption}</caption> : null}
           <thead>
             <tr className="border-b border-border text-[11px] uppercase tracking-[0.12em] text-muted-soft">

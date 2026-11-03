@@ -93,7 +93,7 @@ export function LoginForm() {
       saveRememberedLogin(remember, parsed.data.username);
       storeAuthUser(payload.data.user);
       clearMenuClientCache();
-      router.replace("/");
+      router.replace("/dashboard");
       return;
     } catch {
       setError(tErrors("network"));

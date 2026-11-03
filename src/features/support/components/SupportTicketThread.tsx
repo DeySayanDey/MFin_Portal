@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState, type ChangeEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ImagePlus, Send, X } from "lucide-react";
 import { Alert } from "@/components/ui/Alert";
+import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Button } from "@/components/ui/Button";
 import { TextAreaField } from "@/components/ui/Form";
 import { ticketReplySchema } from "@/features/support/schemas/support-ticket.schema";
@@ -90,7 +91,7 @@ export function SupportTicketThread({
   const [draft, setDraft] = useState("");
   const [shots, setShots] = useState<DraftShot[]>([]);
   const [sending, setSending] = useState(false);
-  const [replyError, setReplyError] = useState<string | null>(null);
+  const [replyError, setReplyError] = useToastText();
   const shotsRef = useRef(shots);
   shotsRef.current = shots;
 
@@ -235,7 +236,7 @@ export function SupportTicketThread({
         <p className="mt-4 text-sm text-muted">{t("messages.closed")}</p>
       ) : (
         <div className="mt-4 flex flex-col gap-3">
-          {replyError ? <Alert tone="error">{replyError}</Alert> : null}
+          <PageToast message={replyError} tone="error" />
           <TextAreaField
             label={t("messages.reply")}
             value={draft}

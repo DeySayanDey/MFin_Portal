@@ -71,7 +71,7 @@ export function RbiLendingPolicyForm() {
   const [form, setForm] = useState<FormState | null>(null);
   const [saving, setSaving] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useToastText();
   const [successMessage, setSuccessMessage] = useToastText();
 
   useEffect(() => {
@@ -212,7 +212,7 @@ export function RbiLendingPolicyForm() {
 
       <PageToast message={successMessage} />
 
-      {formError ? <Alert tone="error">{formError}</Alert> : null}
+      <PageToast message={formError} tone="error" />
 
       <form
         id="rbi-lending-policy-form"

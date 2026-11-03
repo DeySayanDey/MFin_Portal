@@ -14,6 +14,7 @@ export const endpoints = {
   /** Same-origin BFF routes (browser → Next → Laravel). */
   bff: {
     menu: "/api/menu",
+    dashboard: "/api/dashboard",
     auditLog: "/api/security/audit-log",
     smsSettings: "/api/master/sms-settings",
     whatsAppSettings: "/api/master/whatsapp-settings",
@@ -57,6 +58,7 @@ export const endpoints = {
     groupManagement: "/api/onboarding/group-management",
     memberRegistration: "/api/onboarding/member-registration",
     memberNominees: "/api/onboarding/member-nominees",
+    member360: "/api/onboarding/member-360",
     memberLedger: "/api/deposits/member-ledger",
     memberLedgerTransactions: "/api/deposits/member-ledger/transactions",
     memberKyc: "/api/onboarding/member-kyc",
@@ -69,6 +71,13 @@ export const endpoints = {
     savingsTransactionCustomers: "/api/deposits/savings-transactions/customers",
     savingsTransactionBalance: "/api/deposits/savings-transactions/balance",
     savingsTransactionVouchers: "/api/deposits/savings-transactions/vouchers",
+    savingsInterest: "/api/deposits/interest",
+    savingsCharges: "/api/deposits/charges",
+    fdSettlements: "/api/deposits/fd-settlement",
+    fdSettlementAccounts: "/api/deposits/fd-settlement/accounts",
+    fdSettlementAccount: "/api/deposits/fd-settlement/account",
+    fdSettlementCalculate: "/api/deposits/fd-settlement/calculate",
+    fdSettlementActions: "/api/deposits/fd-settlement/actions",
     loanAccounts: "/api/lms/loan-accounts",
     loanApplications: "/api/los/applications",
     loanBorrowerLookup: "/api/los/borrowers",
@@ -340,6 +349,9 @@ export const endpoints = {
     status: "/api/MemberStatus",
     nomineeList: "/api/MemberNomineeList",
   },
+  member360: {
+    get: "/api/Member360Get",
+  },
   memberLedger: {
     accounts: "/api/MemberLedger",
     savingsTransactions: "/api/MemberLedgerSavingsTransactions",
@@ -383,6 +395,26 @@ export const endpoints = {
     balance: "/api/SavingsAccountBalance",
     voucherPost: "/api/SavingsTransactionVoucherPost",
   },
+  /** Contract: docs/savings-interest-api.md. */
+  savingsInterest: {
+    calculate: "/api/SavingsInterestCalculate",
+    post: "/api/SavingsInterestPost",
+  },
+  /** Contract: docs/savings-charges-api.md. */
+  savingsCharges: {
+    calculate: "/api/SavingsChargeCalculate",
+    post: "/api/SavingsChargePost",
+  },
+  /** Contract: docs/fd-settlement-api.md. Not yet in apilist.txt. */
+  tdSettlement: {
+    accountList: "/api/TdSettlementAccountList",
+    accountGet: "/api/TdSettlementAccountGet",
+    calculate: "/api/TdSettlementCalculate",
+    list: "/api/TdSettlementList",
+    save: "/api/TdSettlementSave",
+    approve: "/api/TdSettlementApprove",
+    post: "/api/TdSettlementPost",
+  },
   /** Contract: docs/share-subscription-api.md. Not yet in apilist.txt. */
   shareSubscription: {
     list: "/api/ShareSubscriptionList",
@@ -400,6 +432,10 @@ export const endpoints = {
     list: "/api/MakerCheckerList",
     add: "/api/MakerCheckerAdd",
     edit: "/api/MakerCheckerEdit",
+  },
+  /** Contract: docs/dashboard-api.md. */
+  dashboard: {
+    get: "/api/DashboardGet",
   },
   /**
    * Paths are appended to SUPPORT_API_URL (`http://host/api`).

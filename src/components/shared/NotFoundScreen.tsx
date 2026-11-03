@@ -36,7 +36,7 @@ export function NotFoundScreen({
         </div>
 
         <div className="not-found-action relative z-10 mt-6 flex justify-center">
-          <a href="/" className="btn btn-primary">
+          <a href="/dashboard" className="btn btn-primary">
             {homeLabel}
           </a>
         </div>

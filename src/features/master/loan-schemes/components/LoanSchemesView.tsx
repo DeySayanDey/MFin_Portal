@@ -73,8 +73,8 @@ export function LoanSchemesView({
 
   const tabs = useMemo(
     () => [
-      { id: "setup" as const, title: t("tabs.setup"), icon: FileText },
-      { id: "charges" as const, title: t("tabs.charges"), icon: Banknote },
+      { id: "setup" as const, title: t("tabs.setup"), description: t("tabHints.setup"), icon: FileText },
+      { id: "charges" as const, title: t("tabs.charges"), description: t("tabHints.charges"), icon: Banknote },
     ],
     [t],
   );

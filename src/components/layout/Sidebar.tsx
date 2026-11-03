@@ -27,7 +27,9 @@ import { menuIconMarkup } from "@/features/navigation/utils/menu-icon-svg";
 import { menuEnglishName } from "@/features/navigation/utils/menu-label";
 import { toMenuLang } from "@/features/navigation/utils/menu-lang";
 import { sanitizeMenuRoute } from "@/features/navigation/utils/safe-menu-route";
+import { resolveMenuChildIcon } from "@/features/navigation/utils/menu-child-icon";
 import { primaryNav } from "@/lib/nav";
+import { BrandLogo } from "@/components/shared/BrandLogo";
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { SidebarNavSkeleton } from "@/components/shared/skeletons/SidebarNavSkeleton";
 
@@ -340,18 +342,12 @@ export function Sidebar({ open, onClose, user }: SidebarProps) {
         }`}
       >
         <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border px-5 py-4">
-          <Link href="/" className="flex items-center gap-3" onClick={onClose}>
-            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand text-sm font-bold text-white shadow-sm">
-              eZ
-            </span>
-            <span className="min-w-0">
-              <span className="block text-base font-semibold tracking-tight text-slate-900">
-                eZi-Micro
-              </span>
-              <span className="block truncate text-[10px] font-medium uppercase tracking-[0.14em] text-muted-soft">
-                EZI-MICRO CORE BANKING
-              </span>
-            </span>
+          <Link
+            href="/dashboard"
+            className="flex min-w-0 items-center rounded-lg dark:bg-white dark:px-2 dark:py-1"
+            onClick={onClose}
+          >
+            <BrandLogo priority className="w-[13.5rem]" />
           </Link>
           <button
             type="button"
@@ -500,7 +496,7 @@ export function Sidebar({ open, onClose, user }: SidebarProps) {
                                 child.route,
                                 pathname,
                               );
-                              const ChildIcon = resolveIcon(child.icon);
+                              const ChildIcon = resolveMenuChildIcon(child, item.icon);
                               const childHref = sanitizeMenuRoute(child.route);
                               const itemClass = `flex items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] transition ${
                                 childActive

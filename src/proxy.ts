@@ -75,7 +75,7 @@ export default async function proxy(request: NextRequest) {
   // Authenticated users hitting login go to home (no locale prefix in URL).
   if (isAuthenticated && pathnameWithoutLocale === "/login") {
     const homeUrl = request.nextUrl.clone();
-    homeUrl.pathname = "/";
+    homeUrl.pathname = "/dashboard";
     homeUrl.search = "";
     return NextResponse.redirect(homeUrl);
   }
@@ -88,7 +88,7 @@ export default async function proxy(request: NextRequest) {
     !session.user.isHead
   ) {
     const homeUrl = request.nextUrl.clone();
-    homeUrl.pathname = "/";
+    homeUrl.pathname = "/dashboard";
     homeUrl.search = "";
     return NextResponse.redirect(homeUrl);
   }

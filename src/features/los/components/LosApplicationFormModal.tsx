@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { AlertCircle, Info, Plus, Save, Send, Trash2, UserPlus, Users, User } from "lucide-react";
 import { Alert } from "@/components/ui/Alert";
+import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { SelectField, TextField } from "@/components/ui/Form";
@@ -108,7 +109,7 @@ export function LosApplicationFormModal({
 
   // Add Member Modal State
   const [memberModalOpen, setMemberModalOpen] = useState(false);
-  const [memberModalError, setMemberModalError] = useState<string | null>(null);
+  const [memberModalError, setMemberModalError] = useToastText();
   const [loadingGroupMembers, setLoadingGroupMembers] = useState(false);
   const [availableRoster, setAvailableRoster] = useState<LoanBorrowerLookupItem[]>([]);
   const [selectedMemberCandidate, setSelectedMemberCandidate] = useState<LoanBorrowerLookupItem | null>(null);
@@ -122,7 +123,7 @@ export function LosApplicationFormModal({
 
   const [loadingLookups, setLoadingLookups] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useToastText();
 
   useEffect(() => {
     if (!open) return;
@@ -542,11 +543,7 @@ export function LosApplicationFormModal({
       }
     >
       <form onSubmit={handleSubmit} className="space-y-6">
-        {formError && (
-          <Alert tone="error">
-            {formError}
-          </Alert>
-        )}
+        <PageToast message={formError} tone="error" />
 
         {/* Customer Type Toggle (Disabled on Edit per business rules) */}
         {!isEdit && (
@@ -999,11 +996,7 @@ export function LosApplicationFormModal({
       }
     >
       <div className="space-y-4">
-        {memberModalError && (
-          <Alert tone="error">
-            {memberModalError}
-          </Alert>
-        )}
+        <PageToast message={memberModalError} tone="error" />
 
         {/* Member Selection Section */}
         <div className="space-y-2">

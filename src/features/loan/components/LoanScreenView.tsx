@@ -43,7 +43,7 @@ export function LoanScreenView({ screen }: LoanScreenViewProps) {
   const [draft, setDraft] = useState<Record<string, string>>({});
   const [dirty, setDirty] = useState(false);
   const [confirmDiscard, setConfirmDiscard] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useToastText();
   const [successMessage, setSuccessMessage] = useToastText();
   const pageMeta = useMemo(
     () => loanModulePage(config.href, `loanModule.screens.${screen}`),
@@ -292,11 +292,7 @@ export function LoanScreenView({ screen }: LoanScreenViewProps) {
             </span>
           </Alert>
         ) : null}
-        {formError ? (
-          <Alert tone="error" className="mb-4">
-            {formError}
-          </Alert>
-        ) : null}
+        <PageToast message={formError} tone="error" />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 *:min-w-0">
           {config.columns.map((column) => (
             <TextField

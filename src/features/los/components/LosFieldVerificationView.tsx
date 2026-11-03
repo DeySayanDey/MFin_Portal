@@ -6,7 +6,6 @@ import { useFormatter, useTranslations } from "next-intl";
 import { DataTable, type DataTableColumn } from "@/components/shared/DataTable";
 import { FilterPanel } from "@/components/shared/FilterPanel";
 import { ModulePageShell } from "@/components/shared/ModulePageShell";
-import { Alert } from "@/components/ui/Alert";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
@@ -60,7 +59,7 @@ export function LosFieldVerificationView() {
   const [staffOptions, setStaffOptions] = useState<{ value: string; label: string }[]>([]);
   const [branchOptions, setBranchOptions] = useState<{ value: string; label: string }[]>([]);
   const [submitting, setSubmitting] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useToastText();
   const [toastMessage, setToastMessage] = useToastText();
 
   const pageMeta = useMemo(
@@ -424,7 +423,7 @@ export function LosFieldVerificationView() {
         }
       >
         <form onSubmit={handleSaveInspection} className="space-y-4">
-          {formError && <Alert tone="error">{formError}</Alert>}
+          <PageToast message={formError} tone="error" />
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <TextField

@@ -167,6 +167,24 @@ const sbInputSchema = z.object({
   remarks: optionalText(250),
 });
 
+const tdInputSchema = z
+  .object({
+    startDate: ymd.nullable().optional(),
+    refAcNo: optionalText(15),
+    periodYy: z.number().int().min(0).max(50),
+    periodMm: z.number().int().min(0).max(120),
+    periodDd: z.number().int().min(0).max(120),
+    instAmount: z.number().positive().max(99999999.99),
+    instNo: z.number().int().min(1).max(32767).nullable().optional(),
+    matuInsCd: z.number().int().positive().nullable().optional(),
+    sbCreditAcId: z.number().int().positive().nullable().optional(),
+    tdsDeduct: z.boolean().optional(),
+  })
+  .refine((td) => td.periodYy + td.periodMm + td.periodDd > 0, {
+    path: ["periodYy"],
+    message: "Deposit period is required",
+  });
+
 export const depositAccountCreateSchema = z.object({
   applDate: ymd,
   prodTypeCd: z.number().int().positive().nullable().optional(),
@@ -184,6 +202,7 @@ export const depositAccountCreateSchema = z.object({
   branchId: z.number().int().positive().nullable().optional(),
   statusCd: z.union([z.literal(1), z.literal(7)]).optional(),
   sb: sbInputSchema.optional(),
+  td: tdInputSchema.optional(),
 });
 
 export const depositAccountEditSchema = z.object({

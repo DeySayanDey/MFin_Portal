@@ -4,7 +4,9 @@ import { api } from "@/lib/api/client";
 import { endpoints } from "@/lib/api/endpoints";
 import { ApiError } from "@/lib/api/errors";
 import { clearAuthSession, getAccessToken } from "@/lib/auth/session";
+import { legacyRecordId, sameRecordCode, type RecordRef } from "@/lib/navigation/record-code";
 import { SAVINGS_DEPOSIT_TYPE } from "../deposit-account.constants";
+import { depositAccountCode } from "../deposit-account.rules";
 import {
   mapCustomerRow,
   mapDepositAccountCloseToDto,
@@ -276,6 +278,28 @@ export async function assertDepositAccountInScope(
       code: "NOT_FOUND",
     });
   }
+}
+
+/** Resolves an account code from a page URL to its id within the caller's branch. */
+export async function resolveDepositAccountRef(
+  code: string,
+  branchId: number | undefined,
+): Promise<RecordRef | null> {
+  const toRef = (item: DepositAccount): RecordRef => ({
+    id: item.accountId,
+    code: depositAccountCode(item),
+  });
+  const { items } = await listDepositAccounts({ search: code, branchId, perPage: 100 });
+  const match =
+    items.find((item) => item.fullAccountNo && sameRecordCode(item.fullAccountNo, code)) ??
+    items.find((item) => item.applNo && sameRecordCode(item.applNo, code));
+  if (match) return toRef(match);
+
+  const legacyId = legacyRecordId(code);
+  if (legacyId == null) return null;
+  const byId = await listDepositAccounts({ accountId: legacyId, branchId, perPage: 1 });
+  const item = byId.items.find((row) => row.accountId === legacyId);
+  return item ? toRef(item) : null;
 }
 
 /** Laravel: GET /api/DepositProductSchemeList */

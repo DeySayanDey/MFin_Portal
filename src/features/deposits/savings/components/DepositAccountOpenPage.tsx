@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "@/i18n/navigation";
+import { SAVINGS_DEPOSIT_TYPE, TERM_DEPOSIT_TYPE } from "../deposit-account.constants";
 import { accountDetailHref } from "../deposit-account.rules";
 import {
   addDepositNominees,
@@ -22,10 +23,17 @@ import type {
 } from "../types/deposit-account.types";
 import { DepositAccountForm } from "./DepositAccountForm";
 
-export function DepositAccountOpenPage() {
+type DepositAccountOpenPageProps = {
+  depositTypeCd?: number;
+};
+
+export function DepositAccountOpenPage({
+  depositTypeCd = SAVINGS_DEPOSIT_TYPE,
+}: DepositAccountOpenPageProps) {
   const t = useTranslations("deposits.savings");
   const tErrors = useTranslations("errors");
   const router = useRouter();
+  const isTerm = depositTypeCd === TERM_DEPOSIT_TYPE;
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [savedResult, setSavedResult] = useState<DepositAccountSaveResult | null>(null);
@@ -43,7 +51,7 @@ export function DepositAccountOpenPage() {
       router.back();
       return;
     }
-    router.push("/deposits/savings");
+    router.push(isTerm ? "/deposits/fd" : "/deposits/savings");
   }
 
   async function handleSave(
@@ -93,13 +101,14 @@ export function DepositAccountOpenPage() {
         />
         <PageHeader
           className="min-w-0 flex-1"
-          title={t("form.createTitle")}
-          description={t("form.stepHint")}
+          title={isTerm ? t("form.term.createTitle") : t("form.createTitle")}
+          description={isTerm ? t("form.term.stepHint") : t("form.stepHint")}
         />
       </div>
       <DepositAccountForm
         open
         layout="page"
+        depositTypeCd={depositTypeCd}
         mode="create"
         account={null}
         saving={saving}

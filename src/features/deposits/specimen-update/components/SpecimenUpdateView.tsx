@@ -33,8 +33,8 @@ export function SpecimenUpdateView() {
 
   const tabs = useMemo(
     () => [
-      { id: "signatories" as const, title: t("signatories"), icon: PenLine },
-      { id: "kyc" as const, title: t("kyc"), icon: FileCheck2 },
+      { id: "signatories" as const, title: t("signatories"), description: t("tabHints.signatories"), icon: PenLine },
+      { id: "kyc" as const, title: t("kyc"), description: t("tabHints.kyc"), icon: FileCheck2 },
     ],
     [t],
   );

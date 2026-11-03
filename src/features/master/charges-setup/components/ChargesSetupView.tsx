@@ -50,8 +50,8 @@ export function ChargesSetupView({
 
   const tabs = useMemo(
     () => [
-      { id: "deposit" as const, title: t("tabs.deposit"), icon: Banknote },
-      { id: "loan" as const, title: t("tabs.loan"), icon: Landmark },
+      { id: "deposit" as const, title: t("tabs.deposit"), description: t("tabHints.deposit"), icon: Banknote },
+      { id: "loan" as const, title: t("tabs.loan"), description: t("tabHints.loan"), icon: Landmark },
     ],
     [t],
   );

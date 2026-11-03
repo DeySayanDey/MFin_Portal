@@ -17,7 +17,11 @@ import { Button } from "@/components/ui/Button";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Link, useRouter } from "@/i18n/navigation";
 import { STATUS_ACTIVE } from "../deposit-account.constants";
-import { depositStatusTone } from "../deposit-account.rules";
+import {
+  depositAccountHref,
+  depositStatusTone,
+  savingsTransactionHref,
+} from "../deposit-account.rules";
 import {
   fetchDepositAccountView,
   isDepositAccountClientError,
@@ -157,7 +161,7 @@ export function DepositAccountDetailPage({ accountId, notice }: DepositAccountDe
                 type="button"
                 icon={ArrowLeftRight}
                 onClick={() =>
-                  router.push(`/deposits/savings-transaction?account_id=${account.accountId}`)
+                  router.push(savingsTransactionHref(account))
                 }
               >
                 {t("actions.depositWithdraw")}
@@ -166,7 +170,7 @@ export function DepositAccountDetailPage({ accountId, notice }: DepositAccountDe
                 type="button"
                 variant="secondary"
                 icon={Pencil}
-                onClick={() => router.push(`/deposits/savings/${account.accountId}/edit`)}
+                onClick={() => router.push(depositAccountHref(account, "edit"))}
               >
                 {t("actions.edit")}
               </Button>

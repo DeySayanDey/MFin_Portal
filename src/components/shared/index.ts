@@ -8,8 +8,11 @@ export type {
   DataTableSelectionConfig,
 } from "./DataTable";
 
+export { BrandLogo } from "./BrandLogo";
 export { PageHeader } from "./PageHeader";
 export { FilterPanel } from "./FilterPanel";
+export { PrintFrame, PRINT_PAGE_TOKEN, PRINT_PAGES_TOKEN } from "./PrintFrame";
+export type { PrintFrameHandle } from "./PrintFrame";
 export { SectionTabs } from "./SectionTabs";
 export type { SectionTab } from "./SectionTabs";
 export { LoadingState } from "./LoadingState";

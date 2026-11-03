@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { FilterPanel } from "@/components/shared/FilterPanel";
 import { DataTable, type DataTableColumn } from "@/components/shared/DataTable";
 import { Alert } from "@/components/ui/Alert";
+import { PageToast, useToastNotice, useToastText } from "@/components/ui/PageToast";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { DateField, SelectField, TextField } from "@/components/ui/Form";
@@ -68,9 +69,7 @@ export function ShareSubscriptionView() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [notice, setNotice] = useState<{ tone: "success" | "error"; text: string } | null>(
-    null,
-  );
+  const [notice, setNotice] = useToastNotice();
 
   const [custTypeOptions, setCustTypeOptions] = useState<Option[]>([]);
   const [paymentModeOptions, setPaymentModeOptions] = useState<Option[]>([]);
@@ -89,7 +88,7 @@ export function ShareSubscriptionView() {
   const [paymentModeCd, setPaymentModeCd] = useState(String(PAYMENT_MODE_CASH));
   const [refNo, setRefNo] = useState("");
   const [remarks, setRemarks] = useState("");
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useToastText();
   const [saving, setSaving] = useState(false);
 
   const [decision, setDecision] = useState<{
@@ -487,18 +486,14 @@ export function ShareSubscriptionView() {
   return (
     <div className="flex flex-col gap-4">
       <PageHeader title={t("title")} description={t("description")} />
-      {notice ? <Alert tone={notice.tone}>{notice.text}</Alert> : null}
+      <PageToast message={notice?.text ?? null} tone={notice?.tone} />
+      <PageToast message={formError} tone="error" />
 
       <form
         className="rounded-[var(--radius-card)] border border-border bg-surface p-4 shadow-[var(--shadow-card)]"
         onSubmit={(event) => void submit(event)}
       >
         <h2 className="mb-4 text-base font-semibold text-slate-900">{t("form.title")}</h2>
-        {formError ? (
-          <Alert tone="error" className="mb-4">
-            {formError}
-          </Alert>
-        ) : null}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 [&>*]:min-w-0">
           <SelectField
             label={t("form.custType")}

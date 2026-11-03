@@ -7,7 +7,6 @@ import { useRouter } from "@/i18n/navigation";
 import { ModulePageShell } from "@/components/shared/ModulePageShell";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { LoadingState } from "@/components/shared/LoadingState";
-import { Alert } from "@/components/ui/Alert";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -94,7 +93,7 @@ export function LoginSettingsView() {
     toForm(LOGIN_SECURITY_DEFAULTS),
   );
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useToastText();
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useToastText();
 
@@ -195,14 +194,10 @@ export function LoginSettingsView() {
   return (
     <ModulePageShell page={pageMeta}>
       <PageToast message={notice} />
+      <PageToast message={formError} tone="error" />
 
       <form id="login-settings-form" onSubmit={(event) => void handleSubmit(event)}>
         <Card title={t("title")} description={t("description")}>
-          {formError ? (
-            <Alert tone="error" className="mb-4">
-              {formError}
-            </Alert>
-          ) : null}
           <div className="grid gap-4 lg:grid-cols-2">
             <Card
               className="bg-surface-muted shadow-none"

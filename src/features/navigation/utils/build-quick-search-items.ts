@@ -112,7 +112,12 @@ export function buildQuickSearchCatalog(
   if (menu && menu.length > 0) {
     for (const item of flattenMenuTree(menu)) {
       // Keep the designed Executive Dashboard label for home.
-      if (item.href === "/" && map.has("/")) continue;
+      if (
+        (item.href === "/" || item.href === "/dashboard") &&
+        (map.has("/") || map.has("/dashboard"))
+      ) {
+        continue;
+      }
       // Role menu wins on label/group for the same href.
       map.set(item.href, item);
     }

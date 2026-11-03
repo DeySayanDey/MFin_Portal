@@ -7,9 +7,10 @@ import { Alert } from "@/components/ui/Alert";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
+import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Link } from "@/i18n/navigation";
 import { TERM_DEPOSIT_TYPE } from "../deposit-account.constants";
-import { parseYmd } from "../deposit-account.rules";
+import { parseYmd, savingsTransactionHref } from "../deposit-account.rules";
 import {
   fetchDepositAccountView,
   syncDepositAccountMembers,
@@ -60,7 +61,7 @@ export function DepositAccountViewModal({
   const [loading, setLoading] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [scheduleSyncing, setScheduleSyncing] = useState(false);
-  const [syncNotice, setSyncNotice] = useState<string | null>(null);
+  const [syncNotice, setSyncNotice] = useToastText();
 
   useEffect(() => {
     setSyncNotice(null);
@@ -334,11 +335,7 @@ export function DepositAccountViewModal({
                 </Button>
               }
             >
-              {syncNotice ? (
-                <Alert tone="info" className="mb-3 py-2 text-xs">
-                  {syncNotice}
-                </Alert>
-              ) : null}
+              <PageToast message={syncNotice} tone="info" />
               {viewData && viewData.members.length > 0 ? (
                 <div className="overflow-x-auto rounded-xl border border-border">
                   <table className="w-full min-w-[640px] text-left text-xs">
@@ -505,7 +502,7 @@ export function DepositAccountViewModal({
             }
             action={
               <Link
-                href={`/deposits/savings-transactions?account_id=${active.accountId}`}
+                href={savingsTransactionHref(active)}
                 className="inline-flex cursor-pointer items-center gap-1 text-xs font-semibold text-brand hover:underline"
               >
                 {t("view.viewAllTransactions")}

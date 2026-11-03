@@ -59,7 +59,7 @@ export type NavItem = {
 
 export const primaryNav: NavItem = {
   label: "Executive Dashboard",
-  href: "/",
+  href: "/dashboard",
   icon: LayoutDashboard,
   tone: "green",
 };
@@ -292,25 +292,25 @@ export const mainModules: NavItem[] = [
 export const workflowLinks = [
   {
     label: "Onboard Borrower & KYC",
-    href: "/customer-kyc",
+    href: "/onboarding/member-registration",
     icon: UserRoundPlus,
     tone: "blue" as const,
   },
   {
     label: "Loan Origination (LOS)",
-    href: "/los",
+    href: "/los/applications",
     icon: FileSpreadsheet,
     tone: "green" as const,
   },
   {
     label: "Loan Management (LMS)",
-    href: "/lms",
+    href: "/lms/disbursement",
     icon: ClipboardList,
     tone: "amber" as const,
   },
   {
     label: "Field Force Collection",
-    href: "/field-force",
+    href: "/lms/collections",
     icon: MapPinned,
     tone: "violet" as const,
   },
@@ -319,8 +319,8 @@ export const workflowLinks = [
 export const rolePortals = [
   {
     label: "Super Admin",
-    href: "/",
-    match: (pathname: string) => pathname === "/",
+    href: "/dashboard",
+    match: (pathname: string) => pathname === "/" || pathname === "/dashboard",
   },
   {
     label: "Branch Manager",

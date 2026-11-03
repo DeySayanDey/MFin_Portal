@@ -16,6 +16,7 @@ import {
 } from "@/features/support/components/SupportNoticeBell";
 import { clearSupportInbox } from "@/features/support/services/support-inbox";
 import { ThemeToggle } from "@/features/theme/ThemeToggle";
+import { BrandLogo } from "@/components/shared/BrandLogo";
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { endpoints } from "@/lib/api/endpoints";
 
@@ -115,20 +116,11 @@ export function Header({ onMenuClick, user }: HeaderProps) {
             </button>
 
             <Link
-              href="/"
-              className="flex min-w-0 items-center gap-2.5 lg:hidden"
+              href="/dashboard"
+              aria-label={tAuth("brandName")}
+              className="flex min-w-0 shrink items-center lg:hidden"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand text-xs font-bold text-white shadow-sm">
-                eZ
-              </span>
-              <span className="min-w-0">
-                <span className="block truncate text-sm font-semibold tracking-tight text-slate-900">
-                  {tAuth("brandName")}
-                </span>
-                <span className="hidden truncate text-[10px] font-medium uppercase tracking-[0.12em] text-muted-soft sm:block">
-                  {tAuth("brandTagline")}
-                </span>
-              </span>
+              <BrandLogo priority className="w-28 sm:w-40" />
             </Link>
 
             <div className="relative hidden min-w-0 flex-1 md:block md:max-w-md">

@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import { Save } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
-import { Alert } from "@/components/ui/Alert";
 import { Card } from "@/components/ui/Card";
 import {
   CheckboxField,
@@ -152,7 +151,7 @@ export function OrganizationForm() {
   const [logoBase64, setLogoBase64] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useToastText();
   const [successMessage, setSuccessMessage] = useToastText();
 
   useEffect(() => {
@@ -371,7 +370,7 @@ export function OrganizationForm() {
     <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
       <PageToast message={successMessage} />
 
-      {formError ? <Alert tone="error">{formError}</Alert> : null}
+      <PageToast message={formError} tone="error" />
 
       <form
         id="organization-form"

@@ -16,7 +16,6 @@ import { useFormatter, useTranslations } from "next-intl";
 import { DataTable, type DataTableColumn } from "@/components/shared/DataTable";
 import { FilterPanel } from "@/components/shared/FilterPanel";
 import { ModulePageShell } from "@/components/shared/ModulePageShell";
-import { Alert } from "@/components/ui/Alert";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
@@ -82,7 +81,7 @@ export function LosApprovalView() {
 
   const [branchOptions, setBranchOptions] = useState<{ value: string; label: string }[]>([]);
   const [submittingDecision, setSubmittingDecision] = useState(false);
-  const [decisionError, setDecisionError] = useState<string | null>(null);
+  const [decisionError, setDecisionError] = useToastText();
   const [toastMessage, setToastMessage] = useToastText();
 
   const pageMeta = useMemo(
@@ -465,7 +464,7 @@ export function LosApprovalView() {
         }
       >
         <div className="space-y-6">
-          {decisionError && <Alert tone="error">{decisionError}</Alert>}
+          <PageToast message={decisionError} tone="error" />
 
           {/* Interactive Sanction Parameters */}
           <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">

@@ -20,12 +20,17 @@ import {
   X,
   XCircle,
 } from "lucide-react";
-import { useFormatter } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { SelectField, TextField } from "@/components/ui/Form";
 import { Alert } from "@/components/ui/Alert";
+import { PageToast, useToastText } from "@/components/ui/PageToast";
+import {
+  APPL_STATUS_REJECTED,
+  applStatusKey,
+} from "../los-application.constants";
 import {
   fetchLoanApplicationDetail,
   fetchLoanApplicationTimeline,
@@ -50,6 +55,7 @@ import type {
 type LosApplicationDrawerProps = {
   applicationId: number | null;
   open: boolean;
+  initialTab?: DrawerTab;
   onClose: () => void;
   onApplicationUpdated?: () => void;
 };
@@ -67,17 +73,20 @@ type DrawerTab =
 export function LosApplicationDrawer({
   applicationId,
   open,
+  initialTab = "overview",
   onClose,
   onApplicationUpdated,
 }: LosApplicationDrawerProps) {
   const format = useFormatter();
+  const t = useTranslations("los.applications");
   const [tab, setTab] = useState<DrawerTab>("overview");
   const [detail, setDetail] = useState<LoanApplicationDetail | null>(null);
   const [timeline, setTimeline] = useState<LoanApplicationTimelineEvent[]>([]);
   const [eligibility, setEligibility] = useState<LoanEligibilityResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [actionSuccess, setActionSuccess] = useState<string | null>(null);
+  const [actionSuccess, setActionSuccess] = useToastText();
+  const [actionError, setActionError] = useToastText();
 
   // Child record modals
   const [chargeModalOpen, setChargeModalOpen] = useState(false);
@@ -93,7 +102,7 @@ export function LosApplicationDrawer({
   const [freezeForm, setFreezeForm] = useState({ depositAccountId: "", freezeTypeCd: "2", freezeAmount: "" });
 
   const [submittingChild, setSubmittingChild] = useState(false);
-  const [childError, setChildError] = useState<string | null>(null);
+  const [childError, setChildError] = useToastText();
 
   const money = (val: number | null | undefined) => {
     if (val == null) return "—";
@@ -118,7 +127,7 @@ export function LosApplicationDrawer({
 
   useEffect(() => {
     if (open && applicationId) {
-      setTab("overview");
+      setTab(initialTab);
       setActionSuccess(null);
       void loadData(applicationId);
     } else {
@@ -126,7 +135,7 @@ export function LosApplicationDrawer({
       setTimeline([]);
       setEligibility(null);
     }
-  }, [open, applicationId]);
+  }, [open, applicationId, initialTab]);
 
   if (!open || !applicationId) return null;
 
@@ -139,7 +148,17 @@ export function LosApplicationDrawer({
     return "neutral";
   };
 
-  const isReadOnly = detail?.appl_status_cd === 3 || detail?.stage === "rejected";
+  const isReadOnly =
+    detail?.appl_status_cd === APPL_STATUS_REJECTED || detail?.stage === "rejected";
+
+  const applStatusLabel = (() => {
+    if (!detail) return t("dash");
+    const key = applStatusKey(detail.appl_status_cd);
+    return (
+      detail.appl_status?.trim() ||
+      (key ? t(`applStatus.${key}`) : t("dash"))
+    );
+  })();
 
   const handleAddCharge = async () => {
     if (!detail) return;
@@ -172,7 +191,7 @@ export function LosApplicationDrawer({
       void loadData(detail.application_id);
       onApplicationUpdated?.();
     } catch (err: any) {
-      setError(err?.message || "Failed to remove charge");
+      setActionError(err?.message || "Failed to remove charge");
     }
   };
 
@@ -210,7 +229,7 @@ export function LosApplicationDrawer({
       void loadData(detail.application_id);
       onApplicationUpdated?.();
     } catch (err: any) {
-      setError(err?.message || "Failed to release guarantor");
+      setActionError(err?.message || "Failed to release guarantor");
     }
   };
 
@@ -248,7 +267,7 @@ export function LosApplicationDrawer({
       void loadData(detail.application_id);
       onApplicationUpdated?.();
     } catch (err: any) {
-      setError(err?.message || "Failed to release collateral");
+      setActionError(err?.message || "Failed to release collateral");
     }
   };
 
@@ -284,7 +303,7 @@ export function LosApplicationDrawer({
       void loadData(detail.application_id);
       onApplicationUpdated?.();
     } catch (err: any) {
-      setError(err?.message || "Failed to release freeze");
+      setActionError(err?.message || "Failed to release freeze");
     }
   };
 
@@ -355,11 +374,9 @@ export function LosApplicationDrawer({
 
       {/* Body Content */}
       <div className="flex-1 overflow-y-auto p-6">
-        {actionSuccess && (
-          <Alert tone="success" className="mb-4">
-            {actionSuccess}
-          </Alert>
-        )}
+        <PageToast message={actionSuccess} />
+        <PageToast message={actionError} tone="error" />
+        <PageToast message={childError} tone="error" />
         {error && (
           <Alert tone="error" className="mb-4">
             {error}
@@ -387,7 +404,9 @@ export function LosApplicationDrawer({
                   <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Sanctioned</span>
                     <p className="mt-1 text-base font-bold text-teal-700">{money(detail.sanctioned_amount)}</p>
-                    <span className="text-[11px] text-slate-500">Status: {detail.appl_status}</span>
+                    <span className="text-[11px] text-slate-500">
+                      {t("columns.status")}: {applStatusLabel}
+                    </span>
                   </div>
                   <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Disbursed</span>
@@ -1046,7 +1065,6 @@ export function LosApplicationDrawer({
           </div>
         }
       >
-        {childError && <Alert tone="error" className="mb-3">{childError}</Alert>}
         <div className="space-y-3">
           <TextField
             label="Charge ID / Master Code"
@@ -1093,7 +1111,6 @@ export function LosApplicationDrawer({
           </div>
         }
       >
-        {childError && <Alert tone="error" className="mb-3">{childError}</Alert>}
         <div className="space-y-3">
           <TextField
             label="Guarantor Member ID"
@@ -1145,7 +1162,6 @@ export function LosApplicationDrawer({
           </div>
         }
       >
-        {childError && <Alert tone="error" className="mb-3">{childError}</Alert>}
         <div className="space-y-3">
           <SelectField
             label="Collateral Type"
@@ -1198,7 +1214,6 @@ export function LosApplicationDrawer({
           </div>
         }
       >
-        {childError && <Alert tone="error" className="mb-3">{childError}</Alert>}
         <div className="space-y-3">
           <TextField
             label="Deposit Account ID"

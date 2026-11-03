@@ -184,6 +184,19 @@ export type DepositAccountSbInput = {
   remarks?: string | null;
 };
 
+export type DepositAccountTdInput = {
+  startDate?: string | null;
+  refAcNo?: string | null;
+  periodYy: number;
+  periodMm: number;
+  periodDd: number;
+  instAmount: number;
+  instNo?: number | null;
+  matuInsCd?: number | null;
+  sbCreditAcId?: number | null;
+  tdsDeduct?: boolean;
+};
+
 export type DepositOpeningTransaction = {
   transId: number;
   transNo: string;
@@ -280,6 +293,7 @@ export type DepositAccountCreateInput = {
   branchId?: number | null;
   statusCd?: number;
   sb?: DepositAccountSbInput;
+  td?: DepositAccountTdInput;
 };
 
 export type DepositAccountEditInput = {

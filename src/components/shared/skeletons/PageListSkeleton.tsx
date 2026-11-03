@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/Skeleton";
 import { DataTableSkeleton } from "@/components/shared/skeletons/DataTableSkeleton";
+import { sectionTabsGridClass } from "@/components/shared/section-tabs-grid";
 
 type PageListSkeletonProps = {
   filterFields?: number;
@@ -11,13 +12,6 @@ type PageListSkeletonProps = {
   className?: string;
 };
 
-function tabGridClass(count: number): string {
-  if (count <= 2) return "grid-cols-2 xl:grid-cols-4";
-  if (count === 3) return "grid-cols-2 sm:grid-cols-3";
-  if (count === 4) return "grid-cols-2 sm:grid-cols-2 xl:grid-cols-4";
-  return "grid-cols-2 sm:grid-cols-3 xl:grid-cols-5";
-}
-
 function SectionTabsSkeleton({
   count,
   activeIndex,
@@ -26,30 +20,22 @@ function SectionTabsSkeleton({
   activeIndex: number;
 }) {
   return (
-    <div className={`grid gap-2.5 ${tabGridClass(count)}`}>
+    <div className={`grid gap-3 ${sectionTabsGridClass(count)}`}>
       {Array.from({ length: count }).map((_, index) => {
         const active = index === activeIndex;
+        const block = active ? "bg-white/40" : "skeleton-block";
         return (
           <div
             key={index}
-            className={`flex flex-col items-start gap-1.5 rounded-2xl border px-3.5 py-3 ${
-              active
-                ? "border-brand bg-brand"
-                : "border-border bg-surface-muted"
+            className={`flex items-center gap-3 rounded-2xl border px-3.5 py-3 ${
+              active ? "border-brand bg-brand" : "border-border bg-surface"
             }`}
           >
-            <span
-              className={`h-4 w-4 rounded-md ${
-                active ? "bg-white/45" : "skeleton-block"
-              }`}
-              aria-hidden
-            />
-            <span
-              className={`h-3 w-[70%] rounded-md ${
-                active ? "bg-white/45" : "skeleton-block"
-              }`}
-              aria-hidden
-            />
+            <span className={`h-9 w-9 shrink-0 rounded-xl ${block}`} aria-hidden />
+            <span className="flex min-w-0 flex-1 flex-col gap-1.5">
+              <span className={`h-3 w-[60%] rounded-md ${block}`} aria-hidden />
+              <span className={`h-2.5 w-[85%] rounded-md ${block}`} aria-hidden />
+            </span>
           </div>
         );
       })}

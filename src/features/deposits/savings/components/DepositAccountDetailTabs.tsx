@@ -15,7 +15,12 @@ import {
   STATUS_REJECTED,
 } from "@/features/deposits/savings-transaction/savings-transaction.constants";
 import { CUST_TYPE_GROUP } from "../deposit-account.constants";
-import { depositStatusTone, parseYmd } from "../deposit-account.rules";
+import {
+  depositAccountHref,
+  depositStatusTone,
+  parseYmd,
+  savingsTransactionHref,
+} from "../deposit-account.rules";
 import type {
   DepositAccountDetail,
   DepositAccountMember,
@@ -70,12 +75,18 @@ export function DepositAccountDetailTabs({
 
   const tabs = useMemo(
     () => [
-      { id: "overview" as const, title: t("view.overview"), icon: LayoutList },
+      {
+        id: "overview" as const,
+        title: t("view.overview"),
+        description: t("view.tabHints.overview"),
+        icon: LayoutList,
+      },
       ...(isGroup
         ? [
             {
               id: "members" as const,
               title: t("view.members", { count: account.members.length }),
+              description: t("view.tabHints.members"),
               icon: UsersRound,
             },
           ]
@@ -83,16 +94,19 @@ export function DepositAccountDetailTabs({
       {
         id: "nominees" as const,
         title: t("view.nominees", { count: account.nominees.length }),
+        description: t("view.tabHints.nominees"),
         icon: UserRound,
       },
       {
         id: "signatories" as const,
         title: t("view.signatories", { count: account.signatories.length }),
+        description: t("view.tabHints.signatories"),
         icon: Users,
       },
       {
         id: "transactions" as const,
         title: t("view.transactions", { count: account.transactionCount }),
+        description: t("view.tabHints.transactions"),
         icon: PenLine,
       },
     ],
@@ -262,7 +276,7 @@ export function DepositAccountDetailTabs({
 
   const editLink = account.isClosed ? null : (
     <Link
-      href={`/deposits/savings/${account.accountId}/edit`}
+      href={depositAccountHref(account, "edit")}
       className="text-sm font-semibold text-brand hover:underline"
     >
       {t("view.manage")}
@@ -384,7 +398,7 @@ export function DepositAccountDetailTabs({
           }
           actions={
             <Link
-              href={`/deposits/savings-transaction?account_id=${account.accountId}`}
+              href={savingsTransactionHref(account)}
               className="text-sm font-semibold text-brand hover:underline"
             >
               {t("view.viewAll")}
