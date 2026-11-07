@@ -272,8 +272,16 @@ export function LosCreditAssessmentView() {
                   <span className="text-[11px] font-medium uppercase tracking-wider">FOIR %</span>
                   <Gauge className="h-4 w-4" />
                 </div>
-                <p className={`mt-1.5 text-2xl font-black ${eligibility.foir_percent > 50 ? "text-red-600" : "text-teal-700"}`}>
-                  {eligibility.foir_percent.toFixed(2)}%
+                <p
+                  className={`mt-1.5 text-2xl font-black ${
+                    eligibility.foir_percent != null && eligibility.foir_percent > 50
+                      ? "text-red-600"
+                      : "text-teal-700"
+                  }`}
+                >
+                  {eligibility.foir_percent != null
+                    ? `${eligibility.foir_percent.toFixed(2)}%`
+                    : "—"}
                 </p>
                 <span className="text-[10px] text-slate-400">Policy Benchmark: ≤ 50%</span>
               </div>
@@ -285,7 +293,13 @@ export function LosCreditAssessmentView() {
               <div className="rounded-xl border border-slate-200 bg-white p-3.5 shadow-xs">
                 <span className="text-[11px] font-medium uppercase tracking-wider text-slate-500">Proposed EMI</span>
                 <p className="mt-1.5 text-lg font-bold text-slate-900">{money(eligibility.proposed_monthly_installment)}</p>
-                <span className="text-[10px] text-slate-400">At {eligibility.interest_rate}% rate</span>
+                <span className="text-[10px] text-slate-400">
+                  At{" "}
+                  {eligibility.interest_rate != null
+                    ? `${eligibility.interest_rate}%`
+                    : "—"}{" "}
+                  rate
+                </span>
               </div>
               <div className="rounded-xl border border-slate-200 bg-white p-3.5 shadow-xs">
                 <span className="text-[11px] font-medium uppercase tracking-wider text-slate-500">Net Monthly Income</span>

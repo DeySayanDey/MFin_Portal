@@ -1,5 +1,13 @@
+/** `mst_appl_options` group 35 — Relationship (nominee / guarantor). */
+export const OPT_RELATION = 35;
+/** Self relation is not valid for a guarantor. */
+export const RELATION_SELF = 9;
+
 /** `mst_appl_options` group 37 — Application Status. */
 export const APPL_STATUS_OPT_GRP_ID = 37;
+
+/** `mst_appl_options` group 38 — Inspection Result (1 Positive, 2 Negative, 3 Re-Inspection). */
+export const OPT_INSPECTION_RESULT = 38;
 
 export const APPL_STATUS_SUBMITTED = 1;
 export const APPL_STATUS_APPROVED = 2;

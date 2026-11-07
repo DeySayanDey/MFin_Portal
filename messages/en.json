@@ -4401,7 +4401,17 @@
         "search": "Search",
         "searchPlaceholder": "Account, application, borrower, scheme",
         "status": "Status",
+        "stage": "Stage",
+        "stageAll": "All stages",
         "scheme": "Scheme",
+        "schemeAll": "All schemes",
+        "borrowerType": "Borrower type",
+        "borrowerTypeAll": "All borrower types",
+        "branch": "Branch",
+        "branchAll": "All branches",
+        "branchFixed": "Your branch",
+        "fromDate": "From date",
+        "toDate": "To date",
         "all": "All",
         "active": "Active",
         "closed": "Closed",
@@ -4469,6 +4479,58 @@
       "detail": {
         "loanDate": "Loan date",
         "rate": "Interest rate"
+      },
+      "chargeModal": {
+        "title": "Add application charge",
+        "charge": "Charge",
+        "chargePlaceholder": "Select a loan charge",
+        "loading": "Loading charges…",
+        "empty": "No active loan charges are available.",
+        "loadError": "Loan charges could not be loaded.",
+        "customAmount": "Custom amount (optional)",
+        "customAmountPlaceholder": "Default from master rate",
+        "waivedAmount": "Waived amount (optional)",
+        "waivedAmountPlaceholder": "Amount to waive",
+        "waiverReason": "Waiver reason (if waived)",
+        "waiverReasonPlaceholder": "Reason for discount or waiver",
+        "cancel": "Cancel",
+        "save": "Save charge",
+        "saving": "Saving…"
+      },
+      "guarantorModal": {
+        "title": "Attach guarantor",
+        "member": "Guarantor",
+        "memberPlaceholder": "Select a member",
+        "loadingMembers": "Loading members…",
+        "emptyMembers": "No eligible members are available to attach as guarantor.",
+        "relationship": "Relationship with borrower",
+        "relationshipPlaceholder": "Select relationship",
+        "loadingRelationships": "Loading relationships…",
+        "loadError": "Guarantor options could not be loaded.",
+        "guaranteeAmount": "Guarantee amount",
+        "guaranteeAmountPlaceholder": "Amount guaranteed",
+        "consentDate": "Consent date",
+        "docPath": "Consent document path (optional)",
+        "docPathPlaceholder": "e.g. loan/guarantor/consent.pdf",
+        "cancel": "Cancel",
+        "attach": "Attach guarantor",
+        "attaching": "Attaching…"
+      },
+      "freezeModal": {
+        "title": "Mark deposit lien freeze",
+        "depositAccount": "Savings account",
+        "depositAccountPlaceholder": "Select a savings account",
+        "loading": "Loading savings accounts…",
+        "empty": "This member has no active savings account to mark a lien on.",
+        "loadError": "Savings accounts could not be loaded.",
+        "freezeType": "Freeze type",
+        "freezeTypeFull": "Full (entire balance)",
+        "freezeTypePartial": "Partial (specified amount)",
+        "freezeAmount": "Freeze amount",
+        "freezeAmountPlaceholder": "Amount to hold in INR",
+        "cancel": "Cancel",
+        "save": "Mark lien",
+        "saving": "Creating…"
       },
       "form": {
         "createTitle": "New application",
@@ -4583,6 +4645,18 @@
           "date": "Date",
           "owner": "Owner",
           "status": "Status"
+        },
+        "actions": {
+          "timeline": "Timeline"
+        },
+        "timeline": {
+          "title": "Lifecycle tracking — {number}",
+          "subtitle": "{borrower} · Current owner: {owner}",
+          "empty": "No history recorded for this application yet.",
+          "actionBy": "Action: {name}",
+          "outcome": "Outcome: {result}",
+          "amount": "Amount: {amount}",
+          "ref": "Ref: {ref}"
         }
       },
       "creditAssessment": {
@@ -4598,14 +4672,103 @@
       },
       "fieldVerification": {
         "title": "Field verification",
-        "description": "Inspection date, officer, result and recommended amount.",
+        "description": "House visit, assets, GPS and recommended sanction amount.",
+        "dash": "—",
+        "refresh": "Refresh",
+        "recordVisit": "Record visit",
+        "unassigned": "Unassigned",
+        "pendingBadge": "Pending inspection",
+        "resultFallback": "Verified",
+        "recommendedShort": "Rec: {amount}",
+        "emptyTitle": "No verifications",
+        "emptyPending": "No applications are waiting for field verification.",
+        "emptyHistory": "No verification visits match these filters.",
+        "metrics": {
+          "pending": "Pending verification",
+          "positive": "Positive (this page)",
+          "negative": "Negative (this page)",
+          "reinspect": "Re-inspect / open"
+        },
+        "filters": {
+          "search": "Search",
+          "searchPlaceholder": "Application no, borrower…",
+          "status": "Verification status",
+          "statusPending": "Pending field verification",
+          "statusHistory": "Verified / history",
+          "result": "Inspection result",
+          "resultAll": "All results",
+          "officer": "Field officer",
+          "officerAll": "All officers",
+          "branch": "Branch",
+          "branchAll": "All branches",
+          "branchFixed": "Your branch",
+          "fromDate": "From date",
+          "toDate": "To date"
+        },
+        "table": {
+          "pendingTitle": "Pending field verifications",
+          "historyTitle": "Field verification history",
+          "description": "Verify house visit, physical stock/assets, GPS location and recommend sanction amount."
+        },
         "columns": {
           "appNo": "Application",
+          "borrower": "Borrower / group",
+          "requested": "Requested",
           "inspectionDate": "Inspection date",
           "officer": "Officer",
           "result": "Result",
           "recommended": "Recommended",
-          "notes": "Notes"
+          "notes": "Notes",
+          "actions": "Visit"
+        },
+        "actions": {
+          "inspect": "Inspect",
+          "reInspect": "Re-inspect"
+        },
+        "toast": {
+          "saved": "Field verification recorded successfully"
+        },
+        "errors": {
+          "loadFailed": "Field verifications could not be loaded."
+        },
+        "modal": {
+          "title": "Record field verification visit",
+          "subtitle": "Capture visit outcome, recommended amount and GPS for the application.",
+          "submit": "Submit verification",
+          "application": "Loan application",
+          "applicationPlaceholder": "Select pending application",
+          "loadingApps": "Loading applications…",
+          "appOption": "{app} — {borrower} · {amount}",
+          "noPendingApps": "No pending applications available to inspect.",
+          "inspectionDate": "Visit / inspection date",
+          "officer": "Field officer",
+          "officerPlaceholder": "Select officer",
+          "result": "Inspection result",
+          "results": {
+            "positive": "Positive (verified & recommended)",
+            "negative": "Negative (mismatch / rejected)",
+            "reinspect": "Re-inspection required"
+          },
+          "recommendedAmount": "Recommended amount",
+          "recommendedPlaceholder": "Recommended loan amount",
+          "allVerified": "All documents & assets physically verified",
+          "gpsTitle": "Visit GPS geolocation",
+          "captureGps": "Capture device GPS",
+          "latitude": "Latitude",
+          "latitudePlaceholder": "e.g. 22.5726",
+          "longitude": "Longitude",
+          "longitudePlaceholder": "e.g. 88.3639",
+          "photoPath": "Visit photo path / storage URL",
+          "photoPlaceholder": "e.g. loan/inspection/visit.jpg",
+          "notes": "Field officer notes & observations",
+          "notesPlaceholder": "House, family members, business stock observed…",
+          "geoUnsupported": "Geolocation is not supported by this browser.",
+          "geoDenied": "Location unavailable: {message}",
+          "errors": {
+            "appRequired": "Select a loan application.",
+            "foRequired": "Select a field officer.",
+            "saveFailed": "Field verification could not be saved."
+          }
         }
       },
       "approval": {
@@ -4624,15 +4787,140 @@
       "disbursement": {
         "title": "Disbursement",
         "description": "Gross, deductions and net amount stored on the disbursement.",
+        "disburse": "Disburse loan",
         "columns": {
           "loanAccount": "Loan account",
           "disbursementNo": "Disbursement no",
+          "borrower": "Borrower / member",
           "date": "Date",
           "gross": "Gross",
           "deductions": "Deductions",
           "net": "Net",
           "mode": "Mode",
+          "tranche": "Tranche",
           "status": "Status"
+        },
+        "tranche": {
+          "final": "Final",
+          "draft": "Draft"
+        },
+        "metrics": {
+          "totalGross": "Total disbursed (gross)",
+          "netPaid": "Net paid out",
+          "pending": "Pending checker authorization",
+          "finalSettled": "Final tranches settled"
+        },
+        "filters": {
+          "search": "Search",
+          "searchPlaceholder": "Disbursement no, account, borrower…",
+          "approval": "Authorization",
+          "approvalAll": "All statuses",
+          "approvalPending": "Pending authorization",
+          "approvalApproved": "Approved & settled",
+          "paymentMode": "Payment mode",
+          "paymentModeAll": "All modes",
+          "tranche": "Tranche",
+          "trancheAll": "All tranches",
+          "trancheFinal": "Final",
+          "trancheDraft": "Draft",
+          "branch": "Branch",
+          "branchAll": "All branches",
+          "branchFixed": "Your branch",
+          "fromDate": "From date",
+          "toDate": "To date"
+        },
+        "actions": {
+          "view": "View",
+          "viewTooltip": "View disbursement details",
+          "authorize": "Authorize",
+          "authorizeTooltip": "Checker authorization (approve / reject)"
+        },
+        "detail": {
+          "title": "Disbursement {number}",
+          "subtitle": "{account} · {borrower}",
+          "gross": "Gross",
+          "deductions": "Deductions",
+          "net": "Net payout",
+          "date": "Disbursement date",
+          "borrower": "Borrower / member",
+          "loanAccount": "Loan account",
+          "application": "Application",
+          "branch": "Branch",
+          "voucher": "Voucher",
+          "cheque": "Cheque no.",
+          "reference": "UTR / reference",
+          "sbAccount": "Savings account",
+          "createdBy": "Created by",
+          "approvedBy": "Approved by",
+          "remarks": "Remarks",
+          "dash": "—"
+        },
+        "modal": {
+          "title": "Disburse sanctioned loan",
+          "subtitle": "Choose the account, confirm the tranche amount, then settle the payout mode.",
+          "confirm": "Confirm & disburse",
+          "netLabel": "Net disbursal:",
+          "pendingWarning": "A disbursement is already waiting for checker approval on this loan account. Finish that decision before starting another tranche.",
+          "stepAccount": "1. Loan account & date",
+          "stepAmount": "2. Tranche amount & deductions",
+          "stepPayment": "3. Payment method",
+          "loanAccount": "Sanctioned loan account",
+          "loanAccountPlaceholder": "Select a loan account",
+          "loadingAccounts": "Loading accounts…",
+          "accountOption": "{account} — {borrower} · remaining {remaining}",
+          "accountHint": "{scheme} · sanctioned {sanctioned} · already paid {disbursed}",
+          "noAccounts": "No active loan accounts with an undisbursed balance were found.",
+          "disbursementDate": "Disbursement date",
+          "calculating": "Calculating deductions…",
+          "previewError": "Disbursement preview could not be loaded.",
+          "sanctioned": "Total sanctioned",
+          "alreadyDisbursed": "Already disbursed",
+          "undisbursed": "Undisbursed balance",
+          "netPayout": "Net payout",
+          "grossAmount": "Gross tranche amount",
+          "otherDeduction": "Other deductions",
+          "finalTranche": "Final tranche (close loan payout)",
+          "finalHint": "This payout will clear the remaining sanctioned amount and mark the tranche as final.",
+          "chargesTitle": "Upfront charges deducted from tranche",
+          "chargesTotal": "Total: {amount}",
+          "chargeName": "Charge",
+          "chargeStage": "Stage",
+          "chargeFee": "Fee",
+          "chargeTax": "Tax",
+          "chargeNet": "Net deducted",
+          "paymentMode": "Payment mode",
+          "modes": {
+            "cash": "Cash",
+            "cheque": "Bank cheque",
+            "transfer": "Bank transfer",
+            "sb": "S/B account credit"
+          },
+          "chequeNo": "Cheque number",
+          "chequeNoPlaceholder": "e.g. CHQ-908123",
+          "referenceNo": "Reference / UTR number",
+          "referenceNoPlaceholder": "e.g. UTR0001239845",
+          "sbAccount": "Borrower savings account",
+          "sbAccountPlaceholder": "Select savings account",
+          "loadingSb": "Loading savings accounts…",
+          "noSbAccounts": "This borrower has no active savings account. Open one in Deposits, or choose another payment mode.",
+          "cashHint": "Cash will be paid at the branch counter after checker authorization.",
+          "remarks": "Narration / remarks",
+          "remarksPlaceholder": "Optional note for this tranche…",
+          "errors": {
+            "accountRequired": "Select a valid active loan account.",
+            "grossRequired": "Gross disbursement amount must be greater than zero.",
+            "pendingExists": "A disbursement is already pending checker approval for this loan account.",
+            "netInvalid": "Net disbursement must be greater than zero after charge deductions.",
+            "chequeRequired": "Cheque number is required for cheque payment.",
+            "referenceRequired": "Reference / UTR number is required for bank transfer.",
+            "sbRequired": "Select the borrower's savings account for S/B credit.",
+            "submitFailed": "Loan disbursement could not be recorded."
+          }
+        },
+        "toast": {
+          "pendingApproval": "Disbursement recorded and sent for checker approval",
+          "settled": "Disbursement {number} settled successfully",
+          "decisionUpdated": "Disbursement approval decision updated"
         }
       },
       "recovery": {
@@ -4726,6 +5014,58 @@
           "interest": "Interest",
           "total": "Total",
           "outstanding": "Outstanding"
+        }
+      },
+      "repaymentSchedule": {
+        "title": "Repayment schedule",
+        "description": "EMI calendar with principal, interest, balance and collection status for each loan account.",
+        "dash": "—",
+        "refresh": "Refresh",
+        "export": "Export schedule",
+        "print": "Print schedule",
+        "selectLoan": "Select loan",
+        "searchPlaceholder": "Search loan / borrower…",
+        "loadingAccounts": "Loading loan accounts…",
+        "noAccounts": "No active loan accounts found.",
+        "emptyTitle": "Select a loan account",
+        "emptyMessage": "Choose a loan from the list to view its repayment schedule.",
+        "emptyScheduleTitle": "No schedule rows",
+        "emptyScheduleMessage": "This loan has no active repayment schedule yet. Disburse the loan so the schedule can be generated.",
+        "tableTitle": "Account No: {account}",
+        "tableDescription": "{borrower} · {branch} · {scheme}",
+        "metrics": {
+          "loanAccount": "Loan account",
+          "sanctioned": "Sanctioned principal",
+          "rateHint": "{rate}% p.a.",
+          "installmentsPaid": "Installments paid",
+          "paidOfTotal": "{paid} / {total}",
+          "upcomingHint": "{count} upcoming",
+          "scheduledEmi": "Scheduled EMI",
+          "nextDueHint": "Next due {date}",
+          "noNextDue": "No upcoming due"
+        },
+        "columns": {
+          "installment": "#",
+          "dueDate": "Due date",
+          "principal": "Principal",
+          "interest": "Interest",
+          "emiTotal": "EMI total",
+          "balance": "Balance",
+          "status": "Status"
+        },
+        "status": {
+          "current": "Current",
+          "npa": "NPA",
+          "defaulter": "Defaulter"
+        },
+        "errors": {
+          "accountsFailed": "Loan accounts could not be loaded.",
+          "scheduleFailed": "Repayment schedule could not be loaded."
+        },
+        "toast": {
+          "exported": "Schedule exported",
+          "nothingToExport": "Nothing to export yet",
+          "nothingToPrint": "Nothing to print yet"
         }
       }
     }

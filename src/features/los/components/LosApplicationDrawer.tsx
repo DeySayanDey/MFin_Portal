@@ -27,11 +27,18 @@ import { Modal } from "@/components/ui/Modal";
 import { SelectField, TextField } from "@/components/ui/Form";
 import { Alert } from "@/components/ui/Alert";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
+import { SAVINGS_DEPOSIT_TYPE } from "@/features/deposits/savings/deposit-account.constants";
+import { fetchDepositAccounts } from "@/features/deposits/savings/services/deposit-account-client";
+import { fetchApplOptions } from "@/features/master/appl-options";
+import { fetchChargeSetups } from "@/features/master/charges-setup";
 import {
   APPL_STATUS_REJECTED,
+  OPT_RELATION,
+  RELATION_SELF,
   applStatusKey,
 } from "../los-application.constants";
 import {
+  fetchBorrowerLookup,
   fetchLoanApplicationDetail,
   fetchLoanApplicationTimeline,
   fetchLoanEligibility,
@@ -90,16 +97,55 @@ export function LosApplicationDrawer({
 
   // Child record modals
   const [chargeModalOpen, setChargeModalOpen] = useState(false);
-  const [chargeForm, setChargeForm] = useState({ chargeId: "", chargeAmount: "", waivedAmount: "", waiverReason: "" });
+  const [chargeForm, setChargeForm] = useState({
+    chargeId: "",
+    chargeAmount: "",
+    waivedAmount: "",
+    waiverReason: "",
+  });
+  const [chargeOptions, setChargeOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [chargeOptionsLoading, setChargeOptionsLoading] = useState(false);
+  const [chargeOptionsError, setChargeOptionsError] = useState<string | null>(
+    null,
+  );
 
   const [guarantorModalOpen, setGuarantorModalOpen] = useState(false);
-  const [guarantorForm, setGuarantorForm] = useState({ guarantorId: "", relationship: "", guaranteeAmount: "", consentDate: "", docPath: "" });
+  const [guarantorForm, setGuarantorForm] = useState({
+    guarantorId: "",
+    relationship: "",
+    guaranteeAmount: "",
+    consentDate: "",
+    docPath: "",
+  });
+  const [guarantorMemberOptions, setGuarantorMemberOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [relationshipOptions, setRelationshipOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [guarantorOptionsLoading, setGuarantorOptionsLoading] = useState(false);
+  const [guarantorOptionsError, setGuarantorOptionsError] = useState<
+    string | null
+  >(null);
 
   const [mortgageModalOpen, setMortgageModalOpen] = useState(false);
   const [mortgageForm, setMortgageForm] = useState({ collateralTypeCd: "4", description: "", marketValue: "", ownershipTypeCd: "1", executionDate: "" });
 
   const [freezeModalOpen, setFreezeModalOpen] = useState(false);
-  const [freezeForm, setFreezeForm] = useState({ depositAccountId: "", freezeTypeCd: "2", freezeAmount: "" });
+  const [freezeForm, setFreezeForm] = useState({
+    depositAccountId: "",
+    freezeTypeCd: "2",
+    freezeAmount: "",
+  });
+  const [depositAccountOptions, setDepositAccountOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [depositAccountsLoading, setDepositAccountsLoading] = useState(false);
+  const [depositAccountsError, setDepositAccountsError] = useState<
+    string | null
+  >(null);
 
   const [submittingChild, setSubmittingChild] = useState(false);
   const [childError, setChildError] = useToastText();
@@ -136,6 +182,201 @@ export function LosApplicationDrawer({
       setEligibility(null);
     }
   }, [open, applicationId, initialTab]);
+
+  useEffect(() => {
+    if (!chargeModalOpen) return;
+    let cancelled = false;
+    setChargeOptionsLoading(true);
+    setChargeOptionsError(null);
+    void fetchChargeSetups("loan", { page: 1, perPage: 200, isActive: 1 })
+      .then((result) => {
+        if (cancelled) return;
+        setChargeOptions(
+          result.items.map((charge) => ({
+            value: String(charge.chargeId),
+            label: charge.figureDesc
+              ? `${charge.chargeName} · ${charge.figureDesc}`
+              : charge.chargeName,
+          })),
+        );
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        setChargeOptions([]);
+        setChargeOptionsError(
+          err instanceof Error ? err.message : t("chargeModal.loadError"),
+        );
+      })
+      .finally(() => {
+        if (!cancelled) setChargeOptionsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [chargeModalOpen, t]);
+
+  useEffect(() => {
+    if (!guarantorModalOpen || !detail) return;
+    let cancelled = false;
+    setGuarantorOptionsLoading(true);
+    setGuarantorOptionsError(null);
+
+    const excludedMemberIds = new Set<number>();
+    excludedMemberIds.add(detail.cust_id_primary);
+    if (detail.cust_id_joint1) excludedMemberIds.add(detail.cust_id_joint1);
+    if (detail.cust_id_joint2) excludedMemberIds.add(detail.cust_id_joint2);
+    for (const member of detail.members ?? []) {
+      excludedMemberIds.add(member.customer_id);
+    }
+    for (const guarantor of detail.guarantors ?? []) {
+      if (!guarantor.release_date) {
+        excludedMemberIds.add(guarantor.guarantor_id);
+      }
+    }
+
+    void Promise.all([
+      fetchBorrowerLookup({
+        branch_id: detail.branch_id || undefined,
+        cust_type_cd: 2,
+        eligible_only: false,
+        page: 1,
+        per_page: 200,
+      }),
+      fetchApplOptions(OPT_RELATION),
+    ])
+      .then(([members, relations]) => {
+        if (cancelled) return;
+        setGuarantorMemberOptions(
+          members.items
+            .filter((member) => !excludedMemberIds.has(member.member_id))
+            .map((member) => ({
+              value: String(member.member_id),
+              label: member.ref_code
+                ? `${member.member_name} · ${member.ref_code}`
+                : member.member_name,
+            })),
+        );
+        setRelationshipOptions(
+          relations
+            .filter((option) => option.optCode !== RELATION_SELF)
+            .map((option) => ({
+              value: option.optDescription,
+              label: option.optDescription,
+            })),
+        );
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        setGuarantorMemberOptions([]);
+        setRelationshipOptions([]);
+        setGuarantorOptionsError(
+          err instanceof Error ? err.message : t("guarantorModal.loadError"),
+        );
+      })
+      .finally(() => {
+        if (!cancelled) setGuarantorOptionsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [detail, guarantorModalOpen, t]);
+
+  useEffect(() => {
+    if (!freezeModalOpen || !detail) return;
+    let cancelled = false;
+    setDepositAccountsLoading(true);
+    setDepositAccountsError(null);
+
+    const memberIds = new Set<number>();
+    if (detail.cust_type_cd === 2) {
+      memberIds.add(detail.cust_id_primary);
+      if (detail.cust_id_joint1) memberIds.add(detail.cust_id_joint1);
+      if (detail.cust_id_joint2) memberIds.add(detail.cust_id_joint2);
+    } else {
+      for (const member of detail.members ?? []) {
+        memberIds.add(member.customer_id);
+      }
+      if (memberIds.size === 0) {
+        memberIds.add(detail.cust_id_primary);
+      }
+    }
+
+    const alreadyFrozen = new Set(
+      (detail.deposit_freezes ?? [])
+        .filter((freeze) => !freeze.release_date)
+        .map((freeze) => freeze.deposit_account_id),
+    );
+
+    void Promise.all(
+      [...memberIds].map((memberId) =>
+        fetchDepositAccounts({
+          memberId,
+          depositTypeCd: SAVINGS_DEPOSIT_TYPE,
+          isClosed: false,
+          page: 1,
+          perPage: 50,
+        }).catch(() => ({ items: [], meta: null })),
+      ),
+    )
+      .then((results) => {
+        if (cancelled) return;
+        const options = results
+          .flatMap((result) => result.items)
+          .filter(
+            (account) =>
+              !account.isClosed &&
+              account.isActive &&
+              !alreadyFrozen.has(account.accountId),
+          )
+          .map((account) => {
+            const accountNo =
+              account.refAcNo ||
+              account.cbsAcNo ||
+              account.applNo ||
+              String(account.accountId);
+            const balance = account.availableBalance ?? account.currentBalance;
+            const balanceLabel =
+              balance != null
+                ? format.number(balance, {
+                    style: "currency",
+                    currency: "INR",
+                  })
+                : null;
+            return {
+              value: String(account.accountId),
+              label: [accountNo, account.schemeName, balanceLabel]
+                .filter(Boolean)
+                .join(" · "),
+            };
+          });
+
+        const unique = new Map(options.map((option) => [option.value, option]));
+        const next = [...unique.values()];
+        setDepositAccountOptions(next);
+        if (next.length === 1) {
+          setFreezeForm((current) =>
+            current.depositAccountId
+              ? current
+              : { ...current, depositAccountId: next[0].value },
+          );
+        }
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        setDepositAccountOptions([]);
+        setDepositAccountsError(
+          err instanceof Error ? err.message : t("freezeModal.loadError"),
+        );
+      })
+      .finally(() => {
+        if (!cancelled) setDepositAccountsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [detail, format, freezeModalOpen, t]);
 
   if (!open || !applicationId) return null;
 
@@ -954,8 +1195,17 @@ export function LosApplicationDrawer({
                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                       <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
                         <span className="text-[11px] font-medium text-slate-500 uppercase tracking-wider">FOIR Percentage</span>
-                        <p className={`mt-1 text-xl font-black ${eligibility.foir_percent > 50 ? "text-red-600" : "text-teal-700"}`}>
-                          {eligibility.foir_percent.toFixed(2)}%
+                        <p
+                          className={`mt-1 text-xl font-black ${
+                            eligibility.foir_percent != null &&
+                            eligibility.foir_percent > 50
+                              ? "text-red-600"
+                              : "text-teal-700"
+                          }`}
+                        >
+                          {eligibility.foir_percent != null
+                            ? `${eligibility.foir_percent.toFixed(2)}%`
+                            : t("dash")}
                         </p>
                         <span className="text-[10px] text-slate-500">Threshold: ≤ 50%</span>
                       </div>
@@ -972,7 +1222,12 @@ export function LosApplicationDrawer({
                       <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
                         <span className="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Proposed Installment</span>
                         <p className="mt-1 text-base font-bold text-slate-900">{money(eligibility.proposed_monthly_installment)}</p>
-                        <span className="text-[10px] text-slate-500">RoI: {eligibility.interest_rate}%</span>
+                        <span className="text-[10px] text-slate-500">
+                          RoI:{" "}
+                          {eligibility.interest_rate != null
+                            ? `${eligibility.interest_rate}%`
+                            : t("dash")}
+                        </span>
                       </div>
                     </div>
 
@@ -1053,44 +1308,74 @@ export function LosApplicationDrawer({
       {/* MODAL: ADD EXTRA CHARGE */}
       <Modal
         open={chargeModalOpen}
-        title="Add Application Charge"
+        title={t("chargeModal.title")}
         size="md"
         onClose={() => setChargeModalOpen(false)}
         footer={
           <div className="flex justify-end gap-2">
-            <Button variant="secondary" onClick={() => setChargeModalOpen(false)}>Cancel</Button>
-            <Button onClick={handleAddCharge} icon={Save} disabled={submittingChild || !chargeForm.chargeId}>
-              {submittingChild ? "Saving..." : "Save Charge"}
+            <Button variant="secondary" onClick={() => setChargeModalOpen(false)}>
+              {t("chargeModal.cancel")}
+            </Button>
+            <Button
+              onClick={handleAddCharge}
+              icon={Save}
+              disabled={submittingChild || !chargeForm.chargeId}
+            >
+              {submittingChild
+                ? t("chargeModal.saving")
+                : t("chargeModal.save")}
             </Button>
           </div>
         }
       >
         <div className="space-y-3">
-          <TextField
-            label="Charge ID / Master Code"
+          <SelectField
+            label={t("chargeModal.charge")}
             value={chargeForm.chargeId}
             required
-            placeholder="e.g. 3"
+            placeholder={
+              chargeOptionsLoading
+                ? t("chargeModal.loading")
+                : t("chargeModal.chargePlaceholder")
+            }
+            options={[
+              {
+                value: "",
+                label: chargeOptionsLoading
+                  ? t("chargeModal.loading")
+                  : t("chargeModal.chargePlaceholder"),
+              },
+              ...chargeOptions,
+            ]}
+            disabled={chargeOptionsLoading || chargeOptions.length === 0}
             onChange={(v) => setChargeForm((f) => ({ ...f, chargeId: v }))}
           />
+          {chargeOptionsError ? (
+            <Alert tone="error">{chargeOptionsError}</Alert>
+          ) : null}
+          {!chargeOptionsLoading &&
+          !chargeOptionsError &&
+          chargeOptions.length === 0 ? (
+            <Alert tone="warning">{t("chargeModal.empty")}</Alert>
+          ) : null}
           <TextField
-            label="Custom Amount (optional)"
+            label={t("chargeModal.customAmount")}
             value={chargeForm.chargeAmount}
-            placeholder="Default from master rate"
+            placeholder={t("chargeModal.customAmountPlaceholder")}
             restrict="decimal"
             onChange={(v) => setChargeForm((f) => ({ ...f, chargeAmount: v }))}
           />
           <TextField
-            label="Waived Amount (optional)"
+            label={t("chargeModal.waivedAmount")}
             value={chargeForm.waivedAmount}
-            placeholder="Amount to waive"
+            placeholder={t("chargeModal.waivedAmountPlaceholder")}
             restrict="decimal"
             onChange={(v) => setChargeForm((f) => ({ ...f, waivedAmount: v }))}
           />
           <TextField
-            label="Waiver Reason (if waived)"
+            label={t("chargeModal.waiverReason")}
             value={chargeForm.waiverReason}
-            placeholder="Reason for discount or waiver"
+            placeholder={t("chargeModal.waiverReasonPlaceholder")}
             onChange={(v) => setChargeForm((f) => ({ ...f, waiverReason: v }))}
           />
         </div>
@@ -1099,49 +1384,108 @@ export function LosApplicationDrawer({
       {/* MODAL: ATTACH GUARANTOR */}
       <Modal
         open={guarantorModalOpen}
-        title="Attach Guarantor"
+        title={t("guarantorModal.title")}
         size="md"
         onClose={() => setGuarantorModalOpen(false)}
         footer={
           <div className="flex justify-end gap-2">
-            <Button variant="secondary" onClick={() => setGuarantorModalOpen(false)}>Cancel</Button>
-            <Button onClick={handleAddGuarantor} icon={UserCheck} disabled={submittingChild || !guarantorForm.guarantorId}>
-              {submittingChild ? "Attaching..." : "Attach Guarantor"}
+            <Button
+              variant="secondary"
+              onClick={() => setGuarantorModalOpen(false)}
+            >
+              {t("guarantorModal.cancel")}
+            </Button>
+            <Button
+              onClick={handleAddGuarantor}
+              icon={UserCheck}
+              disabled={submittingChild || !guarantorForm.guarantorId}
+            >
+              {submittingChild
+                ? t("guarantorModal.attaching")
+                : t("guarantorModal.attach")}
             </Button>
           </div>
         }
       >
         <div className="space-y-3">
-          <TextField
-            label="Guarantor Member ID"
+          <SelectField
+            label={t("guarantorModal.member")}
             value={guarantorForm.guarantorId}
             required
-            placeholder="Member ID (active customer)"
-            onChange={(v) => setGuarantorForm((f) => ({ ...f, guarantorId: v }))}
+            placeholder={
+              guarantorOptionsLoading
+                ? t("guarantorModal.loadingMembers")
+                : t("guarantorModal.memberPlaceholder")
+            }
+            options={[
+              {
+                value: "",
+                label: guarantorOptionsLoading
+                  ? t("guarantorModal.loadingMembers")
+                  : t("guarantorModal.memberPlaceholder"),
+              },
+              ...guarantorMemberOptions,
+            ]}
+            disabled={
+              guarantorOptionsLoading || guarantorMemberOptions.length === 0
+            }
+            onChange={(v) =>
+              setGuarantorForm((f) => ({ ...f, guarantorId: v }))
+            }
           />
-          <TextField
-            label="Relationship with Borrower"
+          <SelectField
+            label={t("guarantorModal.relationship")}
             value={guarantorForm.relationship}
-            placeholder="e.g. Neighbor, Relative"
-            onChange={(v) => setGuarantorForm((f) => ({ ...f, relationship: v }))}
+            placeholder={
+              guarantorOptionsLoading
+                ? t("guarantorModal.loadingRelationships")
+                : t("guarantorModal.relationshipPlaceholder")
+            }
+            options={[
+              {
+                value: "",
+                label: guarantorOptionsLoading
+                  ? t("guarantorModal.loadingRelationships")
+                  : t("guarantorModal.relationshipPlaceholder"),
+              },
+              ...relationshipOptions,
+            ]}
+            disabled={
+              guarantorOptionsLoading || relationshipOptions.length === 0
+            }
+            onChange={(v) =>
+              setGuarantorForm((f) => ({ ...f, relationship: v }))
+            }
           />
+          {guarantorOptionsError ? (
+            <Alert tone="error">{guarantorOptionsError}</Alert>
+          ) : null}
+          {!guarantorOptionsLoading &&
+          !guarantorOptionsError &&
+          guarantorMemberOptions.length === 0 ? (
+            <Alert tone="warning">{t("guarantorModal.emptyMembers")}</Alert>
+          ) : null}
           <TextField
-            label="Guarantee Amount"
+            label={t("guarantorModal.guaranteeAmount")}
             value={guarantorForm.guaranteeAmount}
-            placeholder="Amount guaranteed"
+            placeholder={t("guarantorModal.guaranteeAmountPlaceholder")}
             restrict="decimal"
-            onChange={(v) => setGuarantorForm((f) => ({ ...f, guaranteeAmount: v }))}
+            onChange={(v) =>
+              setGuarantorForm((f) => ({ ...f, guaranteeAmount: v }))
+            }
           />
           <TextField
-            label="Consent Date"
+            label={t("guarantorModal.consentDate")}
             type="date"
             value={guarantorForm.consentDate}
-            onChange={(v) => setGuarantorForm((f) => ({ ...f, consentDate: v }))}
+            onChange={(v) =>
+              setGuarantorForm((f) => ({ ...f, consentDate: v }))
+            }
           />
           <TextField
-            label="Consent Document Path (optional)"
+            label={t("guarantorModal.docPath")}
             value={guarantorForm.docPath}
-            placeholder="e.g. loan/guarantor/consent.pdf"
+            placeholder={t("guarantorModal.docPathPlaceholder")}
             onChange={(v) => setGuarantorForm((f) => ({ ...f, docPath: v }))}
           />
         </div>
@@ -1202,41 +1546,82 @@ export function LosApplicationDrawer({
       {/* MODAL: MARK DEPOSIT LIEN FREEZE */}
       <Modal
         open={freezeModalOpen}
-        title="Mark Deposit Lien Freeze"
+        title={t("freezeModal.title")}
         size="md"
         onClose={() => setFreezeModalOpen(false)}
         footer={
           <div className="flex justify-end gap-2">
-            <Button variant="secondary" onClick={() => setFreezeModalOpen(false)}>Cancel</Button>
-            <Button onClick={handleAddDepositFreeze} icon={Lock} disabled={submittingChild || !freezeForm.depositAccountId || !freezeForm.freezeAmount}>
-              {submittingChild ? "Creating..." : "Mark Lien"}
+            <Button
+              variant="secondary"
+              onClick={() => setFreezeModalOpen(false)}
+            >
+              {t("freezeModal.cancel")}
+            </Button>
+            <Button
+              onClick={handleAddDepositFreeze}
+              icon={Lock}
+              disabled={
+                submittingChild ||
+                !freezeForm.depositAccountId ||
+                !freezeForm.freezeAmount
+              }
+            >
+              {submittingChild
+                ? t("freezeModal.saving")
+                : t("freezeModal.save")}
             </Button>
           </div>
         }
       >
         <div className="space-y-3">
-          <TextField
-            label="Deposit Account ID"
+          <SelectField
+            label={t("freezeModal.depositAccount")}
             value={freezeForm.depositAccountId}
             required
-            placeholder="e.g. 17"
-            onChange={(v) => setFreezeForm((f) => ({ ...f, depositAccountId: v }))}
+            placeholder={
+              depositAccountsLoading
+                ? t("freezeModal.loading")
+                : t("freezeModal.depositAccountPlaceholder")
+            }
+            options={[
+              {
+                value: "",
+                label: depositAccountsLoading
+                  ? t("freezeModal.loading")
+                  : t("freezeModal.depositAccountPlaceholder"),
+              },
+              ...depositAccountOptions,
+            ]}
+            disabled={
+              depositAccountsLoading || depositAccountOptions.length === 0
+            }
+            onChange={(v) =>
+              setFreezeForm((f) => ({ ...f, depositAccountId: v }))
+            }
           />
+          {depositAccountsError ? (
+            <Alert tone="error">{depositAccountsError}</Alert>
+          ) : null}
+          {!depositAccountsLoading &&
+          !depositAccountsError &&
+          depositAccountOptions.length === 0 ? (
+            <Alert tone="warning">{t("freezeModal.empty")}</Alert>
+          ) : null}
           <SelectField
-            label="Freeze Type"
+            label={t("freezeModal.freezeType")}
             value={freezeForm.freezeTypeCd}
             options={[
-              { value: "1", label: "Full (Entire balance)" },
-              { value: "2", label: "Partial (Specified amount)" },
+              { value: "1", label: t("freezeModal.freezeTypeFull") },
+              { value: "2", label: t("freezeModal.freezeTypePartial") },
             ]}
             onChange={(v) => setFreezeForm((f) => ({ ...f, freezeTypeCd: v }))}
           />
           <TextField
-            label="Freeze Amount"
+            label={t("freezeModal.freezeAmount")}
             value={freezeForm.freezeAmount}
             required
             restrict="decimal"
-            placeholder="Amount to hold in INR"
+            placeholder={t("freezeModal.freezeAmountPlaceholder")}
             onChange={(v) => setFreezeForm((f) => ({ ...f, freezeAmount: v }))}
           />
         </div>

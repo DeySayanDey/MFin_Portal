@@ -1,10 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { CheckCircle, MapPin, Plus, RotateCw, ShieldCheck, UserCheck, XCircle } from "lucide-react";
+import {
+  CheckCircle2,
+  ClipboardList,
+  MapPin,
+  Plus,
+  RotateCw,
+  ShieldAlert,
+  ShieldCheck,
+  UserCheck,
+} from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { DataTable, type DataTableColumn } from "@/components/shared/DataTable";
-import { FilterPanel } from "@/components/shared/FilterPanel";
 import { ModulePageShell } from "@/components/shared/ModulePageShell";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -12,136 +20,256 @@ import { Modal } from "@/components/ui/Modal";
 import { SelectField, TextField } from "@/components/ui/Form";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { loanModulePage } from "@/features/loan/loan-screen.data";
-import { fetchLoanInspections, isLosClientError, saveLoanInspection } from "../services/los-client";
+import { fetchApplOptions } from "@/features/master/appl-options";
 import { fetchStaffList } from "@/features/master/staff/services/staff-client";
-import { fetchBranchList } from "@/features/master/branch/services/branch-client";
+import {
+  fetchLoanInspections,
+  isLosClientError,
+  saveLoanInspection,
+} from "../services/los-client";
+import { OPT_INSPECTION_RESULT } from "../los-application.constants";
 import type { LoanInspectionRow } from "../types/los.types";
+import {
+  emptyLosFieldVerificationFilters,
+  LosFieldVerificationFilters,
+  type LosFieldVerificationFilterValues,
+} from "./LosFieldVerificationFilters";
 
-function resultTone(cd: number | undefined): BadgeTone {
-  if (cd === 1) return "success"; // Positive
-  if (cd === 2) return "danger"; // Negative
-  if (cd === 3) return "warning"; // Re-Inspection
+function resultTone(cd: number | null | undefined): BadgeTone {
+  if (cd === 1) return "success";
+  if (cd === 2) return "danger";
+  if (cd === 3) return "warning";
   return "neutral";
 }
 
-export function LosFieldVerificationView() {
+type LosFieldVerificationViewProps = {
+  isHead?: boolean;
+  branchId?: number | null;
+  branchName?: string;
+};
+
+export function LosFieldVerificationView({
+  isHead = false,
+  branchId = null,
+  branchName = "",
+}: LosFieldVerificationViewProps) {
   const t = useTranslations("loanModule.screens.fieldVerification");
-  const tModule = useTranslations("loanModule");
   const tCommon = useTranslations("common");
   const format = useFormatter();
-  const [activeTab, setActiveTab] = useState<"pending" | "completed">("pending");
+
   const [rows, setRows] = useState<LoanInspectionRow[]>([]);
   const [total, setTotal] = useState(0);
+  const [pendingTotal, setPendingTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  const [search, setSearch] = useState("");
-  const [appliedSearch, setAppliedSearch] = useState("");
-  const [branchFilter, setBranchFilter] = useState("");
-  const [resultFilter, setResultFilter] = useState("");
+  const [filters, setFilters] = useState<LosFieldVerificationFilterValues>(
+    emptyLosFieldVerificationFilters,
+  );
+  const [applied, setApplied] = useState<LosFieldVerificationFilterValues>(
+    emptyLosFieldVerificationFilters,
+  );
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
 
-  // Visit Record Modal
   const [inspectionModalOpen, setInspectionModalOpen] = useState(false);
-  const [editingInspection, setEditingInspection] = useState<LoanInspectionRow | null>(null);
+  const [pendingApps, setPendingApps] = useState<LoanInspectionRow[]>([]);
+  const [loadingPendingApps, setLoadingPendingApps] = useState(false);
   const [inspectAppId, setInspectAppId] = useState("");
-  const [inspectionDate, setInspectionDate] = useState(() => new Date().toISOString().slice(0, 10));
+  const [inspectionDate, setInspectionDate] = useState(() =>
+    new Date().toISOString().slice(0, 10),
+  );
   const [foId, setFoId] = useState("");
   const [allVerified, setAllVerified] = useState(true);
   const [recommendedAmount, setRecommendedAmount] = useState("");
-  const [inspectionResultCd, setInspectionResultCd] = useState("1"); // 1 Positive
+  const [inspectionResultCd, setInspectionResultCd] = useState("1");
   const [inspectionNotes, setInspectionNotes] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [photoPath, setPhotoPath] = useState("");
 
-  const [staffOptions, setStaffOptions] = useState<{ value: string; label: string }[]>([]);
-  const [branchOptions, setBranchOptions] = useState<{ value: string; label: string }[]>([]);
+  const [staffOptions, setStaffOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [resultOptions, setResultOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useToastText();
   const [toastMessage, setToastMessage] = useToastText();
 
   const pageMeta = useMemo(
-    () => loanModulePage("/los/field-verification", "loanModule.screens.fieldVerification"),
+    () =>
+      loanModulePage(
+        "/los/field-verification",
+        "loanModule.screens.fieldVerification",
+      ),
     [],
   );
 
   useEffect(() => {
-    fetchBranchList({ page: 1, perPage: 100, isActive: 1 })
-      .then((res) => setBranchOptions(res.items.map((b) => ({ value: String(b.branchId), label: b.branchName }))))
-      .catch(() => {});
+    fetchStaffList({ page: 1, perPage: 200, status: 1 })
+      .then((res) =>
+        setStaffOptions(
+          res.items.map((s) => ({
+            value: String(s.staffId),
+            label: s.employeeCode
+              ? `${s.fullName} (${s.employeeCode})`
+              : s.fullName,
+          })),
+        ),
+      )
+      .catch(() => setStaffOptions([]));
 
-    fetchStaffList({ page: 1, perPage: 100, status: 1 })
-      .then((res) => setStaffOptions(res.items.map((s) => ({ value: String(s.staffId), label: `${s.fullName} (${s.employeeCode})` }))))
-      .catch(() => {});
+    fetchApplOptions(OPT_INSPECTION_RESULT)
+      .then((opts) =>
+        setResultOptions(
+          opts.map((o) => ({
+            value: String(o.optCode),
+            label: o.optDescription,
+          })),
+        ),
+      )
+      .catch(() => setResultOptions([]));
   }, []);
+
+  const money = useCallback(
+    (val: number | null | undefined) => {
+      if (val == null) return t("dash");
+      return format.number(val, { style: "currency", currency: "INR" });
+    },
+    [format, t],
+  );
 
   const load = useCallback(async () => {
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await fetchLoanInspections({
-        page,
-        per_page: pageSize,
-        pending_only: activeTab === "pending",
-        branch_id: branchFilter ? Number(branchFilter) : undefined,
-        inspection_result_cd: resultFilter ? Number(resultFilter) : undefined,
-        keyword: appliedSearch || undefined,
-      });
+      const resolvedBranchId = isHead
+        ? applied.branchId
+          ? Number(applied.branchId)
+          : undefined
+        : (branchId ?? undefined);
+
+      const pendingOnly = applied.status === "pending";
+
+      const [result, pendingSnap] = await Promise.all([
+        fetchLoanInspections({
+          page,
+          per_page: pageSize,
+          pending_only: pendingOnly || undefined,
+          branch_id: resolvedBranchId,
+          fo_id: applied.foId ? Number(applied.foId) : undefined,
+          inspection_result_cd:
+            !pendingOnly && applied.resultCd
+              ? Number(applied.resultCd)
+              : undefined,
+          from_date: applied.fromDate || undefined,
+          to_date: applied.toDate || undefined,
+          keyword: applied.search || undefined,
+        }),
+        pendingOnly
+          ? Promise.resolve(null)
+          : fetchLoanInspections({
+              page: 1,
+              per_page: 1,
+              pending_only: true,
+              branch_id: resolvedBranchId,
+            }).catch(() => null),
+      ]);
+
       const items = Array.isArray(result?.items) ? result.items : [];
       setRows(items);
       setTotal(result?.total ?? items.length);
+      if (pendingOnly) {
+        setPendingTotal(result?.total ?? items.length);
+      } else if (pendingSnap) {
+        setPendingTotal(pendingSnap.total ?? 0);
+      }
     } catch (err: unknown) {
       setLoadError(
         isLosClientError(err)
           ? err.message
           : err instanceof Error
             ? err.message
-            : tModule("loadError"),
+            : t("errors.loadFailed"),
       );
       setRows([]);
+      setTotal(0);
     } finally {
       setLoading(false);
     }
-  }, [activeTab, appliedSearch, branchFilter, page, pageSize, resultFilter, tModule]);
+  }, [applied, branchId, isHead, page, pageSize, t]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setPage(1);
-      setAppliedSearch(search);
+      setApplied(filters);
     }, 350);
     return () => clearTimeout(timer);
-  }, [search]);
+  }, [filters]);
 
   useEffect(() => {
     void load();
   }, [load]);
 
-  const money = (val: number | null | undefined) => {
-    if (val == null) return "—";
-    return format.number(val, { style: "currency", currency: "INR" });
-  };
+  const metrics = useMemo(() => {
+    const positive = rows.filter((r) => r.inspection_result_cd === 1).length;
+    const negative = rows.filter((r) => r.inspection_result_cd === 2).length;
+    const reinspect = rows.filter(
+      (r) => r.inspection_result_cd === 3 || !r.inspection_result_cd,
+    ).length;
+    return { positive, negative, reinspect };
+  }, [rows]);
 
-  const openAddModal = (app?: LoanInspectionRow) => {
-    setEditingInspection(null);
+  const openAddModal = async (app?: LoanInspectionRow) => {
     setInspectAppId(app ? String(app.loan_application_id) : "");
     setInspectionDate(new Date().toISOString().slice(0, 10));
     setFoId(app?.fo_id ? String(app.fo_id) : "");
     setAllVerified(true);
-    setRecommendedAmount(app ? String(app.appl_amount) : "");
+    setRecommendedAmount(
+      app?.recommended_amount != null
+        ? String(app.recommended_amount)
+        : app?.appl_amount != null
+          ? String(app.appl_amount)
+          : "",
+    );
     setInspectionResultCd("1");
     setInspectionNotes("");
-    setLatitude("");
-    setLongitude("");
-    setPhotoPath("");
+    setLatitude(app?.latitude != null ? String(app.latitude) : "");
+    setLongitude(app?.longitude != null ? String(app.longitude) : "");
+    setPhotoPath(app?.photo_path ?? "");
     setFormError(null);
     setInspectionModalOpen(true);
+
+    if (!app) {
+      setLoadingPendingApps(true);
+      try {
+        const resolvedBranchId = isHead
+          ? applied.branchId
+            ? Number(applied.branchId)
+            : undefined
+          : (branchId ?? undefined);
+        const res = await fetchLoanInspections({
+          page: 1,
+          per_page: 100,
+          pending_only: true,
+          branch_id: resolvedBranchId,
+        });
+        setPendingApps(Array.isArray(res.items) ? res.items : []);
+      } catch {
+        setPendingApps([]);
+      } finally {
+        setLoadingPendingApps(false);
+      }
+    } else {
+      setPendingApps([app]);
+    }
   };
 
   const handleGetCurrentLocation = () => {
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser");
+      setFormError(t("modal.geoUnsupported"));
       return;
     }
     navigator.geolocation.getCurrentPosition(
@@ -150,23 +278,24 @@ export function LosFieldVerificationView() {
         setLongitude(pos.coords.longitude.toFixed(6));
       },
       (err) => {
-        alert(`Location access denied or unavailable: ${err.message}`);
+        setFormError(
+          t("modal.geoDenied", { message: err.message || t("dash") }),
+        );
       },
     );
   };
 
-  const handleSaveInspection = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSaveInspection = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     setFormError(null);
 
     const appId = Number(inspectAppId);
     if (!appId || appId <= 0) {
-      setFormError("Application ID is required");
+      setFormError(t("modal.errors.appRequired"));
       return;
     }
-
     if (!foId) {
-      setFormError("Field Officer is required");
+      setFormError(t("modal.errors.foRequired"));
       return;
     }
 
@@ -177,7 +306,9 @@ export function LosFieldVerificationView() {
         inspection_date: inspectionDate,
         fo_id: Number(foId),
         all_verified: allVerified,
-        recommended_amount: recommendedAmount ? Number(recommendedAmount) : undefined,
+        recommended_amount: recommendedAmount
+          ? Number(recommendedAmount)
+          : undefined,
         inspection_result_cd: Number(inspectionResultCd),
         inspection_notes: inspectionNotes || undefined,
         latitude: latitude ? Number(latitude) : undefined,
@@ -186,7 +317,7 @@ export function LosFieldVerificationView() {
       });
 
       setInspectionModalOpen(false);
-      setToastMessage("Field verification recorded successfully");
+      setToastMessage(t("toast.saved"));
       void load();
     } catch (err: unknown) {
       setFormError(
@@ -194,12 +325,25 @@ export function LosFieldVerificationView() {
           ? err.message
           : err instanceof Error
             ? err.message
-            : "Failed to save verification",
+            : t("modal.errors.saveFailed"),
       );
     } finally {
       setSubmitting(false);
     }
   };
+
+  const pendingAppOptions = useMemo(
+    () =>
+      pendingApps.map((row) => ({
+        value: String(row.loan_application_id),
+        label: t("modal.appOption", {
+          app: row.application_no || String(row.loan_application_id),
+          borrower: row.member_name || t("dash"),
+          amount: money(row.appl_amount),
+        }),
+      })),
+    [money, pendingApps, t],
+  );
 
   const columns = useMemo<DataTableColumn<LoanInspectionRow>[]>(
     () => [
@@ -207,39 +351,52 @@ export function LosFieldVerificationView() {
         id: "application_no",
         header: t("columns.appNo"),
         cell: (row) => (
-          <span className="font-bold text-slate-900 block">{row.application_no}</span>
+          <span className="block font-bold text-slate-900">
+            {row.application_no}
+          </span>
         ),
       },
       {
         id: "borrower",
-        header: "Borrower / Group",
+        header: t("columns.borrower"),
         cell: (row) => (
           <div>
-            <span className="font-semibold text-slate-900 block">{row.member_name}</span>
-            <span className="text-[11px] text-slate-500">{row.scheme_name} · {row.branch_name}</span>
+            <span className="block font-semibold text-slate-900">
+              {row.member_name || t("dash")}
+            </span>
+            <span className="text-[11px] text-slate-500">
+              {[row.scheme_name, row.branch_name].filter(Boolean).join(" · ") ||
+                t("dash")}
+            </span>
           </div>
         ),
       },
       {
         id: "appl_amount",
-        header: "Requested",
+        header: t("columns.requested"),
         align: "end",
         cell: (row) => (
-          <span className="font-bold text-slate-900 block">{money(row.appl_amount)}</span>
+          <span className="block text-end font-bold text-slate-900">
+            {money(row.appl_amount)}
+          </span>
         ),
       },
       {
         id: "inspection_date",
         header: t("columns.inspectionDate"),
         cell: (row) => (
-          <span className="text-slate-700">{row.inspection_date || "—"}</span>
+          <span className="text-slate-700">
+            {row.inspection_date || t("dash")}
+          </span>
         ),
       },
       {
         id: "fo_name",
         header: t("columns.officer"),
         cell: (row) => (
-          <span className="font-medium text-slate-800">{row.fo_name || "Unassigned"}</span>
+          <span className="font-medium text-slate-800">
+            {row.fo_name || t("unassigned")}
+          </span>
         ),
       },
       {
@@ -249,107 +406,87 @@ export function LosFieldVerificationView() {
           <div>
             {row.inspection_result_cd ? (
               <Badge tone={resultTone(row.inspection_result_cd)} caps>
-                {row.inspection_result || "Verified"}
+                {row.inspection_result || t("resultFallback")}
               </Badge>
             ) : (
-              <Badge tone="warning">Pending Inspection</Badge>
+              <Badge tone="warning">{t("pendingBadge")}</Badge>
             )}
-            {row.recommended_amount != null && (
-              <span className="text-[11px] font-semibold text-slate-700 block mt-0.5">
-                Rec: {money(row.recommended_amount)}
+            {row.recommended_amount != null ? (
+              <span className="mt-0.5 block text-[11px] font-semibold text-slate-700">
+                {t("recommendedShort", {
+                  amount: money(row.recommended_amount),
+                })}
               </span>
-            )}
+            ) : null}
           </div>
         ),
       },
     ],
-    [format, t],
+    [money, t],
   );
 
   return (
     <ModulePageShell page={pageMeta}>
       <PageToast message={toastMessage} />
 
-      {/* TABS HEADER: PENDING VS COMPLETED */}
-      <div className="flex border-b border-slate-200 bg-white px-2 mb-2 rounded-t-xl">
-        <button
-          type="button"
-          onClick={() => {
-            setActiveTab("pending");
-            setPage(1);
-          }}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-xs font-bold transition-colors ${
-            activeTab === "pending"
-              ? "border-teal-600 text-teal-800"
-              : "border-transparent text-slate-500 hover:text-slate-800"
-          }`}
-        >
-          <UserCheck className="h-4 w-4" />
-          Pending Field Verification
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setActiveTab("completed");
-            setPage(1);
-          }}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-xs font-bold transition-colors ${
-            activeTab === "completed"
-              ? "border-teal-600 text-teal-800"
-              : "border-transparent text-slate-500 hover:text-slate-800"
-          }`}
-        >
-          <ShieldCheck className="h-4 w-4" />
-          Verified / All History
-        </button>
+      <div className="mb-2 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
+          <span className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-slate-500">
+            <ClipboardList className="h-3.5 w-3.5 text-amber-600" />
+            {t("metrics.pending")}
+          </span>
+          <p className="mt-1 text-xl font-black text-amber-600">
+            {pendingTotal}
+          </p>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
+          <span className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-slate-500">
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+            {t("metrics.positive")}
+          </span>
+          <p className="mt-1 text-xl font-black text-emerald-700">
+            {metrics.positive}
+          </p>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
+          <span className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-slate-500">
+            <ShieldAlert className="h-3.5 w-3.5 text-rose-600" />
+            {t("metrics.negative")}
+          </span>
+          <p className="mt-1 text-xl font-black text-rose-700">
+            {metrics.negative}
+          </p>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
+          <span className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-slate-500">
+            <UserCheck className="h-3.5 w-3.5 text-indigo-600" />
+            {t("metrics.reinspect")}
+          </span>
+          <p className="mt-1 text-xl font-black text-indigo-700">
+            {metrics.reinspect}
+          </p>
+        </div>
       </div>
 
-      <FilterPanel
+      <LosFieldVerificationFilters
+        values={filters}
+        isHead={isHead}
+        branchName={branchName}
+        onChange={setFilters}
         onReset={() => {
-          setSearch("");
-          setBranchFilter("");
-          setResultFilter("");
-          setAppliedSearch("");
+          setFilters(emptyLosFieldVerificationFilters);
+          setApplied(emptyLosFieldVerificationFilters);
           setPage(1);
         }}
-      >
-        <div className="min-w-[12rem] sm:max-w-[18rem]">
-          <TextField
-            label="Search Verification"
-            value={search}
-            placeholder="Application no, borrower..."
-            onChange={setSearch}
-          />
-        </div>
-        <div className="min-w-[10rem] sm:max-w-[14rem]">
-          <SelectField
-            label="Branch"
-            value={branchFilter}
-            options={branchOptions}
-            placeholder="All Branches"
-            onChange={setBranchFilter}
-          />
-        </div>
-        {activeTab === "completed" && (
-          <div className="min-w-[10rem] sm:max-w-[14rem]">
-            <SelectField
-              label="Inspection Result"
-              value={resultFilter}
-              options={[
-                { value: "", label: "All Results" },
-                { value: "1", label: "1 Positive (Verified)" },
-                { value: "2", label: "2 Negative (Mismatch)" },
-                { value: "3", label: "3 Re-Inspection" },
-              ]}
-              onChange={setResultFilter}
-            />
-          </div>
-        )}
-      </FilterPanel>
+      />
 
       <DataTable
-        title={activeTab === "pending" ? "Pending Field Verifications" : "Field Verification History"}
-        description="Verify house visit, physical stock/assets, GPS location and recommend sanction amount"
+        title={
+          applied.status === "pending"
+            ? t("table.pendingTitle")
+            : t("table.historyTitle")
+        }
+        description={t("table.description")}
         actions={
           <div className="flex gap-2">
             <Button
@@ -358,26 +495,32 @@ export function LosFieldVerificationView() {
               icon={RotateCw}
               onClick={() => void load()}
             >
-              Refresh
+              {t("refresh")}
             </Button>
             <Button
               type="button"
               icon={Plus}
-              onClick={() => openAddModal()}
+              onClick={() => void openAddModal()}
             >
-              Record Visit
+              {t("recordVisit")}
             </Button>
           </div>
         }
         data={rows}
         columns={columns}
-        getRowKey={(row) => String(row.inspection_id || row.loan_application_id)}
+        getRowKey={(row) =>
+          String(row.inspection_id ?? `app-${row.loan_application_id}`)
+        }
         loading={loading}
         error={loadError != null}
         errorMessage={loadError ?? undefined}
         onRetry={() => void load()}
-        emptyTitle="No Verifications"
-        emptyMessage="No pending verifications found."
+        emptyTitle={t("emptyTitle")}
+        emptyMessage={
+          applied.status === "pending"
+            ? t("emptyPending")
+            : t("emptyHistory")
+        }
         minWidth="840px"
         pagination={{
           page,
@@ -391,33 +534,43 @@ export function LosFieldVerificationView() {
           },
         }}
         rowActions={{
-          header: "Visit",
+          header: t("columns.actions"),
           render: (row) => (
             <Button
               type="button"
               size="sm"
               icon={UserCheck}
-              onClick={() => openAddModal(row)}
+              onClick={() => void openAddModal(row)}
             >
-              {row.inspection_id ? "Re-Inspect" : "Inspect"}
+              {row.inspection_id ? t("actions.reInspect") : t("actions.inspect")}
             </Button>
           ),
         }}
       />
 
-      {/* RECORD VISIT MODAL */}
       <Modal
         open={inspectionModalOpen}
-        title="Record Field Verification Visit"
+        title={t("modal.title")}
+        subtitle={t("modal.subtitle")}
         size="lg"
+        confirmOnSave={false}
         onClose={() => setInspectionModalOpen(false)}
         footer={
           <div className="flex justify-end gap-2">
-            <Button variant="secondary" onClick={() => setInspectionModalOpen(false)}>
-              Cancel
+            <Button
+              variant="secondary"
+              onClick={() => setInspectionModalOpen(false)}
+              disabled={submitting}
+            >
+              {tCommon("cancel")}
             </Button>
-            <Button onClick={handleSaveInspection} icon={ShieldCheck} disabled={submitting}>
-              {submitting ? "Saving..." : "Submit Verification"}
+            <Button
+              onClick={() => void handleSaveInspection()}
+              icon={ShieldCheck}
+              loading={submitting}
+              disabled={submitting}
+            >
+              {t("modal.submit")}
             </Button>
           </div>
         }
@@ -426,44 +579,70 @@ export function LosFieldVerificationView() {
           <PageToast message={formError} tone="error" />
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <TextField
-              label="Loan Application ID"
+            <SelectField
+              label={t("modal.application")}
               value={inspectAppId}
               required
-              placeholder="e.g. 13"
-              onChange={setInspectAppId}
+              options={[
+                {
+                  value: "",
+                  label: loadingPendingApps
+                    ? t("modal.loadingApps")
+                    : t("modal.applicationPlaceholder"),
+                },
+                ...pendingAppOptions,
+              ]}
+              disabled={loadingPendingApps || pendingAppOptions.length === 0}
+              onChange={(val) => {
+                setInspectAppId(val);
+                const selected = pendingApps.find(
+                  (row) => String(row.loan_application_id) === val,
+                );
+                if (selected) {
+                  if (selected.fo_id) setFoId(String(selected.fo_id));
+                  if (selected.appl_amount != null) {
+                    setRecommendedAmount(String(selected.appl_amount));
+                  }
+                }
+              }}
             />
             <TextField
-              label="Visit / Inspection Date"
+              label={t("modal.inspectionDate")}
               type="date"
               value={inspectionDate}
               required
               onChange={setInspectionDate}
             />
             <SelectField
-              label="Field Officer"
+              label={t("modal.officer")}
               value={foId}
               required
-              options={staffOptions}
-              placeholder="Select Officer"
+              options={[
+                { value: "", label: t("modal.officerPlaceholder") },
+                ...staffOptions,
+              ]}
               onChange={setFoId}
             />
             <SelectField
-              label="Inspection Result"
+              label={t("modal.result")}
               value={inspectionResultCd}
               required
-              options={[
-                { value: "1", label: "1 Positive (Verified & Recommended)" },
-                { value: "2", label: "2 Negative (Mismatch / Rejected)" },
-                { value: "3", label: "3 Re-Inspection Required" },
-              ]}
+              options={
+                resultOptions.length > 0
+                  ? resultOptions
+                  : [
+                      { value: "1", label: t("modal.results.positive") },
+                      { value: "2", label: t("modal.results.negative") },
+                      { value: "3", label: t("modal.results.reinspect") },
+                    ]
+              }
               onChange={setInspectionResultCd}
             />
             <TextField
-              label="Recommended Amount"
+              label={t("modal.recommendedAmount")}
               value={recommendedAmount}
               restrict="decimal"
-              placeholder="Recommended loan amount"
+              placeholder={t("modal.recommendedPlaceholder")}
               onChange={setRecommendedAmount}
             />
             <div className="flex items-center gap-2 pt-6">
@@ -474,50 +653,63 @@ export function LosFieldVerificationView() {
                 onChange={(e) => setAllVerified(e.target.checked)}
                 className="h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
               />
-              <label htmlFor="all_verified" className="text-xs font-semibold text-slate-800">
-                All Documents & Assets Physically Verified
+              <label
+                htmlFor="all_verified"
+                className="text-xs font-semibold text-slate-800"
+              >
+                {t("modal.allVerified")}
               </label>
             </div>
           </div>
 
-          {/* GPS Coordinates */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+          {!loadingPendingApps && pendingAppOptions.length === 0 ? (
+            <p className="text-xs font-medium text-amber-700">
+              {t("modal.noPendingApps")}
+            </p>
+          ) : null}
+
+          <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <div className="flex items-center justify-between gap-2">
+              <span className="flex items-center gap-1.5 text-xs font-bold text-slate-700">
                 <MapPin className="h-4 w-4 text-teal-600" />
-                Visit GPS Geolocation
+                {t("modal.gpsTitle")}
               </span>
-              <Button type="button" size="sm" variant="secondary" onClick={handleGetCurrentLocation}>
-                Capture Device GPS
+              <Button
+                type="button"
+                size="sm"
+                variant="secondary"
+                onClick={handleGetCurrentLocation}
+              >
+                {t("modal.captureGps")}
               </Button>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <TextField
-                label="Latitude"
+                label={t("modal.latitude")}
                 value={latitude}
-                placeholder="e.g. 22.5726"
+                placeholder={t("modal.latitudePlaceholder")}
                 onChange={setLatitude}
               />
               <TextField
-                label="Longitude"
+                label={t("modal.longitude")}
                 value={longitude}
-                placeholder="e.g. 88.3639"
+                placeholder={t("modal.longitudePlaceholder")}
                 onChange={setLongitude}
               />
             </div>
           </div>
 
           <TextField
-            label="Visit Photo Path / Storage URL"
+            label={t("modal.photoPath")}
             value={photoPath}
-            placeholder="e.g. loan/inspection/20261028_visit.jpg"
+            placeholder={t("modal.photoPlaceholder")}
             onChange={setPhotoPath}
           />
 
           <TextField
-            label="Field Officer Notes & Observations"
+            label={t("modal.notes")}
             value={inspectionNotes}
-            placeholder="House, family members, business stock observed..."
+            placeholder={t("modal.notesPlaceholder")}
             onChange={setInspectionNotes}
           />
         </form>

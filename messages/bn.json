@@ -4401,7 +4401,17 @@
         "search": "খুঁজুন",
         "searchPlaceholder": "হিসাব, আবেদন, ঋণগ্রহীতা, স্কিম",
         "status": "অবস্থা",
+        "stage": "পর্যায়",
+        "stageAll": "সব পর্যায়",
         "scheme": "স্কিম",
+        "schemeAll": "সব স্কিম",
+        "borrowerType": "ঋণগ্রহীতার ধরন",
+        "borrowerTypeAll": "সব ঋণগ্রহীতার ধরন",
+        "branch": "শাখা",
+        "branchAll": "সব শাখা",
+        "branchFixed": "আপনার শাখা",
+        "fromDate": "শুরুর তারিখ",
+        "toDate": "শেষ তারিখ",
         "all": "সব",
         "active": "সক্রিয়",
         "closed": "বন্ধ",
@@ -4469,6 +4479,58 @@
       "detail": {
         "loanDate": "ঋণের তারিখ",
         "rate": "সুদের হার"
+      },
+      "chargeModal": {
+        "title": "আবেদন চার্জ যোগ করুন",
+        "charge": "চার্জ",
+        "chargePlaceholder": "একটি ঋণ চার্জ নির্বাচন করুন",
+        "loading": "চার্জ লোড হচ্ছে…",
+        "empty": "কোনো সক্রিয় ঋণ চার্জ নেই।",
+        "loadError": "ঋণ চার্জ লোড করা যায়নি।",
+        "customAmount": "কাস্টম পরিমাণ (ঐচ্ছিক)",
+        "customAmountPlaceholder": "মাস্টার রেট থেকে ডিফল্ট",
+        "waivedAmount": "মওকুফ পরিমাণ (ঐচ্ছিক)",
+        "waivedAmountPlaceholder": "মওকুফের পরিমাণ",
+        "waiverReason": "মওকুফের কারণ (যদি মওকুফ হয়)",
+        "waiverReasonPlaceholder": "ছাড় বা মওকুফের কারণ",
+        "cancel": "বাতিল",
+        "save": "চার্জ সংরক্ষণ",
+        "saving": "সংরক্ষণ হচ্ছে…"
+      },
+      "guarantorModal": {
+        "title": "জামিনদার যুক্ত করুন",
+        "member": "জামিনদার",
+        "memberPlaceholder": "একজন সদস্য নির্বাচন করুন",
+        "loadingMembers": "সদস্য লোড হচ্ছে…",
+        "emptyMembers": "জামিনদার হিসেবে যুক্ত করার মতো কোনো যোগ্য সদস্য নেই।",
+        "relationship": "ঋণগ্রহীতার সাথে সম্পর্ক",
+        "relationshipPlaceholder": "সম্পর্ক নির্বাচন করুন",
+        "loadingRelationships": "সম্পর্ক লোড হচ্ছে…",
+        "loadError": "জামিনদারের অপশন লোড করা যায়নি।",
+        "guaranteeAmount": "জামিনের পরিমাণ",
+        "guaranteeAmountPlaceholder": "জামিনকৃত পরিমাণ",
+        "consentDate": "সম্মতির তারিখ",
+        "docPath": "সম্মতি নথির পথ (ঐচ্ছিক)",
+        "docPathPlaceholder": "যেমন loan/guarantor/consent.pdf",
+        "cancel": "বাতিল",
+        "attach": "জামিনদার যুক্ত করুন",
+        "attaching": "যুক্ত করা হচ্ছে…"
+      },
+      "freezeModal": {
+        "title": "ডিপোজিট লিয়েন ফ্রিজ চিহ্নিত করুন",
+        "depositAccount": "সঞ্চয় হিসাব",
+        "depositAccountPlaceholder": "একটি সঞ্চয় হিসাব নির্বাচন করুন",
+        "loading": "সঞ্চয় হিসাব লোড হচ্ছে…",
+        "empty": "এই সদস্যের লিয়েন চিহ্নিত করার মতো কোনো সক্রিয় সঞ্চয় হিসাব নেই।",
+        "loadError": "সঞ্চয় হিসাব লোড করা যায়নি।",
+        "freezeType": "ফ্রিজের ধরন",
+        "freezeTypeFull": "পূর্ণ (সম্পূর্ণ ব্যালেন্স)",
+        "freezeTypePartial": "আংশিক (নির্দিষ্ট পরিমাণ)",
+        "freezeAmount": "ফ্রিজ পরিমাণ",
+        "freezeAmountPlaceholder": "আটকে রাখার পরিমাণ (INR)",
+        "cancel": "বাতিল",
+        "save": "লিয়েন চিহ্নিত করুন",
+        "saving": "তৈরি হচ্ছে…"
       },
       "form": {
         "createTitle": "নতুন আবেদন",
@@ -4583,6 +4645,18 @@
           "date": "তারিখ",
           "owner": "দায়িত্ব",
           "status": "অবস্থা"
+        },
+        "actions": {
+          "timeline": "টাইমলাইন"
+        },
+        "timeline": {
+          "title": "লাইফসাইকেল ট্র্যাকিং — {number}",
+          "subtitle": "{borrower} · বর্তমান দায়িত্ব: {owner}",
+          "empty": "এই আবেদনের জন্য এখনও কোনো ইতিহাস নেই।",
+          "actionBy": "কার্য: {name}",
+          "outcome": "ফলাফল: {result}",
+          "amount": "পরিমাণ: {amount}",
+          "ref": "রেফ: {ref}"
         }
       },
       "creditAssessment": {
@@ -4598,14 +4672,103 @@
       },
       "fieldVerification": {
         "title": "মাঠ যাচাই",
-        "description": "পরিদর্শনের তারিখ, কর্মকর্তা, ফল এবং সুপারিশকৃত পরিমাণ।",
+        "description": "বাড়ি পরিদর্শন, সম্পদ, GPS ও সুপারিশকৃত অনুমোদন পরিমাণ।",
+        "dash": "—",
+        "refresh": "রিফ্রেশ",
+        "recordVisit": "পরিদর্শন রেকর্ড",
+        "unassigned": "অনির্ধারিত",
+        "pendingBadge": "যাচাই বাকি",
+        "resultFallback": "যাচাইকৃত",
+        "recommendedShort": "সুপারিশ: {amount}",
+        "emptyTitle": "কোনো যাচাই নেই",
+        "emptyPending": "মাঠ যাচাইয়ের অপেক্ষায় কোনো আবেদন নেই।",
+        "emptyHistory": "এই ফিল্টারে কোনো যাচাই পাওয়া যায়নি।",
+        "metrics": {
+          "pending": "বাকি যাচাই",
+          "positive": "পজিটিভ (এই পৃষ্ঠা)",
+          "negative": "নেগেটিভ (এই পৃষ্ঠা)",
+          "reinspect": "পুনঃযাচাই / খোলা"
+        },
+        "filters": {
+          "search": "অনুসন্ধান",
+          "searchPlaceholder": "আবেদন নং, ঋণগ্রহীতা…",
+          "status": "যাচাই অবস্থা",
+          "statusPending": "বাকি মাঠ যাচাই",
+          "statusHistory": "যাচাইকৃত / ইতিহাস",
+          "result": "পরিদর্শন ফল",
+          "resultAll": "সব ফল",
+          "officer": "ফিল্ড অফিসার",
+          "officerAll": "সব অফিসার",
+          "branch": "শাখা",
+          "branchAll": "সব শাখা",
+          "branchFixed": "আপনার শাখা",
+          "fromDate": "শুরুর তারিখ",
+          "toDate": "শেষ তারিখ"
+        },
+        "table": {
+          "pendingTitle": "বাকি মাঠ যাচাই",
+          "historyTitle": "মাঠ যাচাই ইতিহাস",
+          "description": "বাড়ি পরিদর্শন, সম্পদ, GPS ও সুপারিশকৃত অনুমোদন পরিমাণ যাচাই করুন।"
+        },
         "columns": {
           "appNo": "আবেদন",
+          "borrower": "ঋণগ্রহীতা / গ্রুপ",
+          "requested": "আবেদনকৃত",
           "inspectionDate": "পরিদর্শনের তারিখ",
           "officer": "কর্মকর্তা",
           "result": "ফল",
           "recommended": "সুপারিশ",
-          "notes": "নোট"
+          "notes": "নোট",
+          "actions": "পরিদর্শন"
+        },
+        "actions": {
+          "inspect": "যাচাই",
+          "reInspect": "পুনঃযাচাই"
+        },
+        "toast": {
+          "saved": "মাঠ যাচাই সফলভাবে রেকর্ড হয়েছে"
+        },
+        "errors": {
+          "loadFailed": "মাঠ যাচাই লোড করা যায়নি।"
+        },
+        "modal": {
+          "title": "মাঠ যাচাই পরিদর্শন রেকর্ড",
+          "subtitle": "আবেদনের ফল, সুপারিশকৃত পরিমাণ ও GPS সংরক্ষণ করুন।",
+          "submit": "যাচাই জমা দিন",
+          "application": "ঋণ আবেদন",
+          "applicationPlaceholder": "বাকি আবেদন নির্বাচন করুন",
+          "loadingApps": "আবেদন লোড হচ্ছে…",
+          "appOption": "{app} — {borrower} · {amount}",
+          "noPendingApps": "যাচাইয়ের জন্য কোনো বাকি আবেদন নেই।",
+          "inspectionDate": "পরিদর্শনের তারিখ",
+          "officer": "ফিল্ড অফিসার",
+          "officerPlaceholder": "অফিসার নির্বাচন করুন",
+          "result": "পরিদর্শন ফল",
+          "results": {
+            "positive": "পজিটিভ (যাচাই ও সুপারিশ)",
+            "negative": "নেগেটিভ (অমিল / প্রত্যাখ্যান)",
+            "reinspect": "পুনঃযাচাই প্রয়োজন"
+          },
+          "recommendedAmount": "সুপারিশকৃত পরিমাণ",
+          "recommendedPlaceholder": "সুপারিশকৃত ঋণ পরিমাণ",
+          "allVerified": "সব নথি ও সম্পদ শারীরিকভাবে যাচাই হয়েছে",
+          "gpsTitle": "পরিদর্শন GPS অবস্থান",
+          "captureGps": "ডিভাইস GPS নিন",
+          "latitude": "অক্ষাংশ",
+          "latitudePlaceholder": "যেমন ২২.৫৭২৬",
+          "longitude": "দ্রাঘিমাংশ",
+          "longitudePlaceholder": "যেমন ৮৮.৩৬৩৯",
+          "photoPath": "ছবির পাথ / স্টোরেজ URL",
+          "photoPlaceholder": "যেমন loan/inspection/visit.jpg",
+          "notes": "ফিল্ড অফিসারের নোট",
+          "notesPlaceholder": "বাড়ি, পরিবার, ব্যবসায়িক মজুদ…",
+          "geoUnsupported": "এই ব্রাউজারে লোকেশন সমর্থিত নয়।",
+          "geoDenied": "লোকেশন পাওয়া যায়নি: {message}",
+          "errors": {
+            "appRequired": "একটি ঋণ আবেদন নির্বাচন করুন।",
+            "foRequired": "একজন ফিল্ড অফিসার নির্বাচন করুন।",
+            "saveFailed": "মাঠ যাচাই সংরক্ষণ করা যায়নি।"
+          }
         }
       },
       "approval": {
@@ -4624,15 +4787,140 @@
       "disbursement": {
         "title": "বিতরণ",
         "description": "বিতরণে থাকা মোট, কর্তন ও নিট পরিমাণ।",
+        "disburse": "ঋণ বিতরণ",
         "columns": {
           "loanAccount": "ঋণ হিসাব",
           "disbursementNo": "বিতরণ নং",
+          "borrower": "ঋণগ্রহীতা / সদস্য",
           "date": "তারিখ",
           "gross": "মোট",
           "deductions": "কর্তন",
           "net": "নিট",
           "mode": "মাধ্যম",
+          "tranche": "কিস্তি",
           "status": "অবস্থা"
+        },
+        "tranche": {
+          "final": "চূড়ান্ত",
+          "draft": "খসড়া"
+        },
+        "metrics": {
+          "totalGross": "মোট বিতরণ (গ্রস)",
+          "netPaid": "নিট প্রদান",
+          "pending": "চেকার অনুমোদন বাকি",
+          "finalSettled": "চূড়ান্ত কিস্তি নিষ্পন্ন"
+        },
+        "filters": {
+          "search": "খুঁজুন",
+          "searchPlaceholder": "বিতরণ নং, হিসাব, ঋণগ্রহীতা…",
+          "approval": "অনুমোদন",
+          "approvalAll": "সব অবস্থা",
+          "approvalPending": "অনুমোদন বাকি",
+          "approvalApproved": "অনুমোদিত ও নিষ্পন্ন",
+          "paymentMode": "পেমেন্ট মোড",
+          "paymentModeAll": "সব মোড",
+          "tranche": "কিস্তি",
+          "trancheAll": "সব কিস্তি",
+          "trancheFinal": "চূড়ান্ত",
+          "trancheDraft": "খসড়া",
+          "branch": "শাখা",
+          "branchAll": "সব শাখা",
+          "branchFixed": "আপনার শাখা",
+          "fromDate": "শুরুর তারিখ",
+          "toDate": "শেষ তারিখ"
+        },
+        "actions": {
+          "view": "দেখুন",
+          "viewTooltip": "বিতরণের বিবরণ দেখুন",
+          "authorize": "অনুমোদন",
+          "authorizeTooltip": "চেকার অনুমোদন (অনুমোদন / প্রত্যাখ্যান)"
+        },
+        "detail": {
+          "title": "বিতরণ {number}",
+          "subtitle": "{account} · {borrower}",
+          "gross": "মোট",
+          "deductions": "কর্তন",
+          "net": "নিট প্রদান",
+          "date": "বিতরণের তারিখ",
+          "borrower": "ঋণগ্রহীতা / সদস্য",
+          "loanAccount": "ঋণ হিসাব",
+          "application": "আবেদন",
+          "branch": "শাখা",
+          "voucher": "ভাউচার",
+          "cheque": "চেক নং",
+          "reference": "UTR / রেফারেন্স",
+          "sbAccount": "সঞ্চয় হিসাব",
+          "createdBy": "তৈরি করেছেন",
+          "approvedBy": "অনুমোদন করেছেন",
+          "remarks": "মন্তব্য",
+          "dash": "—"
+        },
+        "modal": {
+          "title": "মঞ্জুরকৃত ঋণ বিতরণ",
+          "subtitle": "হিসাব বেছে নিন, কিস্তির পরিমাণ নিশ্চিত করুন, তারপর পেমেন্ট মোড সেট করুন।",
+          "confirm": "নিশ্চিত ও বিতরণ",
+          "netLabel": "নিট বিতরণ:",
+          "pendingWarning": "এই ঋণ হিসাবে ইতিমধ্যে চেকার অনুমোদনের অপেক্ষায় একটি বিতরণ আছে। অন্য কিস্তি শুরু করার আগে সেটি শেষ করুন।",
+          "stepAccount": "১. ঋণ হিসাব ও তারিখ",
+          "stepAmount": "২. কিস্তির পরিমাণ ও কর্তন",
+          "stepPayment": "৩. পেমেন্ট পদ্ধতি",
+          "loanAccount": "মঞ্জুরকৃত ঋণ হিসাব",
+          "loanAccountPlaceholder": "একটি ঋণ হিসাব নির্বাচন করুন",
+          "loadingAccounts": "হিসাব লোড হচ্ছে…",
+          "accountOption": "{account} — {borrower} · বাকি {remaining}",
+          "accountHint": "{scheme} · মঞ্জুর {sanctioned} · ইতিমধ্যে প্রদত্ত {disbursed}",
+          "noAccounts": "অবিতরিত ব্যালেন্সসহ কোনো সক্রিয় ঋণ হিসাব পাওয়া যায়নি।",
+          "disbursementDate": "বিতরণের তারিখ",
+          "calculating": "কর্তন হিসাব হচ্ছে…",
+          "previewError": "বিতরণ প্রিভিউ লোড করা যায়নি।",
+          "sanctioned": "মোট মঞ্জুর",
+          "alreadyDisbursed": "ইতিমধ্যে বিতরণ",
+          "undisbursed": "অবিতরিত ব্যালেন্স",
+          "netPayout": "নিট প্রদান",
+          "grossAmount": "গ্রস কিস্তি পরিমাণ",
+          "otherDeduction": "অন্যান্য কর্তন",
+          "finalTranche": "চূড়ান্ত কিস্তি (ঋণ বিতরণ বন্ধ)",
+          "finalHint": "এই প্রদান বাকি মঞ্জুরকৃত পরিমাণ পরিশোধ করবে এবং কিস্তিকে চূড়ান্ত হিসেবে চিহ্নিত করবে।",
+          "chargesTitle": "কিস্তি থেকে কর্তনযোগ্য অগ্রিম চার্জ",
+          "chargesTotal": "মোট: {amount}",
+          "chargeName": "চার্জ",
+          "chargeStage": "পর্যায়",
+          "chargeFee": "ফি",
+          "chargeTax": "কর",
+          "chargeNet": "নিট কর্তন",
+          "paymentMode": "পেমেন্ট মোড",
+          "modes": {
+            "cash": "নগদ",
+            "cheque": "ব্যাংক চেক",
+            "transfer": "ব্যাংক ট্রান্সফার",
+            "sb": "সঞ্চয় হিসাবে জমা"
+          },
+          "chequeNo": "চেক নম্বর",
+          "chequeNoPlaceholder": "যেমন CHQ-908123",
+          "referenceNo": "রেফারেন্স / UTR নম্বর",
+          "referenceNoPlaceholder": "যেমন UTR0001239845",
+          "sbAccount": "ঋণগ্রহীতার সঞ্চয় হিসাব",
+          "sbAccountPlaceholder": "সঞ্চয় হিসাব নির্বাচন করুন",
+          "loadingSb": "সঞ্চয় হিসাব লোড হচ্ছে…",
+          "noSbAccounts": "এই ঋণগ্রহীতার কোনো সক্রিয় সঞ্চয় হিসাব নেই। ডিপোজিটে একটি খুলুন, অথবা অন্য পেমেন্ট মোড বেছে নিন।",
+          "cashHint": "চেকার অনুমোদনের পর শাখা কাউন্টারে নগদ দেওয়া হবে।",
+          "remarks": "বর্ণনা / মন্তব্য",
+          "remarksPlaceholder": "এই কিস্তির জন্য ঐচ্ছিক নোট…",
+          "errors": {
+            "accountRequired": "একটি বৈধ সক্রিয় ঋণ হিসাব নির্বাচন করুন।",
+            "grossRequired": "গ্রস বিতরণ পরিমাণ শূন্যের বেশি হতে হবে।",
+            "pendingExists": "এই ঋণ হিসাবে ইতিমধ্যে চেকার অনুমোদন বাকি একটি বিতরণ আছে।",
+            "netInvalid": "চার্জ কর্তনের পর নিট বিতরণ শূন্যের বেশি হতে হবে।",
+            "chequeRequired": "চেক পেমেন্টের জন্য চেক নম্বর আবশ্যক।",
+            "referenceRequired": "ব্যাংক ট্রান্সফারের জন্য রেফারেন্স / UTR আবশ্যক।",
+            "sbRequired": "সঞ্চয় জমার জন্য ঋণগ্রহীতার সঞ্চয় হিসাব নির্বাচন করুন।",
+            "submitFailed": "ঋণ বিতরণ রেকর্ড করা যায়নি।"
+          }
+        },
+        "toast": {
+          "pendingApproval": "বিতরণ রেকর্ড হয়েছে এবং চেকার অনুমোদনের জন্য পাঠানো হয়েছে",
+          "settled": "বিতরণ {number} সফলভাবে নিষ্পন্ন হয়েছে",
+          "decisionUpdated": "বিতরণ অনুমোদনের সিদ্ধান্ত আপডেট হয়েছে"
         }
       },
       "recovery": {
@@ -4726,6 +5014,58 @@
           "interest": "সুদ",
           "total": "মোট",
           "outstanding": "বকেয়া"
+        }
+      },
+      "repaymentSchedule": {
+        "title": "পরিশোধ তালিকা",
+        "description": "প্রতি ঋণ হিসাবের কিস্তি, আসল, সুদ, ব্যালেন্স ও আদায় অবস্থা।",
+        "dash": "—",
+        "refresh": "রিফ্রেশ",
+        "export": "তালিকা রপ্তানি",
+        "print": "তালিকা মুদ্রণ",
+        "selectLoan": "ঋণ নির্বাচন",
+        "searchPlaceholder": "ঋণ / ঋণগ্রহীতা খুঁজুন…",
+        "loadingAccounts": "ঋণ হিসাব লোড হচ্ছে…",
+        "noAccounts": "কোনো সক্রিয় ঋণ হিসাব পাওয়া যায়নি।",
+        "emptyTitle": "একটি ঋণ হিসাব নির্বাচন করুন",
+        "emptyMessage": "পরিশোধ তালিকা দেখতে বাম তালিকা থেকে একটি ঋণ বেছে নিন।",
+        "emptyScheduleTitle": "কোনো কিস্তি নেই",
+        "emptyScheduleMessage": "এই ঋণের এখনো সক্রিয় পরিশোধ তালিকা নেই। বিতরণের পর তালিকা তৈরি হয়।",
+        "tableTitle": "হিসাব নং: {account}",
+        "tableDescription": "{borrower} · {branch} · {scheme}",
+        "metrics": {
+          "loanAccount": "ঋণ হিসাব",
+          "sanctioned": "অনুমোদিত মূলধন",
+          "rateHint": "{rate}% বার্ষিক",
+          "installmentsPaid": "পরিশোধিত কিস্তি",
+          "paidOfTotal": "{paid} / {total}",
+          "upcomingHint": "{count} আসন্ন",
+          "scheduledEmi": "নির্ধারিত কিস্তি",
+          "nextDueHint": "পরবর্তী দেয় {date}",
+          "noNextDue": "কোনো আসন্ন দেয় নেই"
+        },
+        "columns": {
+          "installment": "#",
+          "dueDate": "দেয় তারিখ",
+          "principal": "আসল",
+          "interest": "সুদ",
+          "emiTotal": "কিস্তি মোট",
+          "balance": "ব্যালেন্স",
+          "status": "অবস্থা"
+        },
+        "status": {
+          "current": "চলমান",
+          "npa": "NPA",
+          "defaulter": "খেলাপি"
+        },
+        "errors": {
+          "accountsFailed": "ঋণ হিসাব লোড করা যায়নি।",
+          "scheduleFailed": "পরিশোধ তালিকা লোড করা যায়নি।"
+        },
+        "toast": {
+          "exported": "তালিকা রপ্তানি হয়েছে",
+          "nothingToExport": "রপ্তানি করার কিছু নেই",
+          "nothingToPrint": "মুদ্রণ করার কিছু নেই"
         }
       }
     }

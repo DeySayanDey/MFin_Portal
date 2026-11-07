@@ -92,6 +92,7 @@ export const endpoints = {
     loanDisbursements: "/api/lms/disbursements",
     loanDisbursementPreview: "/api/lms/disbursements/preview",
     loanDisbursementApprove: "/api/lms/disbursements/approve",
+    loanRepaymentSchedule: "/api/lms/repayment-schedule",
   },
   menuTree: "/api/MenuTree",
   stateList: "/api/StateList",
@@ -234,6 +235,9 @@ export const endpoints = {
     preview: "/api/LoanDisbursementPreview",
     add: "/api/LoanDisbursementAdd",
     approve: "/api/LoanDisbursementApprove",
+  },
+  loanSchedule: {
+    list: "/api/LoanScheduleList",
   },
   role: {
     list: "/api/RoleList",

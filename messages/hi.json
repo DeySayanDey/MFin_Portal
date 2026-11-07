@@ -4401,7 +4401,17 @@
         "search": "खोजें",
         "searchPlaceholder": "खाता, आवेदन, उधारकर्ता, योजना",
         "status": "स्थिति",
+        "stage": "चरण",
+        "stageAll": "सभी चरण",
         "scheme": "योजना",
+        "schemeAll": "सभी योजनाएँ",
+        "borrowerType": "उधारकर्ता प्रकार",
+        "borrowerTypeAll": "सभी उधारकर्ता प्रकार",
+        "branch": "शाखा",
+        "branchAll": "सभी शाखाएँ",
+        "branchFixed": "आपकी शाखा",
+        "fromDate": "आरंभ तिथि",
+        "toDate": "समाप्ति तिथि",
         "all": "सभी",
         "active": "सक्रिय",
         "closed": "बंद",
@@ -4469,6 +4479,58 @@
       "detail": {
         "loanDate": "ऋण तिथि",
         "rate": "ब्याज दर"
+      },
+      "chargeModal": {
+        "title": "आवेदन शुल्क जोड़ें",
+        "charge": "शुल्क",
+        "chargePlaceholder": "ऋण शुल्क चुनें",
+        "loading": "शुल्क लोड हो रहे हैं…",
+        "empty": "कोई सक्रिय ऋण शुल्क उपलब्ध नहीं है।",
+        "loadError": "ऋण शुल्क लोड नहीं हो सके।",
+        "customAmount": "कस्टम राशि (वैकल्पिक)",
+        "customAmountPlaceholder": "मास्टर दर से डिफ़ॉल्ट",
+        "waivedAmount": "माफ राशि (वैकल्पिक)",
+        "waivedAmountPlaceholder": "माफ करने की राशि",
+        "waiverReason": "माफी का कारण (यदि माफ हो)",
+        "waiverReasonPlaceholder": "छूट या माफी का कारण",
+        "cancel": "रद्द करें",
+        "save": "शुल्क सहेजें",
+        "saving": "सहेजा जा रहा है…"
+      },
+      "guarantorModal": {
+        "title": "गारंटर जोड़ें",
+        "member": "गारंटर",
+        "memberPlaceholder": "सदस्य चुनें",
+        "loadingMembers": "सदस्य लोड हो रहे हैं…",
+        "emptyMembers": "गारंटर के रूप में जोड़ने के लिए कोई पात्र सदस्य उपलब्ध नहीं है।",
+        "relationship": "उधारकर्ता से संबंध",
+        "relationshipPlaceholder": "संबंध चुनें",
+        "loadingRelationships": "संबंध लोड हो रहे हैं…",
+        "loadError": "गारंटर विकल्प लोड नहीं हो सके।",
+        "guaranteeAmount": "गारंटी राशि",
+        "guaranteeAmountPlaceholder": "गारंटीकृत राशि",
+        "consentDate": "सहमति तिथि",
+        "docPath": "सहमति दस्तावेज़ पथ (वैकल्पिक)",
+        "docPathPlaceholder": "जैसे loan/guarantor/consent.pdf",
+        "cancel": "रद्द करें",
+        "attach": "गारंटर जोड़ें",
+        "attaching": "जोड़ा जा रहा है…"
+      },
+      "freezeModal": {
+        "title": "जमा ग्रहणाधिकार फ्रीज चिह्नित करें",
+        "depositAccount": "बचत खाता",
+        "depositAccountPlaceholder": "बचत खाता चुनें",
+        "loading": "बचत खाते लोड हो रहे हैं…",
+        "empty": "इस सदस्य का कोई सक्रिय बचत खाता नहीं है जिस पर ग्रहणाधिकार लगाया जा सके।",
+        "loadError": "बचत खाते लोड नहीं हो सके।",
+        "freezeType": "फ्रीज प्रकार",
+        "freezeTypeFull": "पूर्ण (पूरी शेष राशि)",
+        "freezeTypePartial": "आंशिक (निर्दिष्ट राशि)",
+        "freezeAmount": "फ्रीज राशि",
+        "freezeAmountPlaceholder": "रोकने की राशि (INR)",
+        "cancel": "रद्द करें",
+        "save": "ग्रहणाधिकार चिह्नित करें",
+        "saving": "बनाया जा रहा है…"
       },
       "form": {
         "createTitle": "नया आवेदन",
@@ -4583,6 +4645,18 @@
           "date": "तिथि",
           "owner": "ज़िम्मेदार",
           "status": "स्थिति"
+        },
+        "actions": {
+          "timeline": "समयरेखा"
+        },
+        "timeline": {
+          "title": "जीवनचक्र ट्रैकिंग — {number}",
+          "subtitle": "{borrower} · वर्तमान ज़िम्मेदार: {owner}",
+          "empty": "इस आवेदन का अभी कोई इतिहास दर्ज नहीं है।",
+          "actionBy": "कार्रवाई: {name}",
+          "outcome": "परिणाम: {result}",
+          "amount": "राशि: {amount}",
+          "ref": "संदर्भ: {ref}"
         }
       },
       "creditAssessment": {
@@ -4598,14 +4672,103 @@
       },
       "fieldVerification": {
         "title": "क्षेत्र सत्यापन",
-        "description": "निरीक्षण तिथि, अधिकारी, परिणाम और सुझाई गई राशि।",
+        "description": "घर का दौरा, संपत्ति, GPS और सुझाई गई मंजूरी राशि।",
+        "dash": "—",
+        "refresh": "रिफ़्रेश",
+        "recordVisit": "दौरा दर्ज करें",
+        "unassigned": "अनिर्दिष्ट",
+        "pendingBadge": "सत्यापन लंबित",
+        "resultFallback": "सत्यापित",
+        "recommendedShort": "सुझाव: {amount}",
+        "emptyTitle": "कोई सत्यापन नहीं",
+        "emptyPending": "क्षेत्र सत्यापन की प्रतीक्षा में कोई आवेदन नहीं है।",
+        "emptyHistory": "इन फ़िल्टर से कोई सत्यापन नहीं मिला।",
+        "metrics": {
+          "pending": "लंबित सत्यापन",
+          "positive": "सकारात्मक (यह पृष्ठ)",
+          "negative": "नकारात्मक (यह पृष्ठ)",
+          "reinspect": "पुनः जाँच / खुला"
+        },
+        "filters": {
+          "search": "खोज",
+          "searchPlaceholder": "आवेदन संख्या, उधारकर्ता…",
+          "status": "सत्यापन स्थिति",
+          "statusPending": "लंबित क्षेत्र सत्यापन",
+          "statusHistory": "सत्यापित / इतिहास",
+          "result": "निरीक्षण परिणाम",
+          "resultAll": "सभी परिणाम",
+          "officer": "फील्ड अधिकारी",
+          "officerAll": "सभी अधिकारी",
+          "branch": "शाखा",
+          "branchAll": "सभी शाखाएँ",
+          "branchFixed": "आपकी शाखा",
+          "fromDate": "से तिथि",
+          "toDate": "तक तिथि"
+        },
+        "table": {
+          "pendingTitle": "लंबित क्षेत्र सत्यापन",
+          "historyTitle": "क्षेत्र सत्यापन इतिहास",
+          "description": "घर का दौरा, संपत्ति, GPS और सुझाई गई मंजूरी राशि सत्यापित करें।"
+        },
         "columns": {
           "appNo": "आवेदन",
+          "borrower": "उधारकर्ता / समूह",
+          "requested": "अनुरोधित",
           "inspectionDate": "निरीक्षण तिथि",
           "officer": "अधिकारी",
           "result": "परिणाम",
           "recommended": "सुझाव",
-          "notes": "नोट"
+          "notes": "नोट",
+          "actions": "दौरा"
+        },
+        "actions": {
+          "inspect": "जाँच",
+          "reInspect": "पुनः जाँच"
+        },
+        "toast": {
+          "saved": "क्षेत्र सत्यापन सफलतापूर्वक दर्ज हुआ"
+        },
+        "errors": {
+          "loadFailed": "क्षेत्र सत्यापन लोड नहीं हो सका।"
+        },
+        "modal": {
+          "title": "क्षेत्र सत्यापन दौरा दर्ज करें",
+          "subtitle": "आवेदन का परिणाम, सुझाई राशि और GPS सहेजें।",
+          "submit": "सत्यापन जमा करें",
+          "application": "ऋण आवेदन",
+          "applicationPlaceholder": "लंबित आवेदन चुनें",
+          "loadingApps": "आवेदन लोड हो रहे हैं…",
+          "appOption": "{app} — {borrower} · {amount}",
+          "noPendingApps": "जाँच के लिए कोई लंबित आवेदन नहीं।",
+          "inspectionDate": "दौरा / निरीक्षण तिथि",
+          "officer": "फील्ड अधिकारी",
+          "officerPlaceholder": "अधिकारी चुनें",
+          "result": "निरीक्षण परिणाम",
+          "results": {
+            "positive": "सकारात्मक (सत्यापित व सुझाव)",
+            "negative": "नकारात्मक (असंगति / अस्वीकृत)",
+            "reinspect": "पुनः निरीक्षण आवश्यक"
+          },
+          "recommendedAmount": "सुझाई गई राशि",
+          "recommendedPlaceholder": "सुझाई गई ऋण राशि",
+          "allVerified": "सभी दस्तावेज़ और संपत्ति भौतिक रूप से सत्यापित",
+          "gpsTitle": "दौरा GPS स्थान",
+          "captureGps": "डिवाइस GPS लें",
+          "latitude": "अक्षांश",
+          "latitudePlaceholder": "जैसे 22.5726",
+          "longitude": "देशांतर",
+          "longitudePlaceholder": "जैसे 88.3639",
+          "photoPath": "फ़ोटो पथ / स्टोरेज URL",
+          "photoPlaceholder": "जैसे loan/inspection/visit.jpg",
+          "notes": "फील्ड अधिकारी नोट",
+          "notesPlaceholder": "घर, परिवार, व्यवसाय स्टॉक…",
+          "geoUnsupported": "यह ब्राउज़र स्थान समर्थन नहीं करता।",
+          "geoDenied": "स्थान उपलब्ध नहीं: {message}",
+          "errors": {
+            "appRequired": "ऋण आवेदन चुनें।",
+            "foRequired": "फील्ड अधिकारी चुनें।",
+            "saveFailed": "क्षेत्र सत्यापन सहेजा नहीं जा सका।"
+          }
         }
       },
       "approval": {
@@ -4624,15 +4787,140 @@
       "disbursement": {
         "title": "वितरण",
         "description": "वितरण पर दर्ज सकल, कटौती और शुद्ध राशि।",
+        "disburse": "ऋण वितरित करें",
         "columns": {
           "loanAccount": "ऋण खाता",
           "disbursementNo": "वितरण नं",
+          "borrower": "उधारकर्ता / सदस्य",
           "date": "तिथि",
           "gross": "सकल",
           "deductions": "कटौती",
           "net": "शुद्ध",
           "mode": "माध्यम",
+          "tranche": "किस्त",
           "status": "स्थिति"
+        },
+        "tranche": {
+          "final": "अंतिम",
+          "draft": "मसौदा"
+        },
+        "metrics": {
+          "totalGross": "कुल वितरित (सकल)",
+          "netPaid": "शुद्ध भुगतान",
+          "pending": "चेकर स्वीकृति लंबित",
+          "finalSettled": "अंतिम किस्तें निपटाईं"
+        },
+        "filters": {
+          "search": "खोजें",
+          "searchPlaceholder": "वितरण नं, खाता, उधारकर्ता…",
+          "approval": "अधिकार",
+          "approvalAll": "सभी स्थितियाँ",
+          "approvalPending": "स्वीकृति लंबित",
+          "approvalApproved": "स्वीकृत और निपटाया",
+          "paymentMode": "भुगतान माध्यम",
+          "paymentModeAll": "सभी माध्यम",
+          "tranche": "किस्त",
+          "trancheAll": "सभी किस्तें",
+          "trancheFinal": "अंतिम",
+          "trancheDraft": "मसौदा",
+          "branch": "शाखा",
+          "branchAll": "सभी शाखाएँ",
+          "branchFixed": "आपकी शाखा",
+          "fromDate": "आरंभ तिथि",
+          "toDate": "समाप्ति तिथि"
+        },
+        "actions": {
+          "view": "देखें",
+          "viewTooltip": "वितरण विवरण देखें",
+          "authorize": "अधिकृत करें",
+          "authorizeTooltip": "चेकर अधिकार (स्वीकृत / अस्वीकृत)"
+        },
+        "detail": {
+          "title": "वितरण {number}",
+          "subtitle": "{account} · {borrower}",
+          "gross": "सकल",
+          "deductions": "कटौती",
+          "net": "शुद्ध भुगतान",
+          "date": "वितरण तिथि",
+          "borrower": "उधारकर्ता / सदस्य",
+          "loanAccount": "ऋण खाता",
+          "application": "आवेदन",
+          "branch": "शाखा",
+          "voucher": "वाउचर",
+          "cheque": "चेक नं.",
+          "reference": "UTR / संदर्भ",
+          "sbAccount": "बचत खाता",
+          "createdBy": "द्वारा बनाया",
+          "approvedBy": "द्वारा स्वीकृत",
+          "remarks": "टिप्पणी",
+          "dash": "—"
+        },
+        "modal": {
+          "title": "स्वीकृत ऋण वितरित करें",
+          "subtitle": "खाता चुनें, किस्त राशि सुनिश्चित करें, फिर भुगतान माध्यम तय करें।",
+          "confirm": "पुष्टि करें और वितरित करें",
+          "netLabel": "शुद्ध वितरण:",
+          "pendingWarning": "इस ऋण खाते पर पहले से चेकर स्वीकृति लंबित है। नई किस्त से पहले उसे पूरा करें।",
+          "stepAccount": "1. ऋण खाता और तिथि",
+          "stepAmount": "2. किस्त राशि और कटौती",
+          "stepPayment": "3. भुगतान विधि",
+          "loanAccount": "स्वीकृत ऋण खाता",
+          "loanAccountPlaceholder": "ऋण खाता चुनें",
+          "loadingAccounts": "खाते लोड हो रहे हैं…",
+          "accountOption": "{account} — {borrower} · शेष {remaining}",
+          "accountHint": "{scheme} · स्वीकृत {sanctioned} · पहले भुगतान {disbursed}",
+          "noAccounts": "अवितरित शेष वाले कोई सक्रिय ऋण खाते नहीं मिले।",
+          "disbursementDate": "वितरण तिथि",
+          "calculating": "कटौती गणना हो रही है…",
+          "previewError": "वितरण पूर्वावलोकन लोड नहीं हो सका।",
+          "sanctioned": "कुल स्वीकृत",
+          "alreadyDisbursed": "पहले वितरित",
+          "undisbursed": "अवितरित शेष",
+          "netPayout": "शुद्ध भुगतान",
+          "grossAmount": "सकल किस्त राशि",
+          "otherDeduction": "अन्य कटौती",
+          "finalTranche": "अंतिम किस्त (ऋण भुगतान बंद)",
+          "finalHint": "यह भुगतान शेष स्वीकृत राशि पूरी करेगा और किस्त को अंतिम चिह्नित करेगा।",
+          "chargesTitle": "किस्त से कटने वाले अग्रिम शुल्क",
+          "chargesTotal": "कुल: {amount}",
+          "chargeName": "शुल्क",
+          "chargeStage": "चरण",
+          "chargeFee": "शुल्क",
+          "chargeTax": "कर",
+          "chargeNet": "शुद्ध कटौती",
+          "paymentMode": "भुगतान माध्यम",
+          "modes": {
+            "cash": "नकद",
+            "cheque": "बैंक चेक",
+            "transfer": "बैंक ट्रांसफर",
+            "sb": "बचत खाते में जमा"
+          },
+          "chequeNo": "चेक नंबर",
+          "chequeNoPlaceholder": "जैसे CHQ-908123",
+          "referenceNo": "संदर्भ / UTR नंबर",
+          "referenceNoPlaceholder": "जैसे UTR0001239845",
+          "sbAccount": "उधारकर्ता बचत खाता",
+          "sbAccountPlaceholder": "बचत खाता चुनें",
+          "loadingSb": "बचत खाते लोड हो रहे हैं…",
+          "noSbAccounts": "इस उधारकर्ता का कोई सक्रिय बचत खाता नहीं है। जमा में खाता खोलें, या अन्य माध्यम चुनें।",
+          "cashHint": "चेकर स्वीकृति के बाद शाखा काउंटर पर नकद दिया जाएगा।",
+          "remarks": "विवरण / टिप्पणी",
+          "remarksPlaceholder": "इस किस्त के लिए वैकल्पिक नोट…",
+          "errors": {
+            "accountRequired": "मान्य सक्रिय ऋण खाता चुनें।",
+            "grossRequired": "सकल वितरण राशि शून्य से अधिक होनी चाहिए।",
+            "pendingExists": "इस ऋण खाते पर पहले से चेकर स्वीकृति लंबित है।",
+            "netInvalid": "शुल्क कटौती के बाद शुद्ध वितरण शून्य से अधिक होना चाहिए।",
+            "chequeRequired": "चेक भुगतान के लिए चेक नंबर आवश्यक है।",
+            "referenceRequired": "बैंक ट्रांसफर के लिए संदर्भ / UTR आवश्यक है।",
+            "sbRequired": "बचत जमा के लिए उधारकर्ता का बचत खाता चुनें।",
+            "submitFailed": "ऋण वितरण दर्ज नहीं हो सका।"
+          }
+        },
+        "toast": {
+          "pendingApproval": "वितरण दर्ज हो गया और चेकर स्वीकृति के लिए भेजा गया",
+          "settled": "वितरण {number} सफलतापूर्वक निपटाया गया",
+          "decisionUpdated": "वितरण स्वीकृति निर्णय अपडेट हो गया"
         }
       },
       "recovery": {
@@ -4726,6 +5014,58 @@
           "interest": "ब्याज",
           "total": "कुल",
           "outstanding": "बकाया"
+        }
+      },
+      "repaymentSchedule": {
+        "title": "चुकौती अनुसूची",
+        "description": "प्रत्येक ऋण खाते की किस्त, मूलधन, ब्याज, शेष और संग्रह स्थिति।",
+        "dash": "—",
+        "refresh": "रिफ़्रेश",
+        "export": "अनुसूची निर्यात",
+        "print": "अनुसूची प्रिंट",
+        "selectLoan": "ऋण चुनें",
+        "searchPlaceholder": "ऋण / उधारकर्ता खोजें…",
+        "loadingAccounts": "ऋण खाते लोड हो रहे हैं…",
+        "noAccounts": "कोई सक्रिय ऋण खाता नहीं मिला।",
+        "emptyTitle": "ऋण खाता चुनें",
+        "emptyMessage": "चुकौती अनुसूची देखने के लिए सूची से एक ऋण चुनें।",
+        "emptyScheduleTitle": "कोई किस्त नहीं",
+        "emptyScheduleMessage": "इस ऋण की अभी सक्रिय चुकौती अनुसूची नहीं है। वितरण के बाद अनुसूची बनती है।",
+        "tableTitle": "खाता सं.: {account}",
+        "tableDescription": "{borrower} · {branch} · {scheme}",
+        "metrics": {
+          "loanAccount": "ऋण खाता",
+          "sanctioned": "स्वीकृत मूलधन",
+          "rateHint": "{rate}% वार्षिक",
+          "installmentsPaid": "भरी गई किस्तें",
+          "paidOfTotal": "{paid} / {total}",
+          "upcomingHint": "{count} आगामी",
+          "scheduledEmi": "निर्धारित EMI",
+          "nextDueHint": "अगली देय {date}",
+          "noNextDue": "कोई आगामी देय नहीं"
+        },
+        "columns": {
+          "installment": "#",
+          "dueDate": "देय तिथि",
+          "principal": "मूलधन",
+          "interest": "ब्याज",
+          "emiTotal": "EMI कुल",
+          "balance": "शेष",
+          "status": "स्थिति"
+        },
+        "status": {
+          "current": "चालू",
+          "npa": "NPA",
+          "defaulter": "डिफॉल्टर"
+        },
+        "errors": {
+          "accountsFailed": "ऋण खाते लोड नहीं हो सके।",
+          "scheduleFailed": "चुकौती अनुसूची लोड नहीं हो सकी।"
+        },
+        "toast": {
+          "exported": "अनुसूची निर्यात हुई",
+          "nothingToExport": "निर्यात करने के लिए कुछ नहीं",
+          "nothingToPrint": "प्रिंट करने के लिए कुछ नहीं"
         }
       }
     }

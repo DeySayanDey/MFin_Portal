@@ -387,17 +387,17 @@ export type LoanEligibilityResult = {
   cust_type_cd: number;
   all_mandatory_passed: boolean;
   not_evaluated_count: number;
-  monthly_income: number;
-  existing_obligation: number;
-  proposed_monthly_installment: number;
-  interest_rate: number;
-  foir_percent: number;
-  max_eligible_amount: number;
+  monthly_income: number | null;
+  existing_obligation: number | null;
+  proposed_monthly_installment: number | null;
+  interest_rate: number | null;
+  foir_percent: number | null;
+  max_eligible_amount: number | null;
   checks: LoanEligibilityCheckItem[];
 };
 
 export type LoanInspectionRow = {
-  inspection_id: number;
+  inspection_id: number | null;
   loan_application_id: number;
   application_no: string;
   application_date: string;

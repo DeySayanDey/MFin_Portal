@@ -1,9 +1,13 @@
-import { LmsRepaymentScheduleView } from "@/features/lms/components/LmsRepaymentScheduleView";
+import { getTranslations } from "next-intl/server";
+import { LmsRepaymentScheduleView } from "@/features/lms/repayment-schedule";
 
-export const metadata = {
-  title: "Repayment Schedule · eZi-Micro Core Banking",
-  description: "EMI amortization calendar and reducing-balance schedule",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("loanModule.screens.repaymentSchedule");
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 export default function Page() {
   return <LmsRepaymentScheduleView />;

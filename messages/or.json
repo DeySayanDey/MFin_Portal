@@ -4401,7 +4401,17 @@
         "search": "ଖୋଜନ୍ତୁ",
         "searchPlaceholder": "ଖାତା, ଆବେଦନ, ଋଣଗ୍ରହୀତା, ସ୍କିମ",
         "status": "ସ୍ଥିତି",
+        "stage": "ପର୍ଯ୍ୟାୟ",
+        "stageAll": "ସମସ୍ତ ପର୍ଯ୍ୟାୟ",
         "scheme": "ସ୍କିମ",
+        "schemeAll": "ସମସ୍ତ ସ୍କିମ",
+        "borrowerType": "ଋଣଗ୍ରହୀତା ପ୍ରକାର",
+        "borrowerTypeAll": "ସମସ୍ତ ଋଣଗ୍ରହୀତା ପ୍ରକାର",
+        "branch": "ଶାଖା",
+        "branchAll": "ସମସ୍ତ ଶାଖା",
+        "branchFixed": "ଆପଣଙ୍କ ଶାଖା",
+        "fromDate": "ଆରମ୍ଭ ତାରିଖ",
+        "toDate": "ଶେଷ ତାରିଖ",
         "all": "ସବୁ",
         "active": "ସକ୍ରିୟ",
         "closed": "ବନ୍ଦ",
@@ -4469,6 +4479,58 @@
       "detail": {
         "loanDate": "ଋଣ ତାରିଖ",
         "rate": "ସୁଧ ହାର"
+      },
+      "chargeModal": {
+        "title": "ଆବେଦନ ଚାର୍ଜ ଯୋଡ଼ନ୍ତୁ",
+        "charge": "ଚାର୍ଜ",
+        "chargePlaceholder": "ଏକ ଋଣ ଚାର୍ଜ ବାଛନ୍ତୁ",
+        "loading": "ଚାର୍ଜ ଲୋଡ୍ ହେଉଛି…",
+        "empty": "କୌଣସି ସକ୍ରିୟ ଋଣ ଚାର୍ଜ ଉପଲବ୍ଧ ନାହିଁ।",
+        "loadError": "ଋଣ ଚାର୍ଜ ଲୋଡ୍ ହେଲା ନାହିଁ।",
+        "customAmount": "କଷ୍ଟମ୍ ରାଶି (ବୈକଳ୍ପିକ)",
+        "customAmountPlaceholder": "ମାଷ୍ଟର ରେଟରୁ ଡିଫଲ୍ଟ",
+        "waivedAmount": "ଛାଡ଼ ରାଶି (ବୈକଳ୍ପିକ)",
+        "waivedAmountPlaceholder": "ଛାଡ଼ କରିବାକୁ ରାଶି",
+        "waiverReason": "ଛାଡ଼ କାରଣ (ଯଦି ଛାଡ଼)",
+        "waiverReasonPlaceholder": "ଛାଡ଼ କିମ୍ବା ୱେଭର କାରଣ",
+        "cancel": "ବାତିଲ୍",
+        "save": "ଚାର୍ଜ ସେଭ୍ କରନ୍ତୁ",
+        "saving": "ସେଭ୍ ହେଉଛି…"
+      },
+      "guarantorModal": {
+        "title": "ଗ୍ୟାରେଣ୍ଟର ଯୋଡ଼ନ୍ତୁ",
+        "member": "ଗ୍ୟାରେଣ୍ଟର",
+        "memberPlaceholder": "ଏକ ସଦସ୍ୟ ବାଛନ୍ତୁ",
+        "loadingMembers": "ସଦସ୍ୟ ଲୋଡ୍ ହେଉଛି…",
+        "emptyMembers": "ଗ୍ୟାରେଣ୍ଟର ଭାବେ ଯୋଡ଼ିବାକୁ କୌଣସି ଯୋଗ୍ୟ ସଦସ୍ୟ ଉପଲବ୍ଧ ନାହିଁ।",
+        "relationship": "ଋଣଗ୍ରହୀତା ସହିତ ସମ୍ପର୍କ",
+        "relationshipPlaceholder": "ସମ୍ପର୍କ ବାଛନ୍ତୁ",
+        "loadingRelationships": "ସମ୍ପର୍କ ଲୋଡ୍ ହେଉଛି…",
+        "loadError": "ଗ୍ୟାରେଣ୍ଟର ବିକଳ୍ପ ଲୋଡ୍ ହେଲା ନାହିଁ।",
+        "guaranteeAmount": "ଗ୍ୟାରେଣ୍ଟି ରାଶି",
+        "guaranteeAmountPlaceholder": "ଗ୍ୟାରେଣ୍ଟି ରାଶି",
+        "consentDate": "ସମ୍ମତି ତାରିଖ",
+        "docPath": "ସମ୍ମତି ଡକ୍ୟୁମେଣ୍ଟ ପଥ (ବୈକଳ୍ପିକ)",
+        "docPathPlaceholder": "ଯଥା loan/guarantor/consent.pdf",
+        "cancel": "ବାତିଲ୍",
+        "attach": "ଗ୍ୟାରେଣ୍ଟର ଯୋଡ଼ନ୍ତୁ",
+        "attaching": "ଯୋଡ଼ାଯାଉଛି…"
+      },
+      "freezeModal": {
+        "title": "ଜମା ଲିଏନ୍ ଫ୍ରିଜ୍ ଚିହ୍ନିତ କରନ୍ତୁ",
+        "depositAccount": "ସଞ୍ଚୟ ଖାତା",
+        "depositAccountPlaceholder": "ଏକ ସଞ୍ଚୟ ଖାତା ବାଛନ୍ତୁ",
+        "loading": "ସଞ୍ଚୟ ଖାତା ଲୋଡ୍ ହେଉଛି…",
+        "empty": "ଏହି ସଦସ୍ୟଙ୍କର ଲିଏନ୍ ଚିହ୍ନିତ କରିବାକୁ କୌଣସି ସକ୍ରିୟ ସଞ୍ଚୟ ଖାତା ନାହିଁ।",
+        "loadError": "ସଞ୍ଚୟ ଖାତା ଲୋଡ୍ ହେଲା ନାହିଁ।",
+        "freezeType": "ଫ୍ରିଜ୍ ପ୍ରକାର",
+        "freezeTypeFull": "ପୂର୍ଣ୍ଣ (ସମ୍ପୂର୍ଣ୍ଣ ବାଲାନ୍ସ)",
+        "freezeTypePartial": "ଆଂଶିକ (ନିର୍ଦ୍ଦିଷ୍ଟ ରାଶି)",
+        "freezeAmount": "ଫ୍ରିଜ୍ ରାଶି",
+        "freezeAmountPlaceholder": "ଧରି ରଖିବା ରାଶି (INR)",
+        "cancel": "ବାତିଲ୍",
+        "save": "ଲିଏନ୍ ଚିହ୍ନିତ କରନ୍ତୁ",
+        "saving": "ତିଆରି ହେଉଛି…"
       },
       "form": {
         "createTitle": "ନୂଆ ଆବେଦନ",
@@ -4583,6 +4645,18 @@
           "date": "ତାରିଖ",
           "owner": "ଦାୟିତ୍ୱ",
           "status": "ସ୍ଥିତି"
+        },
+        "actions": {
+          "timeline": "ସମୟରେଖା"
+        },
+        "timeline": {
+          "title": "ଜୀବନଚକ୍ର ଟ୍ରାକିଂ — {number}",
+          "subtitle": "{borrower} · ବର୍ତ୍ତମାନ ଦାୟିତ୍ୱ: {owner}",
+          "empty": "ଏହି ଆବେଦନ ପାଇଁ ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଇତିହାସ ନାହିଁ।",
+          "actionBy": "କାର୍ଯ୍ୟ: {name}",
+          "outcome": "ଫଳାଫଳ: {result}",
+          "amount": "ରାଶି: {amount}",
+          "ref": "ରେଫ: {ref}"
         }
       },
       "creditAssessment": {
@@ -4598,14 +4672,103 @@
       },
       "fieldVerification": {
         "title": "କ୍ଷେତ୍ର ଯାଞ୍ଚ",
-        "description": "ଯାଞ୍ଚ ତାରିଖ, ଅଧିକାରୀ, ଫଳ ଏବଂ ସୁପାରିଶିତ ରାଶି।",
+        "description": "ଘର ଦେଖା, ସମ୍ପତ୍ତି, GPS ଓ ସୁପାରିଶିତ ଅନୁମୋଦନ ରାଶି।",
+        "dash": "—",
+        "refresh": "ରିଫ୍ରେଶ",
+        "recordVisit": "ଦେଖା ରେକର୍ଡ",
+        "unassigned": "ନିର୍ଦ୍ଧାରିତ ନୁହେଁ",
+        "pendingBadge": "ଯାଞ୍ଚ ବାକି",
+        "resultFallback": "ଯାଞ୍ଚିତ",
+        "recommendedShort": "ସୁପାରିଶ: {amount}",
+        "emptyTitle": "କୌଣସି ଯାଞ୍ଚ ନାହିଁ",
+        "emptyPending": "କ୍ଷେତ୍ର ଯାଞ୍ଚ ପାଇଁ କୌଣସି ଆବେଦନ ବାକି ନାହିଁ।",
+        "emptyHistory": "ଏହି ଫିଲ୍ଟରରେ କୌଣସି ଯାଞ୍ଚ ମିଳିଲା ନାହିଁ।",
+        "metrics": {
+          "pending": "ବାକି ଯାଞ୍ଚ",
+          "positive": "ସକାରାତ୍ମକ (ଏହି ପୃଷ୍ଠା)",
+          "negative": "ନକାରାତ୍ମକ (ଏହି ପୃଷ୍ଠା)",
+          "reinspect": "ପୁନଃ ଯାଞ୍ଚ / ଖୋଲା"
+        },
+        "filters": {
+          "search": "ସନ୍ଧାନ",
+          "searchPlaceholder": "ଆବେଦନ ନଂ, ଋଣଗ୍ରହୀତା…",
+          "status": "ଯାଞ୍ଚ ସ୍ଥିତି",
+          "statusPending": "ବାକି କ୍ଷେତ୍ର ଯାଞ୍ଚ",
+          "statusHistory": "ଯାଞ୍ଚିତ / ଇତିହାସ",
+          "result": "ଯାଞ୍ଚ ଫଳ",
+          "resultAll": "ସମସ୍ତ ଫଳ",
+          "officer": "ଫିଲ୍ଡ ଅଧିକାରୀ",
+          "officerAll": "ସମସ୍ତ ଅଧିକାରୀ",
+          "branch": "ଶାଖା",
+          "branchAll": "ସମସ୍ତ ଶାଖା",
+          "branchFixed": "ଆପଣଙ୍କ ଶାଖା",
+          "fromDate": "ଠାରୁ ତାରିଖ",
+          "toDate": "ପର୍ଯ୍ୟନ୍ତ ତାରିଖ"
+        },
+        "table": {
+          "pendingTitle": "ବାକି କ୍ଷେତ୍ର ଯାଞ୍ଚ",
+          "historyTitle": "କ୍ଷେତ୍ର ଯାଞ୍ଚ ଇତିହାସ",
+          "description": "ଘର ଦେଖା, ସମ୍ପତ୍ତି, GPS ଓ ସୁପାରିଶିତ ଅନୁମୋଦନ ରାଶି ଯାଞ୍ଚ କରନ୍ତୁ।"
+        },
         "columns": {
           "appNo": "ଆବେଦନ",
+          "borrower": "ଋଣଗ୍ରହୀତା / ଗୋଷ୍ଠୀ",
+          "requested": "ଅନୁରୋଧିତ",
           "inspectionDate": "ଯାଞ୍ଚ ତାରିଖ",
           "officer": "ଅଧିକାରୀ",
           "result": "ଫଳ",
           "recommended": "ସୁପାରିଶ",
-          "notes": "ଟିପ୍ପଣୀ"
+          "notes": "ଟିପ୍ପଣୀ",
+          "actions": "ଦେଖା"
+        },
+        "actions": {
+          "inspect": "ଯାଞ୍ଚ",
+          "reInspect": "ପୁନଃ ଯାଞ୍ଚ"
+        },
+        "toast": {
+          "saved": "କ୍ଷେତ୍ର ଯାଞ୍ଚ ସଫଳତାର ସହ ରେକର୍ଡ ହୋଇଛି"
+        },
+        "errors": {
+          "loadFailed": "କ୍ଷେତ୍ର ଯାଞ୍ଚ ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ।"
+        },
+        "modal": {
+          "title": "କ୍ଷେତ୍ର ଯାଞ୍ଚ ଦେଖା ରେକର୍ଡ",
+          "subtitle": "ଆବେଦନର ଫଳ, ସୁପାରିଶିତ ରାଶି ଓ GPS ସଂରକ୍ଷଣ କରନ୍ତୁ।",
+          "submit": "ଯାଞ୍ଚ ଦାଖଲ",
+          "application": "ଋଣ ଆବେଦନ",
+          "applicationPlaceholder": "ବାକି ଆବେଦନ ବାଛନ୍ତୁ",
+          "loadingApps": "ଆବେଦନ ଲୋଡ୍ ହେଉଛି…",
+          "appOption": "{app} — {borrower} · {amount}",
+          "noPendingApps": "ଯାଞ୍ଚ ପାଇଁ କୌଣସି ବାକି ଆବେଦନ ନାହିଁ।",
+          "inspectionDate": "ଦେଖା / ଯାଞ୍ଚ ତାରିଖ",
+          "officer": "ଫିଲ୍ଡ ଅଧିକାରୀ",
+          "officerPlaceholder": "ଅଧିକାରୀ ବାଛନ୍ତୁ",
+          "result": "ଯାଞ୍ଚ ଫଳ",
+          "results": {
+            "positive": "ସକାରାତ୍ମକ (ଯାଞ୍ଚିତ ଓ ସୁପାରିଶ)",
+            "negative": "ନକାରାତ୍ମକ (ଅମିଳ / ପ୍ରତ୍ୟାଖ୍ୟାନ)",
+            "reinspect": "ପୁନଃ ଯାଞ୍ଚ ଆବଶ୍ୟକ"
+          },
+          "recommendedAmount": "ସୁପାରିଶିତ ରାଶି",
+          "recommendedPlaceholder": "ସୁପାରିଶିତ ଋଣ ରାଶି",
+          "allVerified": "ସମସ୍ତ ଡକ୍ୟୁମେଣ୍ଟ ଓ ସମ୍ପତ୍ତି ଶାରୀରିକ ଭାବେ ଯାଞ୍ଚିତ",
+          "gpsTitle": "ଦେଖା GPS ଅବସ୍ଥାନ",
+          "captureGps": "ଡିଭାଇସ GPS ନିଅନ୍ତୁ",
+          "latitude": "ଅକ୍ଷାଂଶ",
+          "latitudePlaceholder": "ଯେପରି 22.5726",
+          "longitude": "ଦ୍ରାଘିମା",
+          "longitudePlaceholder": "ଯେପରି 88.3639",
+          "photoPath": "ଫଟୋ ପଥ / ଷ୍ଟୋରେଜ୍ URL",
+          "photoPlaceholder": "ଯେପରି loan/inspection/visit.jpg",
+          "notes": "ଫିଲ୍ଡ ଅଧିକାରୀ ଟିପ୍ପଣୀ",
+          "notesPlaceholder": "ଘର, ପରିବାର, ବ୍ୟବସାୟ ଷ୍ଟକ…",
+          "geoUnsupported": "ଏହି ବ୍ରାଉଜରରେ ଲୋକେସନ ସମର୍ଥିତ ନୁହେଁ।",
+          "geoDenied": "ଲୋକେସନ ମିଳିଲା ନାହିଁ: {message}",
+          "errors": {
+            "appRequired": "ଋଣ ଆବେଦନ ବାଛନ୍ତୁ।",
+            "foRequired": "ଫିଲ୍ଡ ଅଧିକାରୀ ବାଛନ୍ତୁ।",
+            "saveFailed": "କ୍ଷେତ୍ର ଯାଞ୍ଚ ସଂରକ୍ଷଣ ହୋଇପାରିଲା ନାହିଁ।"
+          }
         }
       },
       "approval": {
@@ -4624,15 +4787,140 @@
       "disbursement": {
         "title": "ବିତରଣ",
         "description": "ବିତରଣରେ ଥିବା ମୋଟ, କଟକଣା ଓ ନିଟ୍ ରାଶି।",
+        "disburse": "ଋଣ ବିତରଣ",
         "columns": {
           "loanAccount": "ଋଣ ଖାତା",
           "disbursementNo": "ବିତରଣ ନଂ",
+          "borrower": "ଋଣଗ୍ରହୀତା / ସଦସ୍ୟ",
           "date": "ତାରିଖ",
           "gross": "ମୋଟ",
           "deductions": "କଟକଣା",
           "net": "ନିଟ୍",
           "mode": "ମାଧ୍ୟମ",
+          "tranche": "କିସ୍ତି",
           "status": "ସ୍ଥିତି"
+        },
+        "tranche": {
+          "final": "ଚୂଡ଼ାନ୍ତ",
+          "draft": "ଖସଡ଼ା"
+        },
+        "metrics": {
+          "totalGross": "ମୋଟ ବିତରଣ (ଗ୍ରସ୍)",
+          "netPaid": "ନିଟ୍ ପ୍ରଦାନ",
+          "pending": "ଚେକର ଅନୁମୋଦନ ବାକି",
+          "finalSettled": "ଚୂଡ଼ାନ୍ତ କିସ୍ତି ନିଷ୍ପନ୍ନ"
+        },
+        "filters": {
+          "search": "ଖୋଜନ୍ତୁ",
+          "searchPlaceholder": "ବିତରଣ ନଂ, ଖାତା, ଋଣଗ୍ରହୀତା…",
+          "approval": "ଅନୁମୋଦନ",
+          "approvalAll": "ସମସ୍ତ ସ୍ଥିତି",
+          "approvalPending": "ଅନୁମୋଦନ ବାକି",
+          "approvalApproved": "ଅନୁମୋଦିତ ଓ ନିଷ୍ପନ୍ନ",
+          "paymentMode": "ପେମେଣ୍ଟ ମୋଡ୍",
+          "paymentModeAll": "ସମସ୍ତ ମୋଡ୍",
+          "tranche": "କିସ୍ତି",
+          "trancheAll": "ସମସ୍ତ କିସ୍ତି",
+          "trancheFinal": "ଚୂଡ଼ାନ୍ତ",
+          "trancheDraft": "ଖସଡ଼ା",
+          "branch": "ଶାଖା",
+          "branchAll": "ସମସ୍ତ ଶାଖା",
+          "branchFixed": "ଆପଣଙ୍କ ଶାଖା",
+          "fromDate": "ଆରମ୍ଭ ତାରିଖ",
+          "toDate": "ଶେଷ ତାରିଖ"
+        },
+        "actions": {
+          "view": "ଦେଖନ୍ତୁ",
+          "viewTooltip": "ବିତରଣ ବିବରଣୀ ଦେଖନ୍ତୁ",
+          "authorize": "ଅନୁମୋଦନ",
+          "authorizeTooltip": "ଚେକର ଅନୁମୋଦନ (ଅନୁମୋଦନ / ପ୍ରତ୍ୟାଖ୍ୟାନ)"
+        },
+        "detail": {
+          "title": "ବିତରଣ {number}",
+          "subtitle": "{account} · {borrower}",
+          "gross": "ମୋଟ",
+          "deductions": "କଟକଣା",
+          "net": "ନିଟ୍ ପ୍ରଦାନ",
+          "date": "ବିତରଣ ତାରିଖ",
+          "borrower": "ଋଣଗ୍ରହୀତା / ସଦସ୍ୟ",
+          "loanAccount": "ଋଣ ଖାତା",
+          "application": "ଆବେଦନ",
+          "branch": "ଶାଖା",
+          "voucher": "ଭାଉଚର",
+          "cheque": "ଚେକ୍ ନଂ",
+          "reference": "UTR / ରେଫରେନ୍ସ",
+          "sbAccount": "ସଞ୍ଚୟ ଖାତା",
+          "createdBy": "ତିଆରି କରିଛନ୍ତି",
+          "approvedBy": "ଅନୁମୋଦନ କରିଛନ୍ତି",
+          "remarks": "ମନ୍ତବ୍ୟ",
+          "dash": "—"
+        },
+        "modal": {
+          "title": "ମଞ୍ଜୁର ଋଣ ବିତରଣ",
+          "subtitle": "ଖାତା ବାଛନ୍ତୁ, କିସ୍ତି ରାଶି ନିଶ୍ଚିତ କରନ୍ତୁ, ତା’ପରେ ପେମେଣ୍ଟ ମୋଡ୍ ସେଟ୍ କରନ୍ତୁ।",
+          "confirm": "ନିଶ୍ଚିତ ଓ ବିତରଣ",
+          "netLabel": "ନିଟ୍ ବିତରଣ:",
+          "pendingWarning": "ଏହି ଋଣ ଖାତାରେ ପୂର୍ବରୁ ଚେକର ଅନୁମୋଦନ ଅପେକ୍ଷାରେ ଅଛି। ନୂଆ କିସ୍ତି ଆରମ୍ଭ କରିବା ପୂର୍ବରୁ ତାହା ସମାପ୍ତ କରନ୍ତୁ।",
+          "stepAccount": "1. ଋଣ ଖାତା ଓ ତାରିଖ",
+          "stepAmount": "2. କିସ୍ତି ରାଶି ଓ କଟକଣା",
+          "stepPayment": "3. ପେମେଣ୍ଟ ପଦ୍ଧତି",
+          "loanAccount": "ମଞ୍ଜୁର ଋଣ ଖାତା",
+          "loanAccountPlaceholder": "ଋଣ ଖାତା ବାଛନ୍ତୁ",
+          "loadingAccounts": "ଖାତା ଲୋଡ୍ ହେଉଛି…",
+          "accountOption": "{account} — {borrower} · ବାକି {remaining}",
+          "accountHint": "{scheme} · ମଞ୍ଜୁର {sanctioned} · ପୂର୍ବ ପ୍ରଦାନ {disbursed}",
+          "noAccounts": "ଅବିତରିତ ବାଲାନ୍ସ ଥିବା କୌଣସି ସକ୍ରିୟ ଋଣ ଖାତା ମିଳିଲା ନାହିଁ।",
+          "disbursementDate": "ବିତରଣ ତାରିଖ",
+          "calculating": "କଟକଣା ହିସାବ ହେଉଛି…",
+          "previewError": "ବିତରଣ ପ୍ରିଭ୍ୟୁ ଲୋଡ୍ ହେଲା ନାହିଁ।",
+          "sanctioned": "ମୋଟ ମଞ୍ଜୁର",
+          "alreadyDisbursed": "ପୂର୍ବରୁ ବିତରଣ",
+          "undisbursed": "ଅବିତରିତ ବାଲାନ୍ସ",
+          "netPayout": "ନିଟ୍ ପ୍ରଦାନ",
+          "grossAmount": "ଗ୍ରସ୍ କିସ୍ତି ରାଶି",
+          "otherDeduction": "ଅନ୍ୟ କଟକଣା",
+          "finalTranche": "ଚୂଡ଼ାନ୍ତ କିସ୍ତି (ଋଣ ବିତରଣ ବନ୍ଦ)",
+          "finalHint": "ଏହି ପ୍ରଦାନ ବାକି ମଞ୍ଜୁର ରାଶି ପରିଶୋଧ କରିବ ଏବଂ କିସ୍ତିକୁ ଚୂଡ଼ାନ୍ତ ଚିହ୍ନିତ କରିବ।",
+          "chargesTitle": "କିସ୍ତିରୁ କଟାଯିବା ଅଗ୍ରୀମ ଚାର୍ଜ",
+          "chargesTotal": "ମୋଟ: {amount}",
+          "chargeName": "ଚାର୍ଜ",
+          "chargeStage": "ପର୍ଯ୍ୟାୟ",
+          "chargeFee": "ଫି",
+          "chargeTax": "କର",
+          "chargeNet": "ନିଟ୍ କଟକଣା",
+          "paymentMode": "ପେମେଣ୍ଟ ମୋଡ୍",
+          "modes": {
+            "cash": "ନଗଦ",
+            "cheque": "ବ୍ୟାଙ୍କ ଚେକ୍",
+            "transfer": "ବ୍ୟାଙ୍କ ଟ୍ରାନ୍ସଫର",
+            "sb": "ସଞ୍ଚୟ ଖାତାରେ ଜମା"
+          },
+          "chequeNo": "ଚେକ୍ ନମ୍ବର",
+          "chequeNoPlaceholder": "ଯଥା CHQ-908123",
+          "referenceNo": "ରେଫରେନ୍ସ / UTR ନମ୍ବର",
+          "referenceNoPlaceholder": "ଯଥା UTR0001239845",
+          "sbAccount": "ଋଣଗ୍ରହୀତାଙ୍କ ସଞ୍ଚୟ ଖାତା",
+          "sbAccountPlaceholder": "ସଞ୍ଚୟ ଖାତା ବାଛନ୍ତୁ",
+          "loadingSb": "ସଞ୍ଚୟ ଖାତା ଲୋଡ୍ ହେଉଛି…",
+          "noSbAccounts": "ଏହି ଋଣଗ୍ରହୀତାଙ୍କର କୌଣସି ସକ୍ରିୟ ସଞ୍ଚୟ ଖାତା ନାହିଁ। ଜମାରେ ଖୋଲନ୍ତୁ, କିମ୍ବା ଅନ୍ୟ ମୋଡ୍ ବାଛନ୍ତୁ।",
+          "cashHint": "ଚେକର ଅନୁମୋଦନ ପରେ ଶାଖା କାଉଣ୍ଟରରେ ନଗଦ ଦିଆଯିବ।",
+          "remarks": "ବର୍ଣ୍ଣନା / ମନ୍ତବ୍ୟ",
+          "remarksPlaceholder": "ଏହି କିସ୍ତି ପାଇଁ ବୈକଳ୍ପିକ ନୋଟ୍…",
+          "errors": {
+            "accountRequired": "ଏକ ବୈଧ ସକ୍ରିୟ ଋଣ ଖାତା ବାଛନ୍ତୁ।",
+            "grossRequired": "ଗ୍ରସ୍ ବିତରଣ ରାଶି ଶୂନ୍ୟଠାରୁ ଅଧିକ ହେବା ଉଚିତ।",
+            "pendingExists": "ଏହି ଋଣ ଖାତାରେ ପୂର୍ବରୁ ଚେକର ଅନୁମୋଦନ ବାକି ଅଛି।",
+            "netInvalid": "ଚାର୍ଜ କଟକଣା ପରେ ନିଟ୍ ବିତରଣ ଶୂନ୍ୟଠାରୁ ଅଧିକ ହେବା ଉଚିତ।",
+            "chequeRequired": "ଚେକ୍ ପେମେଣ୍ଟ ପାଇଁ ଚେକ୍ ନମ୍ବର ଆବଶ୍ୟକ।",
+            "referenceRequired": "ବ୍ୟାଙ୍କ ଟ୍ରାନ୍ସଫର ପାଇଁ ରେଫରେନ୍ସ / UTR ଆବଶ୍ୟକ।",
+            "sbRequired": "ସଞ୍ଚୟ ଜମା ପାଇଁ ଋଣଗ୍ରହୀତାଙ୍କ ସଞ୍ଚୟ ଖାତା ବାଛନ୍ତୁ।",
+            "submitFailed": "ଋଣ ବିତରଣ ରେକର୍ଡ ହେଲା ନାହିଁ।"
+          }
+        },
+        "toast": {
+          "pendingApproval": "ବିତରଣ ରେକର୍ଡ ହୋଇଛି ଏବଂ ଚେକର ଅନୁମୋଦନ ପାଇଁ ପଠାଯାଇଛି",
+          "settled": "ବିତରଣ {number} ସଫଳତାର ସହିତ ନିଷ୍ପନ୍ନ ହୋଇଛି",
+          "decisionUpdated": "ବିତରଣ ଅନୁମୋଦନ ନିଷ୍ପତ୍ତି ଅପଡେଟ୍ ହୋଇଛି"
         }
       },
       "recovery": {
@@ -4726,6 +5014,58 @@
           "interest": "ସୁଧ",
           "total": "ମୋଟ",
           "outstanding": "ବକେୟା"
+        }
+      },
+      "repaymentSchedule": {
+        "title": "ପରିଶୋଧ ତାଲିକା",
+        "description": "ପ୍ରତି ଋଣ ଖାତାର କିସ୍ତି, ମୂଳଧନ, ସୁଧ, ବାକି ଓ ଆଦାୟ ସ୍ଥିତି।",
+        "dash": "—",
+        "refresh": "ରିଫ୍ରେଶ",
+        "export": "ତାଲିକା ରପ୍ତାନି",
+        "print": "ତାଲିକା ମୁଦ୍ରଣ",
+        "selectLoan": "ଋଣ ବାଛନ୍ତୁ",
+        "searchPlaceholder": "ଋଣ / ଋଣଗ୍ରହୀତା ଖୋଜନ୍ତୁ…",
+        "loadingAccounts": "ଋଣ ଖାତା ଲୋଡ୍ ହେଉଛି…",
+        "noAccounts": "କୌଣସି ସକ୍ରିୟ ଋଣ ଖାତା ମିଳିଲା ନାହିଁ।",
+        "emptyTitle": "ଗୋଟିଏ ଋଣ ଖାତା ବାଛନ୍ତୁ",
+        "emptyMessage": "ପରିଶୋଧ ତାଲିକା ଦେଖିବାକୁ ତାଲିକାରୁ ଗୋଟିଏ ଋଣ ବାଛନ୍ତୁ।",
+        "emptyScheduleTitle": "କୌଣସି କିସ୍ତି ନାହିଁ",
+        "emptyScheduleMessage": "ଏହି ଋଣର ଏପର୍ଯ୍ୟନ୍ତ ସକ୍ରିୟ ପରିଶୋଧ ତାଲିକା ନାହିଁ। ବିତରଣ ପରେ ତାଲିକା ତିଆରି ହୁଏ।",
+        "tableTitle": "ଖାତା ନଂ: {account}",
+        "tableDescription": "{borrower} · {branch} · {scheme}",
+        "metrics": {
+          "loanAccount": "ଋଣ ଖାତା",
+          "sanctioned": "ଅନୁମୋଦିତ ମୂଳଧନ",
+          "rateHint": "{rate}% ବାର୍ଷିକ",
+          "installmentsPaid": "ପରିଶୋଧିତ କିସ୍ତି",
+          "paidOfTotal": "{paid} / {total}",
+          "upcomingHint": "{count} ଆସନ୍ତା",
+          "scheduledEmi": "ନିର୍ଦ୍ଧାରିତ EMI",
+          "nextDueHint": "ପରବର୍ତ୍ତୀ ଦେୟ {date}",
+          "noNextDue": "କୌଣସି ଆସନ୍ତା ଦେୟ ନାହିଁ"
+        },
+        "columns": {
+          "installment": "#",
+          "dueDate": "ଦେୟ ତାରିଖ",
+          "principal": "ମୂଳଧନ",
+          "interest": "ସୁଧ",
+          "emiTotal": "EMI ମୋଟ",
+          "balance": "ବାକି",
+          "status": "ସ୍ଥିତି"
+        },
+        "status": {
+          "current": "ଚାଲୁ",
+          "npa": "NPA",
+          "defaulter": "ଡିଫଲ୍ଟର"
+        },
+        "errors": {
+          "accountsFailed": "ଋଣ ଖାତା ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ।",
+          "scheduleFailed": "ପରିଶୋଧ ତାଲିକା ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ।"
+        },
+        "toast": {
+          "exported": "ତାଲିକା ରପ୍ତାନି ହୋଇଛି",
+          "nothingToExport": "ରପ୍ତାନି କରିବାକୁ କିଛି ନାହିଁ",
+          "nothingToPrint": "ମୁଦ୍ରଣ କରିବାକୁ କିଛି ନାହିଁ"
         }
       }
     }
