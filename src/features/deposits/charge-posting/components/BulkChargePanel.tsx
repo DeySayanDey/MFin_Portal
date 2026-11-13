@@ -165,7 +165,7 @@ export function BulkChargePanel({ chargeDate, canPickBranch }: BulkChargePanelPr
 
   return (
     <div className="flex flex-col gap-4">
-      <form
+      <form autoComplete="off"
         onSubmit={submit}
         noValidate
         className="rounded-[var(--radius-card)] border border-border bg-surface p-4 shadow-[var(--shadow-card)] sm:p-5"

@@ -39,7 +39,7 @@ export async function GET(request: Request) {
       ledgerId: readOptionalNumber(searchParams.get("ledger_id")),
       mainhdId: readOptionalNumber(searchParams.get("mainhd_id")),
       keyword,
-      ledgerType: ledgerType ? ledgerType.toUpperCase().slice(0, 1) : undefined,
+      ledgerType,
       isActive: readOptionalNumber(isActiveRaw),
     });
 

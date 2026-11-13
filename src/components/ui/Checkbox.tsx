@@ -23,7 +23,7 @@ export function Checkbox({
           disabled ? "cursor-not-allowed opacity-50" : ""
         } ${className}`.trim()}
       >
-        <input
+        <input autoComplete="off"
           type="checkbox"
           checked={checked}
           disabled={disabled}
@@ -41,7 +41,7 @@ export function Checkbox({
         disabled ? "cursor-not-allowed opacity-50" : ""
       } ${className}`.trim()}
     >
-      <input
+      <input autoComplete="off"
         type="checkbox"
         checked={checked}
         disabled={disabled}

@@ -2,11 +2,11 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import { Save } from "lucide-react";
+import { Eye, EyeOff, Save } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 import { PageToast } from "@/components/ui/PageToast";
 import { Button } from "@/components/ui/Button";
-import { CheckRow, DateField, SelectField, TextField } from "@/components/ui/Form";
+import { DateField, SelectField, TextField } from "@/components/ui/Form";
 import {
   staffCreateInputSchema,
   staffUpdateInputSchema,
@@ -20,12 +20,12 @@ import {
 } from "@/lib/validation/formats";
 import type {
   DesignationOption,
-  ModuleAccessOption,
   Staff,
   StaffCreateInput,
   StaffUpdateInput,
 } from "@/features/master/staff/types/staff.types";
 import type { Branch } from "@/features/master/branch/types/branch.types";
+import type { Role } from "@/features/master/roles/types/role.types";
 
 type StaffFormProps = {
   open: boolean;
@@ -33,7 +33,8 @@ type StaffFormProps = {
   staff: Staff | null;
   branches: Branch[];
   designations: DesignationOption[];
-  modules: ModuleAccessOption[];
+  roles: Role[];
+  roleLoadError: string | null;
   saving: boolean;
   errorMessage?: string | null;
   onClose: () => void;
@@ -47,6 +48,7 @@ type FormState = {
   employeeCode: string;
   branchId: string;
   designationId: string;
+  roleId: string;
   mobile: string;
   email: string;
   joinDate: string;
@@ -55,7 +57,6 @@ type FormState = {
   deviceId: string;
   userName: string;
   userPass: string;
-  moduleIds: number[];
   status: number;
 };
 
@@ -67,6 +68,7 @@ function toFormState(staff: Staff | null): FormState {
       employeeCode: "",
       branchId: "",
       designationId: "",
+      roleId: "",
       mobile: "",
       email: "",
       joinDate: "",
@@ -75,7 +77,6 @@ function toFormState(staff: Staff | null): FormState {
       deviceId: "",
       userName: "",
       userPass: "",
-      moduleIds: [],
       status: 1,
     };
   }
@@ -86,6 +87,7 @@ function toFormState(staff: Staff | null): FormState {
     branchId: staff.branchId != null ? String(staff.branchId) : "",
     designationId:
       staff.designationId != null ? String(staff.designationId) : "",
+    roleId: staff.roleId != null ? String(staff.roleId) : "",
     mobile: staff.mobile ?? "",
     email: staff.email ?? "",
     joinDate: staff.joinDate ?? "",
@@ -94,7 +96,6 @@ function toFormState(staff: Staff | null): FormState {
     deviceId: staff.deviceId != null ? String(staff.deviceId) : "",
     userName: "",
     userPass: "",
-    moduleIds: staff.moduleAccess.map((item) => item.moduleId),
     status: staff.status,
   };
 }
@@ -118,7 +119,6 @@ function toWritableFields(form: FormState) {
     aadhaar: form.aadhaar || null,
     pan: form.pan || null,
     deviceId: parseOptionalNumber(form.deviceId),
-    moduleIds: form.moduleIds,
     status: form.status,
   };
 }
@@ -129,7 +129,8 @@ export function StaffForm({
   staff,
   branches,
   designations,
-  modules,
+  roles,
+  roleLoadError,
   saving,
   errorMessage,
   onClose,
@@ -163,7 +164,8 @@ export function StaffForm({
         staff={staff}
         branches={branches}
         designations={designations}
-        modules={modules}
+        roles={roles}
+        roleLoadError={roleLoadError}
         errorMessage={errorMessage}
         onSubmitCreate={onSubmitCreate}
         onSubmitUpdate={onSubmitUpdate}
@@ -172,7 +174,6 @@ export function StaffForm({
         selectSearch={tUi("selectSearch")}
         selectEmpty={tUi("selectEmpty")}
         noneLabel={t("fields.none")}
-        moduleAccessLabel={t("fields.moduleAccess")}
         fieldLabels={{
           fullName: t("fields.fullName"),
           shortName: t("fields.shortName"),
@@ -185,6 +186,7 @@ export function StaffForm({
           aadhaar: t("fields.aadhaar"),
           pan: t("fields.pan"),
           deviceId: t("fields.deviceId"),
+          roleId: t("fields.role"),
           userName: t("fields.userName"),
           userPass: t("fields.userPass"),
           status: t("fields.status"),
@@ -199,7 +201,8 @@ type BodyProps = {
   staff: Staff | null;
   branches: Branch[];
   designations: DesignationOption[];
-  modules: ModuleAccessOption[];
+  roles: Role[];
+  roleLoadError: string | null;
   errorMessage?: string | null;
   onSubmitCreate: (input: StaffCreateInput) => Promise<void> | void;
   onSubmitUpdate: (input: StaffUpdateInput) => Promise<void> | void;
@@ -208,13 +211,13 @@ type BodyProps = {
   selectSearch: string;
   selectEmpty: string;
   noneLabel: string;
-  moduleAccessLabel: string;
   fieldLabels: {
     fullName: string;
     shortName: string;
     employeeCode: string;
     branchId: string;
     designationId: string;
+    roleId: string;
     mobile: string;
     email: string;
     joinDate: string;
@@ -245,7 +248,8 @@ function StaffFormBody({
   staff,
   branches,
   designations,
-  modules,
+  roles,
+  roleLoadError,
   errorMessage,
   onSubmitCreate,
   onSubmitUpdate,
@@ -254,10 +258,11 @@ function StaffFormBody({
   selectSearch,
   selectEmpty,
   noneLabel,
-  moduleAccessLabel,
   fieldLabels,
 }: BodyProps) {
   const t = useTranslations("master.staff");
+  const tAuth = useTranslations("auth");
+  const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState<FormState>(() => toFormState(staff));
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
@@ -266,15 +271,6 @@ function StaffFormBody({
     setFieldErrors((prev) => ({ ...prev, userPass: errorMessage }));
   }, [errorMessage]);
 
-  function toggleModule(moduleId: number, checked: boolean) {
-    setForm((prev) => ({
-      ...prev,
-      moduleIds: checked
-        ? [...new Set([...prev.moduleIds, moduleId])]
-        : prev.moduleIds.filter((id) => id !== moduleId),
-    }));
-  }
-
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFieldErrors({});
@@ -282,6 +278,7 @@ function StaffFormBody({
     if (mode === "create") {
       const payload: StaffCreateInput = {
         ...toWritableFields(form),
+        ...(form.roleId ? { roleId: Number(form.roleId) } : {}),
         userName: form.userName,
         userPass: form.userPass,
       };
@@ -298,6 +295,9 @@ function StaffFormBody({
     const writable = toWritableFields(form);
     const payload: StaffUpdateInput = {
       ...writable,
+      ...(form.roleId !== (staff.roleId != null ? String(staff.roleId) : "")
+        ? { roleId: form.roleId ? Number(form.roleId) : null }
+        : {}),
       staffId: staff.staffId,
       employeeCode: form.employeeCode.trim() || staff.employeeCode,
     };
@@ -310,7 +310,7 @@ function StaffFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="staff-form"
       onSubmit={(event) => void handleSubmit(event)}
       className="space-y-4"
@@ -476,6 +476,22 @@ function StaffFormBody({
         />
       </div>
 
+      <div className="grid gap-4 sm:grid-cols-2">
+        <SelectField
+          label={fieldLabels.roleId}
+          value={form.roleId}
+          error={fieldErrors.roleId || roleLoadError || undefined}
+          searchable
+          searchPlaceholder={selectSearch}
+          emptyMessage={selectEmpty}
+          onChange={(roleId) => setForm((prev) => ({ ...prev, roleId }))}
+          options={[
+            { value: "", label: noneLabel },
+            ...roles.map((role) => ({ value: String(role.id), label: role.roleName })),
+          ]}
+        />
+      </div>
+
       {mode === "create" ? (
         <div className="grid gap-4 sm:grid-cols-2">
           <TextField
@@ -483,45 +499,36 @@ function StaffFormBody({
             required
             value={form.userName}
             maxLength={100}
-            autoComplete="off"
             error={fieldErrors.userName}
             onChange={(userName) => setForm((prev) => ({ ...prev, userName }))}
           />
           <TextField
             label={fieldLabels.userPass}
             required
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={form.userPass}
             maxLength={128}
             hint={t("hints.userPass")}
-            autoComplete="new-password"
             error={fieldErrors.userPass}
             validate={(value, final) => {
               if (!final || value) return undefined;
               return t("errors.userPass");
             }}
             onChange={(userPass) => setForm((prev) => ({ ...prev, userPass }))}
+            trailing={
+              <button
+                type="button"
+                onClick={() => setShowPassword((visible) => !visible)}
+                aria-label={showPassword ? tAuth("hidePassword") : tAuth("showPassword")}
+                className="rounded-md p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            }
           />
         </div>
       ) : null}
 
-      {modules.length > 0 ? (
-        <fieldset className="space-y-2">
-          <legend className="text-xs font-semibold text-slate-600">
-            {moduleAccessLabel}
-          </legend>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {modules.map((mod) => (
-              <CheckRow
-                key={mod.moduleId}
-                label={mod.moduleLabel}
-                checked={form.moduleIds.includes(mod.moduleId)}
-                onChange={(checked) => toggleModule(mod.moduleId, checked)}
-              />
-            ))}
-          </div>
-        </fieldset>
-      ) : null}
     </form>
   );
 }

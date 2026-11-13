@@ -77,7 +77,7 @@ export function KycImageField({
 
   return (
     <FormField label={label} error={error} hint={t("imageHint")}>
-      <input
+      <input autoComplete="off"
         ref={inputRef}
         type="file"
         accept="image/jpeg,image/png,application/pdf"

@@ -172,7 +172,7 @@ function AcctSubledgerFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="acct-subledger-form"
       className="space-y-4"
       onSubmit={(e) => void handleSubmit(e)}

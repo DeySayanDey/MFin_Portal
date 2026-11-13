@@ -196,13 +196,12 @@ export function SmsSettingsForm() {
         <Alert tone="info">{t("notConfiguredHint")}</Alert>
       ) : null}
 
-      <form id="sms-settings-form" onSubmit={(event) => void handleSubmit(event)}>
+      <form autoComplete="off" id="sms-settings-form" onSubmit={(event) => void handleSubmit(event)}>
         <Card title={t("title")} description={t("description")}>
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <TextField
               label={t("fields.apiKey")}
               type="password"
-              autoComplete="off"
               value={form.apiKey}
               required
               error={fieldErrors.apiKey || undefined}
@@ -220,14 +219,12 @@ export function SmsSettingsForm() {
               label={t("fields.userName")}
               value={form.userName}
               required
-              autoComplete="username"
               error={fieldErrors.userName || undefined}
               onChange={(value) => updateField("userName", value)}
             />
             <TextField
               label={t("fields.userPassword")}
               type="password"
-              autoComplete="current-password"
               value={form.userPassword}
               required
               error={fieldErrors.userPassword || undefined}

@@ -174,6 +174,7 @@ export function mapLoginDataToSession(dto: LoginDataDto): {
   orgSchema: string;
   user: AuthUser;
 } {
+  const orgSchema = dto.org_schema ?? dto.orgSchema ?? dto.user.org_schema ?? "";
   return {
     token: dto.token,
     tokenType: dto.token_type ?? (dto as { tokenType?: string }).tokenType ?? "Bearer",
@@ -181,13 +182,10 @@ export function mapLoginDataToSession(dto: LoginDataDto): {
       Date.now() +
       ((dto.expires_in ?? (dto as { expiresIn?: number }).expiresIn ?? 28800) as number) *
         1000,
-    orgSchema:
-      dto.org_schema ??
-      (dto as { orgSchema?: string }).orgSchema ??
-      dto.user.org_schema ??
-      "",
+    orgSchema,
     user: {
       ...mapAuthUserDto(dto.user),
+      orgSchema,
       passwordExpired: dto.password_expired === true || dto.passwordExpired === true,
     },
   };

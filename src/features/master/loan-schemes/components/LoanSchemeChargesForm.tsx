@@ -163,7 +163,7 @@ export function LoanSchemeChargesForm({
         </>
       }
     >
-      <form
+      <form autoComplete="off"
         id="loan-scheme-charges-form"
         className="space-y-4"
         onSubmit={handleSubmit}

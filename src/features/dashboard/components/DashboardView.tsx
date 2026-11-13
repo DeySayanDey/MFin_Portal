@@ -253,7 +253,7 @@ export function DashboardView({ canPickBranch }: DashboardViewProps) {
     <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
       <PageHeader title={t("title")} description={t("description")} />
 
-      <form
+      <form autoComplete="off"
         onSubmit={apply}
         className="rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] sm:p-5"
       >

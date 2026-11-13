@@ -15,6 +15,13 @@ export async function GET(request: Request) {
   try {
     const user = await requireSessionUser();
     const { searchParams } = new URL(request.url);
+    if (searchParams.get("head_office_exists") === "1") {
+      const result = await listBranches({ page: 1, perPage: 1, isHead: 1 });
+      return NextResponse.json({
+        success: true,
+        data: { exists: result.items.length > 0 || (result.meta?.total ?? 0) > 0 },
+      });
+    }
     const page = searchParams.get("page");
     const perPage = searchParams.get("per_page");
     const branchIdParam = searchParams.get("branch_id");

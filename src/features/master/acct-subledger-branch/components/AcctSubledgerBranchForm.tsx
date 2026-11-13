@@ -173,7 +173,7 @@ function AcctSubledgerBranchFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="acct-subledger-branch-form"
       className="space-y-4"
       onSubmit={(e) => void handleSubmit(e)}

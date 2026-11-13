@@ -417,7 +417,7 @@ export function LmsCollectionsView() {
       <div className="flex justify-end">
         <div className="relative w-full max-w-xs">
           <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-soft" />
-          <input
+          <input autoComplete="off"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Filter members..."

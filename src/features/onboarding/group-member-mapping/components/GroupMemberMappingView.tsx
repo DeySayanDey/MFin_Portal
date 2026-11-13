@@ -237,7 +237,7 @@ export function GroupMemberMappingView() {
               onChange={setCenterId}
               options={centers}
             />
-            <input
+            <input autoComplete="off"
               value={keyword}
               onChange={(event) => setKeyword(event.target.value)}
               placeholder={t("searchGroups")}

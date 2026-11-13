@@ -2,12 +2,11 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Ban, ChevronDown, ChevronRight, CircleCheck, Pencil } from "lucide-react";
+import { ChevronDown, ChevronRight, Pencil } from "lucide-react";
 import { DataTablePagination } from "@/components/shared/DataTable/DataTablePagination";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { DataTableSkeleton } from "@/components/shared/skeletons/DataTableSkeleton";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { FIGURE_PERCENT_OPT_CODE } from "@/features/master/charges-setup/constants";
 import type { DepositSchemeCharge } from "@/features/master/deposit-schemes/types/deposit-schemes.types";
@@ -28,12 +27,10 @@ type DepositSchemeChargesTableProps = {
   loading: boolean;
   error: boolean;
   errorMessage?: string;
-  statusBusyId?: number | null;
   onRetry: () => void;
   onPageChange: (page: number) => void;
   onPageSizeChange: (pageSize: number) => void;
   onEdit: (row: DepositSchemeCharge) => void;
-  onToggleActive: (row: DepositSchemeCharge) => void;
   headerActions?: ReactNode;
 };
 
@@ -48,12 +45,9 @@ export function DepositSchemeChargesTable({
   onPageChange,
   onPageSizeChange,
   onEdit,
-  onToggleActive,
-  statusBusyId = null,
   headerActions,
 }: DepositSchemeChargesTableProps) {
   const t = useTranslations("master.depositSchemes.charges");
-  const tGlobal = useTranslations("master.depositSchemes");
   const locale = useLocale();
   const [openSchemeId, setOpenSchemeId] = useState<number | null>(null);
   const numberFormat = useMemo(
@@ -182,7 +176,7 @@ export function DepositSchemeChargesTable({
               {open ? (
                 <div className="border-t border-border bg-surface-muted/60 px-3 py-3">
                   <div className="table-scroll">
-                    <table className="w-full min-w-[880px] text-left text-sm">
+                    <table className="w-full text-left text-sm">
                       <caption className="sr-only">
                         {group.schemeName || t("fields.charges")}
                       </caption>
@@ -191,17 +185,6 @@ export function DepositSchemeChargesTable({
                           <th className="pb-2 pe-3">{t("fields.chargeName")}</th>
                           <th className="pb-2 pe-3">{t("fields.chargeRate")}</th>
                           <th className="pb-2 pe-3">{t("fields.figureCd")}</th>
-                          <th className="pb-2 pe-3">{t("fields.maxAmount")}</th>
-                          <th className="pb-2 pe-3">{t("fields.taxPercent")}</th>
-                          <th className="pb-2 pe-3">
-                            {t("fields.chargesDuringCd")}
-                          </th>
-                          <th className="pb-2 pe-3">{t("fields.chargesGl")}</th>
-                          <th className="pb-2 pe-3">
-                            {t("fields.chargeStatus")}
-                          </th>
-                          <th className="pb-2 pe-3">{t("fields.isActive")}</th>
-                          <th className="pb-2">{tGlobal("columns.actions")}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -218,59 +201,6 @@ export function DepositSchemeChargesTable({
                             </td>
                             <td className="whitespace-nowrap py-2.5 pe-3 text-foreground">
                               {charge.figureDesc || EMPTY}
-                            </td>
-                            <td className="whitespace-nowrap py-2.5 pe-3 text-foreground">
-                              {charge.maxAmount == null
-                                ? EMPTY
-                                : numberFormat.format(charge.maxAmount)}
-                            </td>
-                            <td className="whitespace-nowrap py-2.5 pe-3 text-foreground">
-                              {numberFormat.format(charge.taxPercent)}%
-                            </td>
-                            <td className="whitespace-nowrap py-2.5 pe-3 text-foreground">
-                              {charge.chargesDuringDesc || EMPTY}
-                            </td>
-                            <td className="whitespace-nowrap py-2.5 pe-3 text-foreground">
-                              {formatGl(charge)}
-                            </td>
-                            <td className="py-2.5 pe-3">
-                              <Badge
-                                tone={
-                                  charge.chargeIsActive ? "success" : "neutral"
-                                }
-                                caps
-                              >
-                                {charge.chargeIsActive
-                                  ? t("statusActive")
-                                  : t("statusInactive")}
-                              </Badge>
-                            </td>
-                            <td className="py-2.5 pe-3">
-                              <Badge
-                                tone={charge.isActive ? "success" : "neutral"}
-                                caps
-                              >
-                                {charge.isActive
-                                  ? t("statusActive")
-                                  : t("statusInactive")}
-                              </Badge>
-                            </td>
-                            <td className="py-2.5">
-                              <Button
-                                type="button"
-                                variant={
-                                  charge.isActive ? "warning" : "success"
-                                }
-                                size="sm"
-                                icon={charge.isActive ? Ban : CircleCheck}
-                                tooltip={
-                                  charge.isActive
-                                    ? t("deactivate")
-                                    : t("activate")
-                                }
-                                disabled={statusBusyId === charge.id}
-                                onClick={() => onToggleActive(charge)}
-                              />
                             </td>
                           </tr>
                         ))}
@@ -323,10 +253,3 @@ function formatRate(
   return row.figureCd === FIGURE_PERCENT_OPT_CODE ? `${formatted}%` : formatted;
 }
 
-function formatGl(row: DepositSchemeCharge): string {
-  if (!row.chargesGlName && row.chargesGl == null) return EMPTY;
-  if (row.chargesGlName && row.chargesGlCode) {
-    return `${row.chargesGlName} (${row.chargesGlCode})`;
-  }
-  return row.chargesGlName || EMPTY;
-}

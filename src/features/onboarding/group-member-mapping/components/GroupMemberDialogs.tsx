@@ -251,7 +251,7 @@ export function AssignMembersModal({
               >
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                   <label className="flex min-w-0 flex-1 items-start gap-3 text-sm">
-                    <input
+                    <input autoComplete="off"
                       type="checkbox"
                       className="mt-3"
                       checked={picked}
@@ -663,7 +663,7 @@ export function ExitMemberModal({
       <div className="space-y-4 text-sm">
         <label className="block">
           <span className="mb-1 block font-medium text-slate-700">{t("reason")}</span>
-          <textarea
+          <textarea autoComplete="off"
             value={reason}
             maxLength={200}
             onChange={(event) => setReason(event.target.value)}

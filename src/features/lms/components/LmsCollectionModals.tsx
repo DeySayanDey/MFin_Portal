@@ -232,7 +232,7 @@ export function MarkAttendanceModal({
                 {member.loanId} · {member.memberNo}
               </span>
             </span>
-            <input
+            <input autoComplete="off"
               type="checkbox"
               defaultChecked
               className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500/30"

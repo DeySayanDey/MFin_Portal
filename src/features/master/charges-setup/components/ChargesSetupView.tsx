@@ -7,6 +7,7 @@ import { DataPage } from "@/components/shared/DataPage";
 import { SectionTabs } from "@/components/shared/SectionTabs";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { fetchAcctLedgerList } from "@/features/master/acct-ledger";
+import { fetchAcctCategoryList } from "@/features/master/acct-category/services/acct-category-client";
 import { fetchApplOptions } from "@/features/master/appl-options";
 import type { ApplOption } from "@/features/master/appl-options";
 import type { AcctLedger } from "@/features/master/acct-ledger/types/acct-ledger.types";
@@ -47,6 +48,7 @@ export function ChargesSetupView({
   >([]);
   const [loanDuringOptions, setLoanDuringOptions] = useState<ApplOption[]>([]);
   const [ledgers, setLedgers] = useState<AcctLedger[]>([]);
+  const [depositLedgers, setDepositLedgers] = useState<AcctLedger[]>([]);
 
   const tabs = useMemo(
     () => [
@@ -71,12 +73,13 @@ export function ChargesSetupView({
     let cancelled = false;
 
     async function loadOptions() {
-      const [figure, depositDuring, loanDuring, ledgerResult] =
+      const [figure, depositDuring, loanDuring, ledgerResult, categoryResult] =
         await Promise.allSettled([
           fetchApplOptions(CHARGE_FIGURE_OPT_GRP_ID),
           fetchApplOptions(DEPOSIT_CHARGES_DURING_OPT_GRP_ID),
           fetchApplOptions(LOAN_CHARGES_DURING_OPT_GRP_ID),
-          fetchAcctLedgerList({ isActive: 1, perPage: 200 }),
+          loadActiveLedgers(),
+          loadCreditCategoryIds(),
         ]);
 
       if (cancelled) return;
@@ -89,10 +92,16 @@ export function ChargesSetupView({
         setLoanDuringOptions(loanDuring.value);
       }
       if (ledgerResult.status === "fulfilled") {
-        setLedgers(ledgerResult.value.items);
+        setLedgers(ledgerResult.value);
+      }
+      if (ledgerResult.status === "fulfilled" && categoryResult.status === "fulfilled") {
+        const creditIds = new Set(categoryResult.value);
+        setDepositLedgers(ledgerResult.value.filter((ledger) => ledger.categId != null && creditIds.has(ledger.categId)));
+      } else {
+        setDepositLedgers([]);
       }
 
-      const failed = [figure, depositDuring, loanDuring, ledgerResult].some(
+      const failed = [figure, depositDuring, loanDuring, ledgerResult, categoryResult].some(
         (result) => result.status === "rejected",
       );
       if (failed) {
@@ -129,7 +138,7 @@ export function ChargesSetupView({
             kind="deposit"
             figureOptions={figureOptions}
             duringOptions={depositDuringOptions}
-            ledgers={ledgers}
+            ledgers={depositLedgers}
           />
         ) : (
           <ChargesSetupSection
@@ -142,4 +151,32 @@ export function ChargesSetupView({
       </div>
     </DataPage>
   );
+}
+
+async function loadActiveLedgers(): Promise<AcctLedger[]> {
+  const items: AcctLedger[] = [];
+  let page = 1;
+  let lastPage = 1;
+  do {
+    const result = await fetchAcctLedgerList({ isActive: 1, page, perPage: 200 });
+    items.push(...result.items);
+    if (!result.meta && result.items.length === 200) throw new Error("Ledger pagination missing");
+    lastPage = result.meta?.lastPage ?? 1;
+    page += 1;
+  } while (page <= lastPage);
+  return items;
+}
+
+async function loadCreditCategoryIds(): Promise<number[]> {
+  const ids: number[] = [];
+  let page = 1;
+  let lastPage = 1;
+  do {
+    const result = await fetchAcctCategoryList({ categoryType: "CR", page, perPage: 200 });
+    ids.push(...result.items.filter((item) => item.categoryType?.trim().toUpperCase() === "CR").map((item) => item.categId));
+    if (!result.meta && result.items.length === 200) throw new Error("Category pagination missing");
+    lastPage = result.meta?.lastPage ?? 1;
+    page += 1;
+  } while (page <= lastPage);
+  return ids;
 }

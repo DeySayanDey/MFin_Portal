@@ -108,7 +108,7 @@ export function InterestRowsTable({
         const edited = !invalid && isEdited(row, raw);
         return (
           <span className="flex items-center justify-end gap-1.5">
-            <input
+            <input autoComplete="off"
               type="text"
               inputMode="decimal"
               value={raw}

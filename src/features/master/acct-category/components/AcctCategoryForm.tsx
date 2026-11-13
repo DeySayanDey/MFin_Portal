@@ -161,7 +161,7 @@ function AcctCategoryFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="acct-category-form"
       className="space-y-4"
       onSubmit={(e) => void handleSubmit(e)}

@@ -93,7 +93,7 @@ export function DepositAccountCloseModal({
         </>
       }
     >
-      <form id="close-deposit-account" className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      <form autoComplete="off" id="close-deposit-account" className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <PageToast message={errorMessage ?? null} tone="error" />
         {blockedByBalance ? <Alert tone="warning">{t("closeDialog.zeroBalance")}</Alert> : null}
         {blockedByFreeze ? <Alert tone="warning">{t("closeDialog.unfreeze")}</Alert> : null}

@@ -152,7 +152,7 @@ export function VoucherEntryView() {
         id: "party",
         header: "Party / Customer",
         cell: (row) => (
-          <input
+          <input autoComplete="off"
             className={fieldClass}
             value={row.party}
             onChange={(event) =>
@@ -185,7 +185,7 @@ export function VoucherEntryView() {
         header: "Debit (Dr)",
         align: "end",
         cell: (row) => (
-          <input
+          <input autoComplete="off"
             type="number"
             min={0}
             className={`${fieldClass} text-right`}
@@ -203,7 +203,7 @@ export function VoucherEntryView() {
         header: "Credit (Cr)",
         align: "end",
         cell: (row) => (
-          <input
+          <input autoComplete="off"
             type="number"
             min={0}
             className={`${fieldClass} text-right`}
@@ -271,7 +271,7 @@ export function VoucherEntryView() {
             <span className="mb-1.5 block font-medium text-slate-700">
               Collected By / Counter
             </span>
-            <input
+            <input autoComplete="off"
               className={fieldClass}
               value={collector}
               onChange={(event) => setCollector(event.target.value)}
@@ -281,7 +281,7 @@ export function VoucherEntryView() {
             <span className="mb-1.5 block font-medium text-slate-700">
               Narration
             </span>
-            <input
+            <input autoComplete="off"
               className={fieldClass}
               value={narration}
               onChange={(event) => setNarration(event.target.value)}
@@ -291,7 +291,7 @@ export function VoucherEntryView() {
             <span className="mb-1.5 block font-medium text-slate-700">
               Reference (UTR / Cheque / Cash)
             </span>
-            <input
+            <input autoComplete="off"
               className={fieldClass}
               value={reference}
               onChange={(event) => setReference(event.target.value)}
@@ -369,7 +369,7 @@ export function JournalAdjustmentView() {
       id: "account",
       header: "GL Account",
       cell: (row) => (
-        <input
+        <input autoComplete="off"
           className={fieldClass}
           value={row.account}
           onChange={(event) =>
@@ -388,7 +388,7 @@ export function JournalAdjustmentView() {
       id: "label",
       header: "Particulars",
       cell: (row) => (
-        <input
+        <input autoComplete="off"
           className={fieldClass}
           value={row.label}
           onChange={(event) =>
@@ -408,7 +408,7 @@ export function JournalAdjustmentView() {
       header: "Dr ₹",
       align: "end",
       cell: (row) => (
-        <input
+        <input autoComplete="off"
           type="number"
           className={`${fieldClass} text-right`}
           value={row.debit}
@@ -429,7 +429,7 @@ export function JournalAdjustmentView() {
       header: "Cr ₹",
       align: "end",
       cell: (row) => (
-        <input
+        <input autoComplete="off"
           type="number"
           className={`${fieldClass} text-right`}
           value={row.credit}
@@ -463,7 +463,7 @@ export function JournalAdjustmentView() {
           <span className="mb-1.5 block font-medium text-slate-700">
             Narration
           </span>
-          <input
+          <input autoComplete="off"
             className={fieldClass}
             defaultValue="Surplus branch vault cash remitted and deposited into Bank Account"
           />
@@ -610,7 +610,7 @@ function VoucherListView({ filterHint }: { filterHint: string }) {
       <section className="rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] sm:p-5">
         <div className="relative max-w-md">
           <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-soft" />
-          <input
+          <input autoComplete="off"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder={filterHint}
@@ -759,7 +759,7 @@ export function ContraTransferView() {
               <span className="mb-1.5 block font-medium text-slate-700">
                 Amount (₹)
               </span>
-              <input
+              <input autoComplete="off"
                 type="number"
                 className={fieldClass}
                 value={amount}
@@ -770,7 +770,7 @@ export function ContraTransferView() {
               <span className="mb-1.5 block font-medium text-slate-700">
                 Reference
               </span>
-              <input
+              <input autoComplete="off"
                 className={fieldClass}
                 value={reference}
                 onChange={(event) => setReference(event.target.value)}

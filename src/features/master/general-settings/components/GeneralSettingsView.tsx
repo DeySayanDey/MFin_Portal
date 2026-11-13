@@ -43,7 +43,7 @@ function SelectBox({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <input
+    <input autoComplete="off"
       type="checkbox"
       ref={(node) => {
         if (node) node.indeterminate = indeterminate && !checked;

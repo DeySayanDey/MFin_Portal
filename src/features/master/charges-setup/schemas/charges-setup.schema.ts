@@ -20,6 +20,7 @@ export const chargeSetupSaveInputSchema = z
   .object({
     chargeId: z.number().int().positive().optional(),
     chargeName: z.string().trim().min(1).max(100),
+    chargeType: z.number().int().nullable().optional(),
     chargeRate: moneySchema,
     figureCd: z.number().int().positive(),
     maxAmount: moneySchema.nullable().optional(),
@@ -32,6 +33,7 @@ export const chargeSetupSaveInputSchema = z
     duringCd: z.number().int().positive(),
     chargesGl: z.number().int().positive().nullable().optional(),
     isRefundable: z.boolean().optional(),
+    isAdjustable: z.boolean().optional(),
     isActive: z.boolean().optional(),
   })
   .refine(

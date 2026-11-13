@@ -16,6 +16,7 @@ export function Textarea({
   return (
     <textarea
       {...props}
+      autoComplete="off"
       rows={rows}
       className={`${controlClass} resize-y ${className}`.trim()}
     />

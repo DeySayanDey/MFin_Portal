@@ -23,6 +23,11 @@ type AcctLedgerFormProps = {
   mode: "create" | "edit";
   ledger: AcctLedger | null;
   mainHeads: AcctLedgerMainHeadOption[];
+  ledgerTypes: AcctLedgerMainHeadOption[];
+  ledgerTypesError: boolean;
+  cashLedgerIds: number[];
+  cashCheckLoading: boolean;
+  cashCheckError: boolean;
   saving: boolean;
   errorMessage?: string | null;
   onClose: () => void;
@@ -59,6 +64,11 @@ export function AcctLedgerForm({
   mode,
   ledger,
   mainHeads,
+  ledgerTypes,
+  ledgerTypesError,
+  cashLedgerIds,
+  cashCheckLoading,
+  cashCheckError,
   saving,
   errorMessage,
   onClose,
@@ -101,6 +111,11 @@ export function AcctLedgerForm({
         mode={mode}
         ledger={ledger}
         mainHeads={mainHeads}
+        ledgerTypes={ledgerTypes}
+        ledgerTypesError={ledgerTypesError}
+        cashLedgerIds={cashLedgerIds}
+        cashCheckLoading={cashCheckLoading}
+        cashCheckError={cashCheckError}
         errorMessage={errorMessage}
         onCreate={onCreate}
         onUpdate={onUpdate}
@@ -113,6 +128,11 @@ function AcctLedgerFormBody({
   mode,
   ledger,
   mainHeads,
+  ledgerTypes,
+  ledgerTypesError,
+  cashLedgerIds,
+  cashCheckLoading,
+  cashCheckError,
   errorMessage,
   onCreate,
   onUpdate,
@@ -120,14 +140,21 @@ function AcctLedgerFormBody({
   mode: "create" | "edit";
   ledger: AcctLedger | null;
   mainHeads: AcctLedgerMainHeadOption[];
+  ledgerTypes: AcctLedgerMainHeadOption[];
+  ledgerTypesError: boolean;
+  cashLedgerIds: number[];
+  cashCheckLoading: boolean;
+  cashCheckError: boolean;
   errorMessage?: string | null;
   onCreate: (input: AcctLedgerCreateInput) => Promise<void> | void;
   onUpdate: (input: AcctLedgerUpdateInput) => Promise<void> | void;
 }) {
   const t = useTranslations("master.acctLedger");
   const tUi = useTranslations("ui");
+  const tErrors = useTranslations("errors");
   const [form, setForm] = useState<FormState>(() => toFormState(ledger));
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const cashTaken = cashLedgerIds.length > 0 && !(ledger && cashLedgerIds.includes(ledger.ledgerId));
 
   function updateField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -140,7 +167,7 @@ function AcctLedgerFormBody({
     const mainhdId = Number(form.mainhdId);
     const base = {
       ledgerName: form.ledgerName.trim(),
-      ledgerType: form.ledgerType.trim() || null,
+      ledgerType: form.ledgerType.trim() ? (/^\d+$/.test(form.ledgerType) ? Number(form.ledgerType) : form.ledgerType) : null,
       mainhdId: Number.isFinite(mainhdId) && mainhdId > 0 ? mainhdId : 0,
       isActive: form.isActive,
     };
@@ -178,7 +205,7 @@ function AcctLedgerFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="acct-ledger-form"
       className="space-y-4"
       onSubmit={(e) => void handleSubmit(e)}
@@ -207,15 +234,20 @@ function AcctLedgerFormBody({
         options={mainHeads}
       />
 
-      <TextField
+      <SelectField
         label={t("fields.ledgerType")}
         value={form.ledgerType}
-        maxLength={1}
-        hint={t("hints.ledgerType")}
+        placeholder={t("ledgerTypes.placeholder")}
         error={fieldErrors.ledgerType || undefined}
-        onChange={(value) =>
-          updateField("ledgerType", value.toUpperCase().slice(0, 1))
-        }
+        disabled={ledgerTypesError || cashCheckLoading || cashCheckError}
+        hint={ledgerTypesError || cashCheckError ? tErrors("generic") : cashTaken ? t("cashAlreadyExists") : undefined}
+        onChange={(value) => updateField("ledgerType", value)}
+        options={[
+          ...ledgerTypes.filter((option) => !cashTaken || option.label.trim().toLocaleLowerCase() !== "cash"),
+          ...(form.ledgerType && !ledgerTypes.some((option) => option.value === form.ledgerType)
+            ? [{ value: form.ledgerType, label: form.ledgerType }]
+            : []),
+        ]}
       />
 
       <CheckboxField

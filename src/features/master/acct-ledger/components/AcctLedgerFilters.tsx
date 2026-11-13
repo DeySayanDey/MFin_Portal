@@ -8,6 +8,7 @@ import { SelectField } from "@/components/ui/Form";
 
 export type AcctLedgerFilterValues = {
   keyword: string;
+  categId: string;
   mainhdId: string;
   ledgerType: string;
   isActive: "" | "1" | "0";
@@ -21,6 +22,12 @@ export type AcctLedgerMainHeadOption = {
 type AcctLedgerFiltersProps = {
   values: AcctLedgerFilterValues;
   mainHeads: AcctLedgerMainHeadOption[];
+  categories: AcctLedgerMainHeadOption[];
+  categoryOptionsError: boolean;
+  mainHeadsLoading: boolean;
+  mainHeadsError: boolean;
+  ledgerTypes: AcctLedgerMainHeadOption[];
+  ledgerTypesError: boolean;
   onChange: (values: AcctLedgerFilterValues) => void;
   onReset: () => void;
 };
@@ -28,11 +35,20 @@ type AcctLedgerFiltersProps = {
 export function AcctLedgerFilters({
   values,
   mainHeads,
+  categories,
+  categoryOptionsError,
+  mainHeadsLoading,
+  mainHeadsError,
+  ledgerTypes,
+  ledgerTypesError,
   onChange,
   onReset,
 }: AcctLedgerFiltersProps) {
   const t = useTranslations("master.acctLedger");
   const tUi = useTranslations("ui");
+  const tHead = useTranslations("master.acctHead");
+  const tCategory = useTranslations("master.acctCategory");
+  const tErrors = useTranslations("errors");
   return (
     <FilterPanel onReset={onReset}>
         <label className="relative block min-w-[14rem] flex-1 sm:max-w-md">
@@ -54,9 +70,26 @@ export function AcctLedgerFilters({
 
         <div className="min-w-[12rem] sm:max-w-[16rem]">
           <SelectField
+            label={tHead("filters.category")}
+            value={values.categId}
+            searchable
+            disabled={categoryOptionsError}
+            hint={categoryOptionsError ? tErrors("generic") : undefined}
+            placeholder={tHead("filters.categoryAll")}
+            searchPlaceholder={tUi("selectSearch")}
+            emptyMessage={tUi("selectEmpty")}
+            onChange={(categId) => onChange({ ...values, categId, mainhdId: "" })}
+            options={[{ value: "", label: tHead("filters.categoryAll") }, ...categories]}
+          />
+        </div>
+
+        <div className="min-w-[12rem] sm:max-w-[16rem]">
+          <SelectField
             label={t("filters.mainHead")}
             value={values.mainhdId}
             searchable
+            disabled={mainHeadsLoading || mainHeadsError}
+            hint={mainHeadsError ? tErrors("generic") : undefined}
             placeholder={t("filters.mainHeadAll")}
             searchPlaceholder={tUi("selectSearch")}
             emptyMessage={tUi("selectEmpty")}
@@ -68,22 +101,16 @@ export function AcctLedgerFilters({
           />
         </div>
 
-        <label className="block min-w-[6rem] sm:max-w-[8rem]">
-          <span className="mb-1.5 block text-xs font-semibold text-slate-600">
-            {t("filters.ledgerType")}
-          </span>
-          <Input
+        <div className="min-w-[10rem] sm:max-w-[14rem]">
+          <SelectField
+            label={t("filters.ledgerType")}
             value={values.ledgerType}
-            maxLength={1}
-            onChange={(event) =>
-              onChange({
-                ...values,
-                ledgerType: event.target.value.toUpperCase().slice(0, 1),
-              })
-            }
-            placeholder={t("filters.ledgerTypePlaceholder")}
+            disabled={ledgerTypesError}
+            placeholder={tCategory("filters.categoryTypeAll")}
+            options={[{ value: "", label: tCategory("filters.categoryTypeAll") }, ...ledgerTypes]}
+            onChange={(ledgerType) => onChange({ ...values, ledgerType })}
           />
-        </label>
+        </div>
 
         <div className="min-w-[9rem] sm:max-w-[12rem]">
           <SelectField

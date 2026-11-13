@@ -88,7 +88,7 @@ export function MemberPickerModal({
     <Modal open={open} onClose={onClose} title={t("pickMember")} subtitle={t("pickMemberHint")}>
       <label className="block text-sm">
         <span className="mb-1 block font-medium text-slate-700">{t("search")}</span>
-        <input
+        <input autoComplete="off"
           value={keyword}
           onChange={(event) => setKeyword(event.target.value)}
           placeholder={t("searchPlaceholder")}
@@ -236,7 +236,7 @@ export function CaptureDocumentsModal({
                   onChange={(value) => setRows(rows.map((item) => (item.key === row.key ? { ...item, docTypeCd: value } : item)))}
                   options={types.filter((type) => type.value === "6" || type.value === row.docTypeCd || (!taken.has(type.value) && !chosen.has(type.value)))}
                 />
-                <input
+                <input autoComplete="off"
                   value={row.kycNo}
                   onChange={(event) => setRows(rows.map((item) => (item.key === row.key ? { ...item, kycNo: event.target.value } : item)))}
                   placeholder={row.docTypeCd ? t(`numberHint.${row.docTypeCd}` as "numberHint.1") : t("documentNumber")}
@@ -340,7 +340,7 @@ export function EditDocumentModal({
       ) : null}
       <div className="grid gap-3 sm:grid-cols-2">
         <Select aria-label={t("documentType")} searchable={false} clearable={false} value={row.docTypeCd} onChange={(value) => setRow({ ...row, docTypeCd: value })} options={types} />
-        <input value={row.kycNo} onChange={(event) => setRow({ ...row, kycNo: event.target.value })} placeholder={t("documentNumber")} aria-label={t("documentNumber")} className="input w-full" />
+        <input autoComplete="off" value={row.kycNo} onChange={(event) => setRow({ ...row, kycNo: event.target.value })} placeholder={t("documentNumber")} aria-label={t("documentNumber")} className="input w-full" />
         <DatePicker value={row.issueDate} onChange={(value) => setRow({ ...row, issueDate: value })} max={todayYmd()} min={member?.dateOfBirth || undefined} aria-label={t("issueDate")} />
         <DatePicker value={row.expiryDate} onChange={(value) => setRow({ ...row, expiryDate: value })} min={row.issueDate || todayYmd()} aria-label={t("expiryDate")} />
         {member ? (

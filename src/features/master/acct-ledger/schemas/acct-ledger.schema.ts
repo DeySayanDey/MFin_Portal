@@ -23,7 +23,8 @@ export const acctLedgerDtoSchema = z.object({
   ledger_id: z.coerce.number().int().positive(),
   ledger_code: z.string(),
   ledger_name: z.string(),
-  ledger_type: nullableText,
+  ledger_type: z.union([z.string(), z.number(), z.null()]).optional().transform((value) => value == null || String(value).trim() === "" ? null : String(value).trim()),
+  adjustable_eligible: boolish.nullable().optional(),
   mainhd_id: z.coerce.number().int().positive(),
   mainhd_code: nullableText,
   mainhd_name: nullableText,
@@ -57,15 +58,16 @@ const ledgerCodeSchema = z
   });
 
 const ledgerTypeSchema = z
-  .union([z.string(), z.null()])
+  .union([z.string(), z.number().int().positive(), z.null()])
   .optional()
   .transform((value) => {
     if (value == null) return null;
-    const trimmed = value.trim().toUpperCase();
+    if (typeof value === "number") return value;
+    const trimmed = value.trim();
     return trimmed === "" ? null : trimmed;
   })
-  .refine((value) => value == null || value.length <= 1, {
-    message: "Ledger type must be at most 1 character",
+  .refine((value) => value == null || typeof value === "number" || value.length <= 50, {
+    message: "Ledger type is invalid",
   });
 
 export const acctLedgerCreateInputSchema = z.object({

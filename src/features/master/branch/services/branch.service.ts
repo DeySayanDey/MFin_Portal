@@ -96,10 +96,25 @@ export async function listBranches(
       });
     }
 
-    const rows = Array.isArray(payload.data) ? payload.data : [];
-    const items = rows.flatMap((row) => {
+    if (!Array.isArray(payload.data)) {
+      throw new ApiError({
+        message: "Branch response shape was unexpected",
+        status: 500,
+        code: "UNEXPECTED",
+      });
+    }
+    const rows = payload.data;
+    const items = rows.map((row) => {
       const parsed = branchDtoSchema.safeParse(row);
-      return parsed.success ? [mapBranchDto(parsed.data)] : [];
+      if (!parsed.success) {
+        throw new ApiError({
+          message: "Branch response shape was unexpected",
+          status: 500,
+          code: "UNEXPECTED",
+          details: parsed.error.flatten(),
+        });
+      }
+      return mapBranchDto(parsed.data);
     });
 
     let meta: BranchListResult["meta"] = null;

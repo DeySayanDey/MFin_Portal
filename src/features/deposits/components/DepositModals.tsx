@@ -99,7 +99,7 @@ export function DepositTxnModal({
         </div>
 
         <FormField label="Transaction Amount (₹)">
-          <input
+          <input autoComplete="off"
             type="number"
             value={amount}
             onChange={(event) => setAmount(Number(event.target.value))}
@@ -149,7 +149,7 @@ export function DepositTxnModal({
                   <span className="mb-1 block font-semibold text-slate-600">
                     ₹{note}
                   </span>
-                  <input
+                  <input autoComplete="off"
                     type="number"
                     defaultValue={note === 500 ? (isDeposit ? 1 : 1) : 0}
                     min={0}
@@ -274,7 +274,7 @@ export function OpenDepositAccountModal({
         </FormField>
         <div className="grid gap-4 sm:grid-cols-2">
           <FormField label="Interest Rate (% p.a.)">
-            <input
+            <input autoComplete="off"
               type="number"
               step="0.1"
               defaultValue={product === "FD" ? 8.25 : product === "RD" ? 7.5 : 6.5}
@@ -283,11 +283,11 @@ export function OpenDepositAccountModal({
           </FormField>
           {product === "Savings" ? (
             <FormField label="Opening Deposit (₹)">
-              <input type="number" defaultValue={500} className={modalFieldClass} />
+              <input autoComplete="off" type="number" defaultValue={500} className={modalFieldClass} />
             </FormField>
           ) : (
             <FormField label={product === "RD" ? "Monthly Installment (₹)" : "Principal (₹)"}>
-              <input
+              <input autoComplete="off"
                 type="number"
                 defaultValue={product === "RD" ? 1000 : 25000}
                 className={modalFieldClass}
@@ -297,7 +297,7 @@ export function OpenDepositAccountModal({
         </div>
         {product !== "Savings" ? (
           <FormField label="Tenure (Months)">
-            <input type="number" defaultValue={12} className={modalFieldClass} />
+            <input autoComplete="off" type="number" defaultValue={12} className={modalFieldClass} />
           </FormField>
         ) : null}
       </div>

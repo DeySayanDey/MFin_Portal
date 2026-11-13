@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Save } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 import { PageToast } from "@/components/ui/PageToast";
 import { Button } from "@/components/ui/Button";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { fetchOperationalDayList } from "@/features/master/operational-days/services/operational-days-client";
 import {
   CheckboxField,
   SelectField,
@@ -32,8 +34,8 @@ type OperationalDayFormProps = {
   saving: boolean;
   errorMessage?: string | null;
   onClose: () => void;
-  onCreate: (input: OperationalDayCreateInput) => Promise<void> | void;
-  onUpdate: (input: OperationalDayUpdateInput) => Promise<void> | void;
+  onCreate: (inputs: OperationalDayCreateInput[]) => Promise<number[]>;
+  onUpdate: (inputs: OperationalDayUpdateInput[]) => Promise<number[]>;
 };
 
 type FormState = {
@@ -118,6 +120,7 @@ export function OperationalDayForm({
       <OperationalDayFormBody
         key={formKey}
         mode={mode}
+        open={open}
         day={day}
         branchOptions={branchOptions}
         dayOptions={dayOptions}
@@ -132,6 +135,7 @@ export function OperationalDayForm({
 
 function OperationalDayFormBody({
   mode,
+  open,
   day,
   branchOptions,
   dayOptions,
@@ -141,13 +145,14 @@ function OperationalDayFormBody({
   onUpdate,
 }: {
   mode: "create" | "edit";
+  open: boolean;
   day: OperationalDay | null;
   branchOptions: Option[];
   dayOptions: Option[];
   defaultBranchId: string;
   errorMessage?: string | null;
-  onCreate: (input: OperationalDayCreateInput) => Promise<void> | void;
-  onUpdate: (input: OperationalDayUpdateInput) => Promise<void> | void;
+  onCreate: (inputs: OperationalDayCreateInput[]) => Promise<number[]>;
+  onUpdate: (inputs: OperationalDayUpdateInput[]) => Promise<number[]>;
 }) {
   const t = useTranslations("master.operationalDays");
   const tUi = useTranslations("ui");
@@ -155,6 +160,45 @@ function OperationalDayFormBody({
     toFormState(day, defaultBranchId),
   );
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [existingDays, setExistingDays] = useState<OperationalDay[]>([]);
+  const [existingLoading, setExistingLoading] = useState(false);
+  const [existingError, setExistingError] = useState(false);
+  const [loadedBranch, setLoadedBranch] = useState("");
+  const [existingReload, setExistingReload] = useState(0);
+
+  useEffect(() => {
+    if (!open || !form.branchId) return;
+    let cancelled = false;
+    async function loadExistingDays() {
+      setExistingLoading(true);
+      setExistingError(false);
+      setLoadedBranch("");
+      setExistingDays([]);
+      try {
+        const result = await fetchOperationalDayList({ branchId: Number(form.branchId), page: 1, perPage: 200 });
+        if (result.meta && result.meta.hasMore) throw new Error("Incomplete operational days list");
+        if (!result.meta && result.items.length === 200) throw new Error("Missing operational days pagination");
+        if (!cancelled) {
+          setExistingDays(result.items);
+          setLoadedBranch(form.branchId);
+          if (mode === "edit" && day) {
+            setSelectedDays(result.items.filter((item) =>
+              (item.openTime ?? "").slice(0, 5) === (day.openTime ?? "").slice(0, 5) &&
+              (item.closeTime ?? "").slice(0, 5) === (day.closeTime ?? "").slice(0, 5) &&
+              item.isOperational === day.isOperational && item.isHalfDay === day.isHalfDay && item.isActive === day.isActive,
+            ).map((item) => String(item.dayOfWeek)));
+          }
+        }
+      } catch {
+        if (!cancelled) setExistingError(true);
+      } finally {
+        if (!cancelled) setExistingLoading(false);
+      }
+    }
+    void loadExistingDays();
+    return () => { cancelled = true; };
+  }, [open, mode, form.branchId, existingReload, day]);
 
   function updateField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -170,6 +214,7 @@ function OperationalDayFormBody({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (existingLoading || existingError || loadedBranch !== form.branchId) return;
     setFieldErrors({});
 
     const branchId = Number(form.branchId);
@@ -187,9 +232,11 @@ function OperationalDayFormBody({
     };
 
     if (mode === "edit" && day) {
+      const targets = existingDays.filter((item) => selectedDays.includes(String(item.dayOfWeek)));
       const payload: OperationalDayUpdateInput = {
         ...base,
-        recId: day.recId,
+        dayOfWeek: targets[0]?.dayOfWeek ?? 0,
+        recId: targets[0]?.recId ?? day.recId,
       };
       const parsed = operationalDayUpdateInputSchema.safeParse(payload);
       if (!parsed.success) {
@@ -202,11 +249,20 @@ function OperationalDayFormBody({
         });
         return;
       }
-      await onUpdate(parsed.data);
+      const failed = await onUpdate(targets.map((item) => ({
+        ...parsed.data,
+        recId: item.recId,
+        dayOfWeek: item.dayOfWeek,
+      })));
+      if (failed.length) setSelectedDays(failed.map(String));
       return;
     }
 
-    const parsed = operationalDayCreateInputSchema.safeParse(base);
+    const newDays = selectedDays.filter((value) => !existingDays.some((item) => String(item.dayOfWeek) === value));
+    const parsed = operationalDayCreateInputSchema.safeParse({
+      ...base,
+      dayOfWeek: newDays.length ? Number(newDays[0]) : 0,
+    });
     if (!parsed.success) {
       const flat = parsed.error.flatten().fieldErrors;
       setFieldErrors({
@@ -217,42 +273,79 @@ function OperationalDayFormBody({
       });
       return;
     }
-    await onCreate(parsed.data);
+    const failed = await onCreate(newDays.map((value) => ({
+      ...parsed.data,
+      dayOfWeek: Number(value),
+    })));
+    if (failed.length) {
+      setSelectedDays(failed.map(String));
+      setExistingReload((value) => value + 1);
+    }
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="operational-day-form"
       className="space-y-4"
       onSubmit={(e) => void handleSubmit(e)}
     >
       <PageToast message={errorMessage ?? null} tone="error" />
+      {errorMessage ? (
+        <p role="alert" className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
+          {errorMessage}
+        </p>
+      ) : null}
 
       <SelectField
         label={t("fields.branch")}
         value={form.branchId}
         required
+        disabled={mode === "edit"}
         searchable
         placeholder={t("fields.branchPlaceholder")}
         searchPlaceholder={tUi("selectSearch")}
         emptyMessage={tUi("selectEmpty")}
         error={fieldErrors.branchId || undefined}
-        onChange={(branchId) => updateField("branchId", branchId)}
+        onChange={(branchId) => {
+          updateField("branchId", branchId);
+          if (mode === "create") setSelectedDays([]);
+        }}
         options={branchOptions}
       />
 
-      <SelectField
-        label={t("fields.dayOfWeek")}
-        value={form.dayOfWeek}
-        required
-        searchable={false}
-        placeholder={t("fields.dayOfWeekPlaceholder")}
-        searchPlaceholder={tUi("selectSearch")}
-        emptyMessage={tUi("selectEmpty")}
-        error={fieldErrors.dayOfWeek || undefined}
-        onChange={(dayOfWeek) => updateField("dayOfWeek", dayOfWeek)}
-        options={dayOptions}
-      />
+      {(
+        <fieldset className="space-y-2">
+          <legend className="text-sm font-medium text-slate-600">{t("fields.dayOfWeek")} <span className="text-rose-500">*</span></legend>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {dayOptions.map((option) => {
+              const existing = existingDays.find((item) => String(item.dayOfWeek) === option.value);
+              const matches = existing &&
+                normalizeTime(existing.openTime ?? "") === normalizeTime(form.openTime) &&
+                normalizeTime(existing.closeTime ?? "") === normalizeTime(form.closeTime) &&
+                existing.isOperational === form.isOperational &&
+                existing.isHalfDay === form.isHalfDay &&
+                existing.isActive === form.isActive;
+              return <Checkbox
+                key={option.value}
+                label={mode === "create" && existing ? `${option.label} (${t("alreadyConfigured")})` : option.label}
+                checked={mode === "edit" ? selectedDays.includes(option.value) : existing ? Boolean(matches) : selectedDays.includes(option.value)}
+                disabled={(mode === "edit" ? !existing : Boolean(existing)) || existingLoading || existingError}
+                onChange={(checked) => {
+                  setSelectedDays((current) => checked
+                    ? [...current, option.value]
+                    : current.filter((value) => value !== option.value));
+                  setFieldErrors((current) => ({ ...current, dayOfWeek: "" }));
+                }}
+              />;
+            })}
+          </div>
+          {existingLoading ? <p className="text-xs text-muted">{t("loadingExisting")}</p> : null}
+          {existingError ? <p role="alert" className="text-xs text-rose-600">{t("existingLoadError")}</p> : null}
+          {fieldErrors.dayOfWeek ? <p role="alert" className="text-xs text-rose-600">{fieldErrors.dayOfWeek}</p> : null}
+          <p className="text-xs text-muted">{t("multiDayHint")}</p>
+          <p className="text-xs text-muted">{mode === "edit" ? t("editDaysHint") : t("existingDaysHint")}</p>
+        </fieldset>
+      )}
 
       <div className="grid grid-cols-1 items-start gap-3 sm:grid-cols-2">
         <TextField

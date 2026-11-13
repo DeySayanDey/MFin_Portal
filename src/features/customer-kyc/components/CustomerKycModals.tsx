@@ -470,7 +470,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
                 </select>
               </Field>
               <Field label="Customer / Member Code">
-                <input
+                <input autoComplete="off"
                   className={`${fieldClass} bg-slate-100`}
                   readOnly
                   value="Auto-generated upon save (e.g. CUST-2026-0006)"
@@ -483,16 +483,16 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
         {step === 1 ? (
           <div className="grid gap-3 sm:grid-cols-3">
             <Field label="First Name *">
-              <input className={fieldClass} placeholder="e.g. Sunita" />
+              <input autoComplete="off" className={fieldClass} placeholder="e.g. Sunita" />
             </Field>
             <Field label="Middle Name">
-              <input className={fieldClass} placeholder="e.g. Ramesh" />
+              <input autoComplete="off" className={fieldClass} placeholder="e.g. Ramesh" />
             </Field>
             <Field label="Last Name *">
-              <input className={fieldClass} placeholder="e.g. Kamble" />
+              <input autoComplete="off" className={fieldClass} placeholder="e.g. Kamble" />
             </Field>
             <Field label="Spouse / Father Name *">
-              <input className={fieldClass} placeholder="e.g. Ramesh Kamble" />
+              <input autoComplete="off" className={fieldClass} placeholder="e.g. Ramesh Kamble" />
             </Field>
             <Field label="Relationship">
               <select className={fieldClass} defaultValue="Husband">
@@ -509,7 +509,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
               </select>
             </Field>
             <Field label="Date of Birth">
-              <input className={fieldClass} type="date" defaultValue="1990-05-15" />
+              <input autoComplete="off" className={fieldClass} type="date" defaultValue="1990-05-15" />
             </Field>
             <Field label="Marital Status">
               <select className={fieldClass} defaultValue="Married">
@@ -547,31 +547,31 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
         {step === 2 ? (
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Mobile Number *">
-              <input className={fieldClass} defaultValue="+91 98220 11223" />
+              <input autoComplete="off" className={fieldClass} defaultValue="+91 98220 11223" />
             </Field>
             <Field label="Alternate / WhatsApp Number">
-              <input className={fieldClass} defaultValue="+91 98220 99887" />
+              <input autoComplete="off" className={fieldClass} defaultValue="+91 98220 99887" />
             </Field>
             <Field label="Email Address (Optional)">
-              <input className={fieldClass} defaultValue="borrower@example.com" />
+              <input autoComplete="off" className={fieldClass} defaultValue="borrower@example.com" />
             </Field>
             <Field label="House No. / Street Address *">
-              <input
+              <input autoComplete="off"
                 className={fieldClass}
                 placeholder="e.g. House No. 45, Gaothan, Near Maruti Temple"
               />
             </Field>
             <Field label="Village / City *">
-              <input className={fieldClass} defaultValue="Gandhinagar" />
+              <input autoComplete="off" className={fieldClass} defaultValue="Gandhinagar" />
             </Field>
             <Field label="District *">
-              <input className={fieldClass} defaultValue="Kolhapur" />
+              <input autoComplete="off" className={fieldClass} defaultValue="Kolhapur" />
             </Field>
             <Field label="State *">
-              <input className={fieldClass} defaultValue="Maharashtra" />
+              <input autoComplete="off" className={fieldClass} defaultValue="Maharashtra" />
             </Field>
             <Field label="PIN Code *">
-              <input className={fieldClass} defaultValue="416119" />
+              <input autoComplete="off" className={fieldClass} defaultValue="416119" />
             </Field>
           </div>
         ) : null}
@@ -581,13 +581,13 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
             <InfoBanner text="UIDAI Compliant: Aadhaar numbers are stored tokenized with masked 4-digit previews." />
             <div className="grid gap-3 sm:grid-cols-3">
               <Field label="Aadhaar Card (Last 4 Digits / Full) *">
-                <input className={fieldClass} placeholder="e.g. 8921" />
+                <input autoComplete="off" className={fieldClass} placeholder="e.g. 8921" />
               </Field>
               <Field label="PAN Card Number / Form 60">
-                <input className={fieldClass} placeholder="ABCDE1234F" />
+                <input autoComplete="off" className={fieldClass} placeholder="ABCDE1234F" />
               </Field>
               <Field label="Voter ID / Ration Card">
-                <input className={fieldClass} placeholder="MH/04/123/456789" />
+                <input autoComplete="off" className={fieldClass} placeholder="MH/04/123/456789" />
               </Field>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
@@ -609,13 +609,13 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
                 </select>
               </Field>
               <Field label="Branch Name *">
-                <input className={fieldClass} defaultValue="Gandhinagar Branch" />
+                <input autoComplete="off" className={fieldClass} defaultValue="Gandhinagar Branch" />
               </Field>
               <Field label="Bank Account Number *">
-                <input className={fieldClass} defaultValue="38290192831" />
+                <input autoComplete="off" className={fieldClass} defaultValue="38290192831" />
               </Field>
               <Field label="Bank IFSC Code *">
-                <input className={fieldClass} defaultValue="SBIN0001234" />
+                <input autoComplete="off" className={fieldClass} defaultValue="SBIN0001234" />
               </Field>
             </div>
             <div className="flex flex-col gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
@@ -654,7 +654,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
               </div>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 <Field label="Guarantor Name *">
-                  <input className={fieldClass} placeholder="e.g. Ramesh Kamble" />
+                  <input autoComplete="off" className={fieldClass} placeholder="e.g. Ramesh Kamble" />
                 </Field>
                 <Field label="Relationship *">
                   <select className={fieldClass} defaultValue="Husband">
@@ -666,16 +666,16 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
                   </select>
                 </Field>
                 <Field label="Mobile Number">
-                  <input className={fieldClass} placeholder="+91 98220 99887" />
+                  <input autoComplete="off" className={fieldClass} placeholder="+91 98220 99887" />
                 </Field>
                 <Field label="Aadhaar / PAN">
-                  <input className={fieldClass} placeholder="XXXX-XXXX-1122" />
+                  <input autoComplete="off" className={fieldClass} placeholder="XXXX-XXXX-1122" />
                 </Field>
                 <Field label="Occupation">
-                  <input className={fieldClass} placeholder="Farming / Daily Wage" />
+                  <input autoComplete="off" className={fieldClass} placeholder="Farming / Daily Wage" />
                 </Field>
                 <Field label="Monthly Income (₹)">
-                  <input
+                  <input autoComplete="off"
                     type="number"
                     className={fieldClass}
                     placeholder="15000"
@@ -696,7 +696,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
               </div>
               <div className="grid gap-3 sm:grid-cols-3">
                 <Field label="Nominee Name *">
-                  <input className={fieldClass} placeholder="e.g. Ramesh Kamble" />
+                  <input autoComplete="off" className={fieldClass} placeholder="e.g. Ramesh Kamble" />
                 </Field>
                 <Field label="Relationship *">
                   <select className={fieldClass} defaultValue="Husband">
@@ -709,7 +709,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
                   </select>
                 </Field>
                 <Field label="Nominee DOB / Age">
-                  <input
+                  <input autoComplete="off"
                     type="date"
                     className={fieldClass}
                     defaultValue="1987-03-20"
@@ -724,7 +724,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
           <div className="space-y-4">
             <div className="grid gap-3 sm:grid-cols-3">
               <Field label="Applicant Monthly Income (₹)">
-                <input
+                <input autoComplete="off"
                   type="number"
                   className={fieldClass}
                   value={income.applicant}
@@ -737,7 +737,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
                 />
               </Field>
               <Field label="Spouse Monthly Income (₹)">
-                <input
+                <input autoComplete="off"
                   type="number"
                   className={fieldClass}
                   value={income.spouse}
@@ -750,7 +750,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
                 />
               </Field>
               <Field label="Other Family Income (₹)">
-                <input
+                <input autoComplete="off"
                   type="number"
                   className={fieldClass}
                   value={income.other}
@@ -763,7 +763,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
                 />
               </Field>
               <Field label="Monthly Food & Grocery (₹)">
-                <input
+                <input autoComplete="off"
                   type="number"
                   className={fieldClass}
                   value={income.food}
@@ -776,7 +776,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
                 />
               </Field>
               <Field label="Utilities, Rent & Medical (₹)">
-                <input
+                <input autoComplete="off"
                   type="number"
                   className={fieldClass}
                   value={income.utilities}
@@ -789,7 +789,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
                 />
               </Field>
               <Field label="Education & Other (₹)">
-                <input
+                <input autoComplete="off"
                   type="number"
                   className={fieldClass}
                   value={income.education}
@@ -802,7 +802,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
                 />
               </Field>
               <Field label="Existing MFI / Bank Loan EMIs (₹)">
-                <input
+                <input autoComplete="off"
                   type="number"
                   className={fieldClass}
                   value={income.mfiEmi}
@@ -815,7 +815,7 @@ export function OnboardModal({ onClose }: { onClose: () => void }) {
                 />
               </Field>
               <Field label="Informal Debt Repayments (₹)">
-                <input
+                <input autoComplete="off"
                   type="number"
                   className={fieldClass}
                   value={income.informal}

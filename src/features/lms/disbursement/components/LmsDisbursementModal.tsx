@@ -360,7 +360,7 @@ export function LmsDisbursementModal({
         </div>
       }
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form autoComplete="off" onSubmit={handleSubmit} className="space-y-4">
         <PageToast message={submitError} tone="error" />
 
         {hasPendingDisbursement ? (
@@ -471,7 +471,7 @@ export function LmsDisbursementModal({
               />
               <div className="flex items-center pt-6">
                 <label className="flex cursor-pointer items-center gap-2 text-xs font-semibold text-slate-800">
-                  <input
+                  <input autoComplete="off"
                     type="checkbox"
                     checked={isFinal}
                     onChange={(e) => setIsFinal(e.target.checked)}

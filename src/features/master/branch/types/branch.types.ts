@@ -94,4 +94,5 @@ export type BranchUpdateDto = BranchCreateDto & {
 
 export type BranchMutationResult = {
   branchId: number;
+  branchCode?: string;
 };

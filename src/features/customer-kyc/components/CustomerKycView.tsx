@@ -342,7 +342,7 @@ export function CustomerKycView() {
           {decision && decision.status !== 1 ? (
             <label className="mt-3 block text-sm">
               <span className="mb-1 block font-medium text-slate-700">{t("reason")}</span>
-              <textarea value={remarks} maxLength={200} onChange={(event) => setRemarks(event.target.value)} placeholder={t("reasonPlaceholder")} className="input min-h-20 w-full" />
+              <textarea autoComplete="off" value={remarks} maxLength={200} onChange={(event) => setRemarks(event.target.value)} placeholder={t("reasonPlaceholder")} className="input min-h-20 w-full" />
               {decisionError ? <span className="mt-1 block text-danger">{decisionError}</span> : null}
             </label>
           ) : null}
@@ -371,7 +371,7 @@ export function CustomerKycView() {
           <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
             <div className="relative min-w-0 flex-1">
               <Search className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" aria-hidden />
-              <input value={draftKeyword} onChange={(event) => setDraftKeyword(event.target.value)} placeholder={t("searchPlaceholder")} aria-label={t("search")} className="input w-full ps-9" />
+              <input autoComplete="off" value={draftKeyword} onChange={(event) => setDraftKeyword(event.target.value)} placeholder={t("searchPlaceholder")} aria-label={t("search")} className="input w-full ps-9" />
             </div>
             <div className="grid gap-2 sm:grid-cols-2 lg:flex lg:items-center">
               {branchBound ? null : (
@@ -385,7 +385,7 @@ export function CustomerKycView() {
             </div>
             <div className="flex items-center justify-between gap-3 lg:justify-end">
               <label className="flex shrink-0 items-center gap-2 whitespace-nowrap text-sm text-slate-700">
-                <input type="checkbox" checked={showInactive} onChange={(event) => writeQuery({ inactive: event.target.checked ? "1" : null }, true)} />
+                <input autoComplete="off" type="checkbox" checked={showInactive} onChange={(event) => writeQuery({ inactive: event.target.checked ? "1" : null }, true)} />
                 {t("showInactive")}
               </label>
               <Button type="button" icon={Plus} className="shrink-0" onClick={() => setPickerOpen(true)}>{t("capture")}</Button>
@@ -492,7 +492,7 @@ export function CustomerKycView() {
         {decision?.status === 2 ? (
           <label className="mt-3 block text-sm">
             <span className="mb-1 block font-medium text-slate-700">{t("reason")}</span>
-            <textarea value={remarks} maxLength={200} onChange={(event) => setRemarks(event.target.value)} placeholder={t("reasonPlaceholder")} className="input min-h-20 w-full" />
+            <textarea autoComplete="off" value={remarks} maxLength={200} onChange={(event) => setRemarks(event.target.value)} placeholder={t("reasonPlaceholder")} className="input min-h-20 w-full" />
             {decisionError ? <span className="mt-1 block text-danger">{decisionError}</span> : null}
           </label>
         ) : null}

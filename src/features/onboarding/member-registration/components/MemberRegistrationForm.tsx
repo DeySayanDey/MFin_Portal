@@ -793,7 +793,7 @@ export function MemberRegistrationForm({
           </div>
         }
       >
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form autoComplete="off" onSubmit={handleSubmit} className="space-y-6">
           {/* Section 1: Basic & Demographic Details */}
           <section className="rounded-lg border border-slate-200/80 bg-slate-50/50 p-4">
             <div className="mb-3 flex items-center gap-2 text-xs font-bold tracking-wider text-slate-800 uppercase">

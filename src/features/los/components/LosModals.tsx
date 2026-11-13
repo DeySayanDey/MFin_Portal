@@ -730,7 +730,7 @@ export function JlgGroupLoanModal({ open, onClose }: JlgModalProps) {
                 {jlgMembers.map((row) => (
                   <tr key={row.id}>
                     <td className={tableCell}>
-                      <input
+                      <input autoComplete="off"
                         type="checkbox"
                         checked={Boolean(selected[row.id])}
                         onChange={() => toggle(row.id)}
@@ -742,7 +742,7 @@ export function JlgGroupLoanModal({ open, onClose }: JlgModalProps) {
                       <p className="text-xs text-slate-400">{row.id}</p>
                     </td>
                     <td className={tableCell}>
-                      <input
+                      <input autoComplete="off"
                         type="number"
                         value={amounts[row.id] ?? 0}
                         onChange={(event) =>
@@ -755,7 +755,7 @@ export function JlgGroupLoanModal({ open, onClose }: JlgModalProps) {
                       />
                     </td>
                     <td className={tableCell}>
-                      <input
+                      <input autoComplete="off"
                         type="text"
                         defaultValue={row.purpose}
                         className={modalFieldClass}
@@ -841,19 +841,19 @@ export function IndividualLoanModal({ open, onClose }: IndividualModalProps) {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <FormField label="Applied Amount (₹)">
-            <input
+            <input autoComplete="off"
               type="number"
               defaultValue={40000}
               className={modalFieldClass}
             />
           </FormField>
           <FormField label="Tenure (Months)">
-            <input type="number" defaultValue={12} className={modalFieldClass} />
+            <input autoComplete="off" type="number" defaultValue={12} className={modalFieldClass} />
           </FormField>
         </div>
 
         <FormField label="Purpose of Loan">
-          <input
+          <input autoComplete="off"
             type="text"
             defaultValue="Dairy livestock purchase"
             className={modalFieldClass}

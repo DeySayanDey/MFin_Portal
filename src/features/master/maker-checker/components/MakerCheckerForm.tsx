@@ -26,6 +26,8 @@ type MakerCheckerFormProps = {
   saving: boolean;
   errorMessage?: string | null;
   roleOptions: RoleOption[];
+  voucherOptions: RoleOption[];
+  voucherTypesDisabled: boolean;
   onClose: () => void;
   onSubmitCreate: (input: MakerCheckerCreateInput) => Promise<void> | void;
   onSubmitUpdate: (input: MakerCheckerUpdateInput) => Promise<void> | void;
@@ -79,6 +81,8 @@ export function MakerCheckerForm({
   saving,
   errorMessage,
   roleOptions,
+  voucherOptions,
+  voucherTypesDisabled,
   onClose,
   onSubmitCreate,
   onSubmitUpdate,
@@ -107,7 +111,7 @@ export function MakerCheckerForm({
             type="submit"
             form="maker-checker-form"
             icon={Save}
-            disabled={saving}
+            disabled={saving || voucherTypesDisabled}
           >
             {saving ? t("saving") : t("save")}
           </Button>
@@ -120,13 +124,14 @@ export function MakerCheckerForm({
         rule={rule}
         errorMessage={errorMessage}
         roleOptions={roleOptions}
+        voucherOptions={voucherOptions}
+        voucherTypesDisabled={voucherTypesDisabled}
         onSubmitCreate={onSubmitCreate}
         onSubmitUpdate={onSubmitUpdate}
         selectSearch={tUi("selectSearch")}
         selectEmpty={tUi("selectEmpty")}
         labels={{
           voucherType: t("fields.voucherType"),
-          voucherTypeHint: t("hints.voucherType"),
           thresholdLimit: t("fields.thresholdLimit"),
           thresholdLimitHint: t("hints.thresholdLimit"),
           checkerRoleId: t("fields.checkerRoleId"),
@@ -145,13 +150,14 @@ type BodyProps = {
   rule: MakerCheckerRule | null;
   errorMessage?: string | null;
   roleOptions: RoleOption[];
+  voucherOptions: RoleOption[];
+  voucherTypesDisabled: boolean;
   onSubmitCreate: (input: MakerCheckerCreateInput) => Promise<void> | void;
   onSubmitUpdate: (input: MakerCheckerUpdateInput) => Promise<void> | void;
   selectSearch: string;
   selectEmpty: string;
   labels: {
     voucherType: string;
-    voucherTypeHint: string;
     thresholdLimit: string;
     thresholdLimitHint: string;
     checkerRoleId: string;
@@ -167,6 +173,8 @@ function MakerCheckerFormBody({
   rule,
   errorMessage,
   roleOptions,
+  voucherOptions,
+  voucherTypesDisabled,
   onSubmitCreate,
   onSubmitUpdate,
   selectSearch,
@@ -215,6 +223,7 @@ function MakerCheckerFormBody({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (voucherTypesDisabled) return;
 
     const clientErrors = validateForm();
     if (Object.keys(clientErrors).length > 0) {
@@ -278,7 +287,7 @@ function MakerCheckerFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="maker-checker-form"
       className="flex flex-col gap-3"
       onSubmit={(event) => void handleSubmit(event)}
@@ -286,13 +295,16 @@ function MakerCheckerFormBody({
       <PageToast message={errorMessage ?? null} />
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <TextField
+        <SelectField
           label={labels.voucherType}
           value={form.voucherType}
           required
-          inputMode="numeric"
-          restrict="digits"
-          hint={labels.voucherTypeHint}
+          searchable
+          disabled={voucherTypesDisabled}
+          placeholder={labels.voucherType}
+          searchPlaceholder={selectSearch}
+          emptyMessage={selectEmpty}
+          options={voucherOptions}
           error={fieldErrors.voucherType || undefined}
           onChange={(value) => updateField("voucherType", value)}
         />

@@ -21,6 +21,7 @@ type AcctLedgerTableProps = {
   error: boolean;
   errorMessage?: string;
   statusBusyId: number | null;
+  ledgerTypes: { value: string; label: string }[];
   onRetry: () => void;
   onPageChange: (page: number) => void;
   onPageSizeChange: (pageSize: number) => void;
@@ -38,6 +39,7 @@ export function AcctLedgerTable({
   error,
   errorMessage,
   statusBusyId,
+  ledgerTypes,
   onRetry,
   onPageChange,
   onPageSizeChange,
@@ -71,7 +73,7 @@ export function AcctLedgerTable({
         cell: (row) =>
           row.ledgerType ? (
             <Badge tone="info" caps>
-              {row.ledgerType}
+              {ledgerTypes.find((option) => option.value === row.ledgerType)?.label ?? row.ledgerType}
             </Badge>
           ) : (
             <span className="text-slate-400">—</span>
@@ -130,7 +132,7 @@ export function AcctLedgerTable({
         ),
       },
     ],
-    [t],
+    [t, ledgerTypes],
   );
 
   return (

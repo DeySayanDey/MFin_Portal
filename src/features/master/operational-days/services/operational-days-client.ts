@@ -10,6 +10,8 @@ import type {
   OperationalDayListQuery,
   OperationalDayListResult,
   OperationalDayUpdateInput,
+  OperationalDaysBulkInput,
+  OperationalDaysBulkResult,
 } from "@/features/master/operational-days/types/operational-days.types";
 
 export type OperationalDaysClientError = {
@@ -117,6 +119,18 @@ export async function createOperationalDay(
     body: JSON.stringify({ action: "create", ...input }),
   });
   const data = await parseEnvelope<OperationalDay>(response);
+  clearDedupe();
+  return data;
+}
+
+export async function saveOperationalDaysBulk(input: OperationalDaysBulkInput): Promise<OperationalDaysBulkResult> {
+  const response = await fetch(endpoints.bff.operationalDays, {
+    method: "POST",
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify({ action: "bulk", ...input }),
+  });
+  const data = await parseEnvelope<OperationalDaysBulkResult>(response);
   clearDedupe();
   return data;
 }

@@ -105,6 +105,29 @@ export const operationalDayUpdateInputSchema = operationalDayWritableSchema
   })
   .superRefine(refineTimes);
 
+export const operationalDaysBulkInputSchema = operationalDayWritableSchema
+  .omit({ dayOfWeek: true })
+  .extend({
+    branchId: z.number().int().positive().max(32767),
+    days: z.array(z.object({
+      dayOfWeek: z.number().int().min(1).max(7),
+      recId: z.number().int().positive().max(65535).nullable().optional(),
+    }).strict()).min(1).max(7),
+  })
+  .superRefine((value, ctx) => {
+    refineTimes(value, ctx);
+    const weekdays = new Set<number>();
+    const ids = new Set<number>();
+    value.days.forEach((item, index) => {
+      if (weekdays.has(item.dayOfWeek)) ctx.addIssue({ code: "custom", path: ["days", index, "dayOfWeek"], message: "Duplicate weekday" });
+      weekdays.add(item.dayOfWeek);
+      if (item.recId != null) {
+        if (ids.has(item.recId)) ctx.addIssue({ code: "custom", path: ["days", index, "recId"], message: "Duplicate record ID" });
+        ids.add(item.recId);
+      }
+    });
+  });
+
 export type OperationalDayCreateInputParsed = z.infer<
   typeof operationalDayCreateInputSchema
 >;

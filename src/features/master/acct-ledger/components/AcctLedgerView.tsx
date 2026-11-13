@@ -9,6 +9,8 @@ import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { Button } from "@/components/ui/Button";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { masterModulePages } from "@/lib/modules/module.types";
+import { fetchApplOptions, isApplOptionsClientError } from "@/features/master/appl-options";
+import { fetchAcctCategoryList, isAcctCategoryClientError } from "@/features/master/acct-category/services/acct-category-client";
 import {
   AcctLedgerFilters,
   type AcctLedgerFilterValues,
@@ -36,6 +38,7 @@ import { ACCT_LEDGER_DEFAULT_PER_PAGE } from "@/features/master/acct-ledger/type
 
 const DEFAULT_FILTERS: AcctLedgerFilterValues = {
   keyword: "",
+  categId: "",
   mainhdId: "",
   ledgerType: "",
   isActive: "",
@@ -49,6 +52,7 @@ function filtersEqual(
 ): boolean {
   return (
     a.keyword === b.keyword &&
+    a.categId === b.categId &&
     a.mainhdId === b.mainhdId &&
     a.ledgerType === b.ledgerType &&
     a.isActive === b.isActive
@@ -74,6 +78,16 @@ export function AcctLedgerView({ embedded = false }: AcctLedgerViewProps = {}) {
   const [items, setItems] = useState<AcctLedger[]>([]);
   const [meta, setMeta] = useState<PaginationMeta | null>(null);
   const [mainHeads, setMainHeads] = useState<AcctLedgerMainHeadOption[]>([]);
+  const [filterMainHeads, setFilterMainHeads] = useState<AcctLedgerMainHeadOption[]>([]);
+  const [categories, setCategories] = useState<AcctLedgerMainHeadOption[]>([]);
+  const [categoryOptionsError, setCategoryOptionsError] = useState(false);
+  const [filterHeadsLoading, setFilterHeadsLoading] = useState(false);
+  const [filterHeadsError, setFilterHeadsError] = useState(false);
+  const [ledgerTypes, setLedgerTypes] = useState<AcctLedgerMainHeadOption[]>([]);
+  const [ledgerTypesError, setLedgerTypesError] = useState(false);
+  const [cashLedgerIds, setCashLedgerIds] = useState<number[]>([]);
+  const [cashCheckLoading, setCashCheckLoading] = useState(false);
+  const [cashCheckError, setCashCheckError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
@@ -87,6 +101,108 @@ export function AcctLedgerView({ embedded = false }: AcctLedgerViewProps = {}) {
   const [successMessage, setSuccessMessage] = useToastText();
   const [statusBusyId, setStatusBusyId] = useState<number | null>(null);
   const [statusConfirmTarget, setStatusConfirmTarget] = useState<AcctLedger | null>(null);
+
+  useEffect(() => {
+    if (!formOpen) return;
+    let cancelled = false;
+    async function checkCashLedgers() {
+      setCashCheckLoading(true);
+      setCashCheckError(false);
+      try {
+        const cashOptions = ledgerTypes.filter((option) => option.label.trim().toLocaleLowerCase() === "cash");
+        if (cashOptions.length !== 1) throw new Error("Cash type unavailable");
+        const ids: number[] = [];
+        let pageNo = 1;
+        let lastPage = 1;
+        do {
+          const result = await fetchAcctLedgerList({ page: pageNo, perPage: 200 });
+          ids.push(...result.items.filter((item) => item.ledgerType === cashOptions[0].value).map((item) => item.ledgerId));
+          if (!result.meta && result.items.length === 200) throw new Error("Ledger pagination missing");
+          lastPage = result.meta?.lastPage ?? 1;
+          pageNo += 1;
+        } while (pageNo <= lastPage);
+        if (!cancelled) setCashLedgerIds(ids);
+      } catch (err) {
+        if (cancelled) return;
+        setCashCheckError(true);
+        if (isAcctLedgerClientError(err) && err.status === 401) router.replace("/login");
+      } finally {
+        if (!cancelled) setCashCheckLoading(false);
+      }
+    }
+    void checkCashLedgers();
+    return () => { cancelled = true; };
+  }, [formOpen, ledgerTypes, router]);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadCategories() {
+      try {
+        const options: AcctLedgerMainHeadOption[] = [];
+        let pageNo = 1;
+        let lastPage = 1;
+        do {
+          const result = await fetchAcctCategoryList({ page: pageNo, perPage: 200 });
+          options.push(...result.items.map((item) => ({ value: String(item.categId), label: item.categName })));
+          if (!result.meta && result.items.length === 200) throw new Error("Category pagination missing");
+          lastPage = result.meta?.lastPage ?? 1;
+          pageNo += 1;
+        } while (pageNo <= lastPage);
+        if (!cancelled) { setCategories(options); setCategoryOptionsError(false); }
+      } catch (err) {
+        if (cancelled) return;
+        setCategoryOptionsError(true);
+        if (isAcctCategoryClientError(err) && err.status === 401) router.replace("/login");
+      }
+    }
+    void loadCategories();
+    return () => { cancelled = true; };
+  }, [router]);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadFilterHeads() {
+      setFilterHeadsLoading(true);
+      setFilterHeadsError(false);
+      setFilterMainHeads([]);
+      try {
+        const options: AcctLedgerMainHeadOption[] = [];
+        let pageNo = 1;
+        let lastPage = 1;
+        do {
+          const result = await fetchAcctHeadList({ page: pageNo, perPage: 200, categId: filters.categId ? Number(filters.categId) : undefined });
+          options.push(...result.items.map((item) => ({ value: String(item.mainhdId), label: item.mainhdCode ? `${item.mainhdName} (${item.mainhdCode})` : item.mainhdName })));
+          if (!result.meta && result.items.length === 200) throw new Error("Main head pagination missing");
+          lastPage = result.meta?.lastPage ?? 1;
+          pageNo += 1;
+        } while (pageNo <= lastPage);
+        if (!cancelled) setFilterMainHeads(options);
+      } catch (err) {
+        if (cancelled) return;
+        setFilterHeadsError(true);
+        if (isAcctHeadClientError(err) && err.status === 401) router.replace("/login");
+      } finally {
+        if (!cancelled) setFilterHeadsLoading(false);
+      }
+    }
+    void loadFilterHeads();
+    return () => { cancelled = true; };
+  }, [filters.categId, router]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void fetchApplOptions(52).then((options) => {
+      if (!cancelled) {
+        setLedgerTypes(options.map((option) => ({ value: String(option.optCode), label: option.optDescription })));
+        setLedgerTypesError(false);
+      }
+    }).catch((err) => {
+      if (cancelled) return;
+      setLedgerTypesError(true);
+      if (isApplOptionsClientError(err) && err.status === 401) router.replace("/login");
+    });
+    return () => { cancelled = true; };
+  }, [router]);
 
   useEffect(() => {
     let cancelled = false;
@@ -140,9 +256,7 @@ export function AcctLedgerView({ embedded = false }: AcctLedgerViewProps = {}) {
       setErrorMessage(undefined);
       try {
         const mainhdId = Number(appliedFilters.mainhdId);
-        const result = await fetchAcctLedgerList({
-          page,
-          perPage: pageSize,
+        const query = {
           keyword: appliedFilters.keyword.trim() || undefined,
           mainhdId:
             Number.isFinite(mainhdId) && mainhdId > 0 ? mainhdId : undefined,
@@ -151,7 +265,26 @@ export function AcctLedgerView({ embedded = false }: AcctLedgerViewProps = {}) {
             appliedFilters.isActive === ""
               ? undefined
               : Number(appliedFilters.isActive),
-        });
+        };
+        if (appliedFilters.categId) {
+          const matches: AcctLedger[] = [];
+          let pageNo = 1;
+          let lastPage = 1;
+          do {
+            const result = await fetchAcctLedgerList({ ...query, page: pageNo, perPage: 200 });
+            if (cancelled) return;
+            matches.push(...result.items.filter((item) => item.categId === Number(appliedFilters.categId)));
+            if (!result.meta && result.items.length === 200) throw new Error("Ledger pagination missing");
+            lastPage = result.meta?.lastPage ?? 1;
+            pageNo += 1;
+          } while (pageNo <= lastPage);
+          if (cancelled) return;
+          const total = matches.length;
+          setItems(matches.slice((page - 1) * pageSize, page * pageSize));
+          setMeta({ total, page, perPage: pageSize, lastPage: Math.max(1, Math.ceil(total / pageSize)), hasMore: page * pageSize < total });
+          return;
+        }
+        const result = await fetchAcctLedgerList({ ...query, page, perPage: pageSize });
         if (cancelled) return;
         setItems(result.items);
         setMeta(result.meta);
@@ -228,7 +361,7 @@ export function AcctLedgerView({ embedded = false }: AcctLedgerViewProps = {}) {
                 ...item,
                 ledgerName: input.ledgerName,
                 mainhdId: input.mainhdId,
-                ledgerType: input.ledgerType ?? item.ledgerType,
+                ledgerType: input.ledgerType == null ? null : String(input.ledgerType),
                 isActive:
                   input.isActive !== undefined ? input.isActive : item.isActive,
               }
@@ -297,7 +430,13 @@ export function AcctLedgerView({ embedded = false }: AcctLedgerViewProps = {}) {
 
       <AcctLedgerFilters
         values={filters}
-        mainHeads={mainHeads}
+        mainHeads={filterMainHeads}
+        categories={categories}
+        categoryOptionsError={categoryOptionsError}
+        mainHeadsLoading={filterHeadsLoading}
+        mainHeadsError={filterHeadsError}
+        ledgerTypes={ledgerTypes}
+        ledgerTypesError={ledgerTypesError}
         onChange={setFilters}
         onReset={() => {
           setFilters(DEFAULT_FILTERS);
@@ -316,6 +455,7 @@ export function AcctLedgerView({ embedded = false }: AcctLedgerViewProps = {}) {
         error={error}
         errorMessage={errorMessage}
         statusBusyId={statusBusyId}
+        ledgerTypes={ledgerTypes}
         onRetry={() => setReloadKey((key) => key + 1)}
         onPageChange={setPage}
         onPageSizeChange={(size) => {
@@ -336,6 +476,11 @@ export function AcctLedgerView({ embedded = false }: AcctLedgerViewProps = {}) {
         mode={formMode}
         ledger={editing}
         mainHeads={mainHeads}
+        ledgerTypes={ledgerTypes}
+        ledgerTypesError={ledgerTypesError}
+        cashLedgerIds={cashLedgerIds}
+        cashCheckLoading={cashCheckLoading}
+        cashCheckError={cashCheckError}
         saving={saving}
         errorMessage={formError}
         onClose={() => {

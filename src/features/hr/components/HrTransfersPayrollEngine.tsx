@@ -563,7 +563,7 @@ function NewMemberTransferModal({
         </FormField>
 
         <FormField label="Additional Remarks">
-          <textarea
+          <textarea autoComplete="off"
             rows={3}
             value={remarks}
             onChange={(event) => setRemarks(event.target.value)}
@@ -745,7 +745,7 @@ function PayrollEngine() {
             <span className="mb-1.5 block text-[11px] font-semibold tracking-[0.12em] text-muted-soft uppercase">
               Payroll Month
             </span>
-            <input
+            <input autoComplete="off"
               type="month"
               value={month}
               onChange={(event) => setMonth(event.target.value)}

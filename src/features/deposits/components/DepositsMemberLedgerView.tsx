@@ -305,7 +305,7 @@ export function DepositsMemberLedgerView() {
           </label>
           <div className="relative mt-1.5">
             <Search className="pointer-events-none absolute top-1/2 start-3 h-4 w-4 -translate-y-1/2 text-muted" />
-            <input
+            <input autoComplete="off"
               id="member-ledger-search"
               value={keyword}
               onChange={(event) => {

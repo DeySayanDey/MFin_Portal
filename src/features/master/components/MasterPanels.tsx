@@ -350,7 +350,7 @@ export function SeriesPanel() {
           </h3>
           <label className="relative block w-full sm:max-w-xs">
             <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-soft" />
-            <input
+            <input autoComplete="off"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Filter records..."
@@ -398,7 +398,7 @@ export function TimingsPanel() {
           <span className="mb-1.5 block text-xs font-semibold text-slate-600">
             Session Inactivity Timeout (Minutes)
           </span>
-          <input
+          <input autoComplete="off"
             type="number"
             min={1}
             value={timeout}
@@ -487,7 +487,7 @@ export function RbacPanel() {
                 <span className="mb-1.5 block text-xs font-semibold text-slate-600">
                   Max Sanction Limit (₹):
                 </span>
-                <input
+                <input autoComplete="off"
                   type="number"
                   defaultValue={role.limit}
                   className="w-full max-w-xs rounded-xl border border-border bg-surface-muted px-3 py-2 text-sm outline-none focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
@@ -630,7 +630,7 @@ export function MakerPanel() {
       id: "threshold",
       header: "Threshold Limit (₹)",
       cell: (rule) => (
-        <input
+        <input autoComplete="off"
           type="number"
           value={rule.threshold}
           onChange={(event) =>
@@ -646,7 +646,7 @@ export function MakerPanel() {
       id: "makers",
       header: "Maker Roles (Initiators)",
       cell: (rule) => (
-        <input
+        <input autoComplete="off"
           value={rule.makers}
           onChange={(event) =>
             updateRule(rule.id, { makers: event.target.value })
@@ -659,7 +659,7 @@ export function MakerPanel() {
       id: "checkers",
       header: "Checker Roles (Approvers)",
       cell: (rule) => (
-        <input
+        <input autoComplete="off"
           value={rule.checkers}
           onChange={(event) =>
             updateRule(rule.id, { checkers: event.target.value })
@@ -672,7 +672,7 @@ export function MakerPanel() {
       id: "dualAuth",
       header: "Dual Auth Mandatory",
       cell: (rule) => (
-        <input
+        <input autoComplete="off"
           type="checkbox"
           checked={rule.dualAuth}
           onChange={(event) =>
@@ -686,7 +686,7 @@ export function MakerPanel() {
       id: "autoApprove",
       header: "Auto-Approve Below",
       cell: (rule) => (
-        <input
+        <input autoComplete="off"
           type="checkbox"
           checked={rule.autoApprove}
           onChange={(event) =>
@@ -768,7 +768,7 @@ function Field({
       <span className="mb-1.5 block text-xs font-semibold text-slate-600">
         {label}
       </span>
-      <input
+      <input autoComplete="off"
         value={value}
         onChange={(event) => onChange(event.target.value)}
         className="w-full rounded-xl border border-border bg-surface-muted px-3 py-2.5 text-sm text-slate-800 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
@@ -788,7 +788,7 @@ function CheckRow({
 }) {
   return (
     <label className="flex items-start gap-2 text-sm text-slate-700">
-      <input
+      <input autoComplete="off"
         type="checkbox"
         checked={checked}
         onChange={(event) => onChange(event.target.checked)}

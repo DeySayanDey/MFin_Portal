@@ -267,6 +267,10 @@
     "signInTitle": "Sign in to Core Banking",
     "welcomeBack": "Welcome Back",
     "signInSubtitle": "Sign in to your account to continue",
+    "orgId": "Organization code",
+    "orgIdPlaceholder": "Code from 1 to 127",
+    "lockRemaining": "Try again in {minutes} minute(s).",
+    "passwordExpiredNotice": "Your password has expired. Contact your administrator for assistance.",
     "username": "Username",
     "emailUsername": "Username",
     "usernamePlaceholder": "Email / Username",
@@ -331,6 +335,7 @@
     "backToSignIn": "Back to sign in",
     "registerPendingApi": "Staff registration API is not available yet. This form checks each field only.",
     "errors": {
+      "orgId": "Enter an organization code from 1 to 127.",
       "username": "Enter your username.",
       "password": "Enter your password.",
       "passwordMin": "Password must be 8 to 100 characters.",
@@ -963,6 +968,13 @@
       }
     },
     "operationalDays": {
+      "editDaysHint": "Days with matching hours and settings are selected. Save applies your changes to every selected day.",
+      "alreadyConfigured": "configured",
+      "loadingExisting": "Loading existing days…",
+      "existingLoadError": "Unable to load existing days. Close and reopen the form to retry.",
+      "existingDaysHint": "Existing matching days are selected. Edit configured days individually to change them.",
+      "multiDayHint": "The same hours and settings apply to each selected day.",
+      "batchResult": "Saved {saved} day(s); {failed} could not be saved. Only those days remain selected.",
       "title": "Business Hours",
       "description": "Configure branch operational days, open and close times",
       "add": "Add Operational Day",
@@ -1127,6 +1139,7 @@
       }
     },
     "acctLedger": {
+      "cashAlreadyExists": "A Cash ledger already exists, so Cash is unavailable for another ledger.",
       "title": "Account Ledgers",
       "description": "Manage chart-of-accounts ledgers linked to main heads",
       "add": "Add Ledger",
@@ -1167,6 +1180,12 @@
         "subledgerCount": "Sub-ledgers",
         "status": "Status",
         "actions": "Actions"
+      },
+      "ledgerTypes": {
+        "placeholder": "Select ledger type",
+        "cash": "Cash",
+        "bank": "Bank",
+        "other": "Other"
       },
       "fields": {
         "ledgerName": "Ledger name",
@@ -1441,18 +1460,20 @@
         "status": "Status",
         "actions": "Actions"
       },
+      "roleLoadError": "Unable to load roles. Close and reopen the form to try again.",
       "fields": {
         "fullName": "Full name",
         "shortName": "Short name",
-        "employeeCode": "Employee code",
+        "employeeCode": "Employee ref code",
         "branch": "Branch",
+        "role": "Role",
         "designation": "Designation",
         "mobile": "Mobile",
         "email": "Email",
         "joinDate": "Join date",
         "aadhaar": "Aadhaar",
         "pan": "PAN",
-        "deviceId": "Device ID",
+        "deviceId": "Biometric Device ID",
         "userName": "Username",
         "userPass": "Password",
         "status": "Status",
@@ -1462,8 +1483,9 @@
       "errors": {
         "fullName": "Enter the full name (up to 100 characters).",
         "shortName": "Short name must be 50 characters or fewer.",
-        "employeeCode": "Enter a valid employee code (up to 50 characters).",
+        "employeeCode": "Enter a valid employee ref code (up to 50 characters).",
         "branchId": "Select a valid branch.",
+        "roleId": "Select a valid role.",
         "designationId": "Select a valid designation.",
         "mobile": "Enter a valid 10-digit mobile number.",
         "email": "Enter a valid email address.",
@@ -1736,8 +1758,13 @@
       }
     },
     "chargesSetup": {
+      "adjustableLabel": "Adjustable",
+      "adjustableIneligible": "This GL is no longer eligible. Clear Adjustable or select an eligible GL before saving.",
       "title": "Charges Setup",
       "description": "Configure deposit and loan charges, rates, tax, and ledger mapping",
+      "chargeNamesError": "Unable to load charge names or existing charges. Close and reopen the form to retry.",
+      "chargeTypeLabel": "Charge type",
+      "chargeTypeLoadError": "Unable to load charge types. Close and reopen the form to retry.",
       "optionsError": "Some dropdown lists could not be loaded. Refresh the page and try again.",
       "tabs": {
         "deposit": "Deposit Charges",
@@ -1789,6 +1816,7 @@
         "isRefundable": "Refundable"
       },
       "placeholders": {
+        "selectChargeName": "Select charge name",
         "chargeName": "Enter charge name",
         "chargeRate": "Enter charge rate",
         "maxAmount": "Enter max amount",
@@ -4391,12 +4419,12 @@
       "emptyTitle": "No applications",
       "emptyMessage": "Change the filters or create an application.",
       "actions": {
-          "viewDetails": "View application details",
-          "viewTimeline": "View application timeline",
-          "viewEligibility": "View eligibility and FOIR",
-          "edit": "Edit application",
-          "changeStatus": "Change application status"
-        },
+        "viewDetails": "View application details",
+        "viewTimeline": "View application timeline",
+        "viewEligibility": "View eligibility and FOIR",
+        "edit": "Edit application",
+        "changeStatus": "Change application status"
+      },
       "filters": {
         "search": "Search",
         "searchPlaceholder": "Account, application, borrower, scheme",

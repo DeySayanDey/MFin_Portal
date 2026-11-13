@@ -291,6 +291,7 @@ export async function listDepositSchemeCharges(
           scheme_id: query.schemeId,
           charges_id: query.chargesId,
           is_active: query.isActive,
+          include_details: query.includeDetails ? 1 : undefined,
         },
       },
     );

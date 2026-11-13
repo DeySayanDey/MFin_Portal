@@ -246,7 +246,7 @@ export function WorkingHoursForm() {
         <Alert tone="info">{t("notConfiguredHint")}</Alert>
       ) : null}
 
-      <form
+      <form autoComplete="off"
         id="working-hours-form"
         onSubmit={(event) => void handleSubmit(event)}
       >

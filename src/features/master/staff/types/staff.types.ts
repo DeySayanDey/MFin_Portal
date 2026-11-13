@@ -22,6 +22,7 @@ export type StaffDto = {
   full_name: string;
   short_name: string | null;
   designation_id: number | null;
+  role_id?: number | null;
   designation_name: string | null;
   mobile: string | null;
   email: string | null;
@@ -45,6 +46,7 @@ export type Staff = {
   fullName: string;
   shortName: string | null;
   designationId: number | null;
+  roleId?: number | null;
   designationName: string | null;
   mobile: string | null;
   email: string | null;
@@ -109,6 +111,7 @@ export type StaffWritableInput = {
 };
 
 export type StaffCreateInput = StaffWritableInput & {
+  roleId?: number;
   userName: string;
   userPass: string;
 };
@@ -130,16 +133,19 @@ export type StaffWritableDto = {
 };
 
 export type StaffCreateDto = StaffWritableDto & {
+  role_id?: number;
   user_name: string;
   user_pass: string;
 };
 
 export type StaffUpdateInput = StaffWritableInput & {
+  roleId?: number | null;
   staffId: number;
   employeeCode: string;
 };
 
 export type StaffUpdateDto = StaffWritableDto & {
+  role_id?: number | null;
   staff_id: number;
   employee_code: string;
 };

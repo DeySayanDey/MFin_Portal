@@ -34,6 +34,8 @@ export function mapChargeSetupDto(
   return {
     chargeId,
     chargeName,
+    chargeType: kind === "deposit" ? asNumber(dto.type_cd) : null,
+    chargeTypeDesc: kind === "deposit" ? (dto.type_desc ?? "") : "",
     chargeRate: asNumber(dto.charge_rate),
     figureCd: asNumber(dto.figure_cd),
     figureDesc: dto.figure_desc ?? "",
@@ -47,6 +49,7 @@ export function mapChargeSetupDto(
     chargesGlCode: dto.charges_gl_code ?? null,
     chargesGlName: dto.charges_gl_name ?? null,
     isRefundable: kind === "loan" && asActive(dto.is_refundable),
+    isAdjustable: kind === "loan" && dto.is_adjustable != null ? asActive(dto.is_adjustable) : null,
     isActive: asActive(dto.is_active),
     createdBy: asNumber(dto.created_by),
     createdAt: dto.created_at ?? null,
@@ -67,9 +70,11 @@ export function mapChargeSetupSaveToDto(
 
   if (kind === "deposit") {
     body.charges_during_cd = input.duringCd;
+    if (input.chargeType !== undefined) body.type_cd = input.chargeType;
   } else {
     body.deduct_during_cd = input.duringCd;
     body.is_refundable = input.isRefundable === true;
+    if (input.isAdjustable !== undefined) body.is_adjustable = input.isAdjustable;
   }
 
   if (isUpdate) {

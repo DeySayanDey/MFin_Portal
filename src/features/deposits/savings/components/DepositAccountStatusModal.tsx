@@ -89,7 +89,7 @@ export function DepositAccountStatusModal({
               key={option.optCode}
               className="flex cursor-pointer items-start gap-3 rounded-xl border border-border px-3 py-2.5 text-sm"
             >
-              <input
+              <input autoComplete="off"
                 type="radio"
                 name="deposit-account-status"
                 className="mt-1"

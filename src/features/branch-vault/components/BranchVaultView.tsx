@@ -344,7 +344,7 @@ export function BranchVaultView() {
                   <span className="block text-xs font-semibold text-slate-700">
                     {item.label}
                   </span>
-                  <input
+                  <input autoComplete="off"
                     type="number"
                     min={0}
                     value={counts[index]}

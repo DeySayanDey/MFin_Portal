@@ -168,7 +168,7 @@ export function GlobalSettingsForm() {
         <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
           <PageToast message={formError} tone="error" />
 
-          <form id="global-settings-form" onSubmit={handleSubmit} noValidate>
+          <form autoComplete="off" id="global-settings-form" onSubmit={handleSubmit} noValidate>
             <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
               <Section title={t("sections.general.title")} hint={t("sections.general.hint")}>
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-3">

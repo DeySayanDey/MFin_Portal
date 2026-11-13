@@ -2,9 +2,11 @@ import { z } from "zod";
 
 /**
  * `login` and `password` match the Laravel contract.
+ * `orgCode` selects the organization; its database ID comes from Laravel.
  * `remember` stays on the BFF and is not forwarded upstream.
  */
 export const loginRequestSchema = z.object({
+  orgCode: z.number().int().min(1).max(127),
   login: z.string().trim().min(1),
   password: z.string().min(1),
   remember: z.boolean().optional(),

@@ -4,6 +4,8 @@ export type ChargeKind = "deposit" | "loan";
 export type ChargeSetup = {
   chargeId: number;
   chargeName: string;
+  chargeType: number | null;
+  chargeTypeDesc: string;
   chargeRate: number | null;
   figureCd: number | null;
   figureDesc: string;
@@ -15,6 +17,7 @@ export type ChargeSetup = {
   chargesGlCode: string | null;
   chargesGlName: string | null;
   isRefundable: boolean;
+  isAdjustable: boolean | null;
   isActive: boolean;
   createdBy: number | null;
   createdAt: string | null;
@@ -23,6 +26,8 @@ export type ChargeSetup = {
 export type ChargeSetupDto = {
   charge_id: number;
   charge_name: string;
+  type_cd?: number | string | null;
+  type_desc?: string | null;
   charge_rate: number | string;
   figure_cd: number;
   figure_desc?: string | null;
@@ -36,6 +41,7 @@ export type ChargeSetupDto = {
   charges_gl_code?: string | null;
   charges_gl_name?: string | null;
   is_refundable?: boolean | number | null;
+  is_adjustable?: boolean | number | string | null;
   is_active?: boolean | number | null;
   created_by?: number | null;
   created_at?: string | null;
@@ -44,6 +50,7 @@ export type ChargeSetupDto = {
 export type ChargeSetupSaveInput = {
   chargeId?: number;
   chargeName: string;
+  chargeType?: number | null;
   chargeRate: number;
   figureCd: number;
   maxAmount?: number | null;
@@ -51,6 +58,7 @@ export type ChargeSetupSaveInput = {
   duringCd: number;
   chargesGl?: number | null;
   isRefundable?: boolean;
+  isAdjustable?: boolean;
   isActive?: boolean;
 };
 

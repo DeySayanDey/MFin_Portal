@@ -214,7 +214,7 @@ export function RbiLendingPolicyForm() {
 
       <PageToast message={formError} tone="error" />
 
-      <form
+      <form autoComplete="off"
         id="rbi-lending-policy-form"
         onSubmit={(event) => void handleSubmit(event)}
       >

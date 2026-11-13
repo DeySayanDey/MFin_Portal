@@ -96,6 +96,19 @@ export async function fetchBranchList(
   );
 }
 
+export async function fetchHeadOfficeExists(): Promise<boolean> {
+  const response = await fetch("/api/master/branch?head_office_exists=1", {
+    method: "GET",
+    headers: { Accept: "application/json" },
+    credentials: "same-origin",
+  });
+  const result = await parseEnvelope<{ exists: boolean }>(response);
+  if (typeof result?.exists !== "boolean") {
+    throw { status: 500, message: "Unable to check head office status" } satisfies BranchClientError;
+  }
+  return result.exists;
+}
+
 export async function createBranch(
   input: BranchCreateInput,
 ): Promise<BranchMutationResult> {

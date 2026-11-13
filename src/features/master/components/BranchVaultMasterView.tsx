@@ -562,7 +562,7 @@ export function BranchVaultMasterView() {
                   <span className="block text-xs font-semibold text-slate-700">
                     {item.label}
                   </span>
-                  <input
+                  <input autoComplete="off"
                     type="number"
                     min={0}
                     value={counts[index]}
@@ -609,7 +609,7 @@ export function BranchVaultMasterView() {
                   <span className="mb-1.5 block font-medium text-slate-700">
                     Max Vault Cash Limit
                   </span>
-                  <input
+                  <input autoComplete="off"
                     type="number"
                     min={0}
                     value={maxVaultLimit}
@@ -623,7 +623,7 @@ export function BranchVaultMasterView() {
                   <span className="mb-1.5 block font-medium text-slate-700">
                     Petty Cash Float Limit
                   </span>
-                  <input
+                  <input autoComplete="off"
                     type="number"
                     min={0}
                     value={pettyLimit}
@@ -777,7 +777,7 @@ export function BranchVaultMasterView() {
                     className="rounded-xl border border-border bg-surface-muted/50 p-3 text-sm"
                   >
                     <span className="font-medium text-slate-700">{item.label}</span>
-                    <input
+                    <input autoComplete="off"
                       type="number"
                       min={0}
                       value={counts[index]}
@@ -827,20 +827,20 @@ export function BranchVaultMasterView() {
                   </select>
                 </Field>
                 <Field label="Transfer Amount (₹)">
-                  <input
+                  <input autoComplete="off"
                     type="number"
                     defaultValue={50000}
                     className={fieldInputClass}
                   />
                 </Field>
                 <Field label="Courier / Vehicle">
-                  <input
+                  <input autoComplete="off"
                     defaultValue="Payel Chakraborty · WB-52-T-4410"
                     className={fieldInputClass}
                   />
                 </Field>
                 <Field label="Field Escort">
-                  <input
+                  <input autoComplete="off"
                     defaultValue="Subhashish Roy · WB-02-AX-8912"
                     className={fieldInputClass}
                   />
@@ -874,14 +874,14 @@ export function BranchVaultMasterView() {
             <div className="space-y-4">
               <div className="grid gap-3 sm:grid-cols-2">
                 <Field label="Serving Branch">
-                  <input
+                  <input autoComplete="off"
                     value={branch}
                     readOnly
                     className={`${fieldInputClass} bg-surface-muted`}
                   />
                 </Field>
                 <Field label="Customer ID">
-                  <input defaultValue="CUST-WB-0006" className={fieldInputClass} />
+                  <input autoComplete="off" defaultValue="CUST-WB-0006" className={fieldInputClass} />
                 </Field>
                 <Field label="Transaction Type">
                   <select className={fieldInputClass}>
@@ -891,7 +891,7 @@ export function BranchVaultMasterView() {
                   </select>
                 </Field>
                 <Field label="Amount (₹)">
-                  <input
+                  <input autoComplete="off"
                     type="number"
                     defaultValue={3500}
                     className={fieldInputClass}

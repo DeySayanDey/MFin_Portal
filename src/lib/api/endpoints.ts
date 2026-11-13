@@ -431,6 +431,7 @@ export const endpoints = {
     list: "/api/OperationalDaysList",
     add: "/api/OperationalDaysAdd",
     edit: "/api/OperationalDaysEdit",
+    bulkSave: "/api/OperationalDaysBulkSave",
   },
   makerChecker: {
     list: "/api/MakerCheckerList",

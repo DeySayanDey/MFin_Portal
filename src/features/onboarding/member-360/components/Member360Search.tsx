@@ -104,7 +104,7 @@ export function Member360Search({ onSelect }: Member360SearchProps) {
           className="pointer-events-none absolute inset-y-0 start-3.5 my-auto h-4.5 w-4.5 text-muted"
           aria-hidden
         />
-        <input
+        <input autoComplete="off"
           ref={inputRef}
           id={`${listId}-input`}
           type="search"
@@ -113,7 +113,6 @@ export function Member360Search({ onSelect }: Member360SearchProps) {
           aria-controls={listId}
           aria-autocomplete="list"
           aria-activedescendant={showPanel && items[active] ? `${listId}-${items[active].memberId}` : undefined}
-          autoComplete="off"
           value={keyword}
           placeholder={t("search.placeholder")}
           onChange={(event) => {

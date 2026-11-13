@@ -405,7 +405,7 @@ export function StaffMasterView() {
           </div>
           <label className="relative block w-full sm:max-w-xs">
             <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-soft" />
-            <input
+            <input autoComplete="off"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Filter records..."
@@ -501,14 +501,14 @@ function StaffModal({
         <div className="flex-1 overflow-y-auto px-5 py-4">
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Employee ID *">
-              <input
+              <input autoComplete="off"
                 value={form.empId}
                 onChange={(event) => onChange("empId", event.target.value)}
                 className={inputClass}
               />
             </Field>
             <Field label="Full Name *">
-              <input
+              <input autoComplete="off"
                 value={form.name}
                 onChange={(event) => onChange("name", event.target.value)}
                 placeholder="e.g. Vikas Kadam"
@@ -531,21 +531,21 @@ function StaffModal({
               </select>
             </Field>
             <Field label="Mobile">
-              <input
+              <input autoComplete="off"
                 value={form.mobile}
                 onChange={(event) => onChange("mobile", event.target.value)}
                 className={inputClass}
               />
             </Field>
             <Field label="Email">
-              <input
+              <input autoComplete="off"
                 value={form.email}
                 onChange={(event) => onChange("email", event.target.value)}
                 className={inputClass}
               />
             </Field>
             <Field label="Join Date">
-              <input
+              <input autoComplete="off"
                 type="date"
                 value={form.joinDate}
                 onChange={(event) => onChange("joinDate", event.target.value)}
@@ -553,21 +553,21 @@ function StaffModal({
               />
             </Field>
             <Field label="Aadhaar (Masked)">
-              <input
+              <input autoComplete="off"
                 value={form.aadhaar}
                 onChange={(event) => onChange("aadhaar", event.target.value)}
                 className={inputClass}
               />
             </Field>
             <Field label="PAN">
-              <input
+              <input autoComplete="off"
                 value={form.pan}
                 onChange={(event) => onChange("pan", event.target.value)}
                 className={inputClass}
               />
             </Field>
             <Field label="Monthly Salary (₹)">
-              <input
+              <input autoComplete="off"
                 type="number"
                 value={form.salary}
                 onChange={(event) =>
@@ -577,7 +577,7 @@ function StaffModal({
               />
             </Field>
             <Field label="Collection Target (₹)">
-              <input
+              <input autoComplete="off"
                 type="number"
                 value={form.target}
                 onChange={(event) =>
@@ -588,7 +588,7 @@ function StaffModal({
             </Field>
             <div className="sm:col-span-2">
               <Field label="Assignment / Kendra">
-                <input
+                <input autoComplete="off"
                   value={form.assignment}
                   onChange={(event) =>
                     onChange("assignment", event.target.value)

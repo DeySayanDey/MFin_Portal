@@ -14,7 +14,8 @@ export function mapAcctLedgerDto(dto: AcctLedgerDto): AcctLedger {
     ledgerId: dto.ledger_id,
     ledgerCode: dto.ledger_code,
     ledgerName: dto.ledger_name,
-    ledgerType: dto.ledger_type?.trim() ? dto.ledger_type.trim() : null,
+    ledgerType: dto.ledger_type != null && String(dto.ledger_type).trim() ? String(dto.ledger_type).trim() : null,
+    adjustableEligible: dto.adjustable_eligible == null ? null : dto.adjustable_eligible === true || dto.adjustable_eligible === 1 || dto.adjustable_eligible === "1",
     mainhdId: dto.mainhd_id,
     mainhdCode: dto.mainhd_code ?? null,
     mainhdName: dto.mainhd_name ?? null,
@@ -41,9 +42,13 @@ function mapWritable(input: AcctLedgerCreateInput): AcctLedgerCreateDto {
   }
   if (input.ledgerType !== undefined) {
     dto.ledger_type =
-      input.ledgerType == null || input.ledgerType.trim() === ""
+      input.ledgerType == null || String(input.ledgerType).trim() === ""
         ? null
-        : input.ledgerType.trim().toUpperCase().slice(0, 1);
+        : typeof input.ledgerType === "number"
+          ? input.ledgerType
+          : /^\d+$/.test(input.ledgerType.trim())
+            ? Number(input.ledgerType.trim())
+            : input.ledgerType.trim();
   }
   if (input.isActive !== undefined) {
     dto.is_active = input.isActive === true;

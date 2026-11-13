@@ -1031,7 +1031,7 @@ export function GroupManagementForm({
                     Initial Status:
                   </span>
                   <label className="inline-flex cursor-pointer items-center gap-1.5 text-xs font-medium text-slate-800">
-                    <input
+                    <input autoComplete="off"
                       type="radio"
                       name="initialStatus"
                       checked={form.statusCd === "1"}
@@ -1041,7 +1041,7 @@ export function GroupManagementForm({
                     Active
                   </label>
                   <label className="inline-flex cursor-pointer items-center gap-1.5 text-xs font-medium text-slate-800">
-                    <input
+                    <input autoComplete="off"
                       type="radio"
                       name="initialStatus"
                       checked={form.statusCd === "2"}

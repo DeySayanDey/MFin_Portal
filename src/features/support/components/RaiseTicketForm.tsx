@@ -223,7 +223,7 @@ export function RaiseTicketForm({
         </>
       }
     >
-      <form id={FORM_ID} className="grid grid-cols-1 gap-4" onSubmit={handleSubmit}>
+      <form autoComplete="off" id={FORM_ID} className="grid grid-cols-1 gap-4" onSubmit={handleSubmit}>
         <PageToast message={errorMessage ?? null} tone="error" />
         <TextField
           label={t("fields.subject")}
@@ -271,7 +271,7 @@ export function RaiseTicketForm({
               {t("addScreenshots")}
             </Button>
           </div>
-          <input
+          <input autoComplete="off"
             ref={fileRef}
             id={inputId}
             type="file"

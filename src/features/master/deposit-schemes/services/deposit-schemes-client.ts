@@ -166,6 +166,7 @@ function chargesQueryKey(query: DepositSchemeChargeListQuery): string {
   if (query.schemeId != null) params.set("scheme_id", String(query.schemeId));
   if (query.chargesId != null) params.set("charges_id", String(query.chargesId));
   if (query.isActive != null) params.set("is_active", String(query.isActive));
+  if (query.includeDetails) params.set("include_details", "1");
   return params.toString() || "default";
 }
 

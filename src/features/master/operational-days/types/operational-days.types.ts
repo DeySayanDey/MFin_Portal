@@ -93,6 +93,17 @@ export type OperationalDayUpdateInput = OperationalDayCreateInput & {
   recId: number;
 };
 
+export type OperationalDaysBulkInput = Omit<OperationalDayCreateInput, "dayOfWeek"> & {
+  days: { dayOfWeek: number; recId?: number | null }[];
+};
+
+export type OperationalDaysBulkResult = {
+  branchId: number;
+  created: number;
+  updated: number;
+  days: OperationalDay[];
+};
+
 export type OperationalDayUpdateDto = OperationalDayCreateDto & {
   rec_id: number;
 };

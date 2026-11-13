@@ -32,7 +32,7 @@ export function ForgotPasswordForm() {
     <div className="space-y-4">
       <AuthLanguageSelect />
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form autoComplete="off" onSubmit={handleSubmit} className="space-y-4">
         <p className="text-sm leading-6 text-slate-500">{t("forgotHint")}</p>
 
         <Alert tone="warning">{t("forgotPendingApi")}</Alert>

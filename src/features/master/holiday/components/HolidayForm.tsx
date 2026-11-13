@@ -165,7 +165,7 @@ function HolidayFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="holiday-form"
       className="space-y-4"
       onSubmit={(e) => void handleSubmit(e)}

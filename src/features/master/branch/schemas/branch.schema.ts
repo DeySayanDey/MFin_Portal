@@ -40,4 +40,5 @@ export const branchUpdateInputSchema = branchCreateInputSchema.extend({
 
 export const branchMutationResultSchema = z.object({
   branch_id: z.number(),
+  branch_code: z.string().optional(),
 });

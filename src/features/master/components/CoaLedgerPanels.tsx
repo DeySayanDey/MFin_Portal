@@ -445,7 +445,7 @@ export function GlStatementPanel() {
             <span className="mb-1.5 block text-xs font-semibold text-slate-600">
               From
             </span>
-            <input
+            <input autoComplete="off"
               type="date"
               value={fromDate}
               onChange={(event) => setFromDate(event.target.value)}
@@ -456,7 +456,7 @@ export function GlStatementPanel() {
             <span className="mb-1.5 block text-xs font-semibold text-slate-600">
               To
             </span>
-            <input
+            <input autoComplete="off"
               type="date"
               value={toDate}
               onChange={(event) => setToDate(event.target.value)}
@@ -1067,7 +1067,7 @@ function FilterInput({
   return (
     <label className="relative block w-full">
       <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-soft" />
-      <input
+      <input autoComplete="off"
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder="Filter records..."

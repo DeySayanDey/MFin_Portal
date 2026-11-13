@@ -9,6 +9,7 @@ import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { Button } from "@/components/ui/Button";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { masterModulePages } from "@/lib/modules/module.types";
+import { fetchApplOptions, isApplOptionsClientError, type ApplOption } from "@/features/master/appl-options";
 import {
   MakerCheckerFilters,
   type MakerCheckerFilterValues,
@@ -38,6 +39,7 @@ const DEFAULT_FILTERS: MakerCheckerFilterValues = {
 };
 
 const SEARCH_DEBOUNCE_MS = 350;
+const VOUCHER_TYPE_OPT_GRP_ID = 46;
 
 function filtersEqual(
   a: MakerCheckerFilterValues,
@@ -49,6 +51,7 @@ function filtersEqual(
 export function MakerCheckerView() {
   const t = useTranslations("master.makerChecker");
   const tErrors = useTranslations("errors");
+  const tCommon = useTranslations("common");
   const router = useRouter();
   const pageMeta = masterModulePages.makerChecker.toJSON();
 
@@ -69,6 +72,10 @@ export function MakerCheckerView() {
     Array<{ value: string; label: string }>
   >([]);
   const [roleNameById, setRoleNameById] = useState<Record<string, string>>({});
+  const [voucherTypes, setVoucherTypes] = useState<ApplOption[]>([]);
+  const [voucherTypesLoading, setVoucherTypesLoading] = useState(true);
+  const [voucherTypesError, setVoucherTypesError] = useState(false);
+  const [voucherTypesReloadKey, setVoucherTypesReloadKey] = useState(0);
 
   const [formOpen, setFormOpen] = useState(false);
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
@@ -79,6 +86,39 @@ export function MakerCheckerView() {
     useState<MakerCheckerRule | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useToastText();
+
+  useEffect(() => {
+    let cancelled = false;
+    setVoucherTypesLoading(true);
+    setVoucherTypesError(false);
+    void fetchApplOptions(VOUCHER_TYPE_OPT_GRP_ID).then((options) => {
+      if (!cancelled) setVoucherTypes(options);
+    }).catch((err) => {
+      if (cancelled) return;
+      setVoucherTypesError(true);
+      if (isApplOptionsClientError(err) && err.status === 401) {
+        router.replace("/login");
+        router.refresh();
+      }
+    }).finally(() => {
+      if (!cancelled) setVoucherTypesLoading(false);
+    });
+    return () => { cancelled = true; };
+  }, [router, voucherTypesReloadKey]);
+
+  const voucherOptions = useMemo(() => voucherTypes
+    .filter((option) => option.isActive && option.optCode > 0)
+    .map((option) => ({ value: String(option.optCode), label: option.optDescription })), [voucherTypes]);
+  const voucherNameByCode = useMemo(() => Object.fromEntries(
+    voucherTypes.map((option) => [String(option.optCode), option.optDescription]),
+  ), [voucherTypes]);
+  const formVoucherOptions = useMemo(() => {
+    if (!editing) return voucherOptions;
+    const value = String(editing.voucherType);
+    return voucherOptions.some((option) => option.value === value)
+      ? voucherOptions
+      : [{ value, label: voucherNameByCode[value] || value }, ...voucherOptions];
+  }, [editing, voucherOptions, voucherNameByCode]);
 
   useEffect(() => {
     if (filtersEqual(filters, appliedFilters)) return;
@@ -284,6 +324,8 @@ export function MakerCheckerView() {
 
       <MakerCheckerFilters
         values={filters}
+        voucherOptions={voucherOptions}
+        voucherTypesDisabled={voucherTypesLoading || voucherTypesError}
         onChange={setFilters}
         onReset={() => {
           setFilters(DEFAULT_FILTERS);
@@ -292,6 +334,15 @@ export function MakerCheckerView() {
           setSuccessMessage(null);
         }}
       />
+
+      {voucherTypesError ? (
+        <div role="alert" className="flex items-center gap-3 text-sm text-rose-700">
+          <span>{tErrors("generic")}</span>
+          <Button type="button" variant="secondary" onClick={() => setVoucherTypesReloadKey((key) => key + 1)}>
+            {tCommon("retry")}
+          </Button>
+        </div>
+      ) : null}
 
       <MakerCheckerTable
         items={items}
@@ -303,6 +354,7 @@ export function MakerCheckerView() {
         errorMessage={errorMessage}
         statusBusyId={statusBusyId}
         roleNameById={roleNameById}
+        voucherNameByCode={voucherNameByCode}
         onRetry={() => setReloadKey((key) => key + 1)}
         onPageChange={setPage}
         onPageSizeChange={(size) => {
@@ -325,6 +377,8 @@ export function MakerCheckerView() {
         saving={saving}
         errorMessage={formError}
         roleOptions={resolvedRoleOptions}
+        voucherOptions={formVoucherOptions}
+        voucherTypesDisabled={voucherTypesLoading || voucherTypesError}
         onClose={() => {
           if (saving) return;
           setFormOpen(false);

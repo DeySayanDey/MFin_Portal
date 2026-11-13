@@ -29,8 +29,6 @@ type DepositSchemeChargesFormProps = {
   onSubmit: (input: DepositSchemeChargeSaveInput) => Promise<void> | void;
 };
 
-const MAX_PAGES = 10;
-
 export function DepositSchemeChargesForm({
   open,
   mode,
@@ -74,7 +72,10 @@ export function DepositSchemeChargesForm({
           const mappedIds = await loadActiveSchemeChargeIds(charge.schemeId);
           if (cancelled) return;
           const allowed = new Set(charges.map((item) => item.chargeId));
-          setSelectedIds(mappedIds.filter((id) => allowed.has(id)));
+          if (mappedIds.some((id) => !allowed.has(id))) {
+            throw new Error("An active mapping is missing from the active charge list");
+          }
+          setSelectedIds(mappedIds);
         }
       } catch {
         if (!cancelled) setOptionsError(tErrors("generic"));
@@ -101,7 +102,7 @@ export function DepositSchemeChargesForm({
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (loadingOptions || saving) return;
+    if (loadingOptions || saving || optionsError) return;
 
     const parsed = depositSchemeChargeSaveInputSchema.safeParse({
       schemeId: schemeId ? Number(schemeId) : 0,
@@ -147,14 +148,14 @@ export function DepositSchemeChargesForm({
             type="submit"
             form="deposit-scheme-charges-form"
             icon={Save}
-            disabled={saving || loadingOptions}
+            disabled={saving || loadingOptions || Boolean(optionsError)}
           >
             {saving ? t("saving") : t("save")}
           </Button>
         </>
       }
     >
-      <form
+      <form autoComplete="off"
         id="deposit-scheme-charges-form"
         className="space-y-4"
         onSubmit={handleSubmit}
@@ -236,9 +237,12 @@ async function loadActiveMasterCharges(): Promise<ChargeSetup[]> {
       perPage: 200,
     });
     items.push(...result.items);
+    if (!result.meta && result.items.length === 200) {
+      throw new Error("Charge list pagination is missing");
+    }
     lastPage = result.meta?.lastPage ?? 1;
     page += 1;
-  } while (page <= lastPage && page <= MAX_PAGES);
+  } while (page <= lastPage);
   return items;
 }
 
@@ -254,8 +258,11 @@ async function loadActiveSchemeChargeIds(schemeId: number): Promise<number[]> {
       perPage: 200,
     });
     for (const item of result.items) ids.push(item.chargesId);
+    if (!result.meta && result.items.length === 200) {
+      throw new Error("Scheme charge list pagination is missing");
+    }
     lastPage = result.meta?.lastPage ?? 1;
     page += 1;
-  } while (page <= lastPage && page <= MAX_PAGES);
+  } while (page <= lastPage);
   return [...new Set(ids)];
 }

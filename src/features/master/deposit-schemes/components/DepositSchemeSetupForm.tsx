@@ -145,6 +145,7 @@ function DepositSchemeSetupFormBody({
   const t = useTranslations("master.depositSchemes.setup");
   const tGlobal = useTranslations("master.depositSchemes");
   const tUi = useTranslations("ui");
+  const tErrors = useTranslations("errors");
 
   const [form, setForm] = useState<FormState>(() => toFormState(setup));
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -156,31 +157,29 @@ function DepositSchemeSetupFormBody({
   const [inttTypeOptions, setInttTypeOptions] = useState<ApplOption[]>([]);
   const [inttPayoutOptions, setInttPayoutOptions] = useState<ApplOption[]>([]);
   const [ledgers, setLedgers] = useState<AcctLedger[]>([]);
+  const [optionsError, setOptionsError] = useState(false);
 
   // Load General Dropdowns
   useEffect(() => {
     let cancelled = false;
 
     async function loadInitialOptions() {
-      try {
-        const [dt, sb, td, it, ip, ledgResult] = await Promise.all([
+      const [dt, sb, td, it, ip, ledgResult] = await Promise.allSettled([
           fetchApplOptions(3), // Group 3: Deposit Type
           fetchApplOptions(5), // Group 5: SB Product Type
           fetchApplOptions(6), // Group 6: TD Product Type
           fetchApplOptions(12), // Group 12: Deposit Intt Type
           fetchApplOptions(10), // Group 10: Interest Payout
-          fetchAcctLedgerList({ isActive: 1, perPage: 200 }),
+          loadActiveLedgers(),
         ]);
         if (cancelled) return;
-        setDepositTypeOptions(dt);
-        setSbProdOptions(sb);
-        setTdProdOptions(td);
-        setInttTypeOptions(it);
-        setInttPayoutOptions(ip);
-        setLedgers(ledgResult.items);
-      } catch {
-        // Fallbacks
-      }
+        if (dt.status === "fulfilled") setDepositTypeOptions(dt.value);
+        if (sb.status === "fulfilled") setSbProdOptions(sb.value);
+        if (td.status === "fulfilled") setTdProdOptions(td.value);
+        if (it.status === "fulfilled") setInttTypeOptions(it.value);
+        if (ip.status === "fulfilled") setInttPayoutOptions(ip.value);
+        if (ledgResult.status === "fulfilled") setLedgers(ledgResult.value);
+      setOptionsError([dt, sb, td, it, ip, ledgResult].some((result) => result.status === "rejected"));
     }
 
     void loadInitialOptions();
@@ -251,69 +250,42 @@ function DepositSchemeSetupFormBody({
   }
 
   const depositTypeSelectOptions =
-    depositTypeOptions.length > 0
-      ? depositTypeOptions.map((o) => ({
+    depositTypeOptions.map((o) => ({
           value: String(o.optCode),
           label: o.optDescription,
-        }))
-      : [
-          { value: "1", label: "Savings" },
-          { value: "2", label: "Term Deposit" },
-        ];
+        }));
 
   const prodTypeSelectOptions = useMemo(() => {
     const depCd = Number(form.depositTypeCd);
     if (depCd === 1) {
-      return sbProdOptions.length > 0
-        ? sbProdOptions.map((o) => ({
+      return sbProdOptions.map((o) => ({
             value: String(o.optCode),
             label: o.optDescription,
-          }))
-        : [
-            { value: "1", label: "Individual" },
-            { value: "2", label: "Group" },
-          ];
+          }));
     }
     if (depCd === 2) {
-      return tdProdOptions.length > 0
-        ? tdProdOptions.map((o) => ({
+      return tdProdOptions.map((o) => ({
             value: String(o.optCode),
             label: o.optDescription,
-          }))
-        : [
-            { value: "1", label: "Fixed Deposit" },
-            { value: "2", label: "Recurring Deposit" },
-          ];
+          }));
     }
     return [];
   }, [form.depositTypeCd, sbProdOptions, tdProdOptions]);
 
   const inttTypeSelectOptions = [
     { value: "", label: "-- None --" },
-    ...(inttTypeOptions.length > 0
-      ? inttTypeOptions.map((o) => ({
+    ...inttTypeOptions.map((o) => ({
           value: String(o.optCode),
           label: o.optDescription,
-        }))
-      : [
-          { value: "1", label: "Daily Product Basic" },
-          { value: "2", label: "Monthly Minimum" },
-        ]),
+        })),
   ];
 
   const inttPayoutSelectOptions = [
     { value: "", label: "-- None --" },
-    ...(inttPayoutOptions.length > 0
-      ? inttPayoutOptions.map((o) => ({
+    ...inttPayoutOptions.map((o) => ({
           value: String(o.optCode),
           label: o.optDescription,
-        }))
-      : [
-          { value: "1", label: "Monthly" },
-          { value: "2", label: "Quarterly" },
-          { value: "3", label: "Half-Yearly" },
-          { value: "4", label: "Maturity" },
-        ]),
+        })),
   ];
 
   const ledgerSelectOptions = useMemo(() => {
@@ -324,32 +296,35 @@ function DepositSchemeSetupFormBody({
         label: `${l.ledgerName} (${l.ledgerCode})`,
       })),
     ];
-    if (setup?.prnLedger && !opts.some((o) => o.value === String(setup.prnLedger))) {
-      opts.push({
+    const principal = [...opts];
+    const interest = [...opts];
+    if (setup?.prnLedger && !principal.some((o) => o.value === String(setup.prnLedger))) {
+      principal.push({
         value: String(setup.prnLedger),
         label: setup.prnLedgerName
           ? `${setup.prnLedgerName} (${setup.prnLedgerCode || `LD-${setup.prnLedger}`})`
           : `Ledger #${setup.prnLedger}`,
       });
     }
-    if (setup?.inttLedg && !opts.some((o) => o.value === String(setup.inttLedg))) {
-      opts.push({
+    if (setup?.inttLedg && !interest.some((o) => o.value === String(setup.inttLedg))) {
+      interest.push({
         value: String(setup.inttLedg),
         label: setup.inttLedgerName
           ? `${setup.inttLedgerName} (${setup.inttLedgerCode || `LD-${setup.inttLedg}`})`
           : `Ledger #${setup.inttLedg}`,
       });
     }
-    return opts;
+    return { principal, interest };
   }, [ledgers, setup]);
 
   return (
-    <form
+    <form autoComplete="off"
       id="deposit-scheme-setup-form"
       className="space-y-4"
       onSubmit={(e) => void handleSubmit(e)}
     >
       <PageToast message={errorMessage ?? null} tone="error" />
+      {optionsError ? <p role="alert" className="text-sm text-rose-700">{tErrors("generic")}</p> : null}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <TextField
@@ -367,7 +342,7 @@ function DepositSchemeSetupFormBody({
           error={fieldErrors.depositTypeCd || undefined}
           searchPlaceholder={tUi("selectSearch")}
           emptyMessage={tUi("selectEmpty")}
-          options={depositTypeSelectOptions}
+          options={withCurrentOption(depositTypeSelectOptions, form.depositTypeCd, setup?.depositTypeDesc)}
           onChange={(value) => {
             updateField("depositTypeCd", value);
             updateField("prodTypeCd", "");
@@ -381,7 +356,7 @@ function DepositSchemeSetupFormBody({
           error={fieldErrors.prodTypeCd || undefined}
           searchPlaceholder={tUi("selectSearch")}
           emptyMessage={tUi("selectEmpty")}
-          options={prodTypeSelectOptions}
+          options={withCurrentOption(prodTypeSelectOptions, form.prodTypeCd, setup?.prodTypeDesc)}
           onChange={(value) => updateField("prodTypeCd", value)}
         />
 
@@ -400,7 +375,7 @@ function DepositSchemeSetupFormBody({
           error={fieldErrors.inttTypeCd || undefined}
           searchPlaceholder={tUi("selectSearch")}
           emptyMessage={tUi("selectEmpty")}
-          options={inttTypeSelectOptions}
+          options={withCurrentOption(inttTypeSelectOptions, form.inttTypeCd, setup?.inttTypeDesc)}
           onChange={(value) => updateField("inttTypeCd", value)}
         />
 
@@ -410,7 +385,7 @@ function DepositSchemeSetupFormBody({
           error={fieldErrors.inttPayoutCd || undefined}
           searchPlaceholder={tUi("selectSearch")}
           emptyMessage={tUi("selectEmpty")}
-          options={inttPayoutSelectOptions}
+          options={withCurrentOption(inttPayoutSelectOptions, form.inttPayoutCd, setup?.inttPayoutDesc)}
           onChange={(value) => updateField("inttPayoutCd", value)}
         />
 
@@ -437,7 +412,7 @@ function DepositSchemeSetupFormBody({
           error={fieldErrors.prnLedger || undefined}
           searchPlaceholder={tUi("selectSearch")}
           emptyMessage={tUi("selectEmpty")}
-          options={ledgerSelectOptions}
+          options={ledgerSelectOptions.principal}
           onChange={(value) => updateField("prnLedger", value)}
         />
 
@@ -447,7 +422,7 @@ function DepositSchemeSetupFormBody({
           error={fieldErrors.inttLedg || undefined}
           searchPlaceholder={tUi("selectSearch")}
           emptyMessage={tUi("selectEmpty")}
-          options={ledgerSelectOptions}
+          options={ledgerSelectOptions.interest}
           onChange={(value) => updateField("inttLedg", value)}
         />
       </div>
@@ -484,4 +459,23 @@ function DepositSchemeSetupFormBody({
       </div>
     </form>
   );
+}
+
+async function loadActiveLedgers(): Promise<AcctLedger[]> {
+  const ledgers: AcctLedger[] = [];
+  let page = 1;
+  let lastPage = 1;
+  do {
+    const result = await fetchAcctLedgerList({ isActive: 1, page, perPage: 200 });
+    ledgers.push(...result.items);
+    if (!result.meta && result.items.length === 200) throw new Error("Ledger pagination missing");
+    lastPage = result.meta?.lastPage ?? 1;
+    page += 1;
+  } while (page <= lastPage);
+  return ledgers;
+}
+
+function withCurrentOption(options: { value: string; label: string }[], value: string, label?: string | null) {
+  if (!value || options.some((option) => option.value === value)) return options;
+  return [...options, { value, label: label || value, disabled: true }];
 }

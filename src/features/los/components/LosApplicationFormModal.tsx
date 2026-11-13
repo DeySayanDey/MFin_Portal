@@ -542,7 +542,7 @@ export function LosApplicationFormModal({
         </div>
       }
     >
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form autoComplete="off" onSubmit={handleSubmit} className="space-y-6">
         <PageToast message={formError} tone="error" />
 
         {/* Customer Type Toggle (Disabled on Edit per business rules) */}

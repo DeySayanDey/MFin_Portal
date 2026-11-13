@@ -138,7 +138,7 @@ function FinYearFormBody({
   }
 
   return (
-    <form id="fin-year-form" className="space-y-4" onSubmit={(e) => void handleSubmit(e)}>
+    <form autoComplete="off" id="fin-year-form" className="space-y-4" onSubmit={(e) => void handleSubmit(e)}>
       <PageToast message={errorMessage ?? null} tone="error" />
 
       <TextField

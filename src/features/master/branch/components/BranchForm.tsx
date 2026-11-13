@@ -27,6 +27,7 @@ type BranchFormProps = {
   open: boolean;
   mode: "create" | "edit";
   branch: Branch | null;
+  showHeadOffice: boolean;
   saving: boolean;
   errorMessage?: string | null;
   onClose: () => void;
@@ -83,6 +84,7 @@ export function BranchForm({
   open,
   mode,
   branch,
+  showHeadOffice,
   saving,
   errorMessage,
   onClose,
@@ -114,6 +116,7 @@ export function BranchForm({
         key={formKey}
         mode={mode}
         branch={branch}
+        showHeadOffice={showHeadOffice}
         errorMessage={errorMessage}
         onSubmitCreate={onSubmitCreate}
         onSubmitUpdate={onSubmitUpdate}
@@ -138,6 +141,7 @@ export function BranchForm({
 type BodyProps = {
   mode: "create" | "edit";
   branch: Branch | null;
+  showHeadOffice: boolean;
   errorMessage?: string | null;
   onSubmitCreate: (input: BranchCreateInput) => Promise<void> | void;
   onSubmitUpdate: (input: BranchUpdateInput) => Promise<void> | void;
@@ -172,6 +176,7 @@ function branchFieldErrors(
 function BranchFormBody({
   mode,
   branch,
+  showHeadOffice,
   errorMessage,
   onSubmitCreate,
   onSubmitUpdate,
@@ -217,7 +222,7 @@ function BranchFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="branch-form"
       onSubmit={(event) => void handleSubmit(event)}
       className="space-y-4"
@@ -303,11 +308,13 @@ function BranchFormBody({
         ]}
       />
 
-      <CheckboxField
-        label={fieldLabels.isHead}
-        checked={form.isHead}
-        onChange={(isHead) => setForm((prev) => ({ ...prev, isHead }))}
-      />
+      {showHeadOffice ? (
+        <CheckboxField
+          label={fieldLabels.isHead}
+          checked={form.isHead}
+          onChange={(isHead) => setForm((prev) => ({ ...prev, isHead }))}
+        />
+      ) : null}
     </form>
   );
 }

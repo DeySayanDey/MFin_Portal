@@ -30,7 +30,6 @@ import {
   toggleDepositSchemeStatus,
   fetchDepositSchemeCharges,
   saveDepositSchemeCharge,
-  toggleDepositSchemeChargeStatus,
   getAllDepositSchemeSetups,
   isDepositSchemesClientError,
 } from "../services/deposit-schemes-client";
@@ -346,7 +345,6 @@ function SetupSection() {
 
 function ChargesSection() {
   const t = useTranslations("master.depositSchemes.charges");
-  const tGlobal = useTranslations("master.depositSchemes");
   const tErrors = useTranslations("errors");
 
   const [filters, setFilters] =
@@ -372,12 +370,8 @@ function ChargesSection() {
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
   const [editing, setEditing] = useState<DepositSchemeCharge | null>(null);
   const [saving, setSaving] = useState(false);
-  const [statusBusyId, setStatusBusyId] = useState<number | null>(null);
-  const [statusConfirmTarget, setStatusConfirmTarget] =
-    useState<DepositSchemeCharge | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useToastText();
-  const [actionError, setActionError] = useToastText();
 
   useEffect(() => {
     let cancelled = false;
@@ -438,9 +432,12 @@ function ChargesSection() {
           });
           if (cancelled) return;
           collected.push(...result.items);
+          if (!result.meta && result.items.length === 200) {
+            throw new Error("Scheme charge list pagination is missing");
+          }
           lastPage = result.meta?.lastPage ?? 1;
           pageNo += 1;
-        } while (pageNo <= lastPage && pageNo <= 20);
+        } while (pageNo <= lastPage);
         if (cancelled) return;
         setItems(collected);
       } catch (err) {
@@ -495,31 +492,9 @@ function ChargesSection() {
     }
   }
 
-  async function executeToggleActive(item: DepositSchemeCharge) {
-    const nextActive = !item.isActive;
-    setStatusBusyId(item.id);
-    setSuccessMessage(null);
-    setActionError(null);
-    try {
-      await toggleDepositSchemeChargeStatus(item.id, nextActive);
-      setSuccessMessage(
-        nextActive ? t("activateSuccess") : t("deactivateSuccess"),
-      );
-      setReloadKey((key) => key + 1);
-    } catch (err) {
-      setActionError(
-        isDepositSchemesClientError(err) ? err.message : tErrors("generic"),
-      );
-    } finally {
-      setStatusBusyId(null);
-    }
-  }
-
   return (
     <>
       <PageToast message={successMessage} />
-      <PageToast message={actionError} tone="error" />
-
       <DepositSchemeChargesFilters
         values={filters}
         schemes={availableSchemes}
@@ -540,7 +515,6 @@ function ChargesSection() {
         loading={loading}
         error={error}
         errorMessage={errorMessage}
-        statusBusyId={statusBusyId}
         onRetry={() => setReloadKey((key) => key + 1)}
         onPageChange={setPage}
         onPageSizeChange={(size) => {
@@ -548,7 +522,6 @@ function ChargesSection() {
           setPage(1);
         }}
         onEdit={openEdit}
-        onToggleActive={setStatusConfirmTarget}
         headerActions={
           <Button type="button" icon={Plus} onClick={openCreate}>
             {t("add")}
@@ -571,25 +544,6 @@ function ChargesSection() {
         onSubmit={handleSave}
       />
 
-      <ConfirmDialog
-        open={Boolean(statusConfirmTarget)}
-        onClose={() => setStatusConfirmTarget(null)}
-        onConfirm={async () => {
-          if (!statusConfirmTarget) return;
-          const target = statusConfirmTarget;
-          setStatusConfirmTarget(null);
-          await executeToggleActive(target);
-        }}
-        actionType={statusConfirmTarget?.isActive ? "deactivate" : "activate"}
-        itemName={
-          statusConfirmTarget
-            ? [statusConfirmTarget.schemeName, statusConfirmTarget.chargeName]
-                .filter(Boolean)
-                .join(" — ")
-            : undefined
-        }
-        itemType={tGlobal("confirm.itemTypeCharge")}
-      />
     </>
   );
 }
@@ -609,8 +563,11 @@ async function loadActiveMasterCharges(): Promise<
     for (const charge of result.items) {
       items.push({ chargeId: charge.chargeId, chargeName: charge.chargeName });
     }
+    if (!result.meta && result.items.length === 200) {
+      throw new Error("Charge list pagination is missing");
+    }
     lastPage = result.meta?.lastPage ?? 1;
     page += 1;
-  } while (page <= lastPage && page <= 10);
+  } while (page <= lastPage);
   return items;
 }

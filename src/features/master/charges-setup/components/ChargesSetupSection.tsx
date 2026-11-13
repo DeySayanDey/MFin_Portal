@@ -7,6 +7,8 @@ import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { Button } from "@/components/ui/Button";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import type { ApplOption } from "@/features/master/appl-options";
+import { fetchApplOptions } from "@/features/master/appl-options";
+import { DEPOSIT_CHARGE_TYPE_OPT_GRP_ID } from "../constants";
 import type { AcctLedger } from "@/features/master/acct-ledger/types/acct-ledger.types";
 import {
   ChargesSetupFilters,
@@ -89,6 +91,21 @@ export function ChargesSetupSection({
     useState<ChargeSetup | null>(null);
   const [successMessage, setSuccessMessage] = useToastText();
   const [actionError, setActionError] = useToastText();
+  const [chargeTypeOptions, setChargeTypeOptions] = useState<ApplOption[]>([]);
+  const [chargeTypeError, setChargeTypeError] = useState(false);
+
+  useEffect(() => {
+    if (!formOpen || kind !== "deposit") return;
+    let cancelled = false;
+    setChargeTypeOptions([]);
+    setChargeTypeError(false);
+    void fetchApplOptions(DEPOSIT_CHARGE_TYPE_OPT_GRP_ID).then((options) => {
+      if (!cancelled) setChargeTypeOptions(options);
+    }).catch(() => {
+      if (!cancelled) setChargeTypeError(true);
+    });
+    return () => { cancelled = true; };
+  }, [formOpen, kind]);
 
   useEffect(() => {
     if (filtersEqual(filters, appliedFilters)) return;
@@ -250,6 +267,8 @@ export function ChargesSetupSection({
         mode={formMode}
         kind={kind}
         charge={editing}
+        chargeTypeOptions={chargeTypeOptions}
+        chargeTypeError={chargeTypeError}
         figureOptions={figureOptions}
         duringOptions={duringOptions}
         ledgers={ledgers}

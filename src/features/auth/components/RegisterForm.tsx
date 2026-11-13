@@ -83,7 +83,7 @@ export function RegisterForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form autoComplete="off" onSubmit={handleSubmit} className="space-y-4">
       <AuthLanguageSelect />
 
       <Alert tone="warning">{t("registerPendingApi")}</Alert>
@@ -160,7 +160,6 @@ export function RegisterForm() {
           label={t("register.password")}
           type={showPassword ? "text" : "password"}
           required
-          autoComplete="new-password"
           value={form.password}
           maxLength={100}
           hint={t("hints.password")}
@@ -186,7 +185,6 @@ export function RegisterForm() {
           label={t("register.confirmPassword")}
           type={showConfirm ? "text" : "password"}
           required
-          autoComplete="new-password"
           value={form.confirmPassword}
           maxLength={100}
           error={fieldErrors.confirmPassword}

@@ -208,7 +208,7 @@ export function WhatsAppSettingsForm() {
         <Alert tone="info">{t("notConfiguredHint")}</Alert>
       ) : null}
 
-      <form
+      <form autoComplete="off"
         id="whatsapp-settings-form"
         onSubmit={(event) => void handleSubmit(event)}
       >
@@ -218,7 +218,6 @@ export function WhatsAppSettingsForm() {
               <TextField
                 label={t("fields.accessToken")}
                 type="password"
-                autoComplete="off"
                 value={form.accessToken}
                 required
                 error={fieldErrors.accessToken || undefined}
@@ -249,7 +248,6 @@ export function WhatsAppSettingsForm() {
             <TextField
               label={t("fields.verifyToken")}
               type="password"
-              autoComplete="off"
               value={form.verifyToken}
               error={fieldErrors.verifyToken || undefined}
               onChange={(value) => updateField("verifyToken", value)}

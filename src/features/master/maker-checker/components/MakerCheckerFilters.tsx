@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { FilterPanel } from "@/components/shared/FilterPanel";
-import { SelectField, TextField } from "@/components/ui/Form";
+import { SelectField } from "@/components/ui/Form";
 
 export type MakerCheckerFilterValues = {
   voucherType: string;
@@ -11,12 +11,16 @@ export type MakerCheckerFilterValues = {
 
 type MakerCheckerFiltersProps = {
   values: MakerCheckerFilterValues;
+  voucherOptions: Array<{ value: string; label: string }>;
+  voucherTypesDisabled: boolean;
   onChange: (values: MakerCheckerFilterValues) => void;
   onReset: () => void;
 };
 
 export function MakerCheckerFilters({
   values,
+  voucherOptions,
+  voucherTypesDisabled,
   onChange,
   onReset,
 }: MakerCheckerFiltersProps) {
@@ -26,11 +30,15 @@ export function MakerCheckerFilters({
   return (
     <FilterPanel onReset={onReset}>
       <div className="min-w-[10rem] sm:max-w-[14rem]">
-        <TextField
+        <SelectField
           label={t("filters.voucherType")}
           value={values.voucherType}
-          inputMode="numeric"
-          restrict="digits"
+          searchable
+          disabled={voucherTypesDisabled}
+          placeholder={t("filters.statusAll")}
+          searchPlaceholder={tUi("selectSearch")}
+          emptyMessage={tUi("selectEmpty")}
+          options={[{ value: "", label: t("filters.statusAll") }, ...voucherOptions]}
           onChange={(voucherType) => onChange({ ...values, voucherType })}
         />
       </div>

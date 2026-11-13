@@ -16,7 +16,7 @@ import {
 import { OperationalDayTable } from "@/features/master/operational-days/components/OperationalDayTable";
 import { OperationalDayForm } from "@/features/master/operational-days/components/OperationalDayForm";
 import {
-  createOperationalDay,
+  saveOperationalDaysBulk,
   fetchOperationalDayList,
   isOperationalDaysClientError,
   updateOperationalDay,
@@ -228,45 +228,44 @@ export function OperationalDaysView() {
     setFormOpen(true);
   }
 
-  async function handleCreate(input: OperationalDayCreateInput) {
-    setSaving(true);
-    setFormError(null);
-    try {
-      await createOperationalDay(input);
-      setFormOpen(false);
-      setEditing(null);
-      setSuccessMessage(t("createSuccess"));
-      setReloadKey((key) => key + 1);
-    } catch (err) {
-      if (isOperationalDaysClientError(err) && err.status === 401) {
-        router.replace("/login");
-        return;
-      }
-      setFormError(
-        isOperationalDaysClientError(err) ? err.message : tErrors("generic"),
-      );
-    } finally {
-      setSaving(false);
-    }
+  async function handleCreate(inputs: OperationalDayCreateInput[]): Promise<number[]> {
+    return handleBulkSave(inputs, "create");
   }
 
-  async function handleUpdate(input: OperationalDayUpdateInput) {
+  async function handleUpdate(inputs: OperationalDayUpdateInput[]): Promise<number[]> {
+    return handleBulkSave(inputs, "edit");
+  }
+
+  async function handleBulkSave(inputs: (OperationalDayCreateInput | OperationalDayUpdateInput)[], mode: "create" | "edit"): Promise<number[]> {
     setSaving(true);
     setFormError(null);
     try {
-      await updateOperationalDay(input);
+      const first = inputs[0];
+      if (!first) return [];
+      await saveOperationalDaysBulk({
+        branchId: first.branchId,
+        days: inputs.map((input) => ({
+          dayOfWeek: input.dayOfWeek,
+          ...("recId" in input ? { recId: input.recId } : {}),
+        })),
+        isOperational: first.isOperational,
+        isHalfDay: first.isHalfDay,
+        openTime: first.openTime,
+        closeTime: first.closeTime,
+        isActive: first.isActive,
+      });
+      setReloadKey((key) => key + 1);
       setFormOpen(false);
       setEditing(null);
-      setSuccessMessage(t("updateSuccess"));
-      setReloadKey((key) => key + 1);
+      setSuccessMessage(mode === "create" ? t("createSuccess") : t("updateSuccess"));
+      return [];
     } catch (err) {
       if (isOperationalDaysClientError(err) && err.status === 401) {
         router.replace("/login");
-        return;
+      } else {
+        setFormError(isOperationalDaysClientError(err) ? err.message : tErrors("generic"));
       }
-      setFormError(
-        isOperationalDaysClientError(err) ? err.message : tErrors("generic"),
-      );
+      return inputs.map((item) => item.dayOfWeek);
     } finally {
       setSaving(false);
     }

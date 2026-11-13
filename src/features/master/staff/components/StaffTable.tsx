@@ -7,6 +7,7 @@ import { DataTable } from "@/components/shared/DataTable";
 import type { DataTableColumn } from "@/components/shared/DataTable";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import type { Branch } from "@/features/master/branch/types/branch.types";
 import type {
   PaginationMeta,
   Staff,
@@ -14,6 +15,7 @@ import type {
 
 type StaffTableProps = {
   items: Staff[];
+  branches: Branch[];
   meta: PaginationMeta | null;
   page: number;
   pageSize: number;
@@ -31,6 +33,7 @@ type StaffTableProps = {
 
 export function StaffTable({
   items,
+  branches,
   meta,
   page,
   pageSize,
@@ -61,6 +64,17 @@ export function StaffTable({
         header: t("columns.fullName"),
         cell: (row) => (
           <span className="font-medium text-slate-800">{row.fullName}</span>
+        ),
+      },
+      {
+        id: "branch",
+        header: t("fields.branch"),
+        cell: (row) => (
+          <span className="text-sm text-muted">
+            {row.branchId == null
+              ? "?"
+              : branches.find((branch) => branch.branchId === row.branchId)?.branchName ?? "#" + row.branchId}
+          </span>
         ),
       },
       {
@@ -96,7 +110,7 @@ export function StaffTable({
         ),
       },
     ],
-    [t],
+    [t, branches],
   );
 
   return (
@@ -114,7 +128,7 @@ export function StaffTable({
       onRetry={onRetry}
       emptyTitle={t("emptyTitle")}
       emptyMessage={t("emptyMessage")}
-      minWidth="920px"
+      minWidth="1050px"
       caption={t("tableCaption")}
       rowActions={{
         header: t("columns.actions"),

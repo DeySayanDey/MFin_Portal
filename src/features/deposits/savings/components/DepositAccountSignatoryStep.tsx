@@ -223,7 +223,7 @@ function ImageNameField({
             </Button>
           ) : null}
         </div>
-        <input
+        <input autoComplete="off"
           id={inputId}
           type="file"
           accept="image/*"

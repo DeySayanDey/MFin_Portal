@@ -67,7 +67,6 @@ export function ChangePasswordForm() {
   function passwordField(
     key: FieldKey,
     label: string,
-    autoComplete: "current-password" | "new-password",
     hint?: string,
   ): ReactNode {
     const shown = visible[key];
@@ -77,7 +76,6 @@ export function ChangePasswordForm() {
         name={key}
         type={shown ? "text" : "password"}
         required
-        autoComplete={autoComplete}
         value={form[key]}
         maxLength={MAX_PASSWORD_LENGTH}
         hint={hint}
@@ -104,14 +102,14 @@ export function ChangePasswordForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex min-w-0 flex-col gap-4">
+    <form autoComplete="off" onSubmit={handleSubmit} className="flex min-w-0 flex-col gap-4">
       {notice ? <Alert tone="warning">{notice}</Alert> : null}
 
       <Card title={t("title")} description={t("description")}>
         <div className="grid max-w-xl gap-4">
-          {passwordField("current", t("current"), "current-password")}
-          {passwordField("new", t("new"), "new-password", t("hint"))}
-          {passwordField("confirm", t("confirm"), "new-password")}
+          {passwordField("current", t("current"))}
+          {passwordField("new", t("new"), t("hint"))}
+          {passwordField("confirm", t("confirm"))}
         </div>
 
         <div className="btn-actions mt-5 border-t border-border pt-4">

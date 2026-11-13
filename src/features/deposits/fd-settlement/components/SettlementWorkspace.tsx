@@ -402,7 +402,7 @@ export function SettlementWorkspace({
                 <label htmlFor={fileInputId} className="text-xs font-semibold text-foreground">
                   {t("workspace.upload")}
                 </label>
-                <input
+                <input autoComplete="off"
                   ref={fileRef}
                   id={fileInputId}
                   type="file"

@@ -580,7 +580,7 @@ function DocumentSlot({
           <ImagePlus className="h-6 w-6" aria-hidden="true" />
         </div>
       )}
-      <input
+      <input autoComplete="off"
         ref={inputRef}
         type="file"
         accept="image/jpeg,image/png"

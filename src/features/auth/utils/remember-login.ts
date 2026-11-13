@@ -1,10 +1,12 @@
 const PREFERENCE_COOKIE = "mfin_remember_device";
 const LOGIN_COOKIE = "mfin_remembered_login";
+const ORG_ID_COOKIE = "mfin_remembered_org_id";
 const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
 
 export type RememberedLogin = {
   remember: boolean;
   login: string;
+  orgId: string;
 };
 
 function readCookie(name: string): string | null {
@@ -34,18 +36,34 @@ function clearCookie(name: string) {
 export function readRememberedLogin(): RememberedLogin | null {
   const preference = readCookie(PREFERENCE_COOKIE);
   const login = (readCookie(LOGIN_COOKIE) ?? "").trim();
-  if (preference == null && !login) return null;
-  const remember = preference == null ? Boolean(login) : preference === "1";
-  return { remember, login: remember ? login : "" };
+  const orgId = (readCookie(ORG_ID_COOKIE) ?? "").trim();
+  if (preference == null && !login && !orgId) return null;
+  const remember =
+    preference == null ? Boolean(login || orgId) : preference === "1";
+  return {
+    remember,
+    login: remember ? login : "",
+    orgId: remember ? orgId : "",
+  };
 }
 
-export function saveRememberedLogin(remember: boolean, login = ""): void {
+export function saveRememberedLogin(
+  remember: boolean,
+  login = "",
+  orgId = "",
+): void {
   if (typeof document === "undefined") return;
   writeCookie(PREFERENCE_COOKIE, remember ? "1" : "0", ONE_YEAR_SECONDS);
   const name = login.trim();
+  const org = orgId.trim();
   if (remember && name) {
     writeCookie(LOGIN_COOKIE, name, ONE_YEAR_SECONDS);
-    return;
+  } else {
+    clearCookie(LOGIN_COOKIE);
   }
-  clearCookie(LOGIN_COOKIE);
+  if (remember && org) {
+    writeCookie(ORG_ID_COOKIE, org, ONE_YEAR_SECONDS);
+  } else {
+    clearCookie(ORG_ID_COOKIE);
+  }
 }

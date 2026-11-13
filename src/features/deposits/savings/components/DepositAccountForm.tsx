@@ -1573,7 +1573,7 @@ function DepositAccountFormBody({
   const show = (step: Step) => layout === "page" || form.step === step;
 
   return (
-    <form
+    <form autoComplete="off"
       ref={formRef}
       className={layout === "page" ? "flex flex-col gap-5" : "flex flex-col gap-4"}
       onSubmit={handleSubmit}
@@ -1646,7 +1646,7 @@ function DepositAccountFormBody({
                           : "border-border bg-surface text-slate-800"
                       } ${empty && !checked ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
                     >
-                      <input
+                      <input autoComplete="off"
                         type="radio"
                         name="product-type"
                         className="mt-1"
@@ -1749,7 +1749,7 @@ function DepositAccountFormBody({
                   key={option.optCode}
                   className="inline-flex cursor-pointer items-center gap-2 text-sm text-slate-800"
                 >
-                  <input
+                  <input autoComplete="off"
                     type="radio"
                     name="customer-type"
                     checked={form.custTypeCd === option.optCode}
@@ -2014,7 +2014,7 @@ function DepositAccountFormBody({
                     key={option.optCode}
                     className="inline-flex cursor-pointer items-center gap-2 text-sm text-slate-800"
                   >
-                    <input
+                    <input autoComplete="off"
                       type="radio"
                       name="initial-status"
                       checked={form.statusCd === String(option.optCode)}

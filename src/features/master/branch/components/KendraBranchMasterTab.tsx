@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { useTranslations } from "next-intl";
-import { Ban, CircleCheck, Pencil, Plus } from "lucide-react";
+import { Ban, CircleCheck, Pencil } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -18,6 +18,7 @@ import {
 import {
   createBranch,
   fetchBranchList,
+  fetchHeadOfficeExists,
   isBranchClientError,
   updateBranch,
 } from "@/features/master/branch/services/branch-client";
@@ -71,6 +72,7 @@ export function KendraBranchMasterTab({
   const [successMessage, setSuccessMessage] = useToastText();
 
   const [formOpen, setFormOpen] = useState(false);
+  const [headOfficeExists, setHeadOfficeExists] = useState<boolean | null>(null);
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
   const [editing, setEditing] = useState<Branch | null>(null);
   const [saving, setSaving] = useState(false);
@@ -137,6 +139,29 @@ export function KendraBranchMasterTab({
     };
   }, [appliedFilters, page, pageSize, reloadKey, router, tErrors]);
 
+  useEffect(() => {
+    if (!formOpen) return;
+    let cancelled = false;
+
+    async function checkHeadOffice() {
+      try {
+        const exists = await fetchHeadOfficeExists();
+        if (!cancelled) setHeadOfficeExists(exists);
+      } catch (err) {
+        if (cancelled) return;
+        if (isBranchClientError(err) && err.status === 401) {
+          router.replace("/login");
+          router.refresh();
+          return;
+        }
+        setFormError(isBranchClientError(err) ? err.message : tErrors("generic"));
+      }
+    }
+
+    void checkHeadOffice();
+    return () => { cancelled = true; };
+  }, [formOpen, router, tErrors]);
+
   const total = meta?.total ?? items.length;
   const activeCount = items.filter((row) => row.isActive).length;
   const headCount = items.filter((row) => row.isHead).length;
@@ -195,14 +220,8 @@ export function KendraBranchMasterTab({
     [t],
   );
 
-  function openCreate() {
-    setFormMode("create");
-    setEditing(null);
-    setFormError(null);
-    setFormOpen(true);
-  }
-
   function openEdit(branch: Branch) {
+    setHeadOfficeExists(null);
     setFormMode("edit");
     setEditing(branch);
     setFormError(null);
@@ -325,11 +344,6 @@ export function KendraBranchMasterTab({
       <DataTable<Branch>
         title={t("directoryTitle")}
         description={t("directoryDescription")}
-        actions={
-          <Button type="button" icon={Plus} onClick={openCreate}>
-            {t("add")}
-          </Button>
-        }
         data={items}
         columns={columns}
         getRowKey={(row) => String(row.branchId)}
@@ -384,6 +398,7 @@ export function KendraBranchMasterTab({
         open={formOpen}
         mode={formMode}
         branch={editing}
+        showHeadOffice={editing?.isHead === true || headOfficeExists === false}
         saving={saving}
         errorMessage={formError}
         onClose={() => {

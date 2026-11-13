@@ -278,7 +278,7 @@ export function MemberLocationModal({
         {locked ? <p className="text-sm text-amber-800">{t("memberLocked")}</p> : null}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <label className="inline-flex items-center gap-2 text-sm text-slate-700">
-            <input
+            <input autoComplete="off"
               type="checkbox"
               className="h-4 w-4 accent-brand"
               checked={showInactive}

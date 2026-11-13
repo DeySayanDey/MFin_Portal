@@ -179,7 +179,7 @@ export function ShareSubscriptionEditModal({
         </div>
       }
     >
-      <form
+      <form autoComplete="off"
         id={formId}
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 [&>*]:min-w-0"
         onSubmit={(event) => void submit(event)}

@@ -216,7 +216,7 @@ function LoanEligibilityFormBody({
     : dataType;
 
   return (
-    <form
+    <form autoComplete="off"
       id="loan-eligibility-form"
       className="space-y-4"
       onSubmit={(event) => void handleSubmit(event)}

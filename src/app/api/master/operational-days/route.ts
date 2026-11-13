@@ -3,6 +3,7 @@ import {
   createOperationalDay,
   listOperationalDays,
   updateOperationalDay,
+  saveOperationalDaysBulk,
 } from "@/features/master/operational-days/services/operational-days.service";
 import { toBffErrorResponse } from "@/lib/api/bff-response";
 import {
@@ -65,7 +66,7 @@ export async function POST(request: Request) {
   try {
     const user = await requireSessionUser();
     const body = (await request.json()) as Record<string, unknown>;
-    const action = body.action === "update" ? "update" : "create";
+    const action = body.action === "bulk" ? "bulk" : body.action === "update" ? "update" : "create";
     const scoped = applyStaffBranchScope(user, body);
 
     const branchId =
@@ -76,6 +77,12 @@ export async function POST(request: Request) {
           : undefined;
 
     assertMutationScope(user, branchId);
+
+    if (action === "bulk") {
+      const { action: _a, ...rest } = scoped;
+      const result = await saveOperationalDaysBulk(rest);
+      return NextResponse.json({ success: true, message: "Operational days saved successfully", data: result });
+    }
 
     if (action === "update") {
       const { action: _a, ...rest } = scoped;

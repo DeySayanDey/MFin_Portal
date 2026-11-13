@@ -413,7 +413,7 @@ export function LmsRepaymentScheduleView() {
           </h2>
           <div className="relative mt-3">
             <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-soft" />
-            <input
+            <input autoComplete="off"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder={t("searchPlaceholder")}

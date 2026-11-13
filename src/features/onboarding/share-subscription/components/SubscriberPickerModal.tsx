@@ -138,7 +138,7 @@ export function SubscriberPickerModal({
       }
     >
       <div className="flex min-w-0 flex-col gap-4">
-        <form className="flex flex-col gap-2 sm:flex-row sm:items-end" onSubmit={submitSearch}>
+        <form autoComplete="off" className="flex flex-col gap-2 sm:flex-row sm:items-end" onSubmit={submitSearch}>
           <div className="min-w-0 flex-1">
             <TextField
               label={t("picker.filter")}

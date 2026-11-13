@@ -85,6 +85,11 @@ export function ChargesSetupTable({
           </span>
         ),
       },
+      ...(kind === "deposit" ? [{
+        id: "chargeType",
+        header: t("chargeTypeLabel"),
+        cell: (row: ChargeSetup) => row.chargeTypeDesc || (row.chargeType != null ? String(row.chargeType) : "—"),
+      }] : []),
       {
         id: "chargeRate",
         header: t("fields.chargeRate"),

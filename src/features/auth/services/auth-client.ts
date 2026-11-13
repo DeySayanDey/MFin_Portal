@@ -2,7 +2,7 @@ import { endpoints } from "@/lib/api/endpoints";
 import type { AuthUser } from "@/features/auth/types/auth";
 import { clearStoredAuthUser, storeAuthUser } from "@/features/auth/utils/auth-user-storage";
 
-export async function refreshStoredAuthUser(): Promise<AuthUser | null> {
+export async function refreshStoredAuthUser(onUnauthorized?: () => void): Promise<AuthUser | null> {
   const response = await fetch(endpoints.auth.me, {
     method: "GET",
     headers: { Accept: "application/json" },
@@ -11,6 +11,7 @@ export async function refreshStoredAuthUser(): Promise<AuthUser | null> {
   });
   if (response.status === 401) {
     clearStoredAuthUser();
+    onUnauthorized?.();
     return null;
   }
   const payload = (await response.json().catch(() => ({}))) as {

@@ -245,7 +245,7 @@ export function SupportTicketThread({
             hint={t("messages.hint", { count: draft.length })}
             rows={3}
           />
-          <input
+          <input autoComplete="off"
             ref={fileRef}
             id={inputId}
             type="file"

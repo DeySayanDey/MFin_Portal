@@ -137,7 +137,7 @@ function MatrixCheck({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <input
+    <input autoComplete="off"
       type="checkbox"
       aria-label={label}
       checked={checked}
@@ -538,7 +538,7 @@ export function RoleMenuPermissionsModal({
                     </button>
 
                     <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-surface px-2.5 py-1.5 text-xs font-medium text-slate-700">
-                      <input
+                      <input autoComplete="off"
                         type="checkbox"
                         checked={allGranted}
                         ref={(el) => {

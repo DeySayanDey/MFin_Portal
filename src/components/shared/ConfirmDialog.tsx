@@ -379,7 +379,7 @@ function ConfirmDialogContent({
               <p className="font-medium">
                 {t("keywordPrompt", { keyword: confirmKeyword })}
               </p>
-              <input
+              <input autoComplete="off"
                 type="text"
                 value={keywordInput}
                 onChange={(e) => setKeywordInput(e.target.value)}

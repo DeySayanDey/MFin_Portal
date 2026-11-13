@@ -286,7 +286,7 @@ function LoanRoiSlabsFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="loan-roi-slab-form"
       className="space-y-4"
       onSubmit={(event) => void handleSubmit(event)}

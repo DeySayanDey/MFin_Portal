@@ -33,6 +33,7 @@ export async function GET(request: Request) {
         readOptionalNumber(searchParams.get("charges_id")) ??
         readOptionalNumber(searchParams.get("chargesId")),
       isActive: readOptionalNumber(isActiveRaw),
+      includeDetails: ["1", "true"].includes(searchParams.get("include_details") ?? ""),
     });
 
     return NextResponse.json({

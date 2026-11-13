@@ -6,6 +6,7 @@ import { ApiError } from "@/lib/api/errors";
 import {
   clearAuthSession,
   getAccessToken,
+  getAuthSession,
   setAuthSession,
 } from "@/lib/auth/session";
 import { mapAuthUserDto, mapLoginDataToSession } from "@/features/auth/mappers/auth-mapper";
@@ -21,9 +22,15 @@ export type PublicAuthUser = AuthUser;
 export async function loginWithLaravel(
   input: LoginRequest,
 ): Promise<PublicAuthUser> {
+  const payload: Record<string, unknown> = {
+    org_code: input.orgCode,
+    login: input.login,
+    password: input.password,
+  };
+
   const data = await api.post<LoginDataDto>(
     endpoints.auth.login,
-    { login: input.login, password: input.password },
+    payload,
     { expectEnvelope: true },
   );
 
@@ -41,12 +48,12 @@ export async function loginWithLaravel(
 }
 
 export async function fetchCurrentUserFromLaravel(): Promise<PublicAuthUser> {
-  const token = await getAccessToken();
-  if (!token) {
+  const session = await getAuthSession();
+  if (!session) {
     throw new ApiError({ message: "Unauthorized", status: 401, code: "UNAUTHORIZED" });
   }
   const data = await api.get<{ user?: AuthUser }>(endpoints.auth.me, {
-    accessToken: token,
+    accessToken: session.token,
     expectEnvelope: true,
   });
   const raw = data?.user;
@@ -57,7 +64,12 @@ export async function fetchCurrentUserFromLaravel(): Promise<PublicAuthUser> {
       code: "UNEXPECTED",
     });
   }
-  return mapAuthUserDto(raw as AuthUserDto);
+  const user = mapAuthUserDto(raw as AuthUserDto);
+  return {
+    ...user,
+    orgSchema: user.orgSchema || session.orgSchema,
+    passwordExpired: session.user.passwordExpired,
+  };
 }
 
 export async function logoutFromLaravel(): Promise<void> {

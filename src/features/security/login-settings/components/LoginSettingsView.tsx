@@ -196,7 +196,7 @@ export function LoginSettingsView() {
       <PageToast message={notice} />
       <PageToast message={formError} tone="error" />
 
-      <form id="login-settings-form" onSubmit={(event) => void handleSubmit(event)}>
+      <form autoComplete="off" id="login-settings-form" onSubmit={(event) => void handleSubmit(event)}>
         <Card title={t("title")} description={t("description")}>
           <div className="grid gap-4 lg:grid-cols-2">
             <Card

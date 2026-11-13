@@ -14,6 +14,7 @@ import {
   operationalDayCreateInputSchema,
   operationalDayDtoSchema,
   operationalDayUpdateInputSchema,
+  operationalDaysBulkInputSchema,
   paginationMetaDtoSchema,
 } from "@/features/master/operational-days/schemas/operational-days.schema";
 import type {
@@ -21,6 +22,7 @@ import type {
   OperationalDayDto,
   OperationalDayListQuery,
   OperationalDayListResult,
+  OperationalDaysBulkResult,
 } from "@/features/master/operational-days/types/operational-days.types";
 import {
   OPERATIONAL_DAYS_DEFAULT_PER_PAGE,
@@ -32,6 +34,40 @@ function clampPerPage(value: number | undefined): number {
   const raw = value ?? OPERATIONAL_DAYS_DEFAULT_PER_PAGE;
   if (!Number.isFinite(raw) || raw < 1) return OPERATIONAL_DAYS_DEFAULT_PER_PAGE;
   return Math.min(Math.floor(raw), OPERATIONAL_DAYS_MAX_PER_PAGE);
+}
+
+/** Laravel: POST /api/OperationalDaysBulkSave */
+export async function saveOperationalDaysBulk(input: unknown): Promise<OperationalDaysBulkResult> {
+  const validated = operationalDaysBulkInputSchema.safeParse(input);
+  if (!validated.success) {
+    throw new ApiError({ message: "Validation failed", status: 422, code: "VALIDATION", details: validated.error.flatten() });
+  }
+  return withUnauthorizedClear(async () => {
+    const token = await requireAccessToken();
+    const value = validated.data;
+    const data = await api.post<{ branch_id: number; created: number; updated: number; days: unknown[] }>(
+      endpoints.operationalDays.bulkSave,
+      {
+        branch_id: value.branchId,
+        days: value.days.map((day) => ({ day_of_week: day.dayOfWeek, ...(day.recId != null ? { rec_id: day.recId } : {}) })),
+        is_operational: value.isOperational,
+        is_half_day: value.isHalfDay,
+        open_time: value.openTime ?? null,
+        close_time: value.closeTime ?? null,
+        is_active: value.isActive,
+      },
+      { accessToken: token, expectEnvelope: true },
+    );
+    if (!data || !Array.isArray(data.days) || data.branch_id !== value.branchId ||
+        !Number.isInteger(data.created) || !Number.isInteger(data.updated)) {
+      throw new ApiError({ message: "Operational days response shape was unexpected", status: 500, code: "UNEXPECTED" });
+    }
+    const days = data.days.map(parseRow);
+    if (days.length !== value.days.length || days.some((day) => day == null)) {
+      throw new ApiError({ message: "Operational days response shape was unexpected", status: 500, code: "UNEXPECTED" });
+    }
+    return { branchId: data.branch_id, created: data.created, updated: data.updated, days: days as OperationalDay[] };
+  });
 }
 
 async function requireAccessToken(): Promise<string> {

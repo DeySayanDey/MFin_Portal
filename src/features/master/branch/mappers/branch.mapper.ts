@@ -73,8 +73,9 @@ export function mapBranchUpdateToDto(input: BranchUpdateInput): BranchUpdateDto 
 
 export function mapBranchMutationResult(dto: {
   branch_id: number;
+  branch_code?: string;
 }): BranchMutationResult {
-  return { branchId: dto.branch_id };
+  return { branchId: dto.branch_id, ...(dto.branch_code !== undefined ? { branchCode: dto.branch_code } : {}) };
 }
 
 export function mapPaginationMetaDto(dto: PaginationMetaDto): PaginationMeta {

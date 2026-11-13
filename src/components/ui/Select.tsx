@@ -276,7 +276,7 @@ export function Select({
             <div className="sticky top-0 z-10 border-b border-border bg-surface p-2">
               <label className="relative block">
                 <Search className="pointer-events-none absolute top-1/2 left-2.5 h-3.5 w-3.5 -translate-y-1/2 text-muted-soft" />
-                <input
+                <input autoComplete="off"
                   ref={searchRef}
                   type="text"
                   value={query}

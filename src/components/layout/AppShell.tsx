@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "@/i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import type { AuthUser } from "@/features/auth/types/auth";
 import { refreshStoredAuthUser } from "@/features/auth/services/auth-client";
 import { storeAuthUser } from "@/features/auth/utils/auth-user-storage";
@@ -18,6 +19,8 @@ type AppShellProps = {
 export function AppShell({ children, user }: AppShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const t = useTranslations("auth");
   const mainRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -28,8 +31,11 @@ export function AppShell({ children, user }: AppShellProps) {
 
   useEffect(() => {
     storeAuthUser(user);
-    void refreshStoredAuthUser();
-  }, [user]);
+    void refreshStoredAuthUser(() => {
+      router.replace("/login");
+      router.refresh();
+    }).catch(() => undefined);
+  }, [user, router]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -79,7 +85,14 @@ export function AppShell({ children, user }: AppShellProps) {
           style={{ flex: "1 1 auto", minHeight: 0, overflowY: "auto" }}
         >
           <div className="app-content">
-            <div className="app-content-inner">{children}</div>
+            <div className="app-content-inner">
+              {user.passwordExpired ? (
+                <p role="alert" className="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                  {t("passwordExpiredNotice")}
+                </p>
+              ) : null}
+              {children}
+            </div>
           </div>
         </main>
         <Footer />

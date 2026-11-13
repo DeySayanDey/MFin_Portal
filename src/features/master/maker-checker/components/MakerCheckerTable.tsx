@@ -22,6 +22,7 @@ type MakerCheckerTableProps = {
   errorMessage?: string;
   statusBusyId?: number | null;
   roleNameById: Record<string, string>;
+  voucherNameByCode: Record<string, string>;
   onRetry: () => void;
   onPageChange: (page: number) => void;
   onPageSizeChange: (pageSize: number) => void;
@@ -47,6 +48,7 @@ export function MakerCheckerTable({
   error,
   errorMessage,
   roleNameById,
+  voucherNameByCode,
   onRetry,
   onPageChange,
   onPageSizeChange,
@@ -71,7 +73,7 @@ export function MakerCheckerTable({
         id: "voucherType",
         header: t("columns.voucherType"),
         cell: (row) => (
-          <span className="font-medium text-slate-800">{row.voucherType}</span>
+          <span className="font-medium text-slate-800">{voucherNameByCode[String(row.voucherType)] || row.voucherType}</span>
         ),
       },
       {
@@ -132,7 +134,7 @@ export function MakerCheckerTable({
         ),
       },
     ],
-    [locale, roleNameById, t],
+    [locale, roleNameById, voucherNameByCode, t],
   );
 
   return (

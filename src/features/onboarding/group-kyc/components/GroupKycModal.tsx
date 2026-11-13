@@ -506,7 +506,7 @@ export function GroupKycModal({
         {decision && decision.status !== 1 ? (
           <label className="mt-3 block text-sm">
             <span className="mb-1 block font-medium text-slate-700">{t("reason")}</span>
-            <textarea
+            <textarea autoComplete="off"
               value={remarks}
               maxLength={200}
               onChange={(event) => setRemarks(event.target.value)}

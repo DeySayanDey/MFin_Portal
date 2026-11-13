@@ -191,7 +191,7 @@ function RolesFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="roles-form"
       onSubmit={(event) => void handleSubmit(event)}
       className="space-y-4"

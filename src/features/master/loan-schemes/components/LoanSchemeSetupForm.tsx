@@ -394,7 +394,7 @@ function LoanSchemeSetupFormBody({
   };
 
   return (
-    <form
+    <form autoComplete="off"
       id="loan-scheme-setup-form"
       className="space-y-4"
       onSubmit={(event) => void handleSubmit(event)}

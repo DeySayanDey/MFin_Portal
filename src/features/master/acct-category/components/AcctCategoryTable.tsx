@@ -1,12 +1,10 @@
 "use client";
 
-import { useMemo, type ReactNode } from "react";
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { Pencil } from "lucide-react";
 import { DataTable } from "@/components/shared/DataTable";
 import type { DataTableColumn } from "@/components/shared/DataTable";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
 import type {
   AcctCategory,
   PaginationMeta,
@@ -24,8 +22,6 @@ type AcctCategoryTableProps = {
   onRetry: () => void;
   onPageChange: (page: number) => void;
   onPageSizeChange: (pageSize: number) => void;
-  onEdit: (row: AcctCategory) => void;
-  headerActions?: ReactNode;
 };
 
 function isKnownType(
@@ -45,8 +41,6 @@ export function AcctCategoryTable({
   onRetry,
   onPageChange,
   onPageSizeChange,
-  onEdit,
-  headerActions,
 }: AcctCategoryTableProps) {
   const t = useTranslations("master.acctCategory");
 
@@ -100,7 +94,6 @@ export function AcctCategoryTable({
     <DataTable<AcctCategory>
       title={t("title")}
       description={t("description")}
-      actions={headerActions}
       data={items}
       columns={columns}
       getRowKey={(row) => String(row.categId)}
@@ -113,19 +106,6 @@ export function AcctCategoryTable({
       emptyMessage={t("emptyMessage")}
       minWidth="760px"
       caption={t("tableCaption")}
-      rowActions={{
-        header: t("columns.actions"),
-        render: (row) => (
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            icon={Pencil}
-            tooltip={t("edit")}
-            onClick={() => onEdit(row)}
-          />
-        ),
-      }}
       pagination={{
         page,
         pageSize,

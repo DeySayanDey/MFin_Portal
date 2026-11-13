@@ -191,7 +191,7 @@ function CenterFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="center-form"
       className="space-y-4"
       onSubmit={(e) => void handleSubmit(e)}

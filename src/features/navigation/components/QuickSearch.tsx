@@ -238,7 +238,7 @@ export function QuickSearch({
     <label className="relative block w-full">
       <span className="sr-only">{t("title")}</span>
       <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-soft" />
-      <input
+      <input autoComplete="off"
         ref={inputRef}
         type="search"
         value={query}
@@ -261,7 +261,6 @@ export function QuickSearch({
             ? `${listId}-option-${activeIndex}`
             : undefined
         }
-        autoComplete="off"
         spellCheck={false}
       />
       {query ? (

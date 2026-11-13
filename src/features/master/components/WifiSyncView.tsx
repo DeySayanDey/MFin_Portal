@@ -197,7 +197,7 @@ export function WifiSyncView() {
 
           <label className="relative mb-3 block">
             <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-soft" />
-            <input
+            <input autoComplete="off"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Filter networks..."
@@ -232,7 +232,7 @@ export function WifiSyncView() {
 
           <div className="mt-4 space-y-3 rounded-xl bg-slate-50 p-3">
             <label className="flex items-center gap-2 text-sm text-slate-700">
-              <input
+              <input autoComplete="off"
                 type="checkbox"
                 checked={encrypt}
                 onChange={(event) => setEncrypt(event.target.checked)}
@@ -241,7 +241,7 @@ export function WifiSyncView() {
               Encrypt all sync data in transit
             </label>
             <label className="flex items-center gap-2 text-sm text-slate-700">
-              <input
+              <input autoComplete="off"
                 type="checkbox"
                 checked={autoSync}
                 onChange={(event) => setAutoSync(event.target.checked)}

@@ -489,7 +489,7 @@ export function ShareSubscriptionView() {
       <PageToast message={notice?.text ?? null} tone={notice?.tone} />
       <PageToast message={formError} tone="error" />
 
-      <form
+      <form autoComplete="off"
         className="rounded-[var(--radius-card)] border border-border bg-surface p-4 shadow-[var(--shadow-card)]"
         onSubmit={(event) => void submit(event)}
       >

@@ -333,7 +333,7 @@ function DepositInterestFormBody({
   const displayError = internalError || errorMessage || null;
 
   return (
-    <form
+    <form autoComplete="off"
       id="deposit-interest-form"
       className="space-y-4"
       onSubmit={(e) => void handleSubmit(e)}

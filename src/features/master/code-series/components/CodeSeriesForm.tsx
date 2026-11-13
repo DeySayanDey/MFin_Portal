@@ -85,7 +85,7 @@ function CodeSeriesFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="code-series-form"
       onSubmit={(event) => void handleSubmit(event)}
       className="space-y-4"

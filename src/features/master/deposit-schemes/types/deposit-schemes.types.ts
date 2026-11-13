@@ -33,14 +33,14 @@ export type DepositSchemeDto = {
   prn_ledger?: number | null;
   prn_ledger_code?: string | null;
   prn_ledger_name?: string | null;
-  prn_ledger_type?: string | null;
+  prn_ledger_type?: string | number | null;
   prn_ledger_mainhd_id?: number | null;
   prn_ledger_mainhd_name?: string | null;
   prn_ledger_is_active?: boolean | null;
   intt_ledg?: number | null;
   intt_ledger_code?: string | null;
   intt_ledger_name?: string | null;
-  intt_ledger_type?: string | null;
+  intt_ledger_type?: string | number | null;
   intt_ledger_mainhd_id?: number | null;
   intt_ledger_mainhd_name?: string | null;
   intt_ledger_is_active?: boolean | null;
@@ -60,15 +60,15 @@ export type DepositSchemeSetup = {
   depositTypeDesc: string;
   prodTypeCd: number;
   prodTypeDesc: string;
-  roiPercent: number;
+  roiPercent: number | null;
   inttTypeCd: number | null;
   inttTypeDesc: string | null;
   inttPayoutCd: number | null;
   inttPayoutDesc: string | null;
-  minBalance: number;
+  minBalance: number | null;
   withdAllow: boolean;
   maxWithdAmt: number | null;
-  inopDays: number;
+  inopDays: number | null;
   prnLedger: number | null;
   prnLedgerCode: string | null;
   prnLedgerName: string | null;
@@ -126,17 +126,17 @@ export type DepositSchemeCharge = {
   chargeRate: number | null;
   figureCd: number | null;
   figureDesc: string;
-  maxAmount: number | null;
-  taxPercent: number;
-  chargesDuringCd: number | null;
-  chargesDuringDesc: string;
-  chargesGl: number | null;
-  chargesGlCode: string | null;
-  chargesGlName: string | null;
+  maxAmount?: number | null;
+  taxPercent?: number | null;
+  chargesDuringCd?: number | null;
+  chargesDuringDesc?: string;
+  chargesGl?: number | null;
+  chargesGlCode?: string | null;
+  chargesGlName?: string | null;
   chargeIsActive: boolean;
   isActive: boolean;
-  createdBy: number | null;
-  createdAt: string | null;
+  createdBy?: number | null;
+  createdAt?: string | null;
 };
 
 export type DepositSchemeChargeSaveInput = {
@@ -166,6 +166,7 @@ export type DepositSchemeChargeListQuery = {
   schemeId?: number;
   chargesId?: number;
   isActive?: number;
+  includeDetails?: boolean;
 };
 
 export type DepositSchemeChargeListResult = {

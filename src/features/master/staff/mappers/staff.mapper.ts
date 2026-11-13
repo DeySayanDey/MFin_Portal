@@ -33,6 +33,7 @@ export function mapStaffDto(dto: {
   full_name: string;
   short_name?: string | null;
   designation_id?: number | null;
+  role_id?: number | null;
   designation_name?: string | null;
   mobile?: string | null;
   email?: string | null;
@@ -59,6 +60,7 @@ export function mapStaffDto(dto: {
     fullName: dto.full_name,
     shortName: dto.short_name ?? null,
     designationId: dto.designation_id ?? null,
+    roleId: dto.role_id ?? null,
     designationName: dto.designation_name ?? null,
     mobile: dto.mobile ?? null,
     email: dto.email ?? null,
@@ -108,6 +110,7 @@ function mapWritable(input: StaffWritableInput): StaffWritableDto {
 export function mapStaffCreateToDto(input: StaffCreateInput): StaffCreateDto {
   return {
     ...mapWritable(input),
+    ...(input.roleId !== undefined ? { role_id: input.roleId } : {}),
     user_name: input.userName,
     user_pass: input.userPass,
   };
@@ -116,6 +119,7 @@ export function mapStaffCreateToDto(input: StaffCreateInput): StaffCreateDto {
 export function mapStaffUpdateToDto(input: StaffUpdateInput): StaffUpdateDto {
   return {
     ...mapWritable(input),
+    ...(input.roleId !== undefined ? { role_id: input.roleId } : {}),
     staff_id: input.staffId,
     employee_code: input.employeeCode,
   };

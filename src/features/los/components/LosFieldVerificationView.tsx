@@ -575,7 +575,7 @@ export function LosFieldVerificationView({
           </div>
         }
       >
-        <form onSubmit={handleSaveInspection} className="space-y-4">
+        <form autoComplete="off" onSubmit={handleSaveInspection} className="space-y-4">
           <PageToast message={formError} tone="error" />
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -646,7 +646,7 @@ export function LosFieldVerificationView({
               onChange={setRecommendedAmount}
             />
             <div className="flex items-center gap-2 pt-6">
-              <input
+              <input autoComplete="off"
                 type="checkbox"
                 id="all_verified"
                 checked={allVerified}

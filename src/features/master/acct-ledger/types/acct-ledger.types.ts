@@ -6,7 +6,8 @@ export type AcctLedgerDto = {
   ledger_id: number;
   ledger_code: string;
   ledger_name: string;
-  ledger_type?: string | null;
+  ledger_type?: string | number | null;
+  adjustable_eligible?: boolean | number | string | null;
   mainhd_id: number;
   mainhd_code?: string | null;
   mainhd_name?: string | null;
@@ -24,6 +25,7 @@ export type AcctLedger = {
   ledgerCode: string;
   ledgerName: string;
   ledgerType: string | null;
+  adjustableEligible: boolean | null;
   mainhdId: number;
   mainhdCode: string | null;
   mainhdName: string | null;
@@ -72,7 +74,7 @@ export type AcctLedgerCreateInput = {
   ledgerName: string;
   mainhdId: number;
   ledgerCode?: string | null;
-  ledgerType?: string | null;
+  ledgerType?: string | number | null;
   isActive?: boolean;
 };
 
@@ -80,7 +82,7 @@ export type AcctLedgerCreateDto = {
   ledger_name: string;
   mainhd_id: number;
   ledger_code?: string | null;
-  ledger_type?: string | null;
+  ledger_type?: string | number | null;
   is_active?: boolean;
 };
 
@@ -89,7 +91,7 @@ export type AcctLedgerUpdateInput = {
   ledgerName: string;
   mainhdId: number;
   ledgerCode?: string | null;
-  ledgerType?: string | null;
+  ledgerType?: string | number | null;
   isActive?: boolean;
 };
 
@@ -98,7 +100,7 @@ export type AcctLedgerUpdateDto = {
   ledger_name: string;
   mainhd_id: number;
   ledger_code?: string | null;
-  ledger_type?: string | null;
+  ledger_type?: string | number | null;
   is_active?: boolean;
 };
 

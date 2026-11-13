@@ -19,6 +19,7 @@ export function Input({
   return (
     <input
       {...props}
+      autoComplete="off"
       readOnly={readOnly}
       className={`${controlClass} ${readOnly ? controlReadOnlyClass : ""} ${className}`.trim()}
     />

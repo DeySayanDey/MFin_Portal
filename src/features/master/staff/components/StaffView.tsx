@@ -23,13 +23,15 @@ import {
   updateStaff,
 } from "@/features/master/staff/services/staff-client";
 import {
+  fetchBranch,
   fetchBranchList,
   isBranchClientError,
 } from "@/features/master/branch/services/branch-client";
 import type { Branch } from "@/features/master/branch/types/branch.types";
+import { fetchRoleList, isRoleClientError } from "@/features/master/roles/services/role-client";
+import type { Role } from "@/features/master/roles/types/role.types";
 import type {
   DesignationOption,
-  ModuleAccessOption,
   PaginationMeta,
   Staff,
   StaffCreateInput,
@@ -73,8 +75,10 @@ export function StaffView() {
   const [reloadKey, setReloadKey] = useState(0);
 
   const [branches, setBranches] = useState<Branch[]>([]);
+  const [staffBranches, setStaffBranches] = useState<Branch[]>([]);
   const [designations, setDesignations] = useState<DesignationOption[]>([]);
-  const [modules, setModules] = useState<ModuleAccessOption[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [roleLoadError, setRoleLoadError] = useState<string | null>(null);
 
   const [formOpen, setFormOpen] = useState(false);
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
@@ -96,7 +100,6 @@ export function StaffView() {
         ]);
         if (cancelled) return;
         setDesignations(lookupResult.designations);
-        setModules(lookupResult.modules);
         setBranches(branchResult.items);
       } catch (err) {
         if (cancelled) return;
@@ -115,6 +118,37 @@ export function StaffView() {
       cancelled = true;
     };
   }, [router]);
+
+  useEffect(() => {
+    if (!formOpen) return;
+    let cancelled = false;
+    async function loadRoles() {
+      setRoleLoadError(null);
+      try {
+        const allRoles: Role[] = [];
+        let rolePage = 1;
+        let hasMore = true;
+        while (hasMore) {
+          const result = await fetchRoleList({ page: rolePage, perPage: 100 });
+          allRoles.push(...result.items);
+          hasMore = Boolean(result.meta?.hasMore && result.items.length);
+          rolePage += 1;
+        }
+        if (!cancelled) setRoles(allRoles);
+      } catch (err) {
+        if (cancelled) return;
+        setRoles([]);
+        if (isRoleClientError(err) && err.status === 401) {
+          router.replace("/login");
+          router.refresh();
+          return;
+        }
+        setRoleLoadError(t("roleLoadError"));
+      }
+    }
+    void loadRoles();
+    return () => { cancelled = true; };
+  }, [formOpen, router, t]);
 
   useEffect(() => {
     if (filtersEqual(filters, appliedFilters)) return;
@@ -178,6 +212,25 @@ export function StaffView() {
       cancelled = true;
     };
   }, [appliedFilters, page, pageSize, reloadKey, router, tErrors]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const knownIds = new Set(branches.map((branch) => branch.branchId));
+    const missingIds = [...new Set(items.flatMap((staff) =>
+      staff.branchId != null && !knownIds.has(staff.branchId) ? [staff.branchId] : [],
+    ))];
+
+    async function loadStaffBranches() {
+      const results = await Promise.allSettled(missingIds.map((id) => fetchBranch(id)));
+      if (cancelled) return;
+      setStaffBranches(results.flatMap((result) =>
+        result.status === "fulfilled" && result.value ? [result.value] : [],
+      ));
+    }
+
+    void loadStaffBranches();
+    return () => { cancelled = true; };
+  }, [items, branches]);
 
   function openCreate() {
     setFormMode("create");
@@ -297,6 +350,7 @@ export function StaffView() {
 
       <StaffTable
         items={items}
+        branches={[...branches, ...staffBranches]}
         meta={meta}
         page={page}
         pageSize={pageSize}
@@ -325,7 +379,8 @@ export function StaffView() {
         staff={editing}
         branches={branches}
         designations={designations}
-        modules={modules}
+        roles={roles}
+        roleLoadError={roleLoadError}
         saving={saving}
         errorMessage={formError}
         onClose={() => {

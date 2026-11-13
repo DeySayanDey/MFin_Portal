@@ -4,6 +4,7 @@ import { api } from "@/lib/api/client";
 import { endpoints } from "@/lib/api/endpoints";
 import { ApiError } from "@/lib/api/errors";
 import { clearAuthSession, getAccessToken } from "@/lib/auth/session";
+import { listApplOptions } from "@/features/master/appl-options/services/appl-options.service";
 import {
   mapAcctLedgerCreateToDto,
   mapAcctLedgerDto,
@@ -139,6 +140,7 @@ export async function createAcctLedger(input: unknown): Promise<AcctLedger> {
 
   return withUnauthorizedClear(async () => {
     const token = await requireAccessToken();
+    await assertCashLedgerUnique(validated.data.ledgerType);
     const body = mapAcctLedgerCreateToDto(validated.data);
     const data = await api.post<AcctLedgerDto>(endpoints.acctLedger.add, body, {
       accessToken: token,
@@ -180,6 +182,7 @@ export async function updateAcctLedger(input: unknown): Promise<AcctLedger> {
 
   return withUnauthorizedClear(async () => {
     const token = await requireAccessToken();
+    await assertCashLedgerUnique(validated.data.ledgerType, validated.data.ledgerId);
     const body = mapAcctLedgerUpdateToDto(validated.data);
     const data = await api.post<AcctLedgerDto>(
       endpoints.acctLedger.edit,
@@ -209,4 +212,30 @@ export async function updateAcctLedger(input: unknown): Promise<AcctLedger> {
 
     return item;
   });
+}
+
+async function assertCashLedgerUnique(ledgerType: string | number | null | undefined, ledgerId?: number): Promise<void> {
+  if (ledgerType == null || ledgerType === "") return;
+  const options = await listApplOptions({ optGrpId: 52, includeInactive: true });
+  const cashOptions = options.filter((option) => option.optDescription.trim().toLocaleLowerCase() === "cash");
+  if (cashOptions.length !== 1) {
+    throw new ApiError({ message: "Unable to identify the cash ledger type", status: 422, code: "VALIDATION" });
+  }
+  if (String(ledgerType) !== String(cashOptions[0].optCode)) return;
+  let page = 1;
+  let lastPage = 1;
+  const cashLedgers: AcctLedger[] = [];
+  do {
+    const result = await listAcctLedgers({ page, perPage: 200 });
+    cashLedgers.push(...result.items.filter((item) => item.ledgerType === String(cashOptions[0].optCode)));
+    if (!result.meta && result.items.length === 200) {
+      throw new ApiError({ message: "Unable to verify existing cash ledgers", status: 500, code: "UNEXPECTED" });
+    }
+    lastPage = result.meta?.lastPage ?? 1;
+    page += 1;
+  } while (page <= lastPage);
+  if (ledgerId != null && cashLedgers.some((item) => item.ledgerId === ledgerId)) return;
+  if (cashLedgers.length) {
+    throw new ApiError({ message: "A cash ledger already exists", status: 422, code: "VALIDATION" });
+  }
 }

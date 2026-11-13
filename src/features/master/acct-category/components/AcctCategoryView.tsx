@@ -2,28 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Plus } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { ModulePageShell } from "@/components/shared/ModulePageShell";
-import { Button } from "@/components/ui/Button";
-import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { masterModulePages } from "@/lib/modules/module.types";
 import {
   AcctCategoryFilters,
   type AcctCategoryFilterValues,
 } from "@/features/master/acct-category/components/AcctCategoryFilters";
 import { AcctCategoryTable } from "@/features/master/acct-category/components/AcctCategoryTable";
-import { AcctCategoryForm } from "@/features/master/acct-category/components/AcctCategoryForm";
 import {
-  createAcctCategory,
   fetchAcctCategoryList,
   isAcctCategoryClientError,
-  updateAcctCategory,
 } from "@/features/master/acct-category/services/acct-category-client";
 import type {
   AcctCategory,
-  AcctCategoryCreateInput,
-  AcctCategoryUpdateInput,
   PaginationMeta,
 } from "@/features/master/acct-category/types/acct-category.types";
 import { ACCT_CATEGORY_DEFAULT_PER_PAGE } from "@/features/master/acct-category/types/acct-category.types";
@@ -49,7 +41,6 @@ export type AcctCategoryViewProps = {
 export function AcctCategoryView({
   embedded = false,
 }: AcctCategoryViewProps = {}) {
-  const t = useTranslations("master.acctCategory");
   const tErrors = useTranslations("errors");
   const router = useRouter();
   const pageMeta = masterModulePages.acctCategory.toJSON();
@@ -67,19 +58,11 @@ export function AcctCategoryView({
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const [reloadKey, setReloadKey] = useState(0);
 
-  const [formOpen, setFormOpen] = useState(false);
-  const [formMode, setFormMode] = useState<"create" | "edit">("create");
-  const [editing, setEditing] = useState<AcctCategory | null>(null);
-  const [saving, setSaving] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useToastText();
-
   useEffect(() => {
     if (filtersEqual(filters, appliedFilters)) return;
     const timer = window.setTimeout(() => {
       setPage(1);
       setAppliedFilters(filters);
-      setSuccessMessage(null);
     }, SEARCH_DEBOUNCE_MS);
     return () => window.clearTimeout(timer);
   }, [filters, appliedFilters]);
@@ -124,82 +107,8 @@ export function AcctCategoryView({
     };
   }, [appliedFilters, page, pageSize, reloadKey, router, tErrors]);
 
-  function openCreate() {
-    setFormMode("create");
-    setEditing(null);
-    setFormError(null);
-    setFormOpen(true);
-  }
-
-  function openEdit(category: AcctCategory) {
-    setFormMode("edit");
-    setEditing(category);
-    setFormError(null);
-    setFormOpen(true);
-  }
-
-  async function handleCreate(input: AcctCategoryCreateInput) {
-    setSaving(true);
-    setFormError(null);
-    try {
-      await createAcctCategory(input);
-      setFormOpen(false);
-      setEditing(null);
-      setSuccessMessage(t("createSuccess"));
-      setReloadKey((key) => key + 1);
-    } catch (err) {
-      if (isAcctCategoryClientError(err) && err.status === 401) {
-        router.replace("/login");
-        return;
-      }
-      setFormError(
-        isAcctCategoryClientError(err) ? err.message : tErrors("generic"),
-      );
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  async function handleUpdate(input: AcctCategoryUpdateInput) {
-    setSaving(true);
-    setFormError(null);
-    try {
-      await updateAcctCategory(input);
-      setFormOpen(false);
-      setEditing(null);
-      setItems((prev) =>
-        prev.map((item) =>
-          item.categId === input.categId
-            ? {
-                ...item,
-                categName: input.categName,
-                categoryType:
-                  input.categoryType !== undefined
-                    ? input.categoryType
-                    : item.categoryType,
-              }
-            : item,
-        ),
-      );
-      setSuccessMessage(t("updateSuccess"));
-      setReloadKey((key) => key + 1);
-    } catch (err) {
-      if (isAcctCategoryClientError(err) && err.status === 401) {
-        router.replace("/login");
-        return;
-      }
-      setFormError(
-        isAcctCategoryClientError(err) ? err.message : tErrors("generic"),
-      );
-    } finally {
-      setSaving(false);
-    }
-  }
-
   const body = (
     <>
-      <PageToast message={successMessage} />
-
       <AcctCategoryFilters
         values={filters}
         onChange={setFilters}
@@ -207,7 +116,6 @@ export function AcctCategoryView({
           setFilters(DEFAULT_FILTERS);
           setAppliedFilters(DEFAULT_FILTERS);
           setPage(1);
-          setSuccessMessage(null);
         }}
       />
 
@@ -225,27 +133,6 @@ export function AcctCategoryView({
           setPageSize(size);
           setPage(1);
         }}
-        onEdit={openEdit}
-        headerActions={
-          <Button type="button" icon={Plus} onClick={openCreate}>
-            {t("add")}
-          </Button>
-        }
-      />
-
-      <AcctCategoryForm
-        open={formOpen}
-        mode={formMode}
-        category={editing}
-        saving={saving}
-        errorMessage={formError}
-        onClose={() => {
-          if (saving) return;
-          setFormOpen(false);
-          setFormError(null);
-        }}
-        onCreate={handleCreate}
-        onUpdate={handleUpdate}
       />
     </>
   );

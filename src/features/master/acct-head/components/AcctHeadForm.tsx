@@ -171,7 +171,7 @@ function AcctHeadFormBody({
   }
 
   return (
-    <form
+    <form autoComplete="off"
       id="acct-head-form"
       className="space-y-4"
       onSubmit={(e) => void handleSubmit(e)}

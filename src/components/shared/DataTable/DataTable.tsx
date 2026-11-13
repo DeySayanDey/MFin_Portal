@@ -263,7 +263,7 @@ export function DataTable<T>({
             <tr className="border-b border-border text-[11px] uppercase tracking-[0.12em] text-muted-soft">
               {selection ? (
                 <th scope="col" className="w-10 pb-3 pe-3 ps-1 font-semibold">
-                  <input
+                  <input autoComplete="off"
                     type="checkbox"
                     className="h-4 w-4 rounded border-border text-brand focus:ring-brand/30"
                     checked={allSelected}
@@ -318,7 +318,7 @@ export function DataTable<T>({
                 >
                   {selection ? (
                     <td className="py-3.5 pe-3 ps-1">
-                      <input
+                      <input autoComplete="off"
                         type="checkbox"
                         className="h-4 w-4 rounded border-border text-brand focus:ring-brand/30"
                         checked={selected}

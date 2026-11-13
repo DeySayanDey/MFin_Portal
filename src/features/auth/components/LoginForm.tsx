@@ -19,6 +19,7 @@ export function LoginForm() {
   const t = useTranslations("auth");
   const tErrors = useTranslations("errors");
   const router = useRouter();
+  const [orgId, setOrgId] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -29,11 +30,12 @@ export function LoginForm() {
     if (!saved) return;
     setRemember(saved.remember);
     if (saved.login) setUsername(saved.login);
+    if (saved.orgId) setOrgId(saved.orgId);
   }, []);
 
   function updateRemember(next: boolean) {
     setRemember(next);
-    saveRememberedLogin(next, next ? username : "");
+    saveRememberedLogin(next, next ? username : "", next ? orgId : "");
   }
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -43,7 +45,7 @@ export function LoginForm() {
     event.preventDefault();
     setError(null);
 
-    const parsed = loginFormSchema.safeParse({ username, password });
+    const parsed = loginFormSchema.safeParse({ orgId, username, password });
     if (!parsed.success) {
       const flat = parsed.error.flatten().fieldErrors;
       const next: Record<string, string> = {};
@@ -68,6 +70,7 @@ export function LoginForm() {
         },
         credentials: "same-origin",
         body: JSON.stringify({
+          orgCode: Number(parsed.data.orgId),
           login: parsed.data.username,
           password: parsed.data.password,
           remember,
@@ -78,10 +81,15 @@ export function LoginForm() {
         success?: boolean;
         message?: string;
         data?: { user?: import("@/features/auth/types/auth").AuthUser };
+        errors?: { remaining_minutes?: number } | null;
       };
 
       if (!response.ok || payload.success === false) {
-        setError(payload.message || t("invalidCredentials"));
+        const message = payload.message || t("invalidCredentials");
+        const minutes = payload.errors?.remaining_minutes;
+        setError(response.status === 423 && typeof minutes === "number"
+          ? `${message} ${t("lockRemaining", { minutes })}`
+          : message);
         return;
       }
 
@@ -90,7 +98,7 @@ export function LoginForm() {
         return;
       }
 
-      saveRememberedLogin(remember, parsed.data.username);
+      saveRememberedLogin(remember, parsed.data.username, parsed.data.orgId);
       storeAuthUser(payload.data.user);
       clearMenuClientCache();
       router.replace("/dashboard");
@@ -103,12 +111,52 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full flex-col gap-3.5">
+    <form autoComplete="off" onSubmit={handleSubmit} className="flex w-full flex-col gap-3.5">
+      <TextField
+        label={t("orgId")}
+        name="orgId"
+        required
+        placeholder={t("orgIdPlaceholder")}
+        value={orgId}
+        maxLength={3}
+        inputMode="numeric"
+        restrict="digits"
+        error={fieldErrors.orgId}
+        onKeyDown={(e) => {
+          if (
+            !/[0-9]/.test(e.key) &&
+            !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab", "Enter"].includes(
+              e.key,
+            ) &&
+            !e.ctrlKey &&
+            !e.metaKey
+          ) {
+            e.preventDefault();
+          }
+        }}
+        validate={(value, final) =>
+          final && (!/^\d{1,3}$/.test(value.trim()) || Number(value) < 1 || Number(value) > 127)
+            ? t("errors.orgId")
+            : undefined
+        }
+        onChange={(value) => {
+          const digits = value.replace(/\D/g, "").slice(0, 3);
+          setOrgId(digits);
+          if (fieldErrors.orgId && /^\d{1,3}$/.test(digits) && Number(digits) >= 1 && Number(digits) <= 127) {
+            setFieldErrors((prev) => {
+              const next = { ...prev };
+              delete next.orgId;
+              return next;
+            });
+          }
+          if (remember) saveRememberedLogin(true, username, digits);
+        }}
+      />
+
       <TextField
         label={t("emailUsername")}
         name="username"
         required
-        autoComplete="username"
         placeholder={t("emailUsername")}
         value={username}
         maxLength={100}
@@ -118,7 +166,7 @@ export function LoginForm() {
         }
         onChange={(value) => {
           setUsername(value);
-          if (remember) saveRememberedLogin(true, value);
+          if (remember) saveRememberedLogin(true, value, orgId);
         }}
       />
 
@@ -127,7 +175,6 @@ export function LoginForm() {
         name="password"
         type={showPassword ? "text" : "password"}
         required
-        autoComplete="current-password"
         placeholder={t("password")}
         value={password}
         maxLength={100}
