@@ -1,0 +1,88 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ All 40 Domains 	 Executive MIS 	 Demand Sheets 	 Collections 	 PAR Aging 	 	 Customer KYC 	 Kendra Meetings 	 GL & P&L 	 Cash & Vault
+ ★
+এনিপএ ��ণীিবভাগ ও �িভশিনং িরেপাট�
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+এনিপএ ��ণীিবভাগ ও �িভশিনং িরেপাট� — Sub-standard, doubtful and loss asset classification with RBI PCR norms.
+Generated At:
+Institution:
+GL Hierarchy:
+₹
+�মাট এনিপএ · GL� 121230 �0.11% of AUM�
+
+₹
+�িভশন সংরি�ত · GL� 511000 / 121900 �75.7%
+PCR�
+
+�নট এনিপএ % · Well within RBI limits ��3%�
+
+ 	
+100000 Assets > 120000 Loans > 121230 Sub-Standard…
+₹ 	₹
+500000 Expenses > 510000 Provisions > 511000 Bad D…
+₹ 	₹
+100000 Assets > 120000 Loans > 121900 Contra Provisi…
+₹ 	₹
+�জএল �কাড 	স�দ ��ণী 	�জএল �লজার �হড 	আসল ি�িত (Dr) 	�িভশন (Cr) 	িনয়ম %
+121100 � JLG Microfinance Loans
+�Standard) 	₹ 	Dr 	₹ 	Cr
+121210 � PAR SMA�0 Special Mention Asset 	₹ 	Dr 	₹ 	Cr
+121220 � PAR SMA�1 Special Mention Asset 	₹ 	Dr 	₹ 	Cr
+121230 � Sub-Standard Non-Performing
+Asset 	₹ 	Dr 	₹ 	Cr
+₹ 	₹
+Search report, GL code or head...	
+Filter within this report...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+RBI & Statutory Audit Compliant Print Layout with Debit & Credit
+
+Core Banking, Microfinance Lending & General Ledger Accounting
+RBI Regd. NBFC�MFI | N�Level Chart of Accounts �COA�
+Sep 12, 2026
+এনিপএ ��ণীিবভাগ ও �িভশিনং িরেপাট�
+Period: 2026-09-12 to 2026-09-12 | Scope: ALL | GL Head: ALL
+121100 	Standard Asset (0-30
+DPD)
+121100 - JLG Microfinance Loans
+(Standard)
+₹4,784,470.00
+Dr 	₹19,137.88 Cr 	0.40%
+121210 	SMA-0 (1-30 DPD) 	121210 - PAR SMA-0 Special Mention
+Asset 	₹24,150.00 Dr 	₹1,207.50 Cr 	5.00%
+121220 	SMA-1 (31-60 DPD) 	121220 - PAR SMA-1 Special Mention
+Asset 	₹11,280.00 Dr 	₹1,128.00 Cr 	10.00%
+121230 	Sub-Standard NPA (90+
+DPD)
+121230 - Sub-Standard Non-
+Performing Asset 	₹5,100.00 Dr 	₹2,550.00 Cr 	50.00%
+₹ 	₹
+MIS & Accounts Officer 	GL Double-Entry Verified
+
+
+-- 1 of 1 --
+

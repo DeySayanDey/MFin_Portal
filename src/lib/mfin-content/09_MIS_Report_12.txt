@@ -1,0 +1,76 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ All 40 Domains 	 Executive MIS 	 Demand Sheets 	 Collections 	 PAR Aging 	 NPA Quality 	 Customer KYC 	 Kendra Meetings 	 GL & P&L 	
+ ★
+শাখা ভ� ক�াশ ও �নাট গণনা িরকনিসিলেয়শন
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+শাখা ভ� ক�াশ ও �নাট গণনা িরকনিসিলেয়শন — Day Open, Day Close, physical note denomination count and zero discrepancy check.
+Generated At:
+Institution:
+GL Hierarchy:
+₹
+ক�াশ বুক ব�ােল� · Core double-entry Debit
+
+₹
+�নাট গণনা �মাট টাকা · ₹500..₹10 physical tally
+
+₹
+পাথ �ক� · Zero discrepancy verified
+
+ 	
+100000 Assets > 110000 Cash & Bank > 111000 Branch …
+₹ 	₹
+Search report, GL code or head...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+
+-- 1 of 2 --
+
+�জএল �কাড 	�নাট / কেয়ন 	�জএল �লজার �হড 	�নাট সংখ�া 	�ডিবট (Dr) 	��িডট (Cr)
+₹500 Currency Note 	111000 � Branch Vault Cash (₹500 Denomination) 	₹
+Dr 	₹ 	Cr
+₹200 Currency Note 	111000 � Branch Vault Cash (₹200 Denomination) 	₹ 	Dr 	₹ 	Cr
+₹100 Currency Note 	111000 � Branch Vault Cash (₹100 Denomination) 	₹ 	Dr 	₹ 	Cr
+₹50 Currency Note 	111000 � Branch Vault Cash (₹50 Denomination) 	₹ 	Dr 	₹ 	Cr
+₹20 & ₹10 Notes/Coins 	111000 � Branch Vault Cash �Small Coins/Notes) 	₹ 	Dr 	₹ 	Cr
+₹ 	₹
+Filter within this report...		
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+-- 2 of 2 --
+

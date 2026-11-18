@@ -1,0 +1,69 @@
+Configure Company Profile, Auto-Numbering Series, Operational Timings, Role Permissions, Gateways & RBI Policies
+ 	 	 	 	 	 	 	
+Official legal entity name, corporate identification number �CIN�, and RBI registration
+eZiMicro Financial Services Ltd 	eZiMicro Microfinance Foundation �Section 8 / NBFC�MFI�
+U65999MH2026PTC109876 	B-13.02045 	27AAACE1234F1Z5
+AAACE1234F 	PNEA12345B 	2026�2027
+Plot 42, Market Yard Road, Karveer, Kolhapur - 416005, Maharashtra 	Unit 502, FinTech Tower, BKC, Bandra East, Mumbai - 400051
+support@ezimicro.in 	�91 231 265 4321 	https://ezimicro.in
+ 	বাংলা 	SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking
+API (5000)
+
+SuperAdmin 	
+ ←
+
+
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+
+-- 1 of 2 --
+
+
+ ব�ভািষক কনিফগােরশন
+Configure language preference, Bengali subtitle visibility, and bilingual terminology
+
+Always uses English only throughout all screens, vouchers, and reports. All
+secondary vernacular subtitles remain hidden.
+ 	বাংলা সং�রণ
+বাংলা ই�ারেফস ও �ানীয় িনেদ�শনা
+�ধুমা� এই অপশন�ট িসেল� করেলই বাংলা অনুবাদ, িশেরানাম এবং খিতয়ােনর বাংলা নাম
+�দিশ �ত হেব।
+
+SuperAdmin 	
+ ←
+
+
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+-- 2 of 2 --
+

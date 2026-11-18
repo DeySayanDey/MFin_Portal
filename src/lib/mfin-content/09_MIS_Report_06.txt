@@ -1,0 +1,86 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ All 40 Domains 	 Executive MIS 	 Demand Sheets 	 Collections 	 PAR Aging 	 NPA Quality 	 	 Kendra Meetings 	 GL & P&L 	 Cash & Vault
+
+�াহক মা�ার তািলকা
+ ★
+�াহক �কওয়াইিস ি�িত িরেপাট�
+
+�াহক িহসাব ও �লনেদন িববরণী
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+আরিবআই �ু�ঋণ িবিধব� িরটান � — Qualifying Asset criteria, FOIR <= 50% cap, and statutory audit schedule.
+Generated At:
+Institution:
+GL Hierarchy:
+�যাগ� �ু�ঋণ অনুপাত · RBI Mandate: >= 75%
+�Complied)
+
+ঋণ পিরেশাধ সীমা · All borrowers FOIR <= 50%
+�Complied)
+
+সুদ মা�জ�ন · Within RBI Fair Practices Code
+%
+ 	
+100000 Assets > 120000 Loans > 121100 Qualifying Ass…
+₹ 	₹
+100000 Assets > 120000 Loans > 121300 Non-Qualifyin…
+₹ 	₹
+Search report, GL code or head...	
+ 	বাংলা SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 
+ ←
+
+ 	MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ 	Kendra Demand Sheet
+ 	Collection Register
+ 	PAR Aging �1�90� DPD�
+ 	NPA & Provisioning Report
+
+ Credit Bureau �CIC� Upload
+ 	Security Audit Trail
+
+
+-- 1 of 2 --
+
+�জএল �কাড 	িনয়মাবলী প�ারািমটার 	�জএল �লজার �হড �ডিবট (Dr) 	��িডট (Cr) 	স�ত ি�িত
+Qualifying Microfinance Assets
+Ratio
+121100 � Qualifying JLG Microfinance
+Loans
+₹
+Dr ₹ 	Cr
+Maximum Household Income
+Threshold 121100 � JLG Microloans to Women 	₹ 	Dr 	₹ 	Cr
+Fixed Obligation to Income Ratio
+�FOIR� 121100 � Monthly Debt Obligations 	₹ 	Dr 	₹ 	Cr
+Prepayment Penalty Prohibition 	412200 � Prepayment Charges �NIL� 	₹ 	Dr 	₹ 	Cr
+₹ ₹
+Filter within this report...	
+
+SuperAdmin 
+ ←
+
+ 	MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ 	Kendra Demand Sheet
+ 	Collection Register
+ 	PAR Aging �1�90� DPD�
+ 	NPA & Provisioning Report
+
+ Credit Bureau �CIC� Upload
+ 	Security Audit Trail
+
+-- 2 of 2 --
+

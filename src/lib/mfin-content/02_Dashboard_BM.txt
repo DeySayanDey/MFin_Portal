@@ -1,0 +1,73 @@
+ 	Real-time branch vault ledger, dual-custody cash
+reconciliation, inter-branch transfers & cross-branch customer
+transactions
+ 	মু�া ও �নাট গণনা
+ 	নগদ �ানা�র
+ 	আ�ঃশাখা �লনেদন
+ 	ব�
+ ভ� ও
+িদন খিতয়ান  Inter-Branch Cash Transfers (আ�ঃশাখা
+নগদ �ানা�র)  Any-Branch Customer Transactions
+(আ�ঃশাখা �াহক �সবা)
+ বাংলা 	SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+
+
+-- 1 of 2 --
+
+ 	�দিনক নগদ �লনেদন িববরণী
+
+Kendra Field Collections:
+Branch Counter Repayments:
+Bachat Gat Savings Deposits:
+Any-Branch Walk-in
+Collections:
+₹
+
+Loan Disbursal �Cash Portion):
+Savings Account Withdrawals:
+Branch Petty Cash Expenses:
+Transit to Other Branches: 	₹
+ 	�নাট ও কেয়ন গণনা
+₹240,000 	₹17,000 	₹5,000
+₹750 	₹160
+₹160
+
+✓
+✓
+ Morning Day-Open executed. Wi-Fi
+manifest synchronized with Head Office.
+
+SuperAdmin 	
+
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+
+-- 2 of 2 --
+

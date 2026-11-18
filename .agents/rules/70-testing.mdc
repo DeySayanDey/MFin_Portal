@@ -1,0 +1,38 @@
+---
+description: Testing and definition-of-done rules
+alwaysApply: false
+---
+
+# Testing Rules
+
+For critical behavior, choose the appropriate level:
+
+Unit:
+- validation
+- mappers
+- utilities
+- business rules
+
+Integration:
+- services
+- forms
+- important components
+- API interactions
+
+E2E:
+- authentication
+- critical CRUD flows
+- authorization
+- search/filter
+- language switching (next-intl locale change)
+
+Run checks only when the user asks. Do not open the browser unless they ask:
+- TypeScript
+- lint
+- tests relevant to the change
+- build
+- loading, error, and empty states
+- responsive behavior
+- accessibility
+- next-intl (keys present, no hardcoded user-visible strings in touched UI)
+- regressions

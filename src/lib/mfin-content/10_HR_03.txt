@@ -1,0 +1,40 @@
+ 	 	 	
++
+Karveer Rural
+Branch
+Sangli Urban
+Branch 13 Aug 2026 	Branch Expansion
+ Member & Employee Transfers · Salary Processing · Corporate Banking
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+ Staff Directory & HR
+ Member Transfers
+
+ Monthly Staff Payroll
+ SMS & WhatsApp Broadcast
+
+
+-- 1 of 2 --
+
+
+SuperAdmin 	
+ ←
+
+ Staff Directory & HR
+ Member Transfers
+
+ Monthly Staff Payroll
+ SMS & WhatsApp Broadcast
+
+-- 2 of 2 --
+

@@ -1,0 +1,12 @@
+---
+description: Core engineering rules
+alwaysApply: true
+---
+
+Follow `PROJECT_BLUEPRINT.md`. Before coding, inspect existing code and reuse components, hooks, services, types, schemas, and next-intl keys. No new dependency if one already fits. Do not edit unrelated files.
+
+Code must be type-safe, modular, secure, accessible, and responsive.
+
+Never: needless `any`, hardcoded UI text or API URLs, secrets, duplicated logic or components, skipped validation or auth, extra global state, missing loading/error/empty states, or Server-to-Client without a reason. next-intl only.
+
+Run typecheck, lint, tests, build, or a browser check only when the user asks. Do not open the browser on your own.

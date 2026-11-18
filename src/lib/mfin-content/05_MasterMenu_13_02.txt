@@ -1,0 +1,76 @@
+ 	Real-time branch vault ledger, dual-custody cash reconciliation, inter-
+branch transfers & cross-branch customer transactions
+ 	মু�া ও �নাট গণনা
+ 	িদন সমাি�
+ 	নগদ �ানা�র
+ 	আ�ঃশাখা �লনেদন
+স��য়
+ Vault & Day Balancing (ভ� ও
+িদন খিতয়ান)  আ�ঃশাখা
+নগদ �ানা�র  Any-Branch Customer Transactions
+(আ�ঃশাখা �াহক �সবা)
+শাখা নগদ �ানা�র ��ািকং
+Track physical cash transits, currency chest allocations, and destination branch receipt acknowledgments +
+
+ বাংলা 	SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+
+ Wi-Fi Sync Master
+
+
+-- 1 of 2 --
+
+Payel Chakraborty
+WB-52-T-4410 
+Subhashish Roy
+�Field Escort)
+WB-02-AX-8912
+✓ Reconciled
+পেথ
+রেয়েছ
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+
+ Wi-Fi Sync Master
+
+-- 2 of 2 --
+

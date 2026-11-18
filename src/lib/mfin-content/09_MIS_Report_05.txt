@@ -1,0 +1,80 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ All 40 Domains 	 Executive MIS 	 Demand Sheets 	 Collections 	 PAR Aging 	 	 Customer KYC 	 Kendra Meetings 	 GL & P&L 	 Cash & Vault
+ ★
+এনিপএ ��ণীিবভাগ ও �িভশিনং িরেপাট�
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+এনিপএ ��ণীিবভাগ ও �িভশিনং িরেপাট� — Sub-standard, doubtful and loss asset classification with RBI PCR norms.
+Generated At:
+Institution:
+GL Hierarchy:
+₹
+�মাট এনিপএ · GL� 121230 �0.11% of AUM�
+
+₹
+�িভশন সংরি�ত · GL� 511000 / 121900 �75.7%
+PCR�
+
+�নট এনিপএ % · Well within RBI limits ��3%�
+
+ 	
+100000 Assets > 120000 Loans > 121230 Sub-Standard…
+₹ 	₹
+500000 Expenses > 510000 Provisions > 511000 Bad D…
+₹ 	₹
+100000 Assets > 120000 Loans > 121900 Contra Provisi…
+₹ 	₹
+Search report, GL code or head...	
+ 	বাংলা SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 
+ ←
+
+ 	MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ 	Kendra Demand Sheet
+ 	Collection Register
+ 	PAR Aging �1�90� DPD�
+
+ 	RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ 	Security Audit Trail
+
+
+-- 1 of 2 --
+
+�জএল �কাড 	স�দ ��ণী 	�জএল �লজার �হড আসল ি�িত (Dr) 	�িভশন (Cr) 	িনয়ম %
+121100 � JLG Microfinance Loans
+�Standard) ₹ 	Dr 	₹ 	Cr
+121210 � PAR SMA�0 Special Mention Asset 	₹ 	Dr 	₹ 	Cr
+121220 � PAR SMA�1 Special Mention Asset 	₹ 	Dr 	₹ 	Cr
+121230 � Sub-Standard Non-Performing
+Asset ₹ 	Dr 	₹ 	Cr
+₹ 	₹
+Filter within this report...	
+
+SuperAdmin 
+ ←
+
+ 	MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ 	Kendra Demand Sheet
+ 	Collection Register
+ 	PAR Aging �1�90� DPD�
+
+ 	RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ 	Security Audit Trail
+
+-- 2 of 2 --
+

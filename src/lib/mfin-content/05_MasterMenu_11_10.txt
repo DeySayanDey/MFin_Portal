@@ -1,0 +1,119 @@
+Double-Entry Invariant Guarded
+N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL-
+wise statements
+ 	
+
+ 	খিতয়ান
+বৃ�
+
+GL�Wise
+Statement
+Report (খিতয়ান
+িববরণী)
+
+Hierarchical
+Trial Balance
+(�রওয়ািমল)
+
+Sub-Ledger
+Master (উপ-
+খিতয়ান)
+
+Posted
+Vouchers
+(ভাউচার
+তািলকা)
+
+Day
+Book
+(�দিনক
+জােবদা)
+
+Cash
+Book
+(নগদান
+বই)
+ 	N��েরর খিতয়ান বৃ� • Group �L1� → Control �L2� → General Ledger �L3� → Sub-Ledger �L4�
+→ Child Accounts �L5��
+ 	 	+
+ Search GL Code, Title or Bangla... 	Level Legend:
+ 	�মাট স�দ 	(�মাট স�দ) 	₹
+ 	�মাট দায় 	(�মাট দায়) 	₹
+ 	মূলধন 	(মূলধন ও িবিধব� তহিবল) 	₹
+ িহসাব
+ও খিতয়ান ব�ব�াপনা 	বাংলা 	SuperAdmin •
+BR�WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+জান �াল ভাউচার �পাি�ং 	
+তািরখ 	িববরণ
+খিতয়ান িহসাব
+Cash collected at Kendra meeting
+Interest income earned
++ 	₹ 	₹
+ 	₹
+বািতল 	 	�পা� ক�ন
+
+
+
+-- 1 of 2 --
+
+ 	আয় 	(�মাট আয়) 	₹
+ 	ব�য় 	(�মাট পিরচালন ও �শাসিনক ব�য়) 	₹
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+জান �াল ভাউচার �পাি�ং 	
+তািরখ 	িববরণ
+খিতয়ান িহসাব
+Cash collected at Kendra meeting
+Interest income earned
++ 	₹ 	₹
+ 	₹
+বািতল 	 	�পা� ক�ন
+
+
+
+-- 2 of 2 --
+

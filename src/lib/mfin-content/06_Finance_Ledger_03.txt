@@ -1,0 +1,51 @@
+Sep
+12,
+2026
+₹
+Dr
+₹
+Cr
+ 	 	
+Sep
+12,
+2026
+₹
+Dr
+₹
+Cr
+ 	 	
+Sep
+12,
+2026
+₹
+Dr
+₹
+Cr
+ 	 	
+Search voucher no, name...	
+ 	 	 	 	 	 		
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 	
+ ←
+
+ Voucher Entry St…
+ Cash/Bank Deposit Voucher
+ Savings Withdrawal Voucher
+ Office Expense Voucher
+ Contra Transfer Voucher
+ N�Level COA Tree
+ GL�Wise Statement Report
+ Hierarchical Trial Balance
+ Sub-Ledger Master
+ Day Book Ledger
+ Cash & Bank Book
+
+
+-- 1 of 1 --
+

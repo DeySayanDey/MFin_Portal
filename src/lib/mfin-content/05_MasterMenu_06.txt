@@ -1,0 +1,63 @@
+Configure Company Profile, Auto-Numbering Series, Operational Timings, Role Permissions, Gateways & RBI Policies
+ 	 	 	 	 	 	 	
+Statutory limits mandated under RBI/2021�22/112 Master Direction on Microfinance Loans
+300000
+RBI Microfinance threshold: ₹3,00,000 p.a.
+50
+Max 50% of monthly household surplus
+4 	10
+50000 	80000
+Mandatory Automated NPCI Penny-Drop Bank Account Verification
+Mandatory Live CIBIL / CRIF High Mark Score Check before Sanction
+Allow Prepayment / Foreclosure Penalties �Must remain unchecked per RBI norms)
+ 	বাংলা 	SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking
+API (5000)
+
+SuperAdmin 	
+ ←
+
+
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+
+-- 1 of 2 --
+
+	
+SuperAdmin 	
+ ←
+
+
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+ N�Level COA Tree Master
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+-- 2 of 2 --
+

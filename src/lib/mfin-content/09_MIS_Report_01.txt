@@ -1,0 +1,110 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ All 40 Domains 	 	 Demand Sheets 	 Collections 	 PAR Aging 	 NPA Quality 	 Customer KYC 	 Kendra Meetings 	 GL & P&L 	 Cash & Vault
+ ★
+�দিনক ব�বসািয়ক ও এমআইএস িরেপাট�
+
+মািসক এমআইএস পয �ােলাচনা
+
+শাখা পারফরম�া� র�া��ং
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+�দিনক ব�বসািয়ক ও এমআইএস িরেপাট� — Consolidated executive snapshot of daily demand, collection, AUM, PAR and vault cash with GL breakdown.
+Generated At:
+Institution:
+GL Hierarchy:
+₹
+�মাট ঋণ ি�িত · Standard Portfolio Debit
+
+₹
+আজেকর দািব · Principal + Interest Demand
+
+₹
+�মাট আদায় (ভ�) · Vault Cash Dr �99.16% Eff)
+
+৩০ িদেনর �বিশ বেকয়া · ₹ 40,530 at risk
+�Provisioned)
+
+Search report, GL code or head...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+
+-- 1 of 2 --
+
+ 	
+100000 Assets > 110000 Cash & Bank > 111000 Branch …
+₹ 	₹
+100000 Assets > 120000 Loan Portfolio > 121100 Stand…
+₹ 	₹
+400000 Revenue > 410000 Interest > 411000 Interest In…
+₹ 	₹
+500000 Expenses > 510000 Provisions > 511000 Bad D…
+₹ 	₹
+�জএল �কাড 	শাখা �কাড 	শাখার নাম 	�জএল �লজার �হড 	সদস� 	�ডিবট (Dr) 	��িডট (Cr) 	�পাট�েফািলও 	আদায় 	দ�তা %
+KOL�HO 	Kolkata Central
+HO
+121100 � JLG
+Microfinance
+Loans �Kolkata)
+₹
+Dr
+₹
+Cr 	₹ 	₹
+HOW�BR 	Howrah Rural
+Branch
+121100 � JLG
+Microfinance
+Loans �Howrah�
+₹
+Dr
+₹
+Cr 	₹ 	₹
+BND�BR 	Bandhan Kendra
+Branch
+121100 � JLG
+Microfinance
+Loans �Bandhan)
+₹
+Dr
+₹
+Cr 	₹ 	₹
+₹ 	₹ 	₹ 	₹
+Filter within this report...	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+-- 2 of 2 --
+

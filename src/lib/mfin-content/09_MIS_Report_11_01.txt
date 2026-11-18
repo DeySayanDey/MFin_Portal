@@ -1,0 +1,91 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ All 40 Domains 	 Executive MIS 	 Demand Sheets 	 Collections 	 PAR Aging 	 NPA Quality 	 Customer KYC 	 Kendra Meetings 	 	 Cash & Vault
+ ★
+�ায়াল ব�ােল� (�রওয়ািমল)
+ ★
+লাভ-�িতর িহসাব িববরণী (P&L)
+ ★
+ব�ােল� শীট (উদ্বৃ�প�)
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+�ায়াল ব�ােল� (�রওয়ািমল) — N�Level Chart of Accounts Trial Balance ensuring strict Debit == Credit.
+Generated At:
+Institution:
+GL Hierarchy:
+₹
+�মাট �ডিবট · All Assets & Expenses
++
+₹
+�মাট ��িডট · All Liabilities, Equity & Revenue
+
+₹
+পাথ �ক� · Strict Double-Entry Balance: Dr == Cr
+
+ 	
+100000 Assets
+₹ 	₹
+200000 Liabilities
+₹ 	₹
+300000 Equity
+₹ 	₹
+400000 Revenue
+₹ 	₹
+Search report, GL code or head...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+
+-- 1 of 2 --
+
+500000 Expenses
+₹ 	₹
+�জএল �কাড 	িহসােবর নাম 	িবভাগ 	�জএল অনু�ম 	�ডিবট (Dr) 	��িডট (Cr)
+Branch Physical Vault Cash 	100000 Assets > 110000 Cash & Bank > 111000 Branch Vault 	₹ 	Dr 	₹ 	Cr
+Settlement Bank Current Account 	100000 Assets > 110000 Cash & Bank > 112100 Bank A/c 	₹ 	Dr 	₹ 	Cr
+JLG Loan Portfolio �Standard) 	100000 Assets > 120000 Loans > 121100 Standard Assets 	₹ 	Dr 	₹ 	Cr
+Member Bachat Gat Savings Deposit 	200000 Liabilities > 210000 Deposits > 211000 Bachat Gat 	₹ 	Dr 	₹ 	Cr
+NABARD / SIDBI Refinance Borrowings 	200000 Liabilities > 230000 Borrowings > 231000 Refinance 	₹ 	Dr 	₹ 	Cr
+Paid-up Share Capital 	300000 Equity > 310000 Share Capital > 311000 Equity 	₹ 	Dr 	₹ 	Cr
+Interest Income on Microloans 	400000 Revenue > 410000 Interest > 411000 Loan Interest 	₹ 	Dr 	₹ 	Cr
+Loan Loss Provision Expense 	500000 Expenses > 510000 Provisions > 511000 Bad Debt 	₹ 	Dr 	₹ 	Cr
+Staff Salaries & Field Allowances 	500000 Expenses > 520000 Operations > 521000 Salaries 	₹ 	Dr 	₹ 	Cr
+₹ 	₹
+Filter within this report...	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+-- 2 of 2 --
+

@@ -1,0 +1,81 @@
+
+Every operational, loan, collection, PAR and statutory report is mapped to N�Level Chart of Accounts �COA) with strict
+Debit & Credit double-entry reconciliation
+ 	
+ All 40 Domains 	 Executive MIS 	 Demand Sheets 	 Collections 	 PAR Aging 	 NPA Quality 	 Customer KYC 	 Kendra Meetings 	 	 Cash & Vault
+ ★
+�ায়াল ব�ােল� (�রওয়ািমল)
+ ★
+লাভ-�িতর িহসাব িববরণী (P&L)
+ ★
+ব�ােল� শীট (উদ্বৃ�প�)
+ 	�জএল �হড
+সকল �জএল �হড 	This Week 	MTD 	YTD 	12 / 09 / 2026 	to 	12 / 09 / 2026
+ 	 	
+
+লাভ-�িতর িহসাব িববরণী (P&L) — Monthly and annual P&L statement with cost of funds and operational margin.
+Generated At:
+Institution:
+GL Hierarchy:
+₹
+�মাট আয় (Cr) · GL� 411000 � 412000
+
+₹
+�মাট ব�য় (Dr) · GL� 511000 � 521000
+
+₹
+িনট লাভ · Transferred to Retained Earnings
+
+ 	
+400000 Revenue
+₹ 	₹
+500000 Expenses
+₹ 	₹
+Search report, GL code or head...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)	
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+
+-- 1 of 2 --
+
+�জএল �কাড 	িববরণ 	�জএল অনু�ম 	ব�য় (Dr) 	আয় (Cr)
+Interest Income on JLG Microloans 	400000 Revenue > 410000 Interest > 411000 Loan Interest 	₹ 	Dr 	₹ 	Cr
+Loan Processing Fees & Documentation 	400000 Revenue > 412000 Fees > 412100 Processing Fees 	₹ 	Dr 	₹ 	Cr
+Provision for Non-Performing Assets �NPA� 	500000 Expenses > 510000 Provisions > 511000 Bad Debt 	₹ 	Dr 	₹ 	Cr
+Employee Salaries, Allowances & PF 	500000 Expenses > 520000 Operations > 521000 Salaries 	₹ 	Dr 	₹ 	Cr
+Branch Office Rent, Electricity & Tech 	500000 Expenses > 520000 Operations > 522000 Admin 	₹ 	Dr 	₹ 	Cr
+₹ 	₹
+Filter within this report...		
+
+SuperAdmin 	
+ ←
+
+ MIS & Reports Studio �40 Do…
+ Executive Daily MIS
+ Kendra Demand Sheet
+ Collection Register
+ PAR Aging �1�90� DPD�
+ NPA & Provisioning Report
+ RBI Regulatory Returns
+ Credit Bureau �CIC� Upload
+ Security Audit Trail
+
+-- 2 of 2 --
+

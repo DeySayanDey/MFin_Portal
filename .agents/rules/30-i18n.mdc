@@ -1,0 +1,8 @@
+---
+description: next-intl only
+alwaysApply: true
+---
+
+next-intl only. Locales: `en`, `bn`, `hi`, `or` (default `en`). Public URLs have no locale prefix (`localePrefix: "never"`). Catalogs: `messages/{locale}.json`, keys mirrored. Navigation: `i18n/navigation`. Server: `getTranslations` / `getLocale`. Client: `useTranslations` / `useLocale`.
+
+No hardcoded UI strings and no joined translations. Use ICU interpolation and plurals, and locale-aware dates and numbers. No fixed widths on translated text; use CSS logical properties. Missing keys fall back to the default locale.

@@ -1,0 +1,144 @@
+Double-Entry Invariant Guarded
+N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL-
+wise statements
+ 	
+
+
+N�Level
+COA Tree
+(খিতয়ান
+বৃ�)
+
+GL�Wise
+Statement Report
+(খিতয়ান িববরণী)
+
+�রওয়ািমল
+
+Sub-Ledger
+Master (উপ-
+খিতয়ান)
+
+Posted
+Vouchers
+(ভাউচার
+তািলকা)
+
+Day Book
+(�দিনক
+জােবদা)
+
+Cash
+Book
+(নগদান
+বই)
+ �রওয়ািমল
+Rolls up child sub-ledgers and branch accounts into control heads with opening, period, and net balances 
+ 	�মাট
+স�দ
+�মাট
+স�দ 	₹ 	₹ 	₹ 	₹ 	₹ 	Cr
+ নগদ ও ব�াংক
+তরল তহিবল 	₹ 	₹ 	₹ 	₹ 	₹ 	Cr
+
+�ু�ঋণ
+�পাট�েফািলও
+মূল ি�িত
+₹ 	₹ 	₹ 	₹ 	₹ 	Cr
+ িহসাব ও
+খিতয়ান ব�ব�াপনা 	বাংলা 	SuperAdmin •
+BR�WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+
+-- 1 of 2 --
+
+
+�ায়ী ও
+অবকাঠােমাগত
+স�দ
+₹ 	₹ 	₹ 	₹ 	₹ 	Cr
+
+ক��উটার
+ল�াপটপ ও
+বােয়ােম��ক
+িডভাইস
+₹ 	₹ 	₹ 	₹ 	₹ 	Dr
+
+শাখা
+আসবাবপ�
+ভ� �সফ ও
+িফ�টংস
+₹ 	₹ 	₹ 	₹ 	₹ 	Dr
+
+�সালার
+িবদু�ৎ ও
+িডেজল
+�জনােরটর
+িসে�ম
+₹ 	₹ 	₹ 	₹ 	₹ 	Dr
+ 	�মাট দায় 	�মাট দায় 	₹ 	₹ 	₹ 	₹ 	₹ 	Cr
+
+মূলধন
+মূলধন ও
+িবিধব�
+তহিবল
+₹ 	₹ 	₹ 	₹ 	₹ 	Cr
+
+আয়
+�মাট
+আয় 	₹ 	₹ 	₹ 	₹ 	₹ 	Cr
+
+ব�য়
+�মাট
+পিরচালন ও
+�শাসিনক ব�য়
+₹ 	₹ 	₹ 	₹ 	₹ 	Cr
+�মাট �রওয়ািমল 	₹ 	₹ 	₹
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+-- 2 of 2 --
+

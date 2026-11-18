@@ -1,0 +1,83 @@
+Compulsory Bachat Gat member savings, monthly interest accrual, digital passbook, and JLG emergency
+buffer funds
+ 	 	
+
+ ₹  	% ₹ 
+Compulsory group savings, interest rates, total deposits, and instant ledger passbooks
+DEP�
+SB�2026�0001
+Sunita
+Ramesh
+Kamble
+Laxmi
+Mahila
+Bachat
+JLG
+6.5% p.a. 	₹ 	₹ 	 	 	
+DEP�
+RD�2026�0002
+Rani Vijay
+Gaikwad
+Laxmi
+Mahila
+Bachat
+JLG
+Recurring
+Deposit �RD� 7.5% p.a. 	₹ 	₹ 	 	 	
+Filter records...	
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	 	SuperAdmin 	 	বাংলা 	Core Banking API (5000)	
+
+SuperAdmin 	
+ ←
+
+
+ Bachat Gat Group Savings
+ Recurring Deposits �RD�
+ Fixed Deposits �FD�
+ Voluntary Savings
+
+Member: Sunita Ramesh Kamble • Balance: ₹8,592.33
+
+ 	Next
+Field 	| Submit 	| Close
+Deposit �Cash Inward - স�য় জমা)
+₹500 	₹1,500 	₹2,000 	₹5,000 	₹10,000
+�লনেদেনর
+মাধ�ম
+Hotkeys: �1� Cash | �2� Cheque | �3� Bank | �4� A/c |
+�5� UPI
+
+নগদ
+
+�2� Cheque
+/ DD
+
+�3� NEFT /
+IMPS
+
+�4� A/c
+Transfer
+
+�5� UPI
+Dynamic
+ �নাট গণনা
+Enter note count to verify physical cash against
+transaction amount
+
+₹1,000 	₹0 	₹0 	₹0 	₹0 	₹0
+কেয়ন
+₹0
+
+ 	��ত িহসাব
+খিতয়ান সংেযাগ
+ 	
+
+ 	
+
+
+�লনেদেনর িববরণ
+
+
+-- 1 of 1 --
+

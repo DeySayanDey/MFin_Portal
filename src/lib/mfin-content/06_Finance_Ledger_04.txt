@@ -1,0 +1,40 @@
+e.g. UTR-928174812 / CHQ-001248 / Direct Cash
+
+₹ 	₹
+₹ 	₹
+₹ 	₹
+₹ 	₹
+₹
+Voucher Target: 	₹ 0.00
+ ✓
+ 	�চকার অনুেমাদন িকউ
+Review, verify line items, and authorize transactions requiring dual sign-off 	
+
+There are no pending maker-checker authorization requests at this time.
+ 	 COA 	 Change 	 	 COA 	 Change
+ 	 	 	 	 	 		
+ 	বাংলা 	SuperAdmin • BR�WB01 
+ 	 	 	 	
+SuperAdmin
+ 	বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 	
+ ←
+
+ Voucher Entry St…
+ Cash/Bank Deposit Voucher
+ Savings Withdrawal Voucher
+ Office Expense Voucher
+ Contra Transfer Voucher
+ N�Level COA Tree
+ GL�Wise Statement Report
+ Hierarchical Trial Balance
+ Sub-Ledger Master
+ Day Book Ledger
+ Cash & Bank Book
+
+
+-- 1 of 1 --
+

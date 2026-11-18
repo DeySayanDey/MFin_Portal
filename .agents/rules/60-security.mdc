@@ -1,0 +1,6 @@
+---
+description: Security boundaries
+alwaysApply: true
+---
+
+No secrets, tokens, or credentials in the browser, logs, or localStorage. Auth is the existing httpOnly session cookie. Validate and authorize on the server, including tenant isolation. Client checks are UX only. Validate uploads. Watch XSS, CSRF, CORS, rate limits, and injection.

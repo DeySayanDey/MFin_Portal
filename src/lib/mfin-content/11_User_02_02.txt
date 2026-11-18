@@ -1,0 +1,78 @@
+Full RBAC Role & Page Action Isolation
+User Master, Security Roles, Role-to-Menu access matrices, and granular page-level action rights
+ User Directory (কম� তািলকা) 	 	পদবী মা�ার 	 Role-Menu Permissions (�মনু অনুমিত) 	 Page Action Permissions (কায �কলাপ অিধকার)
+ ভূিমকা ও পদবী মা�ার
+Predefined system security roles with access scope and user counts +
+1 Active Users
+সেব �া� িনয়�ক
+Full unrestricted system administration, database admin,
+and security override.
+ 	→
+11 Active Users
+শাখা ব�ব�াপক
+Branch operations, loan sanction approval, cash vault
+dual sign-off, and staff monitoring.
+ 	→
+2 Active Users
+��িডট অিফসার
+Borrower appraisal, psychometric questionnaire scoring,
+and bureau verification.
+ 	→
+0 Active Users
+মাঠ কম �কত�া
+Kendra meeting origination, customer onboarding, and
+attendance management.
+ 	→
+2 Active Users
+ক�ািশয়ার 	ভ� অিফসার
+Cash-in-hand receipts, Day-End cash scroll balancing,
+and bank clearing.
+ 	→
+2 Active Users
+িনরী�ক
+Read-only access to double-entry general ledger, NPA
+registers, and compliance logs.
+ 	→
+ িনরাপ�া
+ব�ব�াপনা 	বাংলা SuperAdmin • BR�
+WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core Banking API
+(5000)
+
+SuperAdmin 
+ ←
+
+ 	User Profile & Security
+ 	Change Password & 2FA
+ 	My Activity & Audit Log
+
+ 	Security Role Master
+ 	Role-Menu Permission Matrix
+ Page Action Permissions
+
+
+-- 1 of 2 --
+
+7 Active Users
+কােলকশন এেজ�
+Mobile offline collection, Kendra weekly roster
+synchronization, and thermal receipts.
+ 	→
+
+SuperAdmin 
+ ←
+
+ 	User Profile & Security
+ 	Change Password & 2FA
+ 	My Activity & Audit Log
+
+ 	Security Role Master
+ 	Role-Menu Permission Matrix
+ Page Action Permissions
+
+-- 2 of 2 --
+

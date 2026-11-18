@@ -1,0 +1,83 @@
+import type { ReactNode } from "react";
+
+export type DataTableAlign = "start" | "center" | "end";
+
+/**
+ * Domain-agnostic column definition.
+ * Features supply headers, cell renderers, and row typing.
+ */
+export type DataTableColumn<T> = {
+  id: string;
+  header: ReactNode;
+  cell: (row: T, rowIndex: number) => ReactNode;
+  className?: string;
+  headerClassName?: string;
+  align?: DataTableAlign;
+};
+
+export type DataTablePaginationConfig = {
+  page: number;
+  pageSize: number;
+  total: number;
+  /** Optional override; defaults to ceil(total / pageSize). */
+  totalPages?: number;
+  pageSizeOptions?: number[];
+  onPageChange: (page: number) => void;
+  onPageSizeChange?: (pageSize: number) => void;
+};
+
+export type DataTableSelectionConfig<T> = {
+  /** Stable row identity for selection. */
+  getRowKey: (row: T, rowIndex: number) => string;
+  selectedKeys: ReadonlyArray<string>;
+  onSelectionChange: (selectedKeys: string[]) => void;
+};
+
+export type DataTableRowActions<T> = {
+  /** Rendered in a trailing Actions column when provided. */
+  render: (row: T, rowIndex: number) => ReactNode;
+  header?: ReactNode;
+  className?: string;
+};
+
+export type DataTableProps<T> = {
+  data: ReadonlyArray<T>;
+  columns: ReadonlyArray<DataTableColumn<T>>;
+  /** Stable key for each row. Defaults to row index when omitted. */
+  getRowKey?: (row: T, rowIndex: number) => string;
+  loading?: boolean;
+  error?: boolean;
+  errorTitle?: string;
+  errorMessage?: string;
+  onRetry?: () => void;
+  emptyTitle?: string;
+  emptyMessage?: string;
+  emptyAction?: ReactNode;
+  pagination?: DataTablePaginationConfig;
+  selection?: DataTableSelectionConfig<T>;
+  rowActions?: DataTableRowActions<T>;
+  /** Heading shown above the rows, inside the same card. */
+  title?: ReactNode;
+  /** Supporting line under the heading. */
+  description?: ReactNode;
+  /** Actions on the right of the card heading, such as Add. */
+  actions?: ReactNode;
+  /** Full-width controls (search, filters, buttons) above the rows, inside the same card. */
+  toolbar?: ReactNode;
+  /** Extra class on the outer card/section. */
+  className?: string;
+  /** Minimum table width for horizontal scroll (CSS length). */
+  minWidth?: string;
+  /** Column sizing mode. Use `fixed` with explicit column widths to avoid uneven gaps. */
+  tableLayout?: "auto" | "fixed";
+  /** Minimum card height (CSS length) for the loading, error and empty states. With rows, the card fits its content. */
+  minHeight?: string;
+  /** Optional upper limit for the viewport-aware table scrolling area (CSS length). */
+  maxHeight?: string;
+  /** When false, allow the table to grow to maxHeight regardless of its position in the viewport. */
+  fitViewport?: boolean;
+  caption?: string;
+  onRowClick?: (row: T, rowIndex: number) => void;
+  /** Extra classes for one row, such as a live-update highlight. */
+  getRowClassName?: (row: T, rowIndex: number) => string | undefined;
+};

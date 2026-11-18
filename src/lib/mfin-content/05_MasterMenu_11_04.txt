@@ -1,0 +1,102 @@
+Double-Entry Invariant Guarded
+N�Level Chart of Accounts �COA�, Sub-Ledger master, dynamic Trial Balance & GL-
+wise statements
+ 	
+
+
+N�Level
+COA Tree
+(খিতয়ান
+বৃ�)
+
+GL�Wise
+Statement
+Report (খিতয়ান
+িববরণী)
+
+Hierarchical
+Trial Balance
+(�রওয়ািমল)
+ 	উপ
+খিতয়ান
+
+Posted
+Vouchers
+(ভাউচার
+তািলকা)
+
+Day
+Book
+(�দিনক
+জােবদা)
+
+Cash
+Book
+(নগদান
+বই)
+ িহসাব
+ও খিতয়ান ব�ব�াপনা 	বাংলা 	SuperAdmin •
+BR�WB01
+
+ 	 	 	 	
+SuperAdmin
+ বাংলা
+Core
+Banking
+API
+(5000)
+
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+
+-- 1 of 2 --
+
+ উপ খিতয়ান িবে�ষণ
+Branch-wise loan portfolio and member deposit sub-accounts tied to control general ledgers
+Control Head: 112000 �JLG Microfinance Loans
+Head)
+₹
+25 Active Loans 	Control Head: 112000 �JLG Microfinance Loans Head)
+₹
+25 Active Loans
+Control Head: 112000 �JLG Microfinance Loans Head)
+₹
+25 Active Loans
+
+SuperAdmin 	
+ ←
+
+ System Master Hub
+ Company Profile
+ Series & Auto-Number
+ Software Timings
+ Roles & Permissions
+ SMS & WhatsApp Gateway
+ RBI Lending Policies
+ Database & Seed �25��
+ Loan Schemes Master
+ Kendra & JLG Master
+
+ Staff Master
+ Branch Vault Master
+ Wi-Fi Sync Master
+
+-- 2 of 2 --
+
