@@ -10,6 +10,7 @@ import { TextField } from "@/components/ui/Form";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { fetchMembers } from "@/features/onboarding/member-registration/services/member-client";
+import type { Member } from "@/features/onboarding/member-registration/types/member.types";
 import { fetchGroups } from "@/features/onboarding/group-management/services/group-client";
 import { CUST_TYPE_GROUP } from "../share-subscription.constants";
 import { isShareSubscriptionClientError } from "../services/share-subscription-client";
@@ -20,6 +21,7 @@ export type Subscriber = {
   name: string;
   branchName: string;
   detail: string;
+  member?: Member;
 };
 
 type SubscriberPickerModalProps = {
@@ -28,11 +30,13 @@ type SubscriberPickerModalProps = {
   selectedId: number | null;
   onClose: () => void;
   onSelect: (subscriber: Subscriber) => void;
+  includeInactiveMembers?: boolean;
+  subtitle?: string;
 };
 
 const PAGE_SIZE = 20;
 
-async function searchSubscribers(custTypeCd: number, keyword: string, page: number) {
+async function searchSubscribers(custTypeCd: number, keyword: string, page: number, includeInactiveMembers: boolean) {
   const term = keyword.trim() || undefined;
   if (custTypeCd === CUST_TYPE_GROUP) {
     const result = await fetchGroups({ keyword: term, statusCd: 1, perPage: PAGE_SIZE, page });
@@ -47,7 +51,7 @@ async function searchSubscribers(custTypeCd: number, keyword: string, page: numb
       })),
     };
   }
-  const result = await fetchMembers({ keyword: term, statusCd: 1, perPage: PAGE_SIZE, page });
+  const result = await fetchMembers({ keyword: term, statusCd: includeInactiveMembers ? undefined : 1, perPage: PAGE_SIZE, page });
   return {
     total: result.meta.total,
     items: result.items.map<Subscriber>((member) => ({
@@ -56,6 +60,7 @@ async function searchSubscribers(custTypeCd: number, keyword: string, page: numb
       name: member.memberName,
       branchName: member.branchName,
       detail: [member.groupName, member.mobileNo].filter(Boolean).join(" · "),
+      member,
     })),
   };
 }
@@ -66,6 +71,8 @@ export function SubscriberPickerModal({
   selectedId,
   onClose,
   onSelect,
+  includeInactiveMembers = false,
+  subtitle,
 }: SubscriberPickerModalProps) {
   const t = useTranslations("onboarding.shareSubscription");
   const isGroup = custTypeCd === CUST_TYPE_GROUP;
@@ -82,7 +89,7 @@ export function SubscriberPickerModal({
       setLoading(true);
       setError(null);
       try {
-        const result = await searchSubscribers(custTypeCd, keyword, page);
+        const result = await searchSubscribers(custTypeCd, keyword, page, includeInactiveMembers);
         if (signal.cancelled) return;
         setItems(result.items);
         setTotal(result.total);
@@ -95,7 +102,7 @@ export function SubscriberPickerModal({
         if (!signal.cancelled) setLoading(false);
       }
     },
-    [custTypeCd, t],
+    [custTypeCd, includeInactiveMembers, t],
   );
 
   useEffect(() => {
@@ -130,7 +137,7 @@ export function SubscriberPickerModal({
       confirmOnClose={false}
       confirmOnSave={false}
       title={isGroup ? t("picker.titleGroup") : t("picker.titleMember")}
-      subtitle={t("picker.subtitle")}
+      subtitle={subtitle ?? t("picker.subtitle")}
       size="lg"
       footer={
         <Button type="button" variant="secondary" onClick={onClose}>

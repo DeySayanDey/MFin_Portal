@@ -110,6 +110,7 @@ export function AcctSubledgerBranchTable({
       emptyTitle={t("emptyTitle")}
       emptyMessage={t("emptyMessage")}
       minWidth="860px"
+      maxVisibleRows={8}
       caption={t("tableCaption")}
       rowActions={{
         header: t("columns.actions"),

@@ -51,6 +51,6 @@ export const draftRowSchema = z.object({
   no_of_shares: nullableNumber, face_value: nullableText,
 });
 export type OpeningDraft = z.infer<typeof draftRowSchema>;
-export const customerSchema = z.object({ cust_type_cd: z.union([z.literal(1), z.literal(2)]), customer_id: positiveId, customer_code: nullableText, customer_name: z.string(), branch_id: nullableNumber, branch_name: nullableText });
+export const customerSchema = z.object({ cust_type_cd: z.union([z.literal(1), z.literal(2)]), customer_id: positiveId, customer_code: nullableText, ref_code: nullableText, customer_name: z.string(), branch_id: nullableNumber, branch_name: nullableText });
 export type OpeningCustomer = z.infer<typeof customerSchema>;
 export const metaSchema = z.object({ total: z.number().int().nonnegative(), page: positiveId, per_page: positiveId, last_page: z.number().int().nonnegative(), has_more: z.boolean().optional(), opening_balance_total: z.string().optional() });

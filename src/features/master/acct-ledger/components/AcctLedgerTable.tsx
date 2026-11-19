@@ -151,6 +151,7 @@ export function AcctLedgerTable({
       emptyTitle={t("emptyTitle")}
       emptyMessage={t("emptyMessage")}
       minWidth="980px"
+      maxVisibleRows={8}
       caption={t("tableCaption")}
       rowActions={{
         header: t("columns.actions"),

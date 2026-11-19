@@ -72,10 +72,12 @@ export type DataTableProps<T> = {
   tableLayout?: "auto" | "fixed";
   /** Minimum card height (CSS length) for the loading, error and empty states. With rows, the card fits its content. */
   minHeight?: string;
-  /** Optional upper limit for the viewport-aware table scrolling area (CSS length). */
+  /** Optional upper limit for the table scrolling area (CSS length). */
   maxHeight?: string;
-  /** When false, allow the table to grow to maxHeight regardless of its position in the viewport. */
+  /** Retained for existing callers. Table height remains stable while scrolling. */
   fitViewport?: boolean;
+  /** Limit the scroll area to this many standard-height rows and half the screen height. Paginated tables default to eight. */
+  maxVisibleRows?: number;
   caption?: string;
   onRowClick?: (row: T, rowIndex: number) => void;
   /** Extra classes for one row, such as a live-update highlight. */

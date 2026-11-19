@@ -9,7 +9,7 @@ import { initialTermEntry, type TermEntry } from "./term-deposit.form";
 import { OpeningCustomerField } from "./OpeningCustomerField";
 import { OpeningDraftTable } from "./OpeningDraftTable";
 import { saveDraft } from "./services/opening-deposit-client";
-import { openingDateToInput } from "./services/opening-date";
+import { openingDateBeforeFinancialYear, openingDateToInput } from "./services/opening-date";
 import type { OpeningDraft } from "./services/opening-deposit.schemas";
 import { TenureSlabs } from "./TenureSlabs";
 import { fetchDepositProductSchemes } from "@/features/deposits/savings/services/deposit-account-client";
@@ -28,6 +28,13 @@ export function TermDepositOpening({ visible, selectedFinYear }: { visible: bool
   const [error, setError] = useToastText();
   const [notice, setNotice] = useToastText();
   const formRef = useRef<HTMLFormElement>(null);
+  const defaultOpeningDate = openingDateBeforeFinancialYear(selectedFinYear?.startDate);
+  const defaultDateApplied = useRef(false);
+  useEffect(() => {
+    if (!defaultOpeningDate || defaultDateApplied.current) return;
+    defaultDateApplied.current = true;
+    setForm((current) => current.date || current.id ? current : { ...current, date: defaultOpeningDate });
+  }, [defaultOpeningDate]);
   const [groups, setGroups] = useState<DepositProductSchemeGroup[]>([]);
   const [catalogStatus, setCatalogStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [reload, setReload] = useState(0);
@@ -60,7 +67,7 @@ export function TermDepositOpening({ visible, selectedFinYear }: { visible: bool
   const schemeOptions = Array.from(new Map(groups.filter((group) => String(group.prodTypeCd) === form.productId).flatMap((group) => group.schemes.filter((scheme) => scheme.isActive !== false).map((scheme) => [String(scheme.schemeId), { value: String(scheme.schemeId), label: scheme.schemeCode ? `${scheme.schemeCode} · ${scheme.schemeName}` : scheme.schemeName }] as const))).values());
   const set = (key: keyof TermEntry, value: string) => setForm((current) => ({ ...current, [key]: value }));
   const clear = () => {
-    setForm({ ...initialTermEntry, member: "", name: "", account: "", amount: "", openingBalance: "", rate: "", tenure: "", maturity: "", maturityAmount: "", remarks: "" });
+    setForm({ ...initialTermEntry, date: defaultOpeningDate, member: "", name: "", account: "", amount: "", openingBalance: "", rate: "", tenure: "", maturity: "", maturityAmount: "" });
     setError(""); setNotice("");
   };
   const save = async (event: FormEvent) => {
@@ -72,8 +79,8 @@ export function TermDepositOpening({ visible, selectedFinYear }: { visible: bool
       setError("Complete the required fields with valid amounts, tenure and dates.");
       return;
     }
-    if (selectedFinYear && form.date && (form.date < selectedFinYear.startDate || form.date > selectedFinYear.endDate)) {
-      setError(`Opening date must fall within the selected financial year (${selectedFinYear.yearName}: ${formatDateDMY(selectedFinYear.startDate)} – ${formatDateDMY(selectedFinYear.endDate)}).`);
+    if (selectedFinYear && form.date && (form.date < defaultOpeningDate || form.date > selectedFinYear.endDate)) {
+      setError(`Opening date must be between ${formatDateDMY(defaultOpeningDate)} and ${formatDateDMY(selectedFinYear.endDate)}.`);
       return;
     }
     setSaving(true); setError("");
@@ -101,7 +108,7 @@ export function TermDepositOpening({ visible, selectedFinYear }: { visible: bool
               <SelectField label="Deposit product" value={form.productId ?? ""} onChange={(value) => setForm((current) => ({ ...current, productId: value, product: productOptions.find((product) => product.value === value)?.label ?? "", schemeId: "", scheme: "", tenureUnit: "", tenureUnitLabel: "", slabId: "", rate: "" }))} options={productOptions} placeholder={catalogStatus === "ready" ? "Select deposit product" : "Loading products..."} emptyMessage="No term deposit products available" hint={productOptions.some((product) => product.disabled) ? "Products without an active scheme are unavailable." : undefined} disabled={catalogStatus !== "ready"} searchable required />
               <SelectField label="Scheme" value={form.schemeId ?? ""} onChange={(value) => setForm((current) => ({ ...current, schemeId: value, scheme: schemeOptions.find((scheme) => scheme.value === value)?.label ?? "", tenureUnit: "", tenureUnitLabel: "", slabId: "", rate: "" }))} options={schemeOptions} placeholder={form.productId ? "Select scheme" : "Select a product first"} emptyMessage="No schemes available for this product" disabled={catalogStatus !== "ready" || !form.productId} searchable required />
               {catalogStatus === "error" && <p role="alert" className="text-sm text-rose-600">Could not load deposit products and schemes. <button type="button" className="underline" onClick={() => { setCatalogStatus("loading"); setReload((current) => current + 1); }}>Try again</button></p>}
-              <DateField label="Opening date" value={form.date} onChange={(v) => set("date", v)} min={selectedFinYear?.startDate} max={selectedFinYear?.endDate} hint={selectedFinYear ? `Range: ${formatDateDMY(selectedFinYear.startDate)} – ${formatDateDMY(selectedFinYear.endDate)}` : undefined} required />
+              <DateField label="Opening date" value={form.date} onChange={(v) => set("date", v)} min={defaultOpeningDate || undefined} max={selectedFinYear?.endDate} hint={selectedFinYear ? `Range: ${formatDateDMY(defaultOpeningDate)} – ${formatDateDMY(selectedFinYear.endDate)}` : undefined} required />
             </section>
             <section className="space-y-4 rounded-xl border border-border p-4" aria-labelledby="term-deposit">
               <h3 id="term-deposit" className="text-sm font-semibold text-foreground">Deposit Details</h3>
@@ -128,7 +135,7 @@ export function TermDepositOpening({ visible, selectedFinYear }: { visible: bool
           <BatchFormActions editing={Boolean(form.id)} clear={clear} busy={saving} />
         </form>
       </Card>
-      <OpeningDraftTable type={2} revision={revision} onEdit={edit} />
+      {visible && <OpeningDraftTable type={2} revision={revision} onEdit={edit} />}
     </div>
   );
 }

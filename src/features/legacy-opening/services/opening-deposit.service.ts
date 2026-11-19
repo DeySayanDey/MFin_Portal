@@ -60,5 +60,5 @@ export async function changeOpeningBatch(action: "delete" | "finalize", raw: unk
 const positiveNumber = z.number().int().positive();
 export async function exportOpeningDrafts(raw: unknown) {
   const query = draftQuerySchema.safeParse(raw); if (!query.success) return invalid("Invalid export filters");
-  return auth((token) => api.get<string>(endpoints.openingDeposit.export, { accessToken: token, expectEnvelope: false, headers: { Accept: "text/csv" }, searchParams: { deposit_type_cd: query.data.deposit_type_cd, branch_id: query.data.branch_id, "opening_ids[]": query.data["opening_ids[]"] } }));
+  return auth((token) => api.get<{ data: ArrayBuffer; contentDisposition: string | null }>(endpoints.openingDeposit.export, { accessToken: token, responseType: "binary", headers: { Accept: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }, searchParams: { deposit_type_cd: query.data.deposit_type_cd, branch_id: query.data.branch_id, "opening_ids[]": query.data["opening_ids[]"] } }));
 }

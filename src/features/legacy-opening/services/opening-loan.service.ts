@@ -41,5 +41,5 @@ export async function deleteLoans(raw: unknown) {
 }
 export async function exportLoans(raw: unknown) {
   const query = querySchema.safeParse(raw); if (!query.success) return invalid("Invalid export filters");
-  return auth((token) => api.get<string>(endpoints.openingLoan.export, { accessToken: token, expectEnvelope: false, headers: { Accept: "text/csv" }, searchParams: { branch_id: query.data.branch_id, "opening_ids[]": query.data["opening_ids[]"] } }));
+  return auth((token) => api.get<{ data: ArrayBuffer; contentDisposition: string | null }>(endpoints.openingLoan.export, { accessToken: token, responseType: "binary", headers: { Accept: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }, searchParams: { branch_id: query.data.branch_id, "opening_ids[]": query.data["opening_ids[]"] } }));
 }

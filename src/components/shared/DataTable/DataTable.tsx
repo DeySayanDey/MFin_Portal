@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { DataTableAlign, DataTableProps } from "./types";
 import { useTranslations } from "next-intl";
 import { EmptyState } from "@/components/shared/EmptyState";
@@ -41,6 +41,9 @@ const alignClass: Record<DataTableAlign, string> = {
   end: "text-end",
 };
 
+const standardRowHeight = "4.125rem";
+const columnHeaderHeight = "2.25rem";
+
 function defaultRowKey<T>(_row: T, index: number) {
   return String(index);
 }
@@ -65,7 +68,7 @@ export function DataTable<T>({
   tableLayout = "auto",
   minHeight,
   maxHeight,
-  fitViewport = true,
+  maxVisibleRows,
   caption,
   onRowClick,
   getRowClassName,
@@ -134,10 +137,11 @@ export function DataTable<T>({
     `rounded-[var(--radius-card)] border border-border bg-surface p-4 shadow-[var(--shadow-card)] sm:p-5 ${className}`.trim();
   const awaitingFirstRows = loading && data.length === 0;
   const [showSkeleton, setShowSkeleton] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const paginationRef = useRef<HTMLDivElement>(null);
-  const [viewportHeight, setViewportHeight] = useState<number | null>(null);
+  const visibleRows = maxVisibleRows ?? (pagination ? 8 : undefined);
+  const fixedRowsHeight = visibleRows == null
+    ? undefined
+    : `min(50dvh, calc(${columnHeaderHeight} + ${visibleRows} * ${standardRowHeight})${maxHeight ? `, ${maxHeight}` : ""})`;
+  const rowPadding = fixedRowsHeight ? "py-3" : "py-3.5";
   const columnCount =
     columns.length + (rowActions ? 1 : 0) + (selection ? 1 : 0);
 
@@ -152,47 +156,11 @@ export function DataTable<T>({
     return () => window.clearTimeout(id);
   }, [awaitingFirstRows]);
 
-  useEffect(() => {
-    if (!fitViewport || data.length === 0) return;
-    const section = sectionRef.current;
-    const scroll = scrollRef.current;
-    if (!section || !scroll) return;
-    const boundary = section.closest<HTMLElement>('[role="dialog"]') ?? section.closest<HTMLElement>("main");
-    const update = () => {
-      const rect = scroll.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-      const bottom = Math.min(window.innerHeight, boundary?.getBoundingClientRect().bottom ?? window.innerHeight);
-      const paginationHeight = paginationRef.current?.getBoundingClientRect().height ?? 0;
-      const paddingBottom = parseFloat(window.getComputedStyle(section).paddingBottom) || 0;
-      const available = Math.max(160, Math.floor(bottom - rect.top - paginationHeight - paddingBottom - 12));
-      setViewportHeight((current) => current === available ? current : available);
-    };
-    let frame: number | null = null;
-    const scheduleUpdate = () => {
-      if (frame !== null) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = null;
-        update();
-      });
-    };
-    update();
-    const observer = new ResizeObserver(scheduleUpdate);
-    observer.observe(section);
-    if (boundary) observer.observe(boundary);
-    if (paginationRef.current) observer.observe(paginationRef.current);
-    window.addEventListener("resize", scheduleUpdate);
-    boundary?.addEventListener("scroll", scheduleUpdate, { passive: true });
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", scheduleUpdate);
-      boundary?.removeEventListener("scroll", scheduleUpdate);
-      if (frame !== null) window.cancelAnimationFrame(frame);
-    };
-  }, [data.length === 0, Boolean(pagination), fitViewport]);
+  const scrollMaxHeight = maxHeight ?? "50dvh";
 
   // Only show full skeleton on initial load when there is NO data yet.
   // When data is already present, keep the table visible and show a sleek background progress bar.
-  if (awaitingFirstRows) {
+  if (awaitingFirstRows && !fixedRowsHeight) {
     if (!showSkeleton) {
       return (
         <section
@@ -228,7 +196,7 @@ export function DataTable<T>({
   }
 
   // Only show full ErrorState when there is NO data to show.
-  if (error && data.length === 0) {
+  if (error && data.length === 0 && !fixedRowsHeight) {
     return (
       <section
         className={`flex flex-col justify-between ${defaultMinHeightClass} ${cardClass}`}
@@ -246,7 +214,7 @@ export function DataTable<T>({
     );
   }
 
-  if (data.length === 0) {
+  if (data.length === 0 && !fixedRowsHeight) {
     return (
       <section
         className={`flex flex-col justify-between ${defaultMinHeightClass} ${cardClass}`}
@@ -268,7 +236,7 @@ export function DataTable<T>({
   }
 
   return (
-    <section ref={sectionRef} className={`relative flex flex-col justify-between ${cardClass}`}>
+    <section className={`relative flex flex-col justify-between ${cardClass}`} aria-busy={loading || undefined}>
       {/* Background reload indicator: subtle progress bar so the table never disappears or flashes */}
       <div
         className={`relative -mx-4 -mt-2 mb-3 h-0.5 overflow-hidden bg-slate-100 sm:-mx-5 transition-opacity duration-200 ${
@@ -298,17 +266,35 @@ export function DataTable<T>({
       ) : null}
 
       <div
-        ref={scrollRef}
-        className="table-scroll scrollbar-thin min-h-0 flex-1 overflow-y-auto"
-        style={{ maxHeight: !fitViewport || viewportHeight == null ? (maxHeight ?? "50vh") : maxHeight ? `min(${viewportHeight}px, ${maxHeight})` : `${viewportHeight}px` }}
+        className={`table-scroll scrollbar-thin min-h-0 overflow-y-auto ${fixedRowsHeight ? "shrink-0" : "flex-1"}`}
+        style={{ maxHeight: fixedRowsHeight ?? scrollMaxHeight }}
         role="region"
         aria-label={caption || (typeof title === "string" ? title : t("tableRegion"))}
         tabIndex={0}
       >
-        <table className="w-full text-left text-sm" style={{ minWidth, tableLayout }}>
+        {awaitingFirstRows && showSkeleton ? (
+          <DataTableSkeleton bare columns={columnCount} showPagination={false} />
+        ) : null}
+        {data.length === 0 && !loading ? (
+          <div className="grid h-full place-items-center py-8">
+            {error ? (
+              <ErrorState title={errorTitle} message={errorMessage} onRetry={onRetry} />
+            ) : (
+              <EmptyState title={emptyTitle} message={emptyMessage} action={emptyAction} />
+            )}
+          </div>
+        ) : null}
+        <table
+          hidden={data.length === 0}
+          className={`w-full text-left text-sm ${maxVisibleRows != null ? "whitespace-nowrap" : ""}`}
+          style={{ minWidth, tableLayout }}
+        >
           {caption ? <caption className="sr-only">{caption}</caption> : null}
           <thead className="sticky top-0 z-10 bg-surface">
-            <tr className="border-b border-border text-[11px] uppercase tracking-[0.12em] text-muted-soft">
+            <tr
+              className="border-b border-border text-[11px] uppercase tracking-[0.12em] text-muted-soft"
+              style={fixedRowsHeight ? { height: columnHeaderHeight } : undefined}
+            >
               {selection ? (
                 <th scope="col" className="w-10 pb-3 pe-3 ps-1 font-semibold">
                   <input autoComplete="off"
@@ -357,6 +343,7 @@ export function DataTable<T>({
               return (
                 <tr
                   key={key}
+                  style={fixedRowsHeight ? { height: standardRowHeight } : undefined}
                   className={`border-b border-border/70 last:border-0 ${
                     onRowClick ? "cursor-pointer hover:bg-surface-muted/60" : ""
                   } ${selected ? "bg-brand-soft/30" : ""} ${getRowClassName?.(row, rowIndex) ?? ""}`.trim()}
@@ -365,7 +352,7 @@ export function DataTable<T>({
                   }
                 >
                   {selection ? (
-                    <td className="py-3.5 pe-3 ps-1">
+                    <td className={`${rowPadding} pe-3 ps-1`}>
                       <input autoComplete="off"
                         type="checkbox"
                         className="h-4 w-4 rounded border-border text-brand focus:ring-brand/30"
@@ -381,14 +368,14 @@ export function DataTable<T>({
                   {columns.map((column) => (
                     <td
                       key={column.id}
-                      className={`py-3.5 pe-3 text-foreground ${alignClass[column.align ?? "start"]} ${column.className ?? ""}`.trim()}
+                      className={`${rowPadding} pe-3 text-foreground ${alignClass[column.align ?? "start"]} ${column.className ?? ""}`.trim()}
                     >
                       {column.cell(row, rowIndex)}
                     </td>
                   ))}
                   {rowActions ? (
                     <td
-                      className={`py-3.5 ${rowActions.className ?? ""}`.trim()}
+                      className={`${rowPadding} ${rowActions.className ?? ""}`.trim()}
                       onClick={(event) => event.stopPropagation()}
                     >
                       {rowActions.render(row, rowIndex)}
@@ -401,7 +388,7 @@ export function DataTable<T>({
         </table>
       </div>
       {pagination ? (
-        <div ref={paginationRef}><DataTablePagination {...pagination} className="mt-3" /></div>
+        <DataTablePagination {...pagination} className="mt-3" />
       ) : null}
     </section>
   );

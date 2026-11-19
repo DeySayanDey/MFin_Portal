@@ -1,9 +1,11 @@
-﻿export type ThriftEntry = {
+import { DEFAULT_OPENING_REMARK } from "./opening.constants";
+
+export type ThriftEntry = {
   id: string; customerId: number | null; member: string; name: string; account: string; date: string; remarks: string;
   installment: string; rate: string; last: string; balance: string;
   finYearId: string;
 };
-export const initialThriftEntry: ThriftEntry = { id: "", customerId: null, member: "", name: "", account: "", date: "", remarks: "", installment: "", rate: "", last: "", balance: "", finYearId: "" };
+export const initialThriftEntry: ThriftEntry = { id: "", customerId: null, member: "", name: "", account: "", date: "", remarks: DEFAULT_OPENING_REMARK, installment: "", rate: "", last: "", balance: "", finYearId: "" };
 
 export type LoanEntry = {
   id: string; member: string; name: string; account: string; product: string; productCode: string; applicationNo: string;

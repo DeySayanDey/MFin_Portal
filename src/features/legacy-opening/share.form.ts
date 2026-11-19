@@ -1,10 +1,12 @@
-﻿export type ShareEntry = {
+import { DEFAULT_OPENING_REMARK } from "./opening.constants";
+
+export type ShareEntry = {
   id: string; customerId: number | null; member: string; name: string; account: string; date: string;
   remarks: string; shares: string; faceValue: string;
   finYearId: string;
 };
 
-export const initialShareEntry: ShareEntry = { id: "", customerId: null, member: "", name: "", account: "", date: "", remarks: "", shares: "", faceValue: "", finYearId: "" };
+export const initialShareEntry: ShareEntry = { id: "", customerId: null, member: "", name: "", account: "", date: "", remarks: DEFAULT_OPENING_REMARK, shares: "", faceValue: "", finYearId: "" };
 
 /** Returns the amount in paise, or null when the API limits are exceeded. */
 export function shareAmountPaise(shares: string, faceValue: string): number | null {

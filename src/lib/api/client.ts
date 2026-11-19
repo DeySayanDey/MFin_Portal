@@ -32,6 +32,8 @@ export type ApiRequestOptions = {
   accessToken?: string | null;
   /** When false, skip Laravel envelope unwrapping and return raw JSON. */
   expectEnvelope?: boolean;
+  /** Return a successful response as bytes with its download filename header. */
+  responseType?: "binary";
 };
 
 const DEFAULT_TIMEOUT_MS = 30_000;
@@ -176,6 +178,7 @@ export async function apiClient<TResponse>(
     baseUrl = env.NEXT_PUBLIC_API_BASE_URL,
     accessToken,
     expectEnvelope = true,
+    responseType,
   } = options;
 
   const laravelPath = toApiPath(path);
@@ -208,6 +211,12 @@ export async function apiClient<TResponse>(
       cache: "no-store",
     });
 
+    if (response.ok && responseType === "binary" && response.headers.get("content-type")?.split(";")[0].trim().toLowerCase() === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+      return {
+        data: await response.arrayBuffer(),
+        contentDisposition: response.headers.get("content-disposition"),
+      } as TResponse;
+    }
     const payload = await parseResponseBody(response);
 
     if (!response.ok) {
@@ -256,9 +265,15 @@ export async function apiClient<TResponse>(
           },
         });
       }
+      if (responseType === "binary") {
+        throw new ApiError({ message: "Unexpected export response", status: 502, code: "UNEXPECTED" });
+      }
       return payload.data as TResponse;
     }
 
+    if (responseType === "binary") {
+      throw new ApiError({ message: "Unexpected export response", status: 502, code: "UNEXPECTED" });
+    }
     return payload as TResponse;
   } catch (error) {
     if (error instanceof ApiError) {

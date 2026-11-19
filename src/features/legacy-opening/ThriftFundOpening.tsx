@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Card } from "@/components/ui/Card";
 import { DateField, TextField } from "@/components/ui/Form";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
@@ -9,7 +9,7 @@ import { OpeningCustomerField } from "./OpeningCustomerField";
 import { OpeningDraftTable } from "./OpeningDraftTable";
 import { initialThriftEntry, type ThriftEntry } from "./other-accounts.form";
 import { saveDraft } from "./services/opening-deposit-client";
-import { openingDateToInput } from "./services/opening-date";
+import { openingDateBeforeFinancialYear, openingDateToInput } from "./services/opening-date";
 import type { OpeningDraft } from "./services/opening-deposit.schemas";
 import type { FinYear } from "@/features/master/fin-year";
 import { formatDateDMY } from "@/lib/date-format";
@@ -28,9 +28,16 @@ export function ThriftFundOpening({ visible, selectedFinYear }: { visible: boole
   const [error, setError] = useToastText();
   const [notice, setNotice] = useToastText();
   const formRef = useRef<HTMLFormElement>(null);
+  const defaultOpeningDate = openingDateBeforeFinancialYear(selectedFinYear?.startDate);
+  const defaultDateApplied = useRef(false);
+  useEffect(() => {
+    if (!defaultOpeningDate || defaultDateApplied.current) return;
+    defaultDateApplied.current = true;
+    setForm((current) => current.date || current.id ? current : { ...current, date: defaultOpeningDate });
+  }, [defaultOpeningDate]);
   const set = (key: keyof ThriftEntry, value: string) => setForm((current) => ({ ...current, [key]: value }));
   const clear = () => {
-    setForm({ ...initialThriftEntry });
+    setForm({ ...initialThriftEntry, date: defaultOpeningDate });
     setError(""); setNotice("");
   };
 
@@ -40,8 +47,8 @@ export function ThriftFundOpening({ visible, selectedFinYear }: { visible: boole
     if (!form.customerId || !form.account.trim() || form.account.trim().length > 15 || !form.date || form.date > todayLocal()) {
       setError("Select a customer and enter a valid reference and opening date that is not in the future."); return;
     }
-    if (selectedFinYear && form.date && (form.date < selectedFinYear.startDate || form.date > selectedFinYear.endDate)) {
-      setError(`Opening date must fall within the selected financial year (${selectedFinYear.yearName}: ${formatDateDMY(selectedFinYear.startDate)} – ${formatDateDMY(selectedFinYear.endDate)}).`);
+    if (selectedFinYear && form.date && (form.date < defaultOpeningDate || form.date > selectedFinYear.endDate)) {
+      setError(`Opening date must be between ${formatDateDMY(defaultOpeningDate)} and ${formatDateDMY(selectedFinYear.endDate)}.`);
       return;
     }
     if (!moneyPattern.test(form.installment.trim()) || Number(form.installment) <= 0 || !moneyPattern.test(form.balance.trim())) {
@@ -76,7 +83,7 @@ export function ThriftFundOpening({ visible, selectedFinYear }: { visible: boole
             <OpeningCustomerField label="Customer no." type={2} value={form.member} onSelect={(customer) => setForm((current) => ({ ...current, customerId: customer.customer_id, member: customer.customer_code || `#${customer.customer_id}`, name: customer.customer_name }))} />
             <TextField label="Customer name" value={form.name} readOnly required />
             <TextField label="Account reference number" value={form.account} onChange={(v) => set("account", v)} maxLength={15} hint="Maximum 15 characters." required />
-            <DateField label="Opening date" value={form.date} onChange={(v) => set("date", v)} min={selectedFinYear?.startDate} max={selectedFinYear?.endDate ? (selectedFinYear.endDate < todayLocal() ? selectedFinYear.endDate : todayLocal()) : todayLocal()} hint={selectedFinYear ? `Range: ${formatDateDMY(selectedFinYear.startDate)} – ${formatDateDMY(selectedFinYear.endDate)}` : undefined} required />
+            <DateField label="Opening date" value={form.date} onChange={(v) => set("date", v)} min={defaultOpeningDate || undefined} max={selectedFinYear?.endDate ? (selectedFinYear.endDate < todayLocal() ? selectedFinYear.endDate : todayLocal()) : todayLocal()} hint={selectedFinYear ? `Range: ${formatDateDMY(defaultOpeningDate)} – ${formatDateDMY(selectedFinYear.endDate < todayLocal() ? selectedFinYear.endDate : todayLocal())}` : undefined} required />
             <TextField label="Remarks" value={form.remarks} onChange={(v) => set("remarks", v)} maxLength={100} />
           </section>
           <section className="space-y-4 rounded-xl border border-border p-4" aria-labelledby="tf-details">
@@ -92,6 +99,5 @@ export function ThriftFundOpening({ visible, selectedFinYear }: { visible: boole
       </form>
     </Card>
     {visible && <OpeningDraftTable type={5} revision={revision} onEdit={edit} />}
-    <p className="text-sm text-muted">Thrift Fund drafts can be saved, edited, deleted and exported. Finalization is not yet available.</p>
   </div>;
 }

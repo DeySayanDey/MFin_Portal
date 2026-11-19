@@ -1,4 +1,5 @@
 import { endpoints } from "@/lib/api/endpoints";
+import { downloadWorkbook } from "./opening-download";
 import type { LoanDraft, LoanInput } from "./opening-loan.schemas";
 
 type List = { data: LoanDraft[]; meta: { total: number; page: number; per_page: number; last_page: number; total_outstanding?: string | null } };
@@ -20,5 +21,5 @@ export async function downloadLoanDrafts(ids: number[] = []) {
   const params = new URLSearchParams(); ids.forEach((id) => params.append("opening_ids[]", String(id)));
   const response = await fetch(`${endpoints.bff.openingLoanExport}?${params}`, { credentials: "same-origin" });
   if (!response.ok) { const body = await response.json().catch(() => null); throw new Error(body?.message || "Unable to export loan drafts"); }
-  const url = URL.createObjectURL(await response.blob()); const anchor = document.createElement("a"); anchor.href = url; anchor.download = "opening-loan-drafts.csv"; anchor.click(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  await downloadWorkbook(response, "opening-loan-drafts.xlsx");
 }

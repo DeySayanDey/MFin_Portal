@@ -10,6 +10,8 @@ import {
   isMemberClientError,
 } from "@/features/onboarding/member-registration/services/member-client";
 import type { Member } from "@/features/onboarding/member-registration/types/member.types";
+import { SubscriberPickerModal } from "@/features/onboarding/share-subscription/components/SubscriberPickerModal";
+import { CUST_TYPE_INDIVIDUAL } from "@/features/onboarding/share-subscription/share-subscription.constants";
 
 const MIN_CHARS = 2;
 const RESULT_LIMIT = 8;
@@ -21,6 +23,7 @@ type Member360SearchProps = {
 
 export function Member360Search({ onSelect }: Member360SearchProps) {
   const t = useTranslations("onboarding.member360");
+  const tPicker = useTranslations("onboarding.shareSubscription");
   const listId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const [keyword, setKeyword] = useState("");
@@ -29,6 +32,7 @@ export function Member360Search({ onSelect }: Member360SearchProps) {
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   const term = keyword.trim();
   const ready = term.length >= MIN_CHARS;
@@ -122,14 +126,14 @@ export function Member360Search({ onSelect }: Member360SearchProps) {
           onFocus={() => setOpen(true)}
           onBlur={() => window.setTimeout(() => setOpen(false), 150)}
           onKeyDown={onKeyDown}
-          className={`${controlClass} h-12 rounded-2xl ps-11 pe-11 [&::-webkit-search-cancel-button]:hidden`}
+          className={`${controlClass} h-12 rounded-2xl ps-11 pe-20 [&::-webkit-search-cancel-button]:hidden`}
         />
         {loading ? (
-          <Loader2 className="absolute inset-y-0 end-3.5 my-auto h-4 w-4 animate-spin text-muted" aria-hidden />
+          <Loader2 className="absolute inset-y-0 end-12 my-auto h-4 w-4 animate-spin text-muted" aria-hidden />
         ) : keyword ? (
           <button
             type="button"
-            className="absolute inset-y-0 end-2.5 my-auto inline-flex h-7 w-7 items-center justify-center rounded-lg text-muted hover:bg-surface-muted hover:text-foreground"
+            className="absolute inset-y-0 end-11 my-auto inline-flex h-7 w-7 items-center justify-center rounded-lg text-muted hover:bg-surface-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             aria-label={t("search.clear")}
             onClick={() => {
               setKeyword("");
@@ -139,6 +143,15 @@ export function Member360Search({ onSelect }: Member360SearchProps) {
             <X className="h-4 w-4" aria-hidden />
           </button>
         ) : null}
+        <button
+          type="button"
+          className="absolute inset-y-0 end-2 my-auto inline-flex h-8 w-8 items-center justify-center rounded-lg text-muted hover:bg-surface-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+          aria-label={tPicker("picker.titleMember")}
+          title={tPicker("picker.titleMember")}
+          onClick={() => { setOpen(false); setPickerOpen(true); }}
+        >
+          <Search className="h-4 w-4" aria-hidden />
+        </button>
       </div>
       {!ready ? <p className="mt-1.5 text-xs text-muted">{t("search.hint", { count: MIN_CHARS })}</p> : null}
 
@@ -184,6 +197,18 @@ export function Member360Search({ onSelect }: Member360SearchProps) {
           )}
         </div>
       ) : null}
+      <SubscriberPickerModal
+        open={pickerOpen}
+        custTypeCd={CUST_TYPE_INDIVIDUAL}
+        selectedId={null}
+        includeInactiveMembers
+        subtitle={t("description")}
+        onClose={() => setPickerOpen(false)}
+        onSelect={(subscriber) => {
+          if (subscriber.member) choose(subscriber.member);
+          setPickerOpen(false);
+        }}
+      />
     </div>
   );
 }

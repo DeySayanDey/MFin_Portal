@@ -135,6 +135,7 @@ export function AcctHeadTable({
       emptyTitle={t("emptyTitle")}
       emptyMessage={t("emptyMessage")}
       minWidth="900px"
+      maxVisibleRows={8}
       caption={t("tableCaption")}
       rowActions={{
         header: t("columns.actions"),

@@ -105,6 +105,7 @@ export function AcctCategoryTable({
       emptyTitle={t("emptyTitle")}
       emptyMessage={t("emptyMessage")}
       minWidth="760px"
+      maxVisibleRows={8}
       caption={t("tableCaption")}
       pagination={{
         page,

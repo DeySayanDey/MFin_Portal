@@ -18,7 +18,7 @@ import { ThriftFundOpening } from "./ThriftFundOpening";
 import { OpeningCustomerField } from "./OpeningCustomerField";
 import { OpeningDraftTable } from "./OpeningDraftTable";
 import { saveDraft } from "./services/opening-deposit-client";
-import { openingDateToInput } from "./services/opening-date";
+import { openingDateBeforeFinancialYear, openingDateToInput } from "./services/opening-date";
 import type { OpeningDraft } from "./services/opening-deposit.schemas";
 import { custTypeForProduct } from "@/features/deposits/savings/deposit-account.rules";
 import { fetchDepositProductSchemes } from "@/features/deposits/savings/services/deposit-account-client";
@@ -39,13 +39,6 @@ type Tab = (typeof tabs)[number]["id"];
 const TAB_STORAGE_KEY = "mfin.opening.active-tab";
 function rememberTab(value: string) {
   try { window.sessionStorage.setItem(TAB_STORAGE_KEY, value); } catch { /* Storage may be unavailable. */ }
-}
-const FIN_YEAR_STORAGE_KEY = "mfin.opening.fin-year";
-function rememberFinYear(value: string) {
-  try { window.sessionStorage.setItem(FIN_YEAR_STORAGE_KEY, value); } catch { /* Storage may be unavailable. */ }
-}
-function getSavedFinYear(): string {
-  try { return window.sessionStorage.getItem(FIN_YEAR_STORAGE_KEY) || ""; } catch { return ""; }
 }
 const products: Record<Tab, { type: string; scheme: string }> = {
   deposit: { type: "SB", scheme: "" },
@@ -74,24 +67,22 @@ export function OpeningView() {
   const [finYearId, setFinYearId] = useState<string>("");
   const [finYears, setFinYears] = useState<FinYear[]>([]);
   const selectedFinYear = finYears.find((y) => String(y.yearId) === finYearId);
+  const defaultOpeningDate = openingDateBeforeFinancialYear(selectedFinYear?.startDate);
+  const defaultDateApplied = useRef(false);
+  useEffect(() => {
+    if (!defaultOpeningDate || defaultDateApplied.current) return;
+    defaultDateApplied.current = true;
+    setForm((current) => current.date || current.id ? current : { ...current, date: defaultOpeningDate });
+  }, [defaultOpeningDate]);
 
   const handleYearsLoaded = (loadedYears: FinYear[]) => {
-    setFinYears(loadedYears);
-    const saved = getSavedFinYear();
-    const matched = loadedYears.find((y) => String(y.yearId) === saved);
-    const active = loadedYears.find((y) => y.isActive) ?? loadedYears[0];
-    const initial = matched ?? active;
-    if (initial && !finYearId) {
-      setFinYearId(String(initial.yearId));
-    }
-  };
-
-  const handleGlobalFinYearChange = (yearId: string, year?: FinYear) => {
-    setFinYearId(yearId);
-    rememberFinYear(yearId);
-    if (year && form.date && (form.date < year.startDate || form.date > year.endDate)) {
-      setForm((current) => ({ ...current, date: "" }));
-    }
+    setFinYears(loadedYears.map((year) => ({
+      ...year,
+      startDate: openingDateToInput(year.startDate),
+      endDate: openingDateToInput(year.endDate),
+    })));
+    const active = loadedYears.find((year) => year.isActive);
+    setFinYearId(active ? String(active.yearId) : "");
   };
   useEffect(() => {
     let cancelled = false;
@@ -137,6 +128,7 @@ export function OpeningView() {
   const clear = () => {
     setForm({
       ...initialEntry,
+      date: defaultOpeningDate,
       ...products[tab],
       schemeId: "",
       id: "",
@@ -148,7 +140,6 @@ export function OpeningView() {
       balance: "",
       amount: "",
       installment: "",
-      remarks: "",
     });
     setError("");
     setNotice("");
@@ -165,8 +156,8 @@ export function OpeningView() {
     if (optionsStatus !== "ready" || schemeStatus !== "ready" || !customerTypes.some((option) => String(option.optCode) === form.customerType) || !operationModes.some((option) => String(option.optCode) === form.operationMode) || !form.customerId || !form.account.trim() || !selectedScheme || !form.date || !/^\d{1,8}(?:\.\d{1,2})?$/.test(form.balance.trim()) || (["2", "3"].includes(form.operationMode) && !form.jointId)) {
       setError("Complete the required fields with a valid opening balance."); return;
     }
-    if (selectedFinYear && form.date && (form.date < selectedFinYear.startDate || form.date > selectedFinYear.endDate)) {
-      setError(`Opening date must fall within the selected financial year (${selectedFinYear.yearName}: ${formatDateDMY(selectedFinYear.startDate)} – ${formatDateDMY(selectedFinYear.endDate)}).`);
+    if (selectedFinYear && form.date && (form.date < defaultOpeningDate || form.date > selectedFinYear.endDate)) {
+      setError(`Opening date must be between ${formatDateDMY(defaultOpeningDate)} and ${formatDateDMY(selectedFinYear.endDate)}.`);
       return;
     }
     if (form.operationMode === "4") { setError("This mode needs two joint holders, but opening drafts support only one."); return; }
@@ -195,11 +186,14 @@ export function OpeningView() {
             <div className="w-full sm:ml-auto sm:w-64 sm:shrink-0">
               <FinancialYearField
                 value={finYearId}
-                onChange={handleGlobalFinYearChange}
+                onChange={setFinYearId}
                 onYearsLoaded={handleYearsLoaded}
                 label="Financial year"
                 hideLabel
                 hint=""
+                placeholder="No active financial year"
+                autoSelectActive={false}
+                disabled
                 required
               />
             </div>
@@ -229,7 +223,7 @@ export function OpeningView() {
             <SelectField label="Operation mode" value={form.operationMode} onChange={(value) => setForm((current) => ({ ...current, operationMode: value, jointId: null, jointMember: "", jointName: "" }))} options={operationModes.map((option) => ({ value: String(option.optCode), label: option.optDescription, disabled: option.optCode === 4 }))} hint="The mode requiring two joint holders is unavailable for opening drafts." placeholder={optionsStatus === "loading" ? "Loading operation modes..." : "Select operation mode"} emptyMessage="No operation modes available" disabled={optionsStatus !== "ready"} required />
             {form.operationMode && form.operationMode !== String(OP_MODE_SINGLE) ? <><div><OpeningCustomerField label="Joint member code" type={2} branchId={form.customerBranchId ?? undefined} disabled={!form.customerId} required={["2", "3"].includes(form.operationMode)} value={form.jointMember} onSelect={(item) => { setError(""); setForm((current) => ({ ...current, jointId: item.customer_id, jointMember: item.customer_code || `#${item.customer_id}`, jointName: item.customer_name })); }} />{form.jointId && <button type="button" className="mt-1 text-xs text-muted underline" onClick={() => setForm((current) => ({ ...current, jointId: null, jointMember: "", jointName: "" }))}>Clear joint member</button>}</div><TextField label="Joint member name" value={form.jointName} readOnly />{duplicateJointMember && <p role="alert" className="text-sm text-rose-600">Choose a different person from the primary customer.</p>}</> : null}
             <SelectField label="Scheme / Product" value={form.schemeId ?? ""} onChange={(value) => setForm((current) => ({ ...current, schemeId: value, scheme: schemes.find((scheme) => scheme.value === value)?.label ?? "" }))} options={schemes.filter((scheme) => { const required = custTypeForProduct(scheme.product); return required == null || required === Number(form.customerType); })} placeholder={schemeStatus === "loading" ? "Loading schemes..." : "Select scheme / product"} emptyMessage="No schemes available" disabled={schemeStatus !== "ready"} searchable required />
-            <DateField label="Opening date" value={form.date} onChange={(v) => set("date", v)} min={selectedFinYear?.startDate} max={selectedFinYear?.endDate} hint={selectedFinYear ? `Range: ${formatDateDMY(selectedFinYear.startDate)} – ${formatDateDMY(selectedFinYear.endDate)}` : undefined} required />
+            <DateField label="Opening date" value={form.date} onChange={(v) => set("date", v)} min={defaultOpeningDate || undefined} max={selectedFinYear?.endDate} hint={selectedFinYear ? `Range: ${formatDateDMY(defaultOpeningDate)} – ${formatDateDMY(selectedFinYear.endDate)}` : undefined} required />
             <TextField label="Opening balance" value={form.balance} onChange={(v) => set("balance", v)} inputMode="decimal" required />
             <TextField label="Remarks" value={form.remarks} onChange={(v) => set("remarks", v)} maxLength={100} />
           </div>
@@ -240,7 +234,7 @@ export function OpeningView() {
           <BatchFormActions editing={Boolean(form.id)} clear={clear} busy={saving} />
         </form>
       </Card>
-      <OpeningDraftTable type={1} revision={revision} onEdit={edit} />
+      {tab === "deposit" && form.type === "SB" && <OpeningDraftTable type={1} revision={revision} onEdit={edit} />}
       </div>
     </div>
   );

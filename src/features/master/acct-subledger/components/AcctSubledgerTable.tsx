@@ -135,6 +135,7 @@ export function AcctSubledgerTable({
       emptyTitle={t("emptyTitle")}
       emptyMessage={t("emptyMessage")}
       minWidth="960px"
+      maxVisibleRows={8}
       caption={t("tableCaption")}
       rowActions={{
         header: t("columns.actions"),
