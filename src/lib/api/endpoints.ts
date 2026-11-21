@@ -13,6 +13,7 @@ export const endpoints = {
   },
   /** Same-origin BFF routes (browser → Next → Laravel). */
   bff: {
+    virtualBank: "/api/master/virtual-ac-config",
     openingDeposits: "/api/opening/deposits",
     openingDepositCustomers: "/api/opening/deposits/customers",
     openingDepositExport: "/api/opening/deposits/export",
@@ -462,6 +463,17 @@ export const endpoints = {
     edit: "/api/OpeningLoanDraftEdit",
     delete: "/api/OpeningLoanDraftDelete",
     export: "/api/OpeningLoanDraftExport",
+  },
+  virtualBank: {
+    banks: "/api/VirtualBankList",
+    configs: "/api/VirtualBankConfigList",
+    configEditDetails: "/api/VirtualBankConfigEditDetails",
+    configAdd: "/api/VirtualBankConfigAdd",
+    configEdit: "/api/VirtualBankConfigEdit",
+    qr: "/api/VirtualBankConfigQr",
+    mappings: "/api/VirtualBankMappingList",
+    mappingAdd: "/api/VirtualBankMappingAdd",
+    mappingEdit: "/api/VirtualBankMappingEdit",
   },
   dashboard: {
     get: "/api/DashboardGet",

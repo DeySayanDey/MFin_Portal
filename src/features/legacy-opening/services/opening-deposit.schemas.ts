@@ -11,12 +11,16 @@ export const draftInputSchema = z.object({
   opening_id: positiveId.optional(), deposit_type_cd: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
   cust_type_cd: z.union([z.literal(1), z.literal(2)]), customer_id: positiveId,
   scheme_id: positiveId.optional(), prod_type_cd: positiveId.nullable().optional(), op_mode_cd: positiveId,
-  cust_id_joint1: positiveId.nullable().optional(), ref_ac_no: z.string().trim().min(1).max(15),
-  opening_date: date, opening_balance: money.optional(), no_of_shares: z.number().int().min(1).max(99999999).optional(), face_value: z.string().trim().optional(), remarks: z.string().trim().max(100).nullable().optional(),
+  cust_id_joint1: positiveId.nullable().optional(), ref_ac_no: z.string().trim().max(15).nullable().optional(),
+  opening_date: date, as_on_date: date.nullable().optional(), opening_balance: money.optional(), no_of_shares: z.number().int().min(1).max(99999999).optional(), face_value: z.string().trim().optional(), remarks: z.string().trim().max(100).nullable().optional(),
   tenure: positiveId.nullable().optional(), term_cd: positiveId.nullable().optional(), installment_amount: decimal.nullable().optional(),
   intt_rate: decimal.nullable().optional(), intt_payout_cd: positiveId.nullable().optional(), matu_ins_cd: positiveId.nullable().optional(),
   maturity_date: date.nullable().optional(), maturity_amt: decimal.nullable().optional(), paid_upto: date.nullable().optional(),
 }).superRefine((input, ctx) => {
+  if ((input.deposit_type_cd === 1 || input.deposit_type_cd === 2) && (!input.ref_ac_no || !input.ref_ac_no.trim())) ctx.addIssue({ code: "custom", path: ["ref_ac_no"], message: "Account reference number is required." });
+  if ((input.deposit_type_cd === 1 || input.deposit_type_cd === 2) && !input.as_on_date) ctx.addIssue({ code: "custom", path: ["as_on_date"], message: "Balance as-on date is required for savings and term deposit drafts." });
+  if ((input.deposit_type_cd === 1 || input.deposit_type_cd === 2) && input.as_on_date && input.opening_date > input.as_on_date) ctx.addIssue({ code: "custom", path: ["as_on_date"], message: "Balance as-on date must be on or after the opening date." });
+  if (input.deposit_type_cd !== 1 && input.deposit_type_cd !== 2 && input.as_on_date != null) ctx.addIssue({ code: "custom", path: ["as_on_date"], message: "Balance as-on date is only accepted for savings and term deposit drafts." });
   if (input.deposit_type_cd !== 3 && input.opening_balance == null) ctx.addIssue({ code: "custom", message: "Opening balance is required." });
   if (input.deposit_type_cd === 3 && (input.cust_type_cd !== 2 || input.op_mode_cd !== 1 || input.no_of_shares == null || !input.face_value || shareAmountPaise(String(input.no_of_shares), input.face_value) == null)) ctx.addIssue({ code: "custom", message: "Enter an individual customer, a valid share count and face value within the amount limit." });
   if ((input.deposit_type_cd === 1 || input.deposit_type_cd === 2) && !input.scheme_id) ctx.addIssue({ code: "custom", message: "Select a deposit scheme." });
@@ -30,10 +34,13 @@ export const draftInputSchema = z.object({
   if (input.deposit_type_cd === 1 && [2, 3].includes(input.op_mode_cd) && !input.cust_id_joint1) ctx.addIssue({ code: "custom", message: "Select a joint member for this operation mode." });
   if (input.deposit_type_cd === 2 && (!input.prod_type_cd || !input.tenure || !input.term_cd || !input.installment_amount || Number(input.installment_amount) <= 0 || input.intt_rate == null || Number(input.intt_rate) > 100 || !input.intt_payout_cd || !input.maturity_date || input.maturity_date <= input.opening_date || !input.maturity_amt || Number(input.maturity_amt) <= 0)) ctx.addIssue({ code: "custom", message: "Complete the term deposit details with a maturity date after the opening date." });
   if (input.deposit_type_cd === 2 && input.tenure && input.term_cd) {
-    const limits: Record<number, number> = { 1: 120, 2: 120, 3: 50 };
-    if (!limits[input.term_cd] || input.tenure > limits[input.term_cd] || (input.prod_type_cd === 2 && input.term_cd === 1)) ctx.addIssue({ code: "custom", message: "The tenure or unit is not permitted for this product." });
+    const limits: Record<number, number> = { 1: 120, 2: 17, 3: 120, 4: 50 };
+    if (!limits[input.term_cd] || input.tenure > limits[input.term_cd] || (input.prod_type_cd === 2 && (input.term_cd === 1 || input.term_cd === 2))) ctx.addIssue({ code: "custom", message: "The tenure or unit is not permitted for this product." });
   }
-  if (input.deposit_type_cd === 2 && input.paid_upto && input.maturity_date && input.paid_upto > input.maturity_date) ctx.addIssue({ code: "custom", message: "Interest paid up to cannot be after maturity." });
+  if (input.deposit_type_cd === 2 && input.paid_upto) {
+    if (input.paid_upto < input.opening_date) ctx.addIssue({ code: "custom", path: ["paid_upto"], message: "Interest paid up to date cannot be before the opening date." });
+    if (input.maturity_date && input.paid_upto > input.maturity_date) ctx.addIssue({ code: "custom", path: ["paid_upto"], message: "Interest paid up to cannot be after maturity." });
+  }
 });
 export type OpeningDraftInput = z.infer<typeof draftInputSchema>;
 export const batchInputSchema = z.object({ opening_ids: ids });
@@ -45,7 +52,7 @@ export const draftRowSchema = z.object({
   prod_type_cd: nullableNumber, prod_type_desc: nullableText, scheme_id: nullableNumber, scheme_code: nullableText, scheme_name: nullableText,
   cust_type_cd: z.union([z.literal(1), z.literal(2)]), customer_id: nullableNumber, customer_code: nullableText, customer_name: nullableText,
   branch_id: nullableNumber, op_mode_cd: nullableNumber, cust_id_joint1: nullableNumber, ref_ac_no: nullableText,
-  opening_date: nullableText, opening_balance: z.string(), tenure: nullableNumber, term_cd: nullableNumber,
+  opening_date: nullableText, as_on_date: nullableText, opening_balance: z.string(), tenure: nullableNumber, term_cd: nullableNumber,
   installment_amount: nullableText, intt_rate: nullableText, intt_payout_cd: nullableNumber, matu_ins_cd: nullableNumber,
   maturity_date: nullableText, maturity_amt: nullableText, paid_upto: nullableText, remarks: nullableText,
   no_of_shares: nullableNumber, face_value: nullableText,

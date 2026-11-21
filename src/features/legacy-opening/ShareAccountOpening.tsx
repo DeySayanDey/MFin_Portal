@@ -38,11 +38,15 @@ export function ShareAccountOpening({ visible, selectedFinYear }: { visible: boo
   const save = async (event: FormEvent) => {
     event.preventDefault();
     if (saving) return;
-    if (!form.customerId || !form.account.trim() || form.account.trim().length > 15 || !form.date) {
-      setError("Select a customer and enter a valid account reference and opening date."); return;
+    if (!form.customerId || form.account.trim().length > 15 || !form.date) {
+      setError("Select a customer and enter a valid opening date. Account reference must be at most 15 characters."); return;
     }
-    if (selectedFinYear && (form.date < defaultOpeningDate || form.date > selectedFinYear.endDate)) {
-      setError(`Opening date must be between ${formatDateDMY(defaultOpeningDate)} and ${formatDateDMY(selectedFinYear.endDate)}.`);
+    if (!defaultOpeningDate) {
+      setError("The active financial year is unavailable. Reload the page and try again.");
+      return;
+    }
+    if (form.date > defaultOpeningDate) {
+      setError(`Opening date must be on or before ${formatDateDMY(defaultOpeningDate)}.`);
       return;
     }
     if (amountPaise == null) {
@@ -50,7 +54,7 @@ export function ShareAccountOpening({ visible, selectedFinYear }: { visible: boo
     }
     setSaving(true); setError(""); setNotice("");
     try {
-      await saveDraft({ ...(form.id ? { opening_id: Number(form.id) } : {}), deposit_type_cd: 3, cust_type_cd: 2, customer_id: form.customerId, op_mode_cd: 1, ref_ac_no: form.account.trim(), opening_date: form.date, no_of_shares: Number(form.shares), face_value: form.faceValue.trim(), remarks: form.remarks.trim() || null });
+      await saveDraft({ ...(form.id ? { opening_id: Number(form.id) } : {}), deposit_type_cd: 3, cust_type_cd: 2, customer_id: form.customerId, op_mode_cd: 1, ref_ac_no: form.account.trim() || null, opening_date: form.date, no_of_shares: Number(form.shares), face_value: form.faceValue.trim(), remarks: form.remarks.trim() || null });
       const updated = Boolean(form.id); clear(); setNotice(updated ? "Draft updated." : "Draft added to the batch."); setRevision((value) => value + 1);
     } catch (err) { setError(err instanceof Error ? err.message : "Could not save Share draft."); }
     finally { setSaving(false); }
@@ -70,8 +74,8 @@ export function ShareAccountOpening({ visible, selectedFinYear }: { visible: boo
             <h3 id="share-basic" className="text-sm font-semibold text-foreground">Basic Details</h3>
             <OpeningCustomerField label="Customer no." type={2} value={form.member} onSelect={(customer) => setForm((current) => ({ ...current, customerId: customer.customer_id, member: customer.customer_code || `#${customer.customer_id}`, name: customer.customer_name }))} />
             <TextField label="Customer name" value={form.name} readOnly required />
-            <TextField label="Account reference number" value={form.account} onChange={(v) => set("account", v)} maxLength={15} hint="Maximum 15 characters." required />
-            <DateField label="Opening date" value={form.date} onChange={(v) => set("date", v)} min={defaultOpeningDate || undefined} max={selectedFinYear?.endDate} hint={selectedFinYear ? `Range: ${formatDateDMY(defaultOpeningDate)} – ${formatDateDMY(selectedFinYear.endDate)}` : undefined} required />
+            <TextField label="Account reference number" value={form.account} onChange={(v) => set("account", v)} maxLength={15} hint="Maximum 15 characters." />
+            <DateField label="Opening date" value={form.date} onChange={(v) => set("date", v)} max={defaultOpeningDate || undefined} disabled={!defaultOpeningDate} hint={defaultOpeningDate ? `On or before ${formatDateDMY(defaultOpeningDate)}` : undefined} required />
             <TextField label="Remarks" value={form.remarks} onChange={(v) => set("remarks", v)} maxLength={100} />
           </section>
           <section className="space-y-4 rounded-xl border border-border p-4" aria-labelledby="share-details">
@@ -79,6 +83,7 @@ export function ShareAccountOpening({ visible, selectedFinYear }: { visible: boo
             <TextField label="No. of shares" value={form.shares} onChange={(v) => set("shares", v)} inputMode="numeric" maxLength={8} required />
             <TextField label="Face value (₹)" value={form.faceValue} onChange={(v) => set("faceValue", v)} inputMode="decimal" required />
             <TextField label="Share amount" value={amountPaise == null ? "" : new Intl.NumberFormat("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amountPaise / 100)} readOnly />
+            <TextField label="Balance as on date" value={defaultOpeningDate ? formatDateDMY(defaultOpeningDate) : ""} readOnly />
           </section>
         </div>
         <PageToast message={error} tone="error" /><PageToast message={notice} />

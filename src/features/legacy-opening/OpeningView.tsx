@@ -68,6 +68,7 @@ export function OpeningView() {
   const [finYears, setFinYears] = useState<FinYear[]>([]);
   const selectedFinYear = finYears.find((y) => String(y.yearId) === finYearId);
   const defaultOpeningDate = openingDateBeforeFinancialYear(selectedFinYear?.startDate);
+  const balanceAsOnDate = form.id && form.asOnDate ? form.asOnDate : defaultOpeningDate;
   const defaultDateApplied = useRef(false);
   useEffect(() => {
     if (!defaultOpeningDate || defaultDateApplied.current) return;
@@ -81,7 +82,8 @@ export function OpeningView() {
       startDate: openingDateToInput(year.startDate),
       endDate: openingDateToInput(year.endDate),
     })));
-    const active = loadedYears.find((year) => year.isActive);
+    const activeYears = loadedYears.filter((year) => year.isActive);
+    const active = activeYears.length === 1 ? activeYears[0] : undefined;
     setFinYearId(active ? String(active.yearId) : "");
   };
   useEffect(() => {
@@ -153,23 +155,33 @@ export function OpeningView() {
     if (form.operationMode !== String(OP_MODE_SINGLE) && duplicateJointMember) {
       setError("The joint member must be different from the primary customer."); return;
     }
-    if (optionsStatus !== "ready" || schemeStatus !== "ready" || !customerTypes.some((option) => String(option.optCode) === form.customerType) || !operationModes.some((option) => String(option.optCode) === form.operationMode) || !form.customerId || !form.account.trim() || !selectedScheme || !form.date || !/^\d{1,8}(?:\.\d{1,2})?$/.test(form.balance.trim()) || (["2", "3"].includes(form.operationMode) && !form.jointId)) {
+    if (optionsStatus !== "ready" || schemeStatus !== "ready" || !customerTypes.some((option) => String(option.optCode) === form.customerType) || !operationModes.some((option) => String(option.optCode) === form.operationMode) || !form.customerId || !selectedScheme || !form.date || !/^\d{1,8}(?:\.\d{1,2})?$/.test(form.balance.trim()) || (["2", "3"].includes(form.operationMode) && !form.jointId)) {
       setError("Complete the required fields with a valid opening balance."); return;
     }
-    if (selectedFinYear && form.date && (form.date < defaultOpeningDate || form.date > selectedFinYear.endDate)) {
-      setError(`Opening date must be between ${formatDateDMY(defaultOpeningDate)} and ${formatDateDMY(selectedFinYear.endDate)}.`);
+    if (!defaultOpeningDate) {
+      setError("The active financial year is unavailable. Reload the page and try again.");
+      return;
+    }
+    const today = new Date();
+    const todayYmd = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    if (!balanceAsOnDate || balanceAsOnDate > defaultOpeningDate || balanceAsOnDate > todayYmd) {
+      setError("The balance as-on date must be before the active financial year and no later than today.");
+      return;
+    }
+    if (form.date > balanceAsOnDate) {
+      setError(`Opening date must be on or before ${formatDateDMY(balanceAsOnDate)}.`);
       return;
     }
     if (form.operationMode === "4") { setError("This mode needs two joint holders, but opening drafts support only one."); return; }
     setSaving(true); setError("");
     try {
-      await saveDraft({ ...(form.id ? { opening_id: Number(form.id) } : {}), deposit_type_cd: 1, cust_type_cd: form.customerType === "1" ? 1 : 2, customer_id: form.customerId, scheme_id: Number(form.schemeId), prod_type_cd: selectedScheme.product > 0 ? selectedScheme.product : null, op_mode_cd: Number(form.operationMode), cust_id_joint1: form.operationMode === String(OP_MODE_SINGLE) ? null : form.jointId, ref_ac_no: form.account.trim(), opening_date: form.date, opening_balance: form.balance.trim(), remarks: form.remarks.trim() || null });
+      await saveDraft({ ...(form.id ? { opening_id: Number(form.id) } : {}), deposit_type_cd: 1, cust_type_cd: form.customerType === "1" ? 1 : 2, customer_id: form.customerId, scheme_id: Number(form.schemeId), prod_type_cd: selectedScheme.product > 0 ? selectedScheme.product : null, op_mode_cd: Number(form.operationMode), cust_id_joint1: form.operationMode === String(OP_MODE_SINGLE) ? null : form.jointId, ref_ac_no: form.account.trim() || null, opening_date: form.date, as_on_date: balanceAsOnDate, opening_balance: form.balance.trim(), remarks: form.remarks.trim() || null });
       const updated = Boolean(form.id); clear(); setNotice(updated ? "Draft updated." : "Draft added to the batch."); setRevision((value) => value + 1);
     } catch (err) { setError(err instanceof Error ? err.message : "Could not save draft."); }
     finally { setSaving(false); }
   };
   const edit = (row: OpeningDraft) => {
-    setForm({ ...initialEntry, id: String(row.opening_id), customerType: row.cust_type_cd === 1 ? "1" : "2", customerId: row.customer_id ?? null, customerBranchId: row.branch_id ?? null, member: row.customer_code || (row.customer_id ? `#${row.customer_id}` : ""), name: row.customer_name || "", account: row.ref_ac_no || "", operationMode: row.op_mode_cd == null ? "" : String(row.op_mode_cd), jointId: row.cust_id_joint1 ?? null, jointMember: row.cust_id_joint1 ? `#${row.cust_id_joint1}` : "", schemeId: row.scheme_id == null ? "" : String(row.scheme_id), scheme: row.scheme_name || "", date: openingDateToInput(row.opening_date), balance: row.opening_balance, remarks: row.remarks || "" });
+    setForm({ ...initialEntry, id: String(row.opening_id), customerType: row.cust_type_cd === 1 ? "1" : "2", customerId: row.customer_id ?? null, customerBranchId: row.branch_id ?? null, member: row.customer_code || (row.customer_id ? `#${row.customer_id}` : ""), name: row.customer_name || "", account: row.ref_ac_no || "", operationMode: row.op_mode_cd == null ? "" : String(row.op_mode_cd), jointId: row.cust_id_joint1 ?? null, jointMember: row.cust_id_joint1 ? `#${row.cust_id_joint1}` : "", schemeId: row.scheme_id == null ? "" : String(row.scheme_id), scheme: row.scheme_name || "", date: openingDateToInput(row.opening_date), asOnDate: openingDateToInput(row.as_on_date), balance: row.opening_balance, remarks: row.remarks || "" });
     setError(""); setNotice(""); formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   if (!tabRestored) return <LoadingState />;
@@ -219,12 +231,18 @@ export function OpeningView() {
           </fieldset>
             <OpeningCustomerField label={form.customerType === "1" ? "Group no." : "Customer no."} type={form.customerType === "1" ? 1 : 2} value={form.member} onSelect={(item) => setForm((current) => ({ ...current, customerId: item.customer_id, customerBranchId: item.branch_id ?? null, member: item.customer_code || `#${item.customer_id}`, name: item.customer_name, jointId: null, jointMember: "", jointName: "" }))} />
             <TextField label={form.customerType === "1" ? "Group name" : "Customer name"} value={form.name} readOnly />
-            <TextField label="Account reference number" value={form.account} onChange={(v) => set("account", v)} maxLength={15} hint="Maximum 15 characters." required />
+            <TextField label="Account reference number" value={form.account} onChange={(v) => set("account", v)} maxLength={15} hint="Maximum 15 characters." />
             <SelectField label="Operation mode" value={form.operationMode} onChange={(value) => setForm((current) => ({ ...current, operationMode: value, jointId: null, jointMember: "", jointName: "" }))} options={operationModes.map((option) => ({ value: String(option.optCode), label: option.optDescription, disabled: option.optCode === 4 }))} hint="The mode requiring two joint holders is unavailable for opening drafts." placeholder={optionsStatus === "loading" ? "Loading operation modes..." : "Select operation mode"} emptyMessage="No operation modes available" disabled={optionsStatus !== "ready"} required />
             {form.operationMode && form.operationMode !== String(OP_MODE_SINGLE) ? <><div><OpeningCustomerField label="Joint member code" type={2} branchId={form.customerBranchId ?? undefined} disabled={!form.customerId} required={["2", "3"].includes(form.operationMode)} value={form.jointMember} onSelect={(item) => { setError(""); setForm((current) => ({ ...current, jointId: item.customer_id, jointMember: item.customer_code || `#${item.customer_id}`, jointName: item.customer_name })); }} />{form.jointId && <button type="button" className="mt-1 text-xs text-muted underline" onClick={() => setForm((current) => ({ ...current, jointId: null, jointMember: "", jointName: "" }))}>Clear joint member</button>}</div><TextField label="Joint member name" value={form.jointName} readOnly />{duplicateJointMember && <p role="alert" className="text-sm text-rose-600">Choose a different person from the primary customer.</p>}</> : null}
             <SelectField label="Scheme / Product" value={form.schemeId ?? ""} onChange={(value) => setForm((current) => ({ ...current, schemeId: value, scheme: schemes.find((scheme) => scheme.value === value)?.label ?? "" }))} options={schemes.filter((scheme) => { const required = custTypeForProduct(scheme.product); return required == null || required === Number(form.customerType); })} placeholder={schemeStatus === "loading" ? "Loading schemes..." : "Select scheme / product"} emptyMessage="No schemes available" disabled={schemeStatus !== "ready"} searchable required />
-            <DateField label="Opening date" value={form.date} onChange={(v) => set("date", v)} min={defaultOpeningDate || undefined} max={selectedFinYear?.endDate} hint={selectedFinYear ? `Range: ${formatDateDMY(defaultOpeningDate)} – ${formatDateDMY(selectedFinYear.endDate)}` : undefined} required />
+            <DateField label="Opening date" value={form.date} onChange={(v) => set("date", v)} max={balanceAsOnDate || undefined} disabled={!defaultOpeningDate} hint={balanceAsOnDate ? `On or before ${formatDateDMY(balanceAsOnDate)}` : undefined} required />
             <TextField label="Opening balance" value={form.balance} onChange={(v) => set("balance", v)} inputMode="decimal" required />
+            <TextField label="Balance as on date" value={balanceAsOnDate ? formatDateDMY(balanceAsOnDate) : ""} readOnly />
+            {form.id && form.asOnDate && defaultOpeningDate && form.asOnDate !== defaultOpeningDate ? (
+              <Button type="button" variant="secondary" size="sm" onClick={() => set("asOnDate", defaultOpeningDate)}>
+                Use {formatDateDMY(defaultOpeningDate)}
+              </Button>
+            ) : null}
             <TextField label="Remarks" value={form.remarks} onChange={(v) => set("remarks", v)} maxLength={100} />
           </div>
           {optionsStatus === "error" && <p role="alert" className="text-sm text-rose-600">Could not load customer types and operation modes. <button type="button" className="underline" onClick={() => { setOptionsStatus("loading"); setOptionsReload((current) => current + 1); }}>Try again</button></p>}

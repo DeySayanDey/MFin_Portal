@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { SelectField } from "@/components/ui/Form";
 import { formatDateDMY } from "@/lib/date-format";
 import { fetchFinYearList, type FinYear } from "@/features/master/fin-year";
+import { openingDateBeforeFinancialYear, openingDateToInput } from "./services/opening-date";
 
 export function findFinYearForDate(years: FinYear[], date: string): FinYear | undefined {
   if (!date) return undefined;
@@ -36,14 +37,23 @@ export function FinancialYearField({
   autoSelectActive = true,
 }: FinancialYearFieldProps) {
   const [years, setYears] = useState<FinYear[]>([]);
-  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [status, setStatus] = useState<"loading" | "ready" | "error" | "invalid">("loading");
   const [reload, setReload] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
-    fetchFinYearList({ perPage: 200 })
+    fetchFinYearList({ isActive: 1, page: 1, perPage: 200 })
       .then((res) => {
         if (cancelled) return;
+        const activeYears = res.items.filter((year) => year.isActive);
+        const startDate = openingDateToInput(activeYears[0]?.startDate);
+        const endDate = openingDateToInput(activeYears[0]?.endDate);
+        if (activeYears.length !== 1 || (res.meta && res.meta.lastPage > 1) || (!res.meta && res.items.length === 200) || !openingDateBeforeFinancialYear(startDate) || !openingDateBeforeFinancialYear(endDate) || endDate <= startDate) {
+          setYears([]);
+          onYearsLoaded?.([]);
+          setStatus("invalid");
+          return;
+        }
         const sorted = [...res.items].sort(
           (a, b) =>
             (b.isActive ? 1 : 0) - (a.isActive ? 1 : 0) ||
@@ -109,6 +119,11 @@ export function FinancialYearField({
           >
             Try again
           </button>
+        </p>
+      )}
+      {status === "invalid" && (
+        <p role="alert" className="mt-1 text-xs text-rose-600">
+          Exactly one active financial year with valid dates is required.
         </p>
       )}
     </div>

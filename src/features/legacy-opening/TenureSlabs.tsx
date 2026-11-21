@@ -9,8 +9,9 @@ import type { DepositSchemeSlab } from "@/features/master/deposit-interest/types
 import { formatDateDMY } from "@/lib/date-format";
 import type { ApplOption } from "@/features/master/appl-options";
 
-export function TenureSlabs({ schemeId, value, unit, unitCatalog, slabId, onChange, onUnitChange, onSlabSelect }: {
+export function TenureSlabs({ schemeId, prodTypeCd, value, unit, unitCatalog, slabId, onChange, onUnitChange, onSlabSelect }: {
   schemeId?: string;
+  prodTypeCd?: number;
   value: string;
   unit: string;
   unitCatalog: ApplOption[];
@@ -78,11 +79,27 @@ export function TenureSlabs({ schemeId, value, unit, unitCatalog, slabId, onChan
     return () => { cancelled = true; };
   }, [schemeId, reload]);
 
-  const unitOptions = unitCatalog.filter((item) => slabs.length === 0 || slabs.some((slab) => slab.termCd === item.optCode) || String(item.optCode) === unit).map((item) => ({ value: String(item.optCode), label: item.optDescription }));
+  // RD (prod_type_cd 2) uses months (3) or years (4)
+  const isRecurring = prodTypeCd === 2;
+  const filteredCatalog = isRecurring
+    ? unitCatalog.filter((item) => item.optCode === 3 || item.optCode === 4)
+    : unitCatalog;
+  const filteredSlabs = isRecurring
+    ? slabs.filter((slab) => slab.termCd === 3 || slab.termCd === 4)
+    : slabs;
+
+  const unitOptions = filteredCatalog.filter((item) => filteredSlabs.length === 0 || filteredSlabs.some((slab) => slab.termCd === item.optCode) || String(item.optCode) === unit).map((item) => ({ value: String(item.optCode), label: item.optDescription }));
+
+  const unitLimits: Record<string, number> = { "1": 120, "2": 17, "3": 120, "4": 50 };
+  const tenureHint = unit && unitLimits[unit]
+    ? `Max ${unitLimits[unit]} ${unitOptions.find((u) => u.value === unit)?.label?.toLowerCase() || "units"}`
+    : isRecurring
+    ? "RD uses months (max 120) or years (max 50)"
+    : undefined;
 
   return (
     <div ref={containerRef} className="relative" onMouseLeave={() => setHovered(false)}>
-      <TextField label="Tenure" value={value} onChange={onChange} inputMode="numeric" required inputClassName="pe-40" trailing={<div className="flex items-center gap-1">
+      <TextField label="Tenure" value={value} onChange={onChange} inputMode="numeric" hint={tenureHint} required inputClassName="pe-40" trailing={<div className="flex items-center gap-1">
         <Select aria-label="Tenure unit" value={unit} onChange={(next) => onUnitChange(next, unitOptions.find((item) => item.value === next)?.label ?? "")} options={unitOptions} placeholder="Unit" disabled={!schemeId || unitOptions.length === 0} searchable={false} clearable={false} size="sm" className="w-28 border-s border-border ps-1 [&_button[aria-haspopup=listbox]]:border-0 [&_button[aria-haspopup=listbox]]:shadow-none" />
         <button type="button" disabled={!schemeId} aria-label="Show scheme tenure slabs" aria-expanded={open} aria-controls={open ? panelId : undefined} onMouseEnter={() => setHovered(true)} onClick={() => { setPinned((current) => !current); setHovered(false); }} className="rounded-md p-1.5 text-muted hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:opacity-40"><Info className="h-4 w-4" aria-hidden="true" /></button>
       </div>} />
