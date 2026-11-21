@@ -7,6 +7,7 @@ import { LoadingState } from "@/components/shared/LoadingState";
 import { BatchFormActions } from "./BatchFormActions";
 import { PageToast, useToastText } from "@/components/ui/PageToast";
 import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { DateField, SelectField, TextField } from "@/components/ui/Form";
 import { initialEntry, type BatchEntry } from "./regular-deposit.form";
